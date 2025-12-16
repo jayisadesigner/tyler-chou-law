@@ -1,0 +1,59 @@
+/* Accessibility Styles */
+
+/* Skip to content link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--obsidian);
+  color: var(--bone);
+  padding: 8px;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Focus states */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--obsidian);
+  outline-offset: 2px;
+}
+
+.bg-obsidian a:focus,
+.bg-obsidian button:focus,
+.bg-obsidian input:focus,
+.bg-obsidian textarea:focus,
+.bg-obsidian select:focus {
+  outline-color: var(--bone);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bg-obsidian {
+    background-color: #000;
+  }
+  
+  .bg-bone {
+    background-color: #fff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

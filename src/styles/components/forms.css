@@ -1,0 +1,97 @@
+/* Form Styles */
+
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: var(--space-lg);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-family: var(--font-display);
+  font-size: var(--text-p-size);
+  color: var(--obsidian);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 1px solid rgba(18, 2, 3, 0.2);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: var(--text-p-size);
+  background-color: var(--bone);
+  color: var(--obsidian);
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--obsidian);
+  border-width: 2px;
+}
+
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error {
+  border-color: var(--obsidian);
+  border-width: 2px;
+}
+
+.error-message {
+  display: block;
+  margin-top: var(--space-xs);
+  color: var(--obsidian);
+  font-size: var(--text-small-size);
+}
+
+.hidden {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.form-success {
+  text-align: center;
+  padding: var(--space-2xl);
+}
+
+.form-success h3 {
+  margin-bottom: var(--space-md);
+}
+
+.cta-button {
+  display: inline-block;
+  padding: var(--space-sm) var(--space-xl);
+  background-color: var(--obsidian);
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-size: var(--text-p-size);
+  border-radius: 4px;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  opacity: 0.8;
+}
+
+.cta-link {
+  color: var(--obsidian);
+  font-family: var(--font-display);
+  transition: opacity 0.2s ease;
+  text-decoration: underline;
+}
+
+.cta-link:hover {
+  opacity: 0.7;
+}
+

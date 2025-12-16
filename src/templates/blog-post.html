@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}} | Tyler Chou</title>
+    <meta name="description" content="{{excerpt}}" />
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+  <body>
+    <header>
+      <!-- Navigation will be injected here -->
+    </header>
+    
+    <main>
+      <article class="blog-post">
+        <header class="blog-post-header">
+          <h1>{{title}}</h1>
+          <div class="blog-post-meta">
+            <span class="author">By {{author}}</span>
+            <span class="date">{{date}}</span>
+            <span class="reading-time">{{readingTime}} min read</span>
+          </div>
+          <div class="blog-post-tags">
+            {{tags}}
+          </div>
+        </header>
+        
+        <div class="blog-post-content">
+          {{content}}
+        </div>
+        
+        <footer class="blog-post-footer">
+          <a href="/contact.html" class="cta-button">Get in Touch</a>
+        </footer>
+      </article>
+    </main>
+    
+    <footer>
+      <!-- Footer will be injected here -->
+    </footer>
+    
+    <script type="module" src="/src/scripts/main.js"></script>
+  </body>
+</html>
+

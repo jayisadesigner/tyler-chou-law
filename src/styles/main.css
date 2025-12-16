@@ -1,0 +1,98 @@
+/* Main Styles - Tyler Chou Law */
+
+/* Import design system */
+@import './variables.css';
+@import './reset.css';
+@import './typography.css';
+@import './components/nav.css';
+@import './components/footer.css';
+@import './components/forms.css';
+@import './components/pages.css';
+@import './components/accessibility.css';
+
+/* Base Layout */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Container Utilities */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.container-narrow {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.container-wide {
+  width: 100%;
+  max-width: 1536px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* Section Spacing */
+.section {
+  padding: var(--space-4xl) 0;
+}
+
+.section-sm {
+  padding: var(--space-2xl) 0;
+}
+
+.section-lg {
+  padding: var(--space-4xl) 0;
+}
+
+/* Background Utilities */
+.bg-obsidian {
+  background-color: var(--obsidian);
+  color: var(--bone);
+}
+
+.bg-bone {
+  background-color: var(--bone);
+  color: var(--obsidian);
+}
+
+/* Text Utilities */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+  .container,
+  .container-narrow,
+  .container-wide {
+    padding: 0 var(--space-md);
+  }
+  
+  .section {
+    padding: var(--space-2xl) 0;
+  }
+  
+  .section-lg {
+    padding: var(--space-3xl) 0;
+  }
+}
+

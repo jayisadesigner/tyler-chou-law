@@ -1,0 +1,120 @@
+/* Typography System */
+
+/* Font Loading */
+@font-face {
+  font-family: 'General Sans';
+  src: url('/src/assets/fonts/GeneralSans-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambetta';
+  src: url('/src/assets/fonts/Gambetta-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambetta';
+  src: url('/src/assets/fonts/Gambetta-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Base Typography */
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-p-size);
+  line-height: var(--text-p-line-height);
+  color: var(--obsidian);
+  background-color: var(--bone);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--obsidian);
+}
+
+/* Headings in dark sections should be bone */
+.bg-obsidian h1,
+.bg-obsidian h2,
+.bg-obsidian h3,
+.bg-obsidian h4,
+.bg-obsidian h5,
+.bg-obsidian h6 {
+  color: var(--bone);
+}
+
+h1 {
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line-height);
+}
+
+h2 {
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-line-height);
+}
+
+h3 {
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line-height);
+}
+
+h4 {
+  font-size: var(--text-h4-size);
+  line-height: var(--text-h4-line-height);
+}
+
+h5 {
+  font-size: var(--text-h5-size);
+  line-height: var(--text-h5-line-height);
+}
+
+h6 {
+  font-size: var(--text-h6-size);
+  line-height: var(--text-h6-line-height);
+}
+
+/* Body Text */
+p {
+  font-size: var(--text-p-size);
+  line-height: var(--text-p-line-height);
+  margin-bottom: var(--space-md);
+}
+
+small {
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line-height);
+}
+
+.tiny {
+  font-size: var(--text-tiny-size);
+  line-height: var(--text-tiny-line-height);
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  h1 {
+    font-size: clamp(3rem, 8vw, var(--text-h1-size));
+  }
+  
+  h2 {
+    font-size: clamp(2.5rem, 7vw, var(--text-h2-size));
+  }
+  
+  h3 {
+    font-size: clamp(2rem, 6vw, var(--text-h3-size));
+  }
+  
+  h4 {
+    font-size: clamp(1.5rem, 5vw, var(--text-h4-size));
+  }
+}
+

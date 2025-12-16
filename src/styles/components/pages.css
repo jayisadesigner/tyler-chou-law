@@ -1,0 +1,451 @@
+/* Page-Specific Styles */
+
+/* Hero Section */
+.hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-4xl) 0;
+  background-color: var(--bone);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: var(--obsidian);
+  transition: color 0.3s ease;
+}
+
+/* When curtain is present, text should be bone */
+.hero:has(.curtain:not([style*="height: 0"])) .hero-content,
+.hero .curtain:not([style*="height: 0"]) ~ .hero-content {
+  color: var(--bone);
+}
+
+.hero-content h1,
+.hero-content p {
+  color: inherit;
+}
+
+.hero-content .cta-button {
+  /* Button always has proper contrast */
+  background-color: var(--obsidian);
+  color: var(--bone);
+}
+
+.hero-subheadline {
+  font-size: var(--text-h5-size);
+  margin: var(--space-lg) 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.curtain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-color: var(--obsidian);
+  z-index: 1;
+  /* Curtain will animate away, revealing bone background */
+}
+
+.hero-portrait img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: var(--space-xl) auto;
+}
+
+/* Section Reveal */
+.section-reveal {
+  opacity: 1; /* Always visible - GSAP will enhance with animation if available */
+}
+
+.fade-in {
+  opacity: 1; /* Always visible - GSAP will enhance with animation if available */
+}
+
+/* Services Grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-xl);
+  margin: var(--space-2xl) 0;
+}
+
+.service-card {
+  padding: var(--space-xl);
+  border: 1px solid rgba(18, 2, 3, 0.1);
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(18, 2, 3, 0.1);
+}
+
+.service-card h3 {
+  margin-bottom: var(--space-md);
+}
+
+/* Service Detail */
+.service-detail {
+  margin-bottom: var(--space-4xl);
+}
+
+.service-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+
+.service-description,
+.service-audience,
+.service-why {
+  padding: var(--space-lg);
+  background-color: rgba(18, 2, 3, 0.02);
+  border-radius: 8px;
+}
+
+.service-description h3,
+.service-audience h3,
+.service-why h3 {
+  margin-bottom: var(--space-md);
+  font-size: var(--text-h5-size);
+}
+
+/* Credentials Grid */
+.credentials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+.credential-item {
+  text-align: center;
+  padding: var(--space-xl);
+}
+
+.credential-item h3 {
+  margin-bottom: var(--space-sm);
+  color: var(--obsidian);
+}
+
+.bg-obsidian .credential-item h3 {
+  color: var(--bone);
+}
+
+/* Timeline */
+.timeline-items {
+  display: grid;
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+.timeline-item {
+  padding: var(--space-xl);
+  border-left: 3px solid var(--obsidian);
+  padding-left: var(--space-xl);
+}
+
+.bg-obsidian .timeline-item {
+  border-left-color: var(--bone);
+}
+
+.timeline-item h3 {
+  margin-bottom: var(--space-sm);
+}
+
+/* Roster Grid */
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-xl);
+  margin: var(--space-2xl) 0;
+}
+
+.roster-item {
+  text-align: center;
+  padding: var(--space-xl);
+}
+
+.roster-logo {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto var(--space-md);
+  background-color: rgba(18, 2, 3, 0.05);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roster-logo img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.roster-note {
+  text-align: center;
+  font-style: italic;
+  opacity: 0.7;
+  margin-top: var(--space-xl);
+}
+
+/* Testimonials */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+.testimonial {
+  padding: var(--space-xl);
+  background-color: rgba(255, 255, 245, 0.1);
+  border-radius: 8px;
+}
+
+.testimonial-quote {
+  font-size: var(--text-h5-size);
+  font-style: italic;
+  margin-bottom: var(--space-md);
+}
+
+.testimonial-author {
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* Blog Grid */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-xl);
+  margin: var(--space-2xl) 0;
+}
+
+.blog-card {
+  background-color: var(--bone);
+  border: 1px solid rgba(18, 2, 3, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(18, 2, 3, 0.1);
+}
+
+.blog-card-image {
+  width: 100%;
+  height: 200px;
+  background-color: rgba(18, 2, 3, 0.05);
+  overflow: hidden;
+}
+
+.blog-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blog-card-content {
+  padding: var(--space-lg);
+}
+
+.blog-card-content h2 {
+  margin-bottom: var(--space-md);
+  font-size: var(--text-h4-size);
+}
+
+.blog-card-content h2 a {
+  color: var(--obsidian);
+  transition: color 0.2s ease;
+}
+
+.blog-card-content h2 a:hover {
+  opacity: 0.7;
+}
+
+.blog-card-excerpt {
+  margin-bottom: var(--space-md);
+  opacity: 0.8;
+}
+
+.blog-card-meta {
+  display: flex;
+  gap: var(--space-md);
+  font-size: var(--text-small-size);
+  opacity: 0.7;
+}
+
+/* Blog Post */
+.blog-post {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-4xl) 0;
+}
+
+.blog-post-header {
+  margin-bottom: var(--space-3xl);
+  text-align: center;
+}
+
+.blog-post-meta {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin: var(--space-md) 0;
+  font-size: var(--text-small-size);
+  opacity: 0.7;
+}
+
+.blog-post-tags {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: var(--space-xs) var(--space-sm);
+  background-color: rgba(18, 2, 3, 0.05);
+  border-radius: 4px;
+  font-size: var(--text-small-size);
+}
+
+.blog-post-content {
+  line-height: 1.8;
+}
+
+.blog-post-content h2 {
+  margin-top: var(--space-3xl);
+  margin-bottom: var(--space-lg);
+}
+
+.blog-post-content h3 {
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-md);
+}
+
+.blog-post-content p {
+  margin-bottom: var(--space-lg);
+}
+
+.blog-post-content a {
+  color: var(--obsidian);
+  text-decoration: underline;
+}
+
+.bg-obsidian .blog-post-content a {
+  color: var(--bone);
+}
+
+.blog-post-footer {
+  margin-top: var(--space-3xl);
+  text-align: center;
+}
+
+/* Value Grid */
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+.value-item {
+  padding: var(--space-xl);
+}
+
+.value-item h3 {
+  margin-bottom: var(--space-md);
+  color: var(--bone);
+}
+
+/* Criteria List */
+.criteria-list {
+  display: grid;
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+.criterion-item {
+  padding: var(--space-xl);
+  border-left: 3px solid var(--obsidian);
+  padding-left: var(--space-xl);
+}
+
+.criterion-item h3 {
+  margin-bottom: var(--space-sm);
+}
+
+/* Team */
+.team-member {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.team-role {
+  font-style: italic;
+  opacity: 0.8;
+  margin-bottom: var(--space-md);
+}
+
+/* Contact Details */
+.contact-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+.contact-detail {
+  text-align: center;
+}
+
+.contact-detail h3 {
+  margin-bottom: var(--space-md);
+}
+
+.contact-detail a {
+  color: var(--bone);
+  transition: opacity 0.2s ease;
+}
+
+.contact-detail a:hover {
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .services-grid,
+  .roster-grid,
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .service-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-portrait img {
+    width: 200px;
+    height: 200px;
+  }
+}
+

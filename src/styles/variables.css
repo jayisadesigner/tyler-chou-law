@@ -1,0 +1,123 @@
+/* Design Tokens - Tyler Chou Law */
+
+/* Base Colors */
+:root {
+  --bone: #FFFFF5;      /* Off-white, warm */
+  --obsidian: #120203;  /* Deep black with red undertone */
+}
+
+/* Chuparosa (Red) - Power, protection, intensity */
+:root {
+  --chuparosa-50: #fdf3f3;
+  --chuparosa-100: #fde3e4;
+  --chuparosa-200: #fcccce;
+  --chuparosa-300: #f8a9ac;
+  --chuparosa-400: #f2777b;
+  --chuparosa-500: #e74c51;  /* Primary red */
+  --chuparosa-600: #d32f34;
+  --chuparosa-700: #c4272c;
+  --chuparosa-800: #932125;
+  --chuparosa-900: #7a2225;
+  --chuparosa-950: #420d0f;
+}
+
+/* Lupine (Purple) - Creativity, wisdom, premium */
+:root {
+  --lupine-50: #f5f3ff;
+  --lupine-100: #ede9fe;
+  --lupine-200: #ddd6fe;
+  --lupine-300: #c4b6fc;
+  --lupine-400: #a78cf9;
+  --lupine-500: #8b5ef4;  /* Primary purple */
+  --lupine-600: #8347ec;
+  --lupine-700: #6c2ad7;
+  --lupine-800: #5a23b4;
+  --lupine-900: #4b1e94;
+  --lupine-950: #2e1164;
+}
+
+/* Palo Verde (Green) - Growth, resilience, life */
+:root {
+  --palo-verde-50: #e8ffe6;
+  --palo-verde-100: #cefec9;
+  --palo-verde-200: #9efe98;
+  --palo-verde-300: #65f95d;
+  --palo-verde-400: #36ef2f;
+  --palo-verde-500: #11d50d;  /* Primary green */
+  --palo-verde-600: #06aa06;
+  --palo-verde-700: #0a810c;
+  --palo-verde-800: #0e6610;
+  --palo-verde-900: #115614;
+  --palo-verde-950: #033006;
+}
+
+/* Desert Gold (Yellow/Gold) - Achievement, value, legacy */
+:root {
+  --desert-gold-50: #fffeea;
+  --desert-gold-100: #fffac5;
+  --desert-gold-200: #fff685;
+  --desert-gold-300: #ffeb46;
+  --desert-gold-400: #ffdc1b;
+  --desert-gold-500: #ffbc01;  /* Primary gold */
+  --desert-gold-600: #e29000;
+  --desert-gold-700: #bb6602;
+  --desert-gold-800: #984f08;
+  --desert-gold-900: #7c400b;
+  --desert-gold-950: #482100;
+}
+
+/* Spacing System */
+:root {
+  --space-xs: 0.5rem;   /* 8px */
+  --space-sm: 1rem;     /* 16px */
+  --space-md: 1.5rem;   /* 24px */
+  --space-lg: 2rem;     /* 32px */
+  --space-xl: 3rem;     /* 48px */
+  --space-2xl: 4rem;    /* 64px */
+  --space-3xl: 6rem;    /* 96px */
+  --space-4xl: 8rem;    /* 128px */
+}
+
+/* Breakpoints */
+:root {
+  --breakpoint-sm: 640px;   /* Tablet */
+  --breakpoint-md: 768px;   /* Small desktop */
+  --breakpoint-lg: 1024px;  /* Desktop */
+  --breakpoint-xl: 1280px;  /* Large desktop */
+  --breakpoint-2xl: 1536px; /* Extra large */
+}
+
+/* Typography Scale */
+:root {
+  --font-display: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Gambetta', Georgia, serif;
+  
+  /* Type Scale */
+  --text-h1-size: 7.993rem;      /* ~128px */
+  --text-h1-line-height: 0.85;
+  
+  --text-h2-size: 5.653rem;      /* ~90px */
+  --text-h2-line-height: 0.9;
+  
+  --text-h3-size: 3.998rem;      /* ~64px */
+  --text-h3-line-height: 1.0;
+  
+  --text-h4-size: 2.827rem;      /* ~45px */
+  --text-h4-line-height: 1.0;
+  
+  --text-h5-size: 1.999rem;      /* ~32px */
+  --text-h5-line-height: 1.2;
+  
+  --text-h6-size: 1.414rem;      /* ~23px */
+  --text-h6-line-height: 1.2;
+  
+  --text-p-size: 1rem;           /* 16px */
+  --text-p-line-height: 1.4;
+  
+  --text-small-size: 0.889rem;   /* ~14px */
+  --text-small-line-height: 1.5;
+  
+  --text-tiny-size: 0.79rem;     /* ~13px */
+  --text-tiny-line-height: 1.6;
+}
+

@@ -1,0 +1,20 @@
+{
+  "name": "tyler-chou-law",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:blog": "node scripts/build-blog.js",
+    "build": "npm run build:blog && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^7.2.4"
+  },
+  "dependencies": {
+    "decap-cms": "^3.9.0",
+    "gsap": "^3.14.2",
+    "marked": "^17.0.1"
+  }
+}
