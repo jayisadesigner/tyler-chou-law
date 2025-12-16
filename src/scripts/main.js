@@ -3,6 +3,9 @@
  * Initializes global components and functionality
  */
 
+// Import CSS so Vite processes it during build
+import '../styles/main.css'
+
 import { initNavigation } from './nav.js'
 import { initForms } from './forms.js'
 import './animations.js'
@@ -33,8 +36,8 @@ async function loadComponent(selector, path) {
 }
 
 // Load global components
-loadComponent('header', '/src/components/header.html')
-loadComponent('footer', '/src/components/footer.html')
+loadComponent('header', '/components/header.html')
+loadComponent('footer', '/components/footer.html')
 
 // Initialize forms after components load
 setTimeout(() => {
