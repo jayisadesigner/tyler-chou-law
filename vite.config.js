@@ -3,6 +3,8 @@ import { resolve } from 'path'
 
 export default defineConfig({
   build: {
+    // Optimize for performance
+    cssCodeSplit: true, // Split CSS per page for better caching
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
@@ -14,7 +16,15 @@ export default defineConfig({
         contact: resolve(__dirname, 'contact.html'),
         admin: resolve(__dirname, 'admin/index.html'),
       },
+      output: {
+        // Optimize chunk splitting
+        manualChunks: undefined, // Let Vite handle it automatically
+      },
     },
+    // Minify for smaller bundle sizes
+    minify: 'esbuild', // Fast and effective minification
+    // Generate source maps only in dev
+    sourcemap: false,
   },
   server: {
     port: 3000,
