@@ -1,0 +1,86 @@
+/* Video Component - Reusable across site */
+/* Supports both YouTube embeds and native video assets */
+
+.video {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000; /* Fallback background for video area */
+}
+
+/* Native video element */
+.video__element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* YouTube iframe embed */
+.video__embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  z-index: 0; /* Behind overlays */
+}
+
+/* Video wrapper for containers */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Overlay effects - applied to both video types */
+/* All overlays are stacked to match Figma design exactly */
+.video__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1; /* Above video content but allow video to show through */
+}
+
+/* Gradient overlays matching Figma design */
+/* Layer 1: Crimson to Purple gradient with soft-light blend */
+.video__overlay-gradient-1 {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to left,
+    rgba(231, 76, 81, 0.25) 3.243%,
+    rgba(46, 17, 100, 0.25) 83.581%
+  );
+  mix-blend-mode: soft-light;
+}
+
+/* Layer 2: Dark brown to gold gradient with hue blend */
+.video__overlay-gradient-2 {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to left,
+    rgba(13, 8, 9, 0.2) 59.932%,
+    rgba(248, 159, 5, 0.2) 100%
+  );
+  mix-blend-mode: hue;
+}
+
+/* Layer 3: Dark overlay with difference blend - reduced opacity */
+.video__overlay-dark {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(13, 8, 9, 0.5);
+  mix-blend-mode: difference;
+}
+
+/* Layer 4: Final opacity overlay - reduced opacity to allow video visibility */
+.video__overlay-opacity {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(13, 8, 9, 0.2);
+}
+

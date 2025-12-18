@@ -8,14 +8,14 @@ export function initNavigation() {
   if (!nav) return
 
   const mobileMenuButton = nav.querySelector('.mobile-menu-button')
-  const mobileMenu = nav.querySelector('.mobile-menu')
+  const mobileMenu = nav.querySelector('.nav-menu')
   const menuLinks = nav.querySelectorAll('a')
 
   // Mobile menu toggle
   if (mobileMenuButton && mobileMenu) {
     mobileMenuButton.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.contains('open')
-      mobileMenu.classList.toggle('open')
+      const isOpen = mobileMenu.classList.contains('mobile-open')
+      mobileMenu.classList.toggle('mobile-open')
       mobileMenuButton.setAttribute('aria-expanded', !isOpen)
       mobileMenuButton.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu')
       
@@ -25,8 +25,8 @@ export function initNavigation() {
 
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
-      if (!nav.contains(e.target) && mobileMenu.classList.contains('open')) {
-        mobileMenu.classList.remove('open')
+      if (!nav.contains(e.target) && mobileMenu.classList.contains('mobile-open')) {
+        mobileMenu.classList.remove('mobile-open')
         mobileMenuButton.setAttribute('aria-expanded', 'false')
         mobileMenuButton.setAttribute('aria-label', 'Open menu')
         document.body.style.overflow = ''
@@ -35,8 +35,8 @@ export function initNavigation() {
 
     // Close menu on escape key
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
-        mobileMenu.classList.remove('open')
+      if (e.key === 'Escape' && mobileMenu.classList.contains('mobile-open')) {
+        mobileMenu.classList.remove('mobile-open')
         mobileMenuButton.setAttribute('aria-expanded', 'false')
         mobileMenuButton.setAttribute('aria-label', 'Open menu')
         document.body.style.overflow = ''

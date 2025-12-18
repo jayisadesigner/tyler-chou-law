@@ -3,56 +3,37 @@
 /* Hero Section */
 .hero {
   position: relative;
-  min-height: 60vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: var(--space-4xl) 0;
-  background-color: var(--bone);
+  padding: 0;
+  background-color: var(--chuparosa-800);
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
-  color: var(--obsidian);
-  transition: color 0.3s ease;
+  width: 100%;
+  max-width: 1094px;
+  padding: 0 var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* When curtain is present, text should be bone */
-.hero:has(.curtain:not([style*="height: 0"])) .hero-content,
-.hero .curtain:not([style*="height: 0"]) ~ .hero-content {
-  color: var(--bone);
-}
-
-.hero-content h1,
-.hero-content p {
-  color: inherit;
-}
-
-.hero-content .cta-button {
-  /* Button always has proper contrast */
-  background-color: var(--obsidian);
-  color: var(--bone);
-}
-
-.hero-subheadline {
-  font-size: var(--text-h5-size);
-  margin: var(--space-lg) 0;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.curtain {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  background-color: var(--obsidian);
-  z-index: 1;
-  /* Curtain will animate away, revealing bone background */
+.hero-headline {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 7.993rem; /* 127.88px */
+  line-height: 0.85;
+  letter-spacing: -0.03em; /* -3.8364px equivalent */
+  color: var(--chuparosa-100);
+  text-transform: uppercase;
+  text-align: justify;
+  text-align-last: justify;
+  width: 100%;
+  margin: 0;
 }
 
 .hero-portrait img {
@@ -431,8 +412,308 @@
   opacity: 0.7;
 }
 
+/* About Section */
+.about {
+  position: relative;
+  padding: var(--space-4xl) 0;
+  background-color: var(--chuparosa-800);
+  overflow: visible; /* Allow flower to overflow on large screens */
+}
+
+.about-container {
+  position: relative;
+  width: 100%;
+  max-width: 1512px;
+  margin: 0 auto;
+  /* Ensure container expands: content starts at 617px, add space for content + padding */
+  min-height: calc(617px + 500px + var(--space-4xl));
+  padding-bottom: var(--space-4xl);
+  overflow: visible; /* Allow decorative elements to overflow */
+}
+
+/* Portrait Image */
+.about-portrait {
+  position: absolute;
+  left: calc(37.5% + 12px);
+  top: 128px;
+  width: 354px;
+  height: 442px;
+  z-index: 1;
+}
+
+.about-portrait__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-portrait__shuffle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Decorative Name Text */
+.about-name {
+  position: absolute;
+  left: calc(43.75% + 1.5px);
+  top: 376px;
+  transform: translateX(-50%);
+  font-family: var(--font-body);
+  font-size: 12.375rem; /* 198px */
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.03em; /* -5.94px equivalent */
+  color: var(--chuparosa-100);
+  text-transform: capitalize;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 2;
+  margin: 0;
+}
+
+/* Decorative Flower */
+.about-flower {
+  position: absolute;
+  right: -350px;
+  top: 379px;
+  width: 850px;
+  height: 850px;
+  z-index: 1;
+}
+
+.about-flower__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Main Content */
+.about-content {
+  position: absolute;
+  left: 50%;
+  top: 617px;
+  transform: translateX(-50%);
+  width: 724px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: center;
+  z-index: 3;
+  padding-bottom: var(--space-2xl);
+}
+
+.about-headline {
+  font-family: var(--font-display);
+  font-size: 5.653rem; /* 90.44px */
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.03em; /* -2.7132px equivalent */
+  color: var(--chuparosa-100);
+  text-transform: uppercase;
+  text-align: justify;
+  text-align-last: justify;
+  width: 100%;
+  margin: 0;
+}
+
+.about-body {
+  display: flex;
+  gap: var(--space-md);
+  width: 100%;
+  padding-right: var(--space-4xl);
+}
+
+.about-body__column {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 1rem; /* 16px */
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--chuparosa-300);
+}
+
+.about-body__column p {
+  margin-bottom: 0;
+}
+
+.about-body__column p:not(:last-child) {
+  margin-bottom: var(--space-md);
+}
+
+.about-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md) var(--space-lg);
+  border: 2px solid var(--bone);
+  border-radius: 1000px;
+  font-family: var(--font-display);
+  font-size: 1rem; /* 16px */
+  font-weight: 600;
+  line-height: 1;
+  color: var(--chuparosa-100);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.about-button:hover {
+  opacity: 0.8;
+}
+
+/* Videos Section */
+.videos {
+  position: relative;
+  padding: var(--space-4xl) 0;
+  background-color: var(--chuparosa-800);
+  min-height: 616px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.videos-carousel {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.videos-carousel .video-wrapper {
+  width: 1095px;
+  height: 616px;
+  flex-shrink: 0;
+}
+
+.videos-overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 1094px;
+  z-index: 2;
+  pointer-events: none;
+  text-align: center;
+}
+
+.videos-headline {
+  font-family: var(--font-body);
+  font-size: 5.653rem; /* 90.44px */
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.03em; /* -2.7132px equivalent */
+  color: var(--chuparosa-100);
+  text-align: center;
+  margin: 0;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+  .hero {
+    min-height: 80vh;
+  }
+  
+  .hero-headline {
+    font-size: clamp(2.5rem, 12vw, 7.993rem);
+    letter-spacing: -0.02em;
+    text-align: center;
+    text-align-last: center;
+  }
+  
+  .videos {
+    min-height: auto;
+    padding: var(--space-2xl) 0;
+  }
+  
+  .videos-carousel {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  
+  .videos-carousel .video-wrapper {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  
+  .videos-headline {
+    font-size: clamp(2rem, 8vw, 5.653rem);
+    padding: 0 var(--space-lg);
+  }
+  
+  .about {
+    min-height: auto;
+    padding: var(--space-2xl) 0;
+  }
+  
+  .about-portrait {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    max-width: 354px;
+    height: auto;
+    aspect-ratio: 354 / 442;
+    margin: 0 auto var(--space-xl);
+  }
+  
+  .about-name {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    font-size: clamp(4rem, 15vw, 12.375rem);
+    margin: 0 auto var(--space-xl);
+    text-align: center;
+  }
+  
+  .about-flower {
+    display: none; /* Hide decorative flower on mobile */
+  }
+  
+  .about-content {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    padding: 0 var(--space-lg);
+  }
+  
+  .about-headline {
+    font-size: clamp(2.5rem, 10vw, 5.653rem);
+    text-align: center;
+    text-align-last: center;
+  }
+  
+  .about-body {
+    flex-direction: column;
+    padding-right: 0;
+  }
+  
+  /* Ensure flower overflow works on large desktop */
+  @media (min-width: 1536px) {
+    .about {
+      overflow: visible;
+    }
+    
+    .about-container {
+      overflow: visible;
+    }
+  }
+  
   .services-grid,
   .roster-grid,
   .blog-grid {

@@ -86,7 +86,113 @@ function initAnimations() {
         },
       })
     })
+
+    // Subtle flower rotation on scroll
+    const flower = document.querySelector('.about-flower')
+    if (flower) {
+      const aboutSection = document.querySelector('.about')
+      if (aboutSection) {
+        gsap.to(flower, {
+          rotation: 30, // 30 degree clockwise rotation
+          ease: 'none', // Linear rotation based on scroll
+          scrollTrigger: {
+            trigger: aboutSection,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1, // Smooth rotation tied to scroll position
+          },
+        })
+      }
+    }
+
+    // Headshot shuffle animation on hover
+    initHeadshotShuffle()
   }
+}
+
+/**
+ * Headshot shuffle animation
+ * Cycles through headshot images on hover before returning to original
+ */
+function initHeadshotShuffle() {
+  const portraitContainer = document.querySelector('.about-portrait')
+  if (!portraitContainer) return
+
+  const mainImage = portraitContainer.querySelector('.about-portrait__image')
+  const shuffleImages = Array.from(portraitContainer.querySelectorAll('.about-portrait__shuffle'))
+  
+  if (!mainImage || shuffleImages.length === 0) return
+
+  const originalSrc = mainImage.getAttribute('data-original') || mainImage.src
+  let shuffleInterval = null
+  let currentIndex = 0
+  let shuffledIndices = []
+
+  // Shuffle array function
+  function shuffleArray(array) {
+    const shuffled = [...array]
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    }
+    return shuffled
+  }
+
+  // Show a specific image by index (-1 for original)
+  function showImage(imageIndex) {
+    if (imageIndex === -1) {
+      // Show original
+      gsap.set(mainImage, { opacity: 1 })
+      shuffleImages.forEach(img => {
+        gsap.set(img, { opacity: 0 })
+      })
+    } else {
+      // Show shuffle image at index
+      gsap.set(mainImage, { opacity: 0 })
+      shuffleImages.forEach((img, index) => {
+        if (index === imageIndex) {
+          gsap.set(img, { opacity: 1 })
+        } else {
+          gsap.set(img, { opacity: 0 })
+        }
+      })
+    }
+  }
+
+  // Start shuffle animation
+  function startShuffle() {
+    // Create shuffled array of indices
+    shuffledIndices = shuffleArray([...Array(shuffleImages.length).keys()])
+    currentIndex = 0
+
+    // Cycle through shuffled images
+    shuffleInterval = setInterval(() => {
+      if (currentIndex < shuffledIndices.length) {
+        const imgIndex = shuffledIndices[currentIndex]
+        showImage(imgIndex)
+        currentIndex++
+      } else {
+        // Return to original
+        clearInterval(shuffleInterval)
+        showImage(-1)
+      }
+    }, 200) // Change image every 200ms
+  }
+
+  // Stop shuffle and return to original
+  function stopShuffle() {
+    if (shuffleInterval) {
+      clearInterval(shuffleInterval)
+      shuffleInterval = null
+    }
+    showImage(-1)
+    currentIndex = 0
+    shuffledIndices = []
+  }
+
+  // Add hover event listeners
+  portraitContainer.addEventListener('mouseenter', startShuffle)
+  portraitContainer.addEventListener('mouseleave', stopShuffle)
 }
 
 // Initialize when DOM is ready
