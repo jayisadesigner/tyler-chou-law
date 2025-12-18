@@ -316,13 +316,12 @@ function populateCreatorContent(creatorId, data, overlay) {
       videosContainer.innerHTML = data.videos.map((videoId, index) => `
         <div class="creator-page-overlay__video">
           <div class="video">
-            <iframe 
-              class="video__embed"
-              src="https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0"
-              allow="encrypted-media"
-              allowfullscreen
-              title="Video ${index + 1}"
-            ></iframe>
+              <iframe 
+                class="video__embed"
+                src="https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0"
+                allow="encrypted-media; fullscreen"
+                title="Video ${index + 1}"
+              ></iframe>
           </div>
           <p class="creator-page-overlay__video-label">watch on youtube</p>
         </div>

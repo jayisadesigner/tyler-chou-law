@@ -13,37 +13,18 @@ if (typeof gsap !== 'undefined') {
 
 // Initialize animations when DOM is ready
 function initAnimations() {
-  // Hero curtain reveal animation
+  // Hero content reveal animation
   const heroSection = document.querySelector('.hero')
   if (heroSection) {
-    const curtain = heroSection.querySelector('.curtain')
     const heroContent = heroSection.querySelector('.hero-content')
     
-    if (curtain) {
-      gsap.to(curtain, {
-        height: 0,
-        duration: 1.2,
-        ease: 'power3.inOut',
-        delay: 0.3,
-        onComplete: () => {
-          // Change text color to obsidian when curtain is gone
-          if (heroContent) {
-            heroContent.style.color = 'var(--obsidian)'
-          }
-        }
-      })
-    }
-    
     if (heroContent) {
-      // Start with bone text (visible on obsidian curtain)
-      heroContent.style.color = 'var(--bone)'
-      
       gsap.from(heroContent, {
         opacity: 0,
         y: 50,
         duration: 1,
         ease: 'power3.out',
-        delay: 0.5,
+        delay: 0.3,
       })
     }
   }

@@ -1,29 +1,8 @@
 /* Typography System */
 
 /* Font Loading */
-@font-face {
-  font-family: 'General Sans';
-  src: url('/src/assets/fonts/GeneralSans-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gambetta';
-  src: url('/src/assets/fonts/Gambetta-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gambetta';
-  src: url('/src/assets/fonts/Gambetta-Italic.woff2') format('woff2');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
+/* Note: Custom fonts not currently included. Using system font fallbacks. */
+/* To add custom fonts, place .woff2 files in src/assets/fonts/ and uncomment @font-face rules */
 
 /* Base Typography */
 body {
