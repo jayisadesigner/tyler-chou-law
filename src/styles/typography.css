@@ -1,8 +1,39 @@
 /* Typography System */
 
-/* Font Loading */
-/* Note: Custom fonts not currently included. Using system font fallbacks. */
-/* To add custom fonts, place .woff2 files in src/assets/fonts/ and uncomment @font-face rules */
+/* Font Loading - Fontshare Variable Fonts */
+/* Place variable .woff2 files in src/assets/fonts/ directory */
+/* Variable fonts contain all weights and styles in a single file */
+@font-face {
+  font-family: 'General Sans';
+  src: url('../assets/fonts/GeneralSans-Variable.woff2') format('woff2');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('../assets/fonts/GeneralSans-VariableItalic.woff2') format('woff2');
+  font-weight: 200 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambetta';
+  src: url('../assets/fonts/Gambetta-Variable.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambetta';
+  src: url('../assets/fonts/Gambetta-VariableItalic.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+}
 
 /* Base Typography */
 body {
