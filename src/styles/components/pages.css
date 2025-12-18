@@ -1079,6 +1079,7 @@
 .creator-page-overlay__image-scrim {
   position: absolute;
   inset: 0;
+  background-color: rgba(18, 2, 3, 0.3); /* Fallback for older browsers */
   background-color: color-mix(in srgb, var(--obsidian) 30%, transparent);
   pointer-events: none;
 }

@@ -39,8 +39,25 @@ async function loadComponent(selector, path) {
 loadComponent('header', '/components/header.html')
 loadComponent('footer', '/components/footer.html')
 
-// Initialize forms after components load
-setTimeout(() => {
+// Initialize forms and creator transitions
+async function initializeApp() {
   initForms()
-}, 100)
+  
+  // Initialize creator transitions with error handling
+  try {
+    const { initCreatorTransitions } = await import('./creator-transition-simple.js')
+    if (typeof initCreatorTransitions === 'function') {
+      initCreatorTransitions()
+    }
+  } catch (error) {
+    console.warn('Creator transitions not available:', error)
+  }
+}
 
+// Wait for DOM to be ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeApp)
+} else {
+  // DOM already ready, but wait a tick for any dynamic content
+  setTimeout(initializeApp, 0)
+}
