@@ -39,9 +39,21 @@ async function loadComponent(selector, path) {
 loadComponent('header', '/components/header.html')
 loadComponent('footer', '/components/footer.html')
 
+// Set credentials date to today's date
+function setCredentialsDate() {
+  const dateElement = document.querySelector('.credentials-date')
+  if (dateElement) {
+    const today = new Date()
+    const options = { year: 'numeric', month: 'long', day: 'numeric' }
+    const formattedDate = today.toLocaleDateString('en-US', options)
+    dateElement.textContent = formattedDate
+  }
+}
+
 // Initialize forms and creator transitions
 async function initializeApp() {
   initForms()
+  setCredentialsDate()
   
   // Initialize creator transitions with error handling
   try {
