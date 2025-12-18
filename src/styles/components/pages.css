@@ -914,6 +914,318 @@ body.bg-palo-verde .palo-verde-body__column {
   height: 180px;
 }
 
+/* Credentials Section */
+.credentials {
+  position: relative;
+  background-color: var(--chuparosa-800); /* #932125 */
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-4xl) var(--space-md) 0; /* 4xl from top, 0 from bottom */
+  overflow: visible; /* Allow section to be visible when unpinned */
+}
+
+.credentials-container {
+  position: relative;
+  width: 100%;
+  max-width: 1512px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-left: calc(12.5% + 20px);
+  padding-top: 0;
+  height: calc(100vh - var(--space-4xl)); /* Viewport height minus top padding (4xl) */
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.credentials-card {
+  position: relative;
+  background-color: var(--bone); /* #fffff5 */
+  width: 100%;
+  max-width: 1094px;
+  height: 100%; /* Fill the container height */
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: space-between;
+  align-self: flex-end; /* Align to bottom of container */
+}
+
+.credentials-card-inner {
+  padding: var(--space-2xl) var(--space-xl);
+}
+
+.credentials-header-section {
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+  background-color: var(--bone); /* Ensure it covers content scrolling under */
+  /* Shadow will be animated via GSAP on scroll */
+  box-shadow: none;
+}
+
+.credentials-content-section {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  z-index: 1;
+  margin-top: -1px; /* Slight overlap to ensure content goes under */
+  overflow: hidden;
+  align-items: stretch;
+}
+
+.credentials-content-section .credentials-card-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1;
+  padding-bottom: 0;
+}
+
+.credentials-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+  height: 132px;
+}
+
+.credentials-letterhead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: 1.413rem; /* 22.6px */
+  line-height: 1.2;
+  color: var(--obsidian);
+}
+
+.credentials-letterhead p {
+  margin: 0;
+}
+
+.credentials-monogram {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 132px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.credentials-monogram__image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.credentials-title {
+  font-family: var(--font-display);
+  font-size: 3.998rem; /* 63.96px */
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em; /* -1.2792px */
+  color: var(--obsidian);
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 var(--space-md) 0; /* Reduced bottom margin */
+}
+
+.credentials-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl); /* Keep gap between items */
+  max-width: 724px;
+  margin: 0 auto;
+  padding: var(--space-md) 0; /* Reduced top/bottom padding */
+  position: relative;
+  margin-bottom: 0;
+  align-items: center;
+  text-align: center;
+}
+
+.credentials-item {
+  font-family: var(--font-body);
+  font-size: 2.825rem; /* 45.2px */
+  line-height: 1;
+  letter-spacing: -0.02em; /* -0.904px */
+  color: var(--obsidian);
+  text-transform: capitalize;
+  margin: 0;
+  text-align: center;
+}
+
+.credentials-badge {
+  position: absolute;
+  bottom: 17.03px;
+  right: 17.03px;
+  width: 301.938px;
+  height: 301.938px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(17.822deg);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.credentials-badge__image {
+  width: 240px;
+  height: 240px;
+  display: block;
+  object-fit: contain;
+}
+
+/* CTA Videos Section */
+.cta-videos {
+  position: relative;
+  background-color: var(--chuparosa-800); /* #932125 */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--space-md) 0;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  overflow: hidden;
+  z-index: 10; /* Above disclaimer */
+}
+
+.cta-videos-container {
+  position: relative;
+  width: 100%;
+  max-width: 1512px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.cta-videos-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  max-width: 1094px;
+  width: 100%;
+  z-index: 1;
+}
+
+.cta-videos-headline {
+  font-family: var(--font-body);
+  font-size: 7.993rem; /* 127.88px */
+  font-weight: 400;
+  line-height: 0.85;
+  letter-spacing: -0.03em; /* -3.8364px */
+  color: var(--chuparosa-100);
+  text-align: center;
+  margin: 0;
+  transform-origin: center;
+}
+
+.cta-videos .site-footer {
+  width: 100%;
+  margin: 0;
+  padding: 0 var(--space-md) var(--space-md);
+}
+
+/* Disclaimer Section */
+.disclaimer {
+  position: relative;
+  width: 100%;
+  background-color: var(--chuparosa-900);
+  z-index: 1; /* Below other sections but above footer */
+}
+
+.disclaimer-container {
+  width: 100%;
+  padding: var(--space-lg) var(--space-md);
+}
+
+.disclaimer-content {
+  max-width: 1512px;
+  margin: 0 auto;
+}
+
+.disclaimer-text {
+  font-family: var(--font-body);
+  font-size: 1rem; /* 16px */
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--chuparosa-100);
+  margin: 0;
+}
+
+/* Remove excess padding added by GSAP pinSpacing */
+.disclaimer {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.disclaimer-container {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Remove any extra spacing GSAP might add to body/html after disclaimer */
+body > *:last-child {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Responsive adjustments for credentials section */
+@media (max-width: 1280px) {
+  .credentials-container {
+    padding-left: var(--space-md);
+    justify-content: center;
+  }
+  
+  .credentials-card {
+    max-width: 100%;
+    min-height: auto;
+  }
+  
+  .credentials-item {
+    font-size: 2rem; /* 32px */
+  }
+}
+
+@media (max-width: 768px) {
+  .credentials-card {
+    padding: var(--space-lg) var(--space-md);
+  }
+  
+  .credentials-title {
+    font-size: 2.827rem; /* ~45px */
+  }
+  
+  .credentials-item {
+    font-size: 1.414rem; /* ~23px */
+  }
+  
+  .credentials-badge {
+    width: 200px;
+    height: 200px;
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .credentials-badge__image {
+    width: 160px;
+    height: 160px;
+  }
+}
+
 /* Services Section */
 .services {
   padding: var(--space-4xl) var(--space-md);
@@ -1739,7 +2051,7 @@ body.bg-palo-verde .palo-verde-body__column {
 
 /* Image Card - Base styles (positioned by JS during transition) */
 .creator-page-overlay__image-card {
-  position: absolute;
+  position: fixed;
   left: 24px;
   top: 177px;
   width: 724px;
