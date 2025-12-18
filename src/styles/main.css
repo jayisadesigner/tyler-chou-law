@@ -52,10 +52,6 @@ body {
   padding: var(--space-2xl) 0;
 }
 
-.section-lg {
-  padding: var(--space-4xl) 0;
-}
-
 /* Background Utilities */
 .bg-obsidian {
   background-color: var(--obsidian);
@@ -90,10 +86,6 @@ body {
   
   .section {
     padding: var(--space-2xl) 0;
-  }
-  
-  .section-lg {
-    padding: var(--space-3xl) 0;
   }
 }
 

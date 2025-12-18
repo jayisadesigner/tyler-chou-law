@@ -197,9 +197,8 @@ function openCreatorPage(sourceCard, creatorId) {
     return
   }
 
-  // Get creator data
-  const data = creatorData[creatorId]
-  const creatorDataToUse = data || {
+  // Get creator data with fallback
+  const data = creatorData[creatorId] || {
     name: `@${creatorId}`,
     breadcrumb: creatorId,
     description: [
@@ -216,7 +215,7 @@ function openCreatorPage(sourceCard, creatorId) {
   }
 
   // Populate overlay content
-  populateCreatorContent(creatorId, creatorDataToUse, overlay)
+  populateCreatorContent(creatorId, data, overlay)
   
   // Set image source
   overlayImage.src = cardImage.src
