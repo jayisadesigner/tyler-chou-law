@@ -9,6 +9,19 @@
   to = "/index.html"
   status = 200
 
+# Ensure assets and components are served correctly
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/components/*"
+  to = "/components/:splat"
+  status = 200
+  force = true
+
 # Cache assets for better performance
 [[headers]]
   for = "/assets/*"
