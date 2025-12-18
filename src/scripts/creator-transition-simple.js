@@ -10,7 +10,7 @@ let savedScrollPosition = 0
 const creatorData = {
   samandcolby: {
     name: '@samandcolby',
-    breadcrumb: 'mr. purple',
+    breadcrumb: 'sam and colby',
     description: [
       'Sam Golbach and Colby Brock are paranormal investigators and YouTubers best known for their haunted exploration videos. Based in Los Angeles, they started making Vine videos together in 2014 after bonding at Blue Valley High School marching band camp in Kansas, where two self-described "shy, awkward band kids" pushed each other to step out of their comfort zones.',
       'Their signature style combines cinematic storytelling with genuine friendship chemistry, often featuring feature-length investigations at iconic locations like The Conjuring House, Queen Mary, and Stanley Hotel. They\'ve expanded into theatrical releases with two films and built XPLR, a clothing line sold at Zumiez and Hot Topic. Their most-watched upload, "ALONE in The Real Conjuring House," has been viewed over 16 million times.'
@@ -55,7 +55,7 @@ const creatorData = {
   },
   jeanelleats: {
     name: '@jeanelleats',
-    breadcrumb: 'jeanelleats',
+    breadcrumb: 'jeanelle castro',
     description: [
       'Jeanelle Castro is a Filipino-American food and travel creator who moved from the Philippines to California at age eight. Based in the US, she started her channel in 2016 with a mission to make cooking feel accessible to people afraid to experiment in the kitchen.',
       'Her signature style combines quick-hit food content with cultural storytelling, featuring everything from Spam musubi tutorials to global street food adventures. She launched MyMusubi, a product that lets people create perfectly shaped musubi at home. Her most-watched videos include "Is peas and corn still a thing?" and "How to keep pizza dough from sticking," each pulling millions of views through relatable, snackable content.'
@@ -76,7 +76,7 @@ const creatorData = {
       'His signature style combines viral piano performances with intimate fan interaction, taking song requests live and turning them into polished covers. His cafeteria performance of Coldplay\'s "Viva La Vida" pulled 6.9 million YouTube views. He\'s released original arrangements on Spotify (857K monthly listeners) and built a sheet music business alongside his content. His dog Coco makes regular appearances.'
     ],
     stats: [
-      { value: '1.05m (YT) / 4.8m (TT)', label: 'subscribers' },
+      { value: '5m', label: 'subscribers' },
       { value: '166m+', label: 'total likes' },
       { value: '18-34', label: 'core demo' },
       { value: 'US', label: 'top region' }
@@ -100,7 +100,7 @@ const creatorData = {
   },
   jadroppingscience: {
     name: '@jadroppingscience',
-    breadcrumb: 'jad dropping science',
+    breadcrumb: 'james andrews',
     description: [
       'James Andrews is an educational YouTuber and Cal Poly graduate who makes science digestible through punchy short-form content. Based in Portland, he launched his channel in November 2020 and uploaded his first Short, "How to deal with getting impaled," in March 2021 (33M+ views).',
       'His signature style combines quick science facts with visual hooks and dry humor, featuring series like "2 Truths & Trash" now in its fourth season. He\'s turned his format into a physical product with the "2 Truths & Trash Science Trivia Pack." His content covers everything from laser physics demonstrations to party-trick science explainers.'
@@ -121,8 +121,8 @@ const creatorData = {
       'His signature style combines practical DIY tutorials with trade advocacy, teaching both homeowners and aspiring plumbers. He went from 361 subscribers his first year to selling his plumbing company and going full-time creator. He founded The Trades Academy to recruit the next generation into construction, driven by his goal to fill hundreds of thousands of open trade jobs. His content gains 1,000+ subscribers daily.'
     ],
     stats: [
-      { value: '650k+', label: 'subscribers' },
-      { value: '125m+', label: 'total views' },
+      { value: '650k', label: 'subscribers' },
+      { value: '125m', label: 'total views' },
       { value: '35-54', label: 'core demo' },
       { value: 'US', label: 'top region' }
     ],
@@ -263,12 +263,12 @@ function closeCreatorPage() {
   overlay.classList.remove('creator-page-overlay--middle', 'creator-page-overlay--end')
   overlay.style.opacity = '0'
   
-  // Restore body scroll and scroll position
+  // Restore body scroll and scroll position (instant, no smooth scroll)
   document.body.style.overflow = ''
   document.body.style.position = ''
   document.body.style.width = ''
   document.body.style.top = ''
-  window.scrollTo(0, savedScrollPosition)
+  window.scrollTo({ top: savedScrollPosition, behavior: 'auto' })
   savedScrollPosition = 0
   
   isTransitioning = false
