@@ -4,6 +4,10 @@
 :root {
   --bone: #FFFFF5;      /* Off-white, warm */
   --obsidian: #120203;  /* Deep black with red undertone */
+  --focus-color: #99b4ff; /* Focus indicator blue */
+  --gray-200: #d1d1d1;   /* Light gray for active states */
+  --gray-400: #888;      /* Medium gray for disabled states */
+  --gray-600: #666;      /* Dark gray for disabled text */
 }
 
 /* Chuparosa (Red) - Power, protection, intensity */

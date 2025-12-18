@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html, body { background-color: #932125; }
+      body:not(.ready) { visibility: hidden; }
+    </style>
+    <script>
+      window.addEventListener('load', function() {
+        document.body.classList.add('ready');
+      });
+    </script>
     <title>Creator Clients | Tyler Chou Law Roster</title>
     <meta name="description" content="Meet the YouTube creators and digital entrepreneurs Tyler Chou represents. Protecting the empires of tomorrow's media companies." />
     <link rel="canonical" href="https://tylerchoulaw.com/roster.html" />
@@ -97,7 +106,7 @@
         <div class="container">
           <h2>Join the Roster</h2>
           <p>Ready to protect your creator empire?</p>
-          <a href="/contact.html" class="cta-button">Get in Touch</a>
+          <a href="/contact.html" class="btn btn--primary btn--on-dark">Get in Touch</a>
         </div>
       </section>
     </main>

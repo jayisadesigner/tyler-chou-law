@@ -1,0 +1,479 @@
+/* Button Component - Tyler Chou Law */
+/* Naming Structure: btn / [variant] / [theme] / [state] */
+
+/* Base Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1rem; /* 16px - md size */
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* ============================================
+   PRIMARY BUTTONS
+   ============================================ */
+
+/* Primary / On-Dark */
+.btn--primary.btn--on-dark {
+  padding: var(--space-sm) var(--space-xl);
+  background-color: var(--obsidian);
+  color: var(--bone);
+  border-radius: 4px;
+  border: none;
+}
+
+.btn--primary.btn--on-dark:hover {
+  opacity: 0.8;
+}
+
+.btn--primary.btn--on-dark:active {
+  opacity: 0.6;
+}
+
+.btn--primary.btn--on-dark:focus,
+.btn--primary.btn--on-dark:focus-visible {
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.btn--primary.btn--on-dark:disabled {
+  background-color: var(--gray-400);
+  color: var(--gray-600);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Primary / On-Light */
+.btn--primary.btn--on-light {
+  padding: var(--space-sm) var(--space-xl);
+  background-color: var(--bone);
+  color: var(--obsidian);
+  border-radius: 4px;
+  border: none;
+}
+
+.btn--primary.btn--on-light:hover {
+  opacity: 0.8;
+}
+
+.btn--primary.btn--on-light:active {
+  opacity: 0.6;
+}
+
+.btn--primary.btn--on-light:focus,
+.btn--primary.btn--on-light:focus-visible {
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.btn--primary.btn--on-light:disabled {
+  background-color: var(--gray-400);
+  color: var(--gray-600);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================
+   SECONDARY BUTTONS
+   ============================================ */
+
+/* Secondary / On-Dark */
+.btn--secondary.btn--on-dark {
+  padding: var(--space-md) var(--space-lg);
+  background-color: transparent;
+  color: var(--bone);
+  border: 2px solid var(--bone);
+  border-radius: 1000px;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn--secondary.btn--on-dark:hover {
+  background-color: var(--bone);
+  color: var(--obsidian);
+  border-color: var(--bone);
+}
+
+.btn--secondary.btn--on-dark:active {
+  background-color: var(--gray-200);
+  color: var(--obsidian);
+  border-color: #d1d1d1;
+}
+
+.btn--secondary.btn--on-dark:focus,
+.btn--secondary.btn--on-dark:focus-visible {
+  background-color: var(--bone);
+  color: var(--obsidian);
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.btn--secondary.btn--on-dark:disabled {
+  background-color: transparent;
+  color: var(--gray-400);
+  border-color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Secondary / On-Light */
+.btn--secondary.btn--on-light {
+  padding: var(--space-md) var(--space-lg);
+  background-color: transparent;
+  color: var(--obsidian);
+  border: 2px solid var(--obsidian);
+  border-radius: 1000px;
+}
+
+.btn--secondary.btn--on-light:hover {
+  background-color: var(--obsidian);
+  color: var(--bone);
+  border-color: var(--obsidian);
+}
+
+.btn--secondary.btn--on-light:active {
+  background-color: var(--gray-200);
+  color: var(--obsidian);
+  border-color: #d1d1d1;
+}
+
+.btn--secondary.btn--on-light:focus,
+.btn--secondary.btn--on-light:focus-visible {
+  background-color: var(--obsidian);
+  color: var(--bone);
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.btn--secondary.btn--on-light:disabled {
+  background-color: transparent;
+  color: var(--gray-400);
+  border-color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================
+   TERTIARY BUTTONS
+   ============================================ */
+
+/* Tertiary / On-Dark */
+.btn--tertiary.btn--on-dark {
+  padding: 0;
+  background-color: transparent;
+  color: var(--bone);
+  border: none;
+  border-radius: 0;
+  text-decoration: underline;
+}
+
+.btn--tertiary.btn--on-dark:hover {
+  color: var(--chuparosa-300); /* #f8a9ac - crimson-300 */
+}
+
+.btn--tertiary.btn--on-dark:active {
+  color: var(--chuparosa-300); /* #f8a9ac - crimson-300 */
+}
+
+.btn--tertiary.btn--on-dark:focus,
+.btn--tertiary.btn--on-dark:focus-visible {
+  padding: var(--space-sm);
+  background-color: rgba(18, 2, 3, 0.1); /* subtle dark background */
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--bone);
+  outline: none;
+}
+
+.btn--tertiary.btn--on-dark:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Tertiary / On-Light */
+.btn--tertiary.btn--on-light {
+  padding: 0;
+  background-color: transparent;
+  color: var(--obsidian);
+  border: none;
+  border-radius: 0;
+  text-decoration: underline;
+}
+
+.btn--tertiary.btn--on-light:hover {
+  color: var(--chuparosa-500); /* darker red for contrast on light */
+}
+
+.btn--tertiary.btn--on-light:active {
+  color: var(--chuparosa-600); /* even darker for active */
+}
+
+.btn--tertiary.btn--on-light:focus,
+.btn--tertiary.btn--on-light:focus-visible {
+  padding: var(--space-sm);
+  background-color: rgba(255, 255, 245, 0.1); /* subtle light background */
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--obsidian);
+  outline: none;
+}
+
+.btn--tertiary.btn--on-light:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================
+   GHOST BUTTONS
+   ============================================ */
+
+/* Ghost / On-Dark */
+.btn--ghost.btn--on-dark {
+  padding: 0;
+  background-color: transparent;
+  color: var(--bone);
+  border: none;
+  border-radius: 0;
+  text-decoration: none;
+}
+
+.btn--ghost.btn--on-dark:hover {
+  color: var(--chuparosa-300); /* #f8a9ac - crimson-300 */
+}
+
+.btn--ghost.btn--on-dark:active {
+  color: var(--chuparosa-300); /* #f8a9ac - crimson-300 */
+}
+
+.btn--ghost.btn--on-dark:focus,
+.btn--ghost.btn--on-dark:focus-visible {
+  padding: var(--space-sm);
+  background-color: rgba(18, 2, 3, 0.1); /* subtle dark background */
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--bone);
+  outline: none;
+}
+
+.btn--ghost.btn--on-dark:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Ghost / On-Light */
+.btn--ghost.btn--on-light {
+  padding: 0;
+  background-color: transparent;
+  color: var(--obsidian);
+  border: none;
+  border-radius: 0;
+  text-decoration: none;
+}
+
+.btn--ghost.btn--on-light:hover {
+  color: var(--chuparosa-500); /* darker red for contrast on light */
+}
+
+.btn--ghost.btn--on-light:active {
+  color: var(--chuparosa-600); /* even darker for active */
+}
+
+.btn--ghost.btn--on-light:focus,
+.btn--ghost.btn--on-light:focus-visible {
+  padding: var(--space-sm);
+  background-color: rgba(255, 255, 245, 0.1); /* subtle light background */
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--obsidian);
+  outline: none;
+}
+
+.btn--ghost.btn--on-light:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================
+   ACCENT COLOR VARIANTS
+   ============================================ */
+
+/* Primary with Chuparosa accent */
+.btn--primary.btn--chuparosa {
+  background-color: var(--chuparosa-500);
+  color: var(--bone);
+}
+
+.btn--primary.btn--chuparosa:hover {
+  background-color: var(--chuparosa-600);
+}
+
+.btn--primary.btn--chuparosa:focus,
+.btn--primary.btn--chuparosa:focus-visible {
+  outline-color: var(--chuparosa-500);
+}
+
+/* Primary with Lupine accent */
+.btn--primary.btn--lupine {
+  background-color: var(--lupine-500);
+  color: var(--bone);
+}
+
+.btn--primary.btn--lupine:hover {
+  background-color: var(--lupine-600);
+}
+
+.btn--primary.btn--lupine:focus,
+.btn--primary.btn--lupine:focus-visible {
+  outline-color: var(--lupine-500);
+}
+
+/* Primary with Palo Verde accent */
+.btn--primary.btn--palo-verde {
+  background-color: var(--palo-verde-500);
+  color: var(--bone);
+}
+
+.btn--primary.btn--palo-verde:hover {
+  background-color: var(--palo-verde-600);
+}
+
+.btn--primary.btn--palo-verde:focus,
+.btn--primary.btn--palo-verde:focus-visible {
+  outline-color: var(--palo-verde-500);
+}
+
+/* Primary with Desert Gold accent */
+.btn--primary.btn--desert-gold {
+  background-color: var(--desert-gold-500);
+  color: var(--obsidian);
+}
+
+.btn--primary.btn--desert-gold:hover {
+  background-color: var(--desert-gold-600);
+}
+
+.btn--primary.btn--desert-gold:focus,
+.btn--primary.btn--desert-gold:focus-visible {
+  outline-color: var(--desert-gold-500);
+}
+
+/* Secondary with Chuparosa accent (on-dark) */
+.btn--secondary.btn--on-dark.btn--chuparosa {
+  color: var(--chuparosa-100);
+  border-color: var(--bone);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn--secondary.btn--on-dark.btn--chuparosa:hover {
+  background-color: var(--bone);
+  color: var(--obsidian);
+  border-color: var(--bone);
+}
+
+.btn--secondary.btn--on-dark.btn--chuparosa:active {
+  background-color: var(--gray-200);
+  color: var(--obsidian);
+  border-color: var(--gray-200);
+}
+
+.btn--secondary.btn--on-dark.btn--chuparosa:focus,
+.btn--secondary.btn--on-dark.btn--chuparosa:focus-visible {
+  background-color: var(--bone);
+  color: var(--obsidian);
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.btn--secondary.btn--on-dark.btn--chuparosa:disabled {
+  background-color: transparent;
+  color: var(--gray-400);
+  border-color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Tertiary/Ghost with Chuparosa accent (on-dark) */
+.btn--tertiary.btn--on-dark.btn--chuparosa,
+.btn--ghost.btn--on-dark.btn--chuparosa {
+  color: var(--chuparosa-100);
+}
+
+.btn--tertiary.btn--on-dark.btn--chuparosa:focus,
+.btn--tertiary.btn--on-dark.btn--chuparosa:focus-visible,
+.btn--ghost.btn--on-dark.btn--chuparosa:focus,
+.btn--ghost.btn--on-dark.btn--chuparosa:focus-visible {
+  outline-color: var(--chuparosa-100);
+}
+
+/* ============================================
+   SIZE VARIANTS
+   ============================================ */
+
+/* Small */
+.btn--sm {
+  padding: var(--space-xs) var(--space-md);
+  font-size: 0.889rem; /* ~14px */
+}
+
+.btn--tertiary.btn--sm,
+.btn--ghost.btn--sm {
+  padding: 0;
+}
+
+/* Medium (default) - already set in base .btn */
+.btn--md {
+  padding: var(--space-sm) var(--space-xl);
+  font-size: 1rem; /* 16px */
+}
+
+.btn--secondary.btn--md {
+  padding: var(--space-md) var(--space-lg);
+}
+
+.btn--tertiary.btn--md,
+.btn--ghost.btn--md {
+  padding: 0;
+}
+
+/* Large */
+.btn--lg {
+  padding: var(--space-lg) var(--space-2xl);
+  font-size: 1.125rem; /* 18px */
+}
+
+.btn--secondary.btn--lg {
+  padding: var(--space-xl) var(--space-2xl);
+}
+
+.btn--tertiary.btn--lg,
+.btn--ghost.btn--lg {
+  padding: 0;
+}
+
+/* ============================================
+   ALIGNMENT UTILITIES
+   ============================================ */
+
+.btn--align-start {
+  align-self: flex-start;
+}
+
+.btn--align-center {
+  align-self: center;
+}
+
+.btn--align-end {
+  align-self: flex-end;
+}

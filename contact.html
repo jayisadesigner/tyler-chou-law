@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html, body { background-color: #932125; }
+      body:not(.ready) { visibility: hidden; }
+    </style>
+    <script>
+      window.addEventListener('load', function() {
+        document.body.classList.add('ready');
+      });
+    </script>
     <title>Contact Tyler Chou | Creator Legal Consultation</title>
     <meta name="description" content="Get in touch with Tyler Chou for legal representation and strategic advisory. Consultations available for YouTube creators and creator-led businesses." />
     <link rel="canonical" href="https://tylerchoulaw.com/contact.html" />
@@ -97,7 +106,7 @@
               <input type="text" id="referral" name="referral" />
             </div>
             
-            <button type="submit" class="cta-button">Send Message</button>
+            <button type="submit" class="btn btn--primary btn--on-dark">Send Message</button>
           </form>
         </div>
       </section>

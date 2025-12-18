@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html, body { background-color: #932125; }
+      body:not(.ready) { visibility: hidden; }
+    </style>
+    <script>
+      window.addEventListener('load', function() {
+        document.body.classList.add('ready');
+      });
+    </script>
     <title>Love Letters to Creators | Tyler Chou Blog</title>
     <meta name="description" content="Thought leadership on creator legal issues, business strategy, and the creator economy. Written by entertainment attorney Tyler Chou." />
     <link rel="canonical" href="https://tylerchoulaw.com/love-letters.html" />
@@ -116,7 +125,7 @@
         <div class="container">
           <h2>Have a Legal Question?</h2>
           <p>Get in touch for a consultation.</p>
-          <a href="/contact.html" class="cta-button">Contact Us</a>
+          <a href="/contact.html" class="btn btn--primary btn--on-dark">Contact Us</a>
         </div>
       </section>
     </main>

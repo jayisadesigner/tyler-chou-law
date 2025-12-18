@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html, body { background-color: #932125; }
+      body:not(.ready) { visibility: hidden; }
+    </style>
+    <script>
+      window.addEventListener('load', function() {
+        document.body.classList.add('ready');
+      });
+    </script>
     <title>About Tyler Chou | 20 Years of Entertainment Law Experience</title>
     <meta name="description" content="Tyler Chou is an entertainment attorney specializing in creator economy legal services. Former counsel at Disney, Skydance, and BuzzFeed with nearly two decades of experience." />
     <link rel="canonical" href="https://tylerchoulaw.com/about.html" />
@@ -131,7 +140,7 @@
       <section class="cta section bg-obsidian section-reveal">
         <div class="container">
           <h2>Ready to Protect Your Empire?</h2>
-          <a href="/contact.html" class="cta-button">Get in Touch</a>
+          <a href="/contact.html" class="btn btn--primary btn--on-dark">Get in Touch</a>
         </div>
       </section>
     </main>

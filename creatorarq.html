@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html, body { background-color: #932125; }
+      body:not(.ready) { visibility: hidden; }
+    </style>
+    <script>
+      window.addEventListener('load', function() {
+        document.body.classList.add('ready');
+      });
+    </script>
     <title>CreatorArq | Creator Economy Venture Fund</title>
     <meta name="description" content="CreatorArq is a venture fund investing in creator-led businesses and digital empires. Led by entertainment attorney Tyler Chou." />
     <link rel="canonical" href="https://tylerchoulaw.com/creatorarq.html" />
@@ -123,7 +132,7 @@
         <div class="container">
           <h2>Investment Inquiries</h2>
           <p>For investment inquiries, please contact us through the form below.</p>
-          <a href="/contact.html?inquiry=creatorarq" class="cta-button">Contact CreatorArq</a>
+          <a href="/contact.html?inquiry=creatorarq" class="btn btn--primary btn--on-dark">Contact CreatorArq</a>
         </div>
       </section>
     </main>

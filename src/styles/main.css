@@ -6,6 +6,7 @@
 @import './typography.css';
 @import './components/nav.css';
 @import './components/footer.css';
+@import './components/buttons.css';
 @import './components/forms.css';
 @import './components/video.css';
 @import './components/pages.css';
@@ -14,11 +15,20 @@
 /* Base Layout */
 html {
   scroll-behavior: smooth;
+  background-color: var(--chuparosa-800); /* Prevent white flash on page load */
 }
 
 body {
   min-height: 100vh;
   overflow-x: hidden;
+  background-color: var(--chuparosa-800); /* Default background */
+  /* No transition - allows for instant flip on Palo Verde section */
+  /* Fade transitions can be added per-page as needed */
+}
+
+/* Page background changes when Palo Verde section is in view */
+body.bg-palo-verde {
+  background-color: var(--palo-verde-700);
 }
 
 /* Container Utilities */

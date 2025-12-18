@@ -103,6 +103,27 @@
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
+.mobile-menu-button:hover {
+  opacity: 0.8;
+}
+
+.mobile-menu-button:active {
+  opacity: 0.6;
+}
+
+.mobile-menu-button:focus,
+.mobile-menu-button:focus-visible {
+  outline: 2px solid var(--chuparosa-100);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.mobile-menu-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
   .main-nav {

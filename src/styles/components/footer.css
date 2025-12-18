@@ -1,7 +1,7 @@
 /* Footer Styles */
 
 .site-footer {
-  background-color: var(--obsidian);
+  /* Background inherits from body for animated transitions */
   color: var(--bone);
   padding: var(--space-4xl) 0 var(--space-lg);
   margin-top: var(--space-4xl);

@@ -68,21 +68,7 @@
   margin-bottom: var(--space-md);
 }
 
-.cta-button {
-  display: inline-block;
-  padding: var(--space-sm) var(--space-xl);
-  background-color: var(--obsidian);
-  color: var(--bone);
-  font-family: var(--font-display);
-  font-size: var(--text-p-size);
-  border-radius: 4px;
-  transition: opacity 0.2s ease;
-  cursor: pointer;
-}
-
-.cta-button:hover {
-  opacity: 0.8;
-}
+/* CTA button now uses .button component */
 
 .cta-link {
   color: var(--obsidian);
@@ -93,5 +79,16 @@
 
 .cta-link:hover {
   opacity: 0.7;
+}
+
+.cta-link:active {
+  opacity: 0.5;
+}
+
+.cta-link:focus,
+.cta-link:focus-visible {
+  outline: 2px solid var(--obsidian);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 

@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html, body { background-color: #932125; }
+      body:not(.ready) { visibility: hidden; }
+    </style>
+    <script>
+      window.addEventListener('load', function() {
+        document.body.classList.add('ready');
+      });
+    </script>
     <title>Legal Services for Creators | Contract Review, IP Protection, Business Strategy</title>
     <meta name="description" content="Comprehensive legal services for YouTube creators and creator-led businesses. Contract negotiation, IP protection, fractional CEO services, and M&A representation." />
     <link rel="canonical" href="https://tylerchoulaw.com/services.html" />
@@ -193,7 +202,7 @@
         <div class="container">
           <h2>Ready to Protect Your Empire?</h2>
           <p>Schedule a consultation to discuss your needs.</p>
-          <a href="/contact.html" class="cta-button">Get in Touch</a>
+          <a href="/contact.html" class="btn btn--primary btn--on-dark">Get in Touch</a>
         </div>
       </section>
     </main>

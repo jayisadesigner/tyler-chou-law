@@ -68,12 +68,12 @@ function initAnimations() {
       })
     })
 
-    // Subtle flower rotation on scroll
-    const flower = document.querySelector('.about-flower')
-    if (flower) {
+    // Subtle flower rotation on scroll - About section
+    const aboutFlower = document.querySelector('.about-flower')
+    if (aboutFlower) {
       const aboutSection = document.querySelector('.about')
       if (aboutSection) {
-        gsap.to(flower, {
+        gsap.to(aboutFlower, {
           rotation: 30, // 30 degree clockwise rotation
           ease: 'none', // Linear rotation based on scroll
           scrollTrigger: {
@@ -84,6 +84,66 @@ function initAnimations() {
           },
         })
       }
+    }
+
+    // Subtle flower rotation on scroll - Palo Verde section
+    const paloVerdeFlower = document.querySelector('.palo-verde-flower')
+    const paloVerdeSection = document.querySelector('.palo-verde')
+    
+    if (paloVerdeFlower && paloVerdeSection) {
+      gsap.to(paloVerdeFlower, {
+        rotation: 30, // 30 degree clockwise rotation
+        ease: 'none', // Linear rotation based on scroll
+        scrollTrigger: {
+          trigger: paloVerdeSection,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1, // Smooth rotation tied to scroll position
+        },
+      })
+    }
+
+    // Animate page background color based on scroll position
+    // This allows for gradual color transitions as sections come into view
+    if (paloVerdeSection) {
+      // Get color values from CSS variables
+      const defaultColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--chuparosa-800').trim()
+      const paloVerdeColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--palo-verde-700').trim()
+
+      // Set initial background color to match about section (chuparosa-800)
+      gsap.set(document.body, {
+        backgroundColor: defaultColor,
+      })
+
+      // Ensure background stays chuparosa-800 (matching about section) until Palo Verde section
+      // Instant flip transition (no fade) - changes immediately when section top is visible
+      ScrollTrigger.create({
+        trigger: paloVerdeSection,
+        start: 'top top', // When top of section reaches top of viewport
+        end: 'bottom top', // When bottom of section reaches top of viewport
+        onEnter: () => {
+          // Flip to palo-verde-700 when section enters
+          gsap.set(document.body, { backgroundColor: paloVerdeColor })
+          document.body.classList.add('bg-palo-verde')
+        },
+        onLeave: () => {
+          // Flip back to chuparosa-800 (matching about section) when leaving
+          gsap.set(document.body, { backgroundColor: defaultColor })
+          document.body.classList.remove('bg-palo-verde')
+        },
+        onEnterBack: () => {
+          // Flip to palo-verde-700 when scrolling back up into section
+          gsap.set(document.body, { backgroundColor: paloVerdeColor })
+          document.body.classList.add('bg-palo-verde')
+        },
+        onLeaveBack: () => {
+          // Flip back to chuparosa-800 (matching about section) when scrolling past
+          gsap.set(document.body, { backgroundColor: defaultColor })
+          document.body.classList.remove('bg-palo-verde')
+        },
+      })
     }
 
     // Headshot shuffle animation on hover
