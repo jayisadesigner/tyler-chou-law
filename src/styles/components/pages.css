@@ -1166,21 +1166,9 @@ body.bg-palo-verde .palo-verde-body__column {
   margin: 0;
 }
 
-/* Remove excess padding added by GSAP pinSpacing */
+/* Remove excess margin added by GSAP pinSpacing */
 .disclaimer {
   margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-.disclaimer-container {
-  margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-/* Remove any extra spacing GSAP might add to body/html after disclaimer */
-body > *:last-child {
-  margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
 }
 
 /* Responsive adjustments for credentials section */
