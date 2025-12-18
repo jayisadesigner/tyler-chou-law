@@ -30,125 +30,171 @@ function initAnimations() {
   }
 
   // Scroll-triggered section reveals
-  // Only animate if GSAP is available
-  if (typeof gsap !== 'undefined' && ScrollTrigger) {
-    const sections = document.querySelectorAll('.section-reveal')
-    sections.forEach((section) => {
-      // Set initial state for animation
-      gsap.set(section, { opacity: 0, y: 60 })
-      
-      gsap.to(section, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 80%',
-          toggleActions: 'play none none none',
-        },
-      })
-    })
+  if (!ScrollTrigger) return
 
-    // Fade in elements on scroll
-    const fadeElements = document.querySelectorAll('.fade-in')
-    fadeElements.forEach((element) => {
-      // Set initial state for animation
-      gsap.set(element, { opacity: 0 })
-      
-      gsap.to(element, {
-        opacity: 1,
-        duration: 0.6,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: element,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-        },
-      })
-    })
-
-    // Subtle flower rotation on scroll - About section
-    const aboutFlower = document.querySelector('.about-flower')
-    if (aboutFlower) {
-      const aboutSection = document.querySelector('.about')
-      if (aboutSection) {
-        gsap.to(aboutFlower, {
-          rotation: 30, // 30 degree clockwise rotation
-          ease: 'none', // Linear rotation based on scroll
+  // Section reveal animations
+  document.querySelectorAll('.section-reveal').forEach((section) => {
+      gsap.fromTo(section, 
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
           scrollTrigger: {
-            trigger: aboutSection,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1, // Smooth rotation tied to scroll position
+            trigger: section,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
           },
-        })
-      }
-    }
+        }
+      )
+  })
 
-    // Subtle flower rotation on scroll - Palo Verde section
-    const paloVerdeFlower = document.querySelector('.palo-verde-flower')
-    const paloVerdeSection = document.querySelector('.palo-verde')
-    
-    if (paloVerdeFlower && paloVerdeSection) {
-      gsap.to(paloVerdeFlower, {
-        rotation: 30, // 30 degree clockwise rotation
-        ease: 'none', // Linear rotation based on scroll
+  // Fade in elements on scroll
+  document.querySelectorAll('.fade-in').forEach((element) => {
+      gsap.fromTo(element,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: element,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      )
+  })
+
+  // Subtle flower rotation on scroll - About section
+  const aboutFlower = document.querySelector('.about-flower')
+  if (aboutFlower) {
+    const aboutSection = document.querySelector('.about')
+    if (aboutSection) {
+      gsap.to(aboutFlower, {
+        rotation: 30,
+        ease: 'none',
         scrollTrigger: {
-          trigger: paloVerdeSection,
+          trigger: aboutSection,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1, // Smooth rotation tied to scroll position
+          scrub: 1,
         },
       })
     }
-
-    // Animate page background color based on scroll position
-    // This allows for gradual color transitions as sections come into view
-    if (paloVerdeSection) {
-      // Get color values from CSS variables
-      const defaultColor = getComputedStyle(document.documentElement)
-        .getPropertyValue('--chuparosa-800').trim()
-      const paloVerdeColor = getComputedStyle(document.documentElement)
-        .getPropertyValue('--palo-verde-700').trim()
-
-      // Set initial background color to match about section (chuparosa-800)
-      gsap.set(document.body, {
-        backgroundColor: defaultColor,
-      })
-
-      // Ensure background stays chuparosa-800 (matching about section) until Palo Verde section
-      // Instant flip transition (no fade) - changes immediately when section top is visible
-      ScrollTrigger.create({
-        trigger: paloVerdeSection,
-        start: 'top top', // When top of section reaches top of viewport
-        end: 'bottom top', // When bottom of section reaches top of viewport
-        onEnter: () => {
-          // Flip to palo-verde-700 when section enters
-          gsap.set(document.body, { backgroundColor: paloVerdeColor })
-          document.body.classList.add('bg-palo-verde')
-        },
-        onLeave: () => {
-          // Flip back to chuparosa-800 (matching about section) when leaving
-          gsap.set(document.body, { backgroundColor: defaultColor })
-          document.body.classList.remove('bg-palo-verde')
-        },
-        onEnterBack: () => {
-          // Flip to palo-verde-700 when scrolling back up into section
-          gsap.set(document.body, { backgroundColor: paloVerdeColor })
-          document.body.classList.add('bg-palo-verde')
-        },
-        onLeaveBack: () => {
-          // Flip back to chuparosa-800 (matching about section) when scrolling past
-          gsap.set(document.body, { backgroundColor: defaultColor })
-          document.body.classList.remove('bg-palo-verde')
-        },
-      })
-    }
-
-    // Headshot shuffle animation on hover
-    initHeadshotShuffle()
   }
+
+  // Subtle flower rotation on scroll - Palo Verde section
+  const paloVerdeFlower = document.querySelector('.palo-verde-flower')
+  const paloVerdeSection = document.querySelector('.palo-verde')
+  
+  if (paloVerdeFlower && paloVerdeSection) {
+    gsap.to(paloVerdeFlower, {
+      rotation: 30,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: paloVerdeSection,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1,
+      },
+    })
+  }
+
+  // Animate page background color based on scroll position
+  if (paloVerdeSection) {
+    const defaultColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--chuparosa-800').trim()
+    const paloVerdeColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--palo-verde-700').trim()
+
+    gsap.set(document.body, { backgroundColor: defaultColor })
+
+    ScrollTrigger.create({
+      trigger: paloVerdeSection,
+      start: 'top top',
+      end: 'bottom top',
+      onEnter: () => {
+        gsap.set(document.body, { backgroundColor: paloVerdeColor })
+        document.body.classList.add('bg-palo-verde')
+      },
+      onLeave: () => {
+        gsap.set(document.body, { backgroundColor: defaultColor })
+        document.body.classList.remove('bg-palo-verde')
+      },
+      onEnterBack: () => {
+        gsap.set(document.body, { backgroundColor: paloVerdeColor })
+        document.body.classList.add('bg-palo-verde')
+      },
+      onLeaveBack: () => {
+        gsap.set(document.body, { backgroundColor: defaultColor })
+        document.body.classList.remove('bg-palo-verde')
+      },
+    })
+  }
+
+  // Philosophy section redaction animation
+  initPhilosophyRedaction()
+
+  // Headshot shuffle animation on hover
+  initHeadshotShuffle()
+}
+
+/**
+ * Philosophy section redaction animation
+ * Redacts "Content" and "is king" text and fades in "ip is Queen" based on scroll progress
+ */
+function initPhilosophyRedaction() {
+  const philosophySection = document.querySelector('.philosophy')
+  if (!philosophySection) return
+
+  const redactionFirst = philosophySection.querySelector('.philosophy-redaction--first')
+  const redactionSecond = philosophySection.querySelector('.philosophy-redaction--second')
+  const queenText = philosophySection.querySelector('.philosophy-text--queen')
+
+  if (!redactionFirst || !redactionSecond || !queenText) return
+
+  // Set initial state - boxes start at 0 width, queen text hidden
+  gsap.set([redactionFirst, redactionSecond], { width: 0 })
+  gsap.set(queenText, { opacity: 0 })
+
+  // Create a timeline that pins the section while animation plays
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: philosophySection,
+      start: 'top top', // Pin when section reaches top of viewport
+      end: '+=250%', // Pin for 250% of viewport height (more time after animation)
+      scrub: 2.5, // Smooth scrubbing
+      pin: true, // Pin the section during animation
+      pinSpacing: true, // Add spacing to prevent layout shift
+      anticipatePin: 1, // Smooth pinning
+    },
+  })
+
+  // First redaction box - starts after delay to give time to read
+  tl.to(redactionFirst, {
+    width: '724px',
+    ease: 'power2.inOut',
+    duration: 1, // Takes up portion of timeline
+  }, 0.2) // Start at 20% of timeline
+
+  // Second redaction box - starts slightly after first (staggered)
+  tl.to(redactionSecond, {
+    width: '724px',
+    ease: 'power2.inOut',
+    duration: 1, // Takes up portion of timeline
+  }, 0.35) // Start at 35% of timeline (15% after first)
+  // Second redaction completes at: 0.35 + 1 = 1.35
+
+  // Fade in "ip is Queen" after both redactions are completely done
+  // Longer fade-in duration and more time to view
+  tl.to(queenText, {
+    opacity: 1,
+    ease: 'power2.out',
+    duration: 0.6, // Longer fade in duration
+  }, 1.4) // Start at 1.4 (after second redaction completes at 1.35, with slight pause)
+  // Animation completes at: 1.4 + 0.6 = 2.0, then extra scroll time before unpinning
 }
 
 /**
