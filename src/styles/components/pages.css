@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  background-color: var(--chuparosa-800);
+  /* Background inherits from body for animated transitions */
 }
 
 .hero-content {
@@ -412,36 +412,54 @@
   opacity: 0.7;
 }
 
-/* About Section */
-.about {
+/* Shared Layout Styles for About and Palo Verde Sections */
+.about,
+.palo-verde {
   position: relative;
   padding: var(--space-4xl) 0;
-  background-color: var(--chuparosa-800);
-  overflow: visible; /* Allow flower to overflow on large screens */
+  overflow: visible; /* Allow decorative elements to overflow on large screens */
 }
 
-.about-container {
+/* About and Palo Verde sections inherit background from body for animated transitions */
+
+.about-container,
+.palo-verde-container {
   position: relative;
   width: 100%;
   max-width: 1512px;
   margin: 0 auto;
-  /* Ensure container expands: content starts at 617px, add space for content + padding */
-  min-height: calc(617px + 500px + var(--space-4xl));
   padding-bottom: var(--space-4xl);
   overflow: visible; /* Allow decorative elements to overflow */
 }
 
-/* Portrait Image */
-.about-portrait {
+.about-container {
+  /* Ensure container expands: content starts at 617px, add space for content + padding */
+  min-height: calc(617px + 500px + var(--space-4xl));
+}
+
+/* Shared Image Container Styles */
+.about-portrait,
+.palo-verde-tree {
   position: absolute;
-  left: calc(37.5% + 12px);
-  top: 128px;
   width: 354px;
   height: 442px;
   z-index: 1;
 }
 
-.about-portrait__image {
+.about-portrait {
+  left: calc(37.5% + 12px);
+  top: 128px;
+}
+
+.palo-verde-tree {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.about-portrait__image,
+.palo-verde-tree__image,
+.palo-verde-tree__placeholder {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -458,7 +476,11 @@
   pointer-events: none;
 }
 
-/* Decorative Name Text */
+.palo-verde-tree__placeholder {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Decorative Name Text (About only) */
 .about-name {
   position: absolute;
   left: calc(43.75% + 1.5px);
@@ -477,23 +499,137 @@
   margin: 0;
 }
 
-/* Decorative Flower */
-.about-flower {
+/* Shared Decorative Flower Styles */
+.about-flower,
+.palo-verde-flower {
   position: absolute;
+  z-index: 1;
+}
+
+.about-flower {
   right: -350px;
   top: 379px;
   width: 850px;
   height: 850px;
-  z-index: 1;
 }
 
-.about-flower__image {
+.about-flower__image,
+.palo-verde-flower__image {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-/* Main Content */
+/* Palo Verde flower - matches about section flower before flip */
+.palo-verde-flower__image {
+  color: var(--chuparosa-700); /* Start as chuparosa-700 before flip */
+}
+
+/* When background flips to palo-verde, change flower to desert gold */
+body.bg-palo-verde .palo-verde-flower__image {
+  color: var(--desert-gold-400); /* #ffdc1b */
+}
+
+/* Shared Headline Styles */
+.about-headline,
+.palo-verde-headline {
+  font-family: var(--font-display);
+  font-size: 5.653rem; /* 90.44px */
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.03em; /* -2.7132px equivalent */
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.about-headline {
+  color: var(--chuparosa-100);
+  text-align: justify;
+  text-align-last: justify;
+  width: 100%;
+}
+
+.palo-verde-headline {
+  position: absolute;
+  left: var(--space-md);
+  top: 366px;
+  color: var(--chuparosa-100); /* Match about section headline before flip */
+  text-align: justify;
+  width: 724px;
+  z-index: 2;
+}
+
+/* When background flips to palo-verde, change headline color */
+body.bg-palo-verde .palo-verde-headline {
+  color: var(--palo-verde-50);
+}
+
+/* Shared Body Text Styles */
+.about-body,
+.palo-verde-body {
+  display: flex;
+  gap: var(--space-md);
+  font-family: var(--font-body);
+  font-size: 1rem; /* 16px */
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.about-body {
+  width: 100%;
+  padding-right: var(--space-4xl);
+}
+
+/* Palo Verde Content Wrapper */
+.palo-verde-content {
+  position: absolute;
+  left: var(--space-md);
+  top: 560px;
+  width: 539px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg); /* 32px spacing between body and button */
+}
+
+.palo-verde-body {
+  display: flex;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.about-body__column,
+.palo-verde-body__column {
+  flex: 1;
+}
+
+.about-body__column {
+  color: var(--chuparosa-300);
+}
+
+.palo-verde-body__column {
+  color: var(--chuparosa-300); /* Match about section before flip */
+}
+
+/* When background flips to palo-verde, change text and flower colors */
+body.bg-palo-verde .palo-verde-body__column {
+  color: var(--palo-verde-300);
+}
+
+.about-body__column p,
+.palo-verde-body__column p {
+  margin: 0;
+}
+
+.about-body__column p:not(:last-child) {
+  margin-bottom: var(--space-md);
+}
+
+.palo-verde-body__column p:not(:last-child) {
+  margin-bottom: var(--space-sm);
+}
+
+/* Main Content Container (About only) */
 .about-content {
   position: absolute;
   left: 50%;
@@ -508,69 +644,25 @@
   padding-bottom: var(--space-2xl);
 }
 
-.about-headline {
-  font-family: var(--font-display);
-  font-size: 5.653rem; /* 90.44px */
-  font-weight: 500;
-  line-height: 0.9;
-  letter-spacing: -0.03em; /* -2.7132px equivalent */
-  color: var(--chuparosa-100);
-  text-transform: uppercase;
-  text-align: justify;
-  text-align-last: justify;
-  width: 100%;
-  margin: 0;
+/* Button styles now in components/buttons.css */
+
+/* Palo Verde Specific Container */
+.palo-verde-container {
+  min-height: calc(560px + 200px + var(--space-4xl));
 }
 
-.about-body {
-  display: flex;
-  gap: var(--space-md);
-  width: 100%;
-  padding-right: var(--space-4xl);
-}
-
-.about-body__column {
-  flex: 1;
-  font-family: var(--font-body);
-  font-size: 1rem; /* 16px */
-  font-weight: 400;
-  line-height: 1.4;
-  color: var(--chuparosa-300);
-}
-
-.about-body__column p {
-  margin-bottom: 0;
-}
-
-.about-body__column p:not(:last-child) {
-  margin-bottom: var(--space-md);
-}
-
-.about-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-md) var(--space-lg);
-  border: 2px solid var(--bone);
-  border-radius: 1000px;
-  font-family: var(--font-display);
-  font-size: 1rem; /* 16px */
-  font-weight: 600;
-  line-height: 1;
-  color: var(--chuparosa-100);
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-
-.about-button:hover {
-  opacity: 0.8;
+/* Palo Verde Flower Positioning */
+.palo-verde-flower {
+  left: calc(62.5% + 112px);
+  top: 155px;
+  width: 720px;
+  height: 720px;
 }
 
 /* Roster Section */
 .roster {
   padding: var(--space-4xl) var(--space-md);
-  background-color: var(--chuparosa-800);
+  /* Background inherits from body for animated transitions */
 }
 
 .roster-container {
@@ -611,6 +703,17 @@
 
 .roster-link:hover {
   opacity: 0.7;
+}
+
+.roster-link:active {
+  opacity: 0.5;
+}
+
+.roster-link:focus,
+.roster-link:focus-visible {
+  outline: 2px solid var(--chuparosa-100);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 .roster-grid {
@@ -678,25 +781,144 @@
   pointer-events: none;
 }
 
-.roster-card__handle {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
+  .roster-card__handle {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    font-family: var(--font-display);
+    font-size: 1.414rem; /* 22.62px */
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--chuparosa-100);
+    text-transform: uppercase;
+    margin: 0;
+    z-index: 1;
+  }
+
+/* Services Section */
+.services {
+  padding: var(--space-4xl) var(--space-md);
+  /* Background inherits from body for animated transitions */
+}
+
+.services-container {
+  max-width: 1512px;
+  margin: 0 auto;
+}
+
+.services-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+  width: 100%;
+  padding: 0 var(--space-md);
+}
+
+.services-title {
   font-family: var(--font-display);
-  font-size: 1.414rem; /* 22.62px */
+  font-size: 3.998rem; /* 63.96px */
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em; /* -1.2792px equivalent */
+  color: var(--chuparosa-100);
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.services-link {
+  font-family: var(--font-display);
+  font-size: 1rem; /* 16px */
+  font-weight: 600;
+  line-height: 1;
+  color: var(--chuparosa-100);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.services-link:hover {
+  opacity: 0.7;
+}
+
+.services-grid {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 var(--space-md);
+  flex-wrap: wrap;
+}
+
+.service-card {
+  flex: 0 1 477px;
+  min-width: 280px;
+  max-width: 477px;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-xl) var(--space-lg);
+  background-color: transparent; /* Inherits from body, allows background animation */
+  border: none;
+  border-radius: 0;
+  transition: box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Large screens - ensure cards don't stretch too much */
+@media (min-width: 1536px) {
+  .services-grid {
+    max-width: 1512px;
+    margin: 0 auto;
+    padding: 0;
+  }
+  
+  .service-card {
+    flex: 0 1 477px;
+  }
+}
+
+.service-card:hover {
+  box-shadow: 
+    0px 447px 125px 0px rgba(66, 13, 15, 0.01),
+    0px 286px 114px 0px rgba(66, 13, 15, 0.05),
+    0px 161px 97px 0px rgba(66, 13, 15, 0.18),
+    0px 72px 72px 0px rgba(66, 13, 15, 0.3),
+    0px 18px 39px 0px rgba(66, 13, 15, 0.34);
+}
+
+.service-card__title {
+  font-family: var(--font-display);
+  font-size: 1.999rem; /* 31.99px */
   font-weight: 500;
   line-height: 1.2;
   color: var(--chuparosa-100);
   text-transform: uppercase;
   margin: 0;
-  z-index: 1;
 }
+
+.service-card__description {
+  font-family: var(--font-body);
+  font-size: 1.414rem; /* 22.62px */
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--chuparosa-300);
+  margin: 0;
+  flex: 1;
+}
+
+/* Service card button now uses .button component */
+
 
 /* Videos Section */
 .videos {
   position: relative;
   padding: var(--space-4xl) 0;
-  background-color: var(--chuparosa-800);
+  /* Background inherits from body for animated transitions */
   min-height: 616px;
   display: flex;
   align-items: center;
@@ -744,6 +966,155 @@
 }
 
 /* Responsive */
+/* Tablet and smaller desktop */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .palo-verde {
+    min-height: auto;
+    padding: var(--space-3xl) 0;
+  }
+  
+  .palo-verde-container {
+    padding: var(--space-xl) var(--space-md);
+  }
+  
+  .palo-verde-tree {
+    width: 280px;
+    height: 350px;
+  }
+  
+  .palo-verde-headline {
+    font-size: clamp(3rem, 8vw, 5.653rem);
+    width: 100%;
+    max-width: 600px;
+    left: var(--space-md);
+  }
+  
+  .palo-verde-body {
+    width: 100%;
+    max-width: 500px;
+    left: var(--space-md);
+  }
+  
+  .palo-verde-flower {
+    width: 500px;
+    height: 500px;
+    left: calc(60% + 50px);
+  }
+  
+  /* Shared responsive styles for about and palo-verde */
+  .about,
+  .palo-verde {
+    min-height: auto;
+    padding: var(--space-2xl) 0;
+  }
+  
+  .about-container,
+  .palo-verde-container {
+    min-height: auto;
+    padding: var(--space-xl) var(--space-md);
+  }
+  
+  .about-portrait,
+  .palo-verde-tree {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    max-width: 354px;
+    height: auto;
+    aspect-ratio: 354 / 442;
+    margin: 0 auto var(--space-xl);
+  }
+  
+  .about-headline,
+  .palo-verde-headline {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    font-size: clamp(2.5rem, 10vw, 5.653rem);
+    text-align: center;
+    text-align-last: center;
+    margin: 0 0 var(--space-lg) 0;
+  }
+  
+  .about-body,
+  .palo-verde-body {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+  
+  .about-body__column,
+  .palo-verde-body__column {
+    width: 100%;
+  }
+  
+  .about-flower,
+  .palo-verde-flower {
+    display: none; /* Hide decorative flower on mobile */
+  }
+  
+  .about-content,
+  .palo-verde-content {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    padding: 0 var(--space-lg);
+  }
+  
+  .palo-verde-content .btn {
+    align-self: center;
+  }
+  
+  .about-button,
+  .palo-verde-button {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    align-self: center;
+    margin-top: var(--space-lg);
+  }
+  
+  .services-container {
+    padding: 0 var(--space-md);
+  }
+  
+  .services-grid {
+    gap: var(--space-md);
+    padding: 0;
+  }
+  
+  .service-card {
+    flex: 0 1 calc(50% - var(--space-md) / 2);
+    min-width: 300px;
+    max-width: none;
+    height: auto;
+    min-height: 380px;
+  }
+  
+  .services-header {
+    padding: 0;
+  }
+}
+
+/* Small tablets */
+@media (max-width: 900px) and (min-width: 769px) {
+  .service-card {
+    flex: 0 1 100%;
+    max-width: 100%;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   .hero {
     min-height: 80vh;
@@ -807,20 +1178,119 @@
     height: 100%;
   }
   
-  .about {
+  .services {
+    padding: var(--space-2xl) var(--space-md);
+  }
+  
+  .services-container {
+    padding: 0;
+  }
+  
+  .services-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+    padding: 0;
+    margin-bottom: var(--space-xl);
+  }
+  
+  .services-title {
+    font-size: clamp(2rem, 8vw, 3.998rem);
+  }
+  
+  .services-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-md);
+    padding: 0;
+  }
+  
+  .service-card {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: auto;
+    min-height: auto;
+    padding: var(--space-lg) var(--space-md);
+  }
+  
+  .service-card__title {
+    font-size: clamp(1.5rem, 5vw, 1.999rem);
+  }
+  
+  .service-card__description {
+    font-size: clamp(1rem, 4vw, 1.414rem);
+    line-height: 1.3;
+  }
+  
+  /* Shared responsive styles for about and palo-verde */
+  .about,
+  .palo-verde {
     min-height: auto;
     padding: var(--space-2xl) 0;
   }
   
-  .about-portrait {
+  .about-container,
+  .palo-verde-container {
+    min-height: auto;
+    padding: var(--space-xl) var(--space-md);
+  }
+  
+  .about-portrait,
+  .palo-verde-tree {
     position: relative;
     left: auto;
     top: auto;
+    transform: none;
     width: 100%;
     max-width: 354px;
     height: auto;
     aspect-ratio: 354 / 442;
     margin: 0 auto var(--space-xl);
+  }
+  
+  .about-headline,
+  .palo-verde-headline {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    font-size: clamp(2.5rem, 10vw, 5.653rem);
+    text-align: center;
+    text-align-last: center;
+    margin: 0 0 var(--space-lg) 0;
+  }
+  
+  .about-body,
+  .palo-verde-body {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+  
+  .about-body__column,
+  .palo-verde-body__column {
+    width: 100%;
+  }
+  
+  .about-flower,
+  .palo-verde-flower {
+    display: none; /* Hide decorative flower on mobile */
+  }
+  
+  .about-button,
+  .palo-verde-button {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    align-self: center;
+    margin-top: var(--space-lg);
   }
   
   .about-name {
@@ -844,6 +1314,19 @@
     transform: none;
     width: 100%;
     padding: 0 var(--space-lg);
+  }
+  
+  .palo-verde-content {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    padding: 0 var(--space-lg);
+  }
+  
+  .palo-verde-content .btn {
+    align-self: center;
   }
   
   .about-headline {
