@@ -6,6 +6,7 @@
 let isTransitioning = false
 let savedScrollPosition = 0
 let previousURL = null
+let originPage = null // Track which page user came from (home or roster)
 
 // Creator data (would ideally come from a data source)
 const creatorData = {
@@ -19,7 +20,7 @@ const creatorData = {
     stats: [
       { value: '9.15M', label: 'subscribers' },
       { value: '2B+', label: 'total views' },
-      { value: 'Gen Z/Millennial', label: 'core demo' },
+      { value: '18-34', label: 'core demo' },
       { value: 'US', label: 'top region' }
     ],
     videos: ['rGdOljEhqBc', 'BJv4MYm7-rU', 'Ie7Ywgwfxxo']
@@ -49,7 +50,7 @@ const creatorData = {
     stats: [
       { value: '32M', label: 'subscribers' },
       { value: '7.9B+', label: 'total views' },
-      { value: 'Gen Z Male', label: 'core demo' },
+      { value: '13-24', label: 'core demo' },
       { value: 'US', label: 'top region' }
     ],
     videos: ['A94VYOssTF8', 'RqnbCPEXE-M', 'Ip2b0YeDMxI']
@@ -79,8 +80,8 @@ const creatorData = {
     stats: [
       { value: '1.1M', label: 'subscribers' },
       { value: '53M+', label: 'total views' },
-      { value: 'Creator/Filmmaker Audience', label: 'core demo' },
-      { value: 'US/Australia', label: 'top region' }
+      { value: '18-34', label: 'core demo' },
+      { value: 'US/AU', label: 'top region' }
     ],
     videos: ['NvTduUDqozE', 'Q9yK7OPkdzc', '6jQw52XTvK4']
   },
@@ -109,7 +110,7 @@ const creatorData = {
     stats: [
       { value: '2.4M', label: 'subscribers' },
       { value: '178M+', label: 'total views' },
-      { value: '18-34 Female', label: 'core demo' },
+      { value: '18-34', label: 'core demo' },
       { value: 'US', label: 'top region' }
     ],
     videos: ['X4h364JPPVc', 'csCdlDhAgso', 'd77Sqiji4OY']
@@ -124,7 +125,7 @@ const creatorData = {
     stats: [
       { value: '15.3M', label: 'subscribers' },
       { value: '2.3B+', label: 'total views' },
-      { value: 'Gen Z', label: 'core demo' },
+      { value: '13-24', label: 'core demo' },
       { value: 'US', label: 'top region' }
     ],
     videos: ['hij-U_onHXg', '9vNnBJmtBio', 'zSJRUojx3dE']
@@ -334,6 +335,31 @@ function openCreatorPage(sourceCard, creatorId, updateURL = true) {
     overlayHandle.textContent = data.name || `@${creatorId}`
   }
 
+  // Determine origin page (home or roster)
+  // If previousURL exists, use it; otherwise check current path
+  if (previousURL) {
+    originPage = previousURL === '/' || previousURL === '/index.html' ? 'home' : 'roster'
+  } else {
+    const currentPath = window.location.pathname
+    // If on a creator page, default to roster; otherwise use current path
+    if (currentPath.startsWith('/roster/') && currentPath.endsWith('.html')) {
+      originPage = 'roster' // Direct URL access defaults to roster page
+    } else {
+      originPage = currentPath === '/' || currentPath === '/index.html' ? 'home' : 'roster'
+    }
+  }
+  
+  // Update breadcrumb link based on origin
+  const breadcrumbLink = overlayBreadcrumbs?.querySelector('a[href="/roster.html"], a[href="/#roster"]')
+  if (breadcrumbLink) {
+    breadcrumbLink.textContent = 'roster'
+    if (originPage === 'home') {
+      breadcrumbLink.href = '/#roster'
+    } else {
+      breadcrumbLink.href = '/roster.html'
+    }
+  }
+  
   // Save current scroll position
   savedScrollPosition = window.scrollY
   
@@ -377,13 +403,21 @@ function closeCreatorPage(updateURL = true) {
   overlay.classList.remove('creator-page-overlay--middle', 'creator-page-overlay--end')
   overlay.style.opacity = '0'
   
-  // Restore body scroll and scroll position (instant, no smooth scroll)
+  // Restore body scroll styles first
   document.body.style.overflow = ''
   document.body.style.position = ''
   document.body.style.width = ''
   document.body.style.top = ''
-  window.scrollTo({ top: savedScrollPosition, behavior: 'auto' })
-  savedScrollPosition = 0
+  
+  // Restore scroll position in next frame (after fixed is removed)
+  requestAnimationFrame(() => {
+    const html = document.documentElement
+    const originalScrollBehavior = html.style.scrollBehavior
+    html.style.scrollBehavior = 'auto'
+    window.scrollTo(0, savedScrollPosition)
+    html.style.scrollBehavior = originalScrollBehavior
+    savedScrollPosition = 0
+  })
   
   // Restore URL if requested
   if (updateURL) {
