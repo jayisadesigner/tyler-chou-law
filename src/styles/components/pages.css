@@ -505,7 +505,7 @@ body.bg-palo-verde .palo-verde-body__column {
   grid-template-columns: repeat(8, 1fr);
   grid-auto-rows: min-content;
   align-content: center;
-  justify-content: start;
+  justify-content: var(--philosophy-justify, center); /* CSS variable with centered fallback */
   width: 100%;
   max-width: 100%;
   padding: 0 24px;
@@ -519,6 +519,7 @@ body.bg-palo-verde .palo-verde-body__column {
   position: relative;
   display: flex;
   align-items: flex-start;
+  justify-content: var(--philosophy-item-justify, center); /* CSS variable with centered fallback */
   min-width: 0; /* Allow grid items to shrink below content size */
   height: fit-content;
   overflow: visible;
@@ -530,68 +531,73 @@ body.bg-palo-verde .palo-verde-body__column {
   font-weight: 500;
   line-height: 0.85;
   text-transform: uppercase;
-  white-space: nowrap;
+  white-space: nowrap; /* Prevent line breaks - keep text on one line */
   margin: 0;
   overflow: visible;
+  text-align: var(--philosophy-text-align, center); /* CSS variable with centered fallback */
+  /* No max-width constraint - allow text to display fully */
 }
 
 .philosophy-item:first-child {
-  grid-column: 1 / 4; /* "Content" spans columns 1-3, left side */
+  grid-column: var(--philosophy-first-col, 2 / 7); /* CSS variable with centered fallback */
+  justify-self: var(--philosophy-first-justify, center);
 }
 
 .philosophy-item:nth-child(2) {
-  grid-column: 2 / 6; /* "is king" spans columns 2-5, right side */
+  grid-column: var(--philosophy-second-col, 2 / 7); /* CSS variable with centered fallback */
+  justify-self: var(--philosophy-second-justify, center);
 }
 
 .philosophy-item:nth-child(3) {
-  grid-column: 2 / 6; /* "ip is Queen" spans columns 2-5, same as "is king", stacked below */
+  grid-column: var(--philosophy-third-col, 2 / 7); /* CSS variable with centered fallback */
+  justify-self: var(--philosophy-third-justify, center);
 }
 
 .philosophy-text--content {
-  font-size: 153.541px; /* ~154px */
-  letter-spacing: -0.03em; /* -4.6062px */
+  font-size: clamp(4rem, 8vw, 153.541px); /* Responsive from 4rem to 153.541px */
+  letter-spacing: -0.03em;
   color: var(--obsidian);
 }
 
 .philosophy-text--king {
-  font-size: 212.351px; /* ~212px */
-  letter-spacing: -0.03em; /* -6.3705px */
+  font-size: clamp(5rem, 10vw, 212.351px); /* Responsive from 5rem to 212.351px */
+  letter-spacing: -0.03em;
   color: var(--obsidian);
 }
 
 .philosophy-text--queen {
-  font-size: 239.141px; /* ~239px */
-  letter-spacing: -0.03em; /* -7.1742px */
+  font-size: clamp(6rem, 12vw, 239.141px); /* Responsive from 6rem to 239.141px */
+  letter-spacing: -0.03em;
   color: var(--bone);
-  opacity: 0; /* Start hidden, will fade in via animation */
+  opacity: var(--philosophy-queen-opacity, 1); /* CSS variable with visible fallback */
   visibility: visible; /* Keep element in layout flow to maintain grid height */
 }
 
-/* Philosophy Redaction Boxes */
+/* Philosophy Redaction Boxes - Hidden by default (fallback) */
 .philosophy-redaction {
   position: absolute;
   background-color: var(--obsidian);
   z-index: 2;
-  width: 0;
+  width: var(--philosophy-redaction-width, 0); /* CSS variable with hidden fallback */
+  height: var(--philosophy-redaction-height, 0); /* CSS variable with hidden fallback */
   transform-origin: left;
+  overflow: hidden;
 }
 
 .philosophy-redaction--first {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100%;
-  max-width: 724px;
-  height: 131px;
+  max-width: 100%;
+  /* height set dynamically via JS or CSS variable */
 }
 
 .philosophy-redaction--second {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100%;
-  max-width: 724px;
-  height: 180px;
+  max-width: 100%;
+  /* height set dynamically via JS or CSS variable */
 }
 
 /* Credentials Section */
@@ -1187,31 +1193,19 @@ body.bg-palo-verde .palo-verde-body__column {
   
   .philosophy-content {
     padding: 0 var(--space-md);
-    overflow-x: hidden;
+    overflow-x: visible; /* Allow text to overflow if needed */
   }
   
   .philosophy-item {
     width: 100%;
-    overflow: hidden;
+    overflow: visible; /* Allow text to overflow if needed */
+    min-width: 0; /* Allow grid items to shrink */
   }
   
   .philosophy-text {
-    font-size: clamp(4rem, 10vw, 153.541px);
-    white-space: normal;
-    word-break: break-word;
-    max-width: 100%;
-  }
-  
-  .philosophy-text--content {
-    font-size: clamp(4rem, 10vw, 153.541px);
-  }
-  
-  .philosophy-text--king {
-    font-size: clamp(5rem, 12vw, 212.351px);
-  }
-  
-  .philosophy-text--queen {
-    font-size: clamp(6rem, 14vw, 239.141px);
+    /* Base clamp() handles responsive sizing - no override needed */
+    /* Keep white-space: nowrap to prevent line breaks */
+    max-width: none; /* Remove max-width constraint to prevent cutoff */
   }
   
   .philosophy-redaction--first,
@@ -1325,7 +1319,7 @@ body.bg-palo-verde .palo-verde-body__column {
     align-content: center;
     padding: 0 var(--space-md);
     gap: var(--space-md);
-    overflow-x: hidden;
+    overflow-x: visible; /* Allow text to overflow if needed */
   }
   
   .philosophy-item {
@@ -1333,7 +1327,7 @@ body.bg-palo-verde .palo-verde-body__column {
     grid-column: 1 / -1 !important; /* Full width on mobile */
     justify-self: center;
     text-align: center;
-    overflow: hidden;
+    overflow: visible; /* Allow text to overflow if needed */
   }
   
   .philosophy-text {
@@ -1344,7 +1338,7 @@ body.bg-palo-verde .palo-verde-body__column {
     font-size: clamp(3rem, 12vw, 153.541px);
     word-break: break-word;
     white-space: normal;
-    max-width: 100%;
+    max-width: none; /* Remove max-width constraint on mobile */
     text-align: center;
   }
   
@@ -1358,7 +1352,7 @@ body.bg-palo-verde .palo-verde-body__column {
   
   .philosophy-text--queen {
     font-size: clamp(4.5rem, 17vw, 239.141px);
-    opacity: 1; /* Always visible on mobile */
+    /* Opacity controlled by JavaScript animation on mobile */
   }
   
   .philosophy-redaction {

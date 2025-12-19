@@ -147,6 +147,7 @@ function initAnimations() {
 /**
  * Philosophy section redaction animation
  * Redacts "Content" and "is king" text and fades in "ip is Queen" based on scroll progress
+ * Fully responsive - calculates widths/heights dynamically based on actual text dimensions
  */
 function initPhilosophyRedaction() {
   const philosophySection = document.querySelector('.philosophy')
@@ -155,49 +156,129 @@ function initPhilosophyRedaction() {
   const redactionFirst = philosophySection.querySelector('.philosophy-redaction--first')
   const redactionSecond = philosophySection.querySelector('.philosophy-redaction--second')
   const queenText = philosophySection.querySelector('.philosophy-text--queen')
+  const contentText = philosophySection.querySelector('.philosophy-text--content')
+  const kingText = philosophySection.querySelector('.philosophy-text--king')
 
-  if (!redactionFirst || !redactionSecond || !queenText) return
+  if (!redactionFirst || !redactionSecond || !queenText || !contentText || !kingText) return
+
+  // Mobile: fade in text elements sequentially on scroll
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    // Set initial state - all text hidden
+    gsap.set([contentText, kingText, queenText], { opacity: 0 })
+    
+    // Create a simple scroll-triggered timeline for mobile
+    const mobileTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: philosophySection,
+        start: 'top 80%',
+        end: 'bottom 20%',
+        scrub: 1,
+      },
+    })
+    
+    // Fade in "Content" first
+    mobileTl.to(contentText, {
+      opacity: 1,
+      ease: 'power2.out',
+      duration: 1.2,
+    }, 0)
+    
+    // Fade in "is king" second (staggered)
+    mobileTl.to(kingText, {
+      opacity: 1,
+      ease: 'power2.out',
+      duration: 1.2,
+    }, 0.5)
+    
+    // Fade in "ip is Queen" last
+    mobileTl.to(queenText, {
+      opacity: 1,
+      ease: 'power2.out',
+      duration: 1.2,
+    }, 1.0)
+    
+    return
+  }
+
+  // Set CSS variables for animated layout (left-aligned, original grid positions)
+  philosophySection.style.setProperty('--philosophy-justify', 'start')
+  philosophySection.style.setProperty('--philosophy-item-justify', 'start')
+  philosophySection.style.setProperty('--philosophy-text-align', 'left')
+  philosophySection.style.setProperty('--philosophy-first-col', '1 / 4')
+  philosophySection.style.setProperty('--philosophy-second-col', '2 / 6')
+  philosophySection.style.setProperty('--philosophy-third-col', '2 / 6')
+  philosophySection.style.setProperty('--philosophy-first-justify', 'start')
+  philosophySection.style.setProperty('--philosophy-second-justify', 'start')
+  philosophySection.style.setProperty('--philosophy-third-justify', 'start')
+  philosophySection.style.setProperty('--philosophy-queen-opacity', '0')
+
+  // Measure actual text dimensions (elements are already rendered)
+  const getDimensions = () => {
+    const contentRect = contentText.getBoundingClientRect()
+    const kingRect = kingText.getBoundingClientRect()
+    
+    return {
+      firstWidth: Math.ceil(contentRect.width * 1.05), // 5% padding for full coverage
+      firstHeight: Math.ceil(contentRect.height * 1.1), // 10% padding for height
+      secondWidth: Math.ceil(kingRect.width * 1.05),
+      secondHeight: Math.ceil(kingRect.height * 1.1),
+    }
+  }
+
+  const dims = getDimensions()
 
   // Set initial state - boxes start at 0 width, queen text hidden
-  gsap.set([redactionFirst, redactionSecond], { width: 0 })
+  gsap.set(redactionFirst, { width: 0, height: dims.firstHeight })
+  gsap.set(redactionSecond, { width: 0, height: dims.secondHeight })
   gsap.set(queenText, { opacity: 0 })
 
-  // Create a timeline that pins the section while animation plays
+  // Responsive scroll duration based on viewport height
+  // Increased multiplier to give more time to view "ip is queen" after animation completes
+  const scrollMultiplier = Math.max(2.5, Math.min(5, window.innerHeight / 250))
+
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: philosophySection,
-      start: 'top top', // Pin when section reaches top of viewport
-      end: '+=250%', // Pin for 250% of viewport height (more time after animation)
-      scrub: 2.5, // Smooth scrubbing
-      pin: true, // Pin the section during animation
-      pinSpacing: true, // Add spacing to prevent layout shift
-      anticipatePin: 1, // Smooth pinning
+      start: 'top top',
+      end: `+=${scrollMultiplier * 100}%`,
+      scrub: 2.5,
+      pin: true,
+      pinSpacing: true,
+      anticipatePin: 1,
     },
   })
 
   // First redaction box - starts after delay to give time to read
   tl.to(redactionFirst, {
-    width: '724px',
+    width: dims.firstWidth,
     ease: 'power2.inOut',
-    duration: 1, // Takes up portion of timeline
-  }, 0.2) // Start at 20% of timeline
+    duration: 1,
+  }, 0.2)
 
   // Second redaction box - starts slightly after first (staggered)
   tl.to(redactionSecond, {
-    width: '724px',
+    width: dims.secondWidth,
     ease: 'power2.inOut',
-    duration: 1, // Takes up portion of timeline
-  }, 0.35) // Start at 35% of timeline (15% after first)
-  // Second redaction completes at: 0.35 + 1 = 1.35
+    duration: 1,
+  }, 0.35)
 
   // Fade in "ip is Queen" after both redactions are completely done
-  // Longer fade-in duration and more time to view
   tl.to(queenText, {
     opacity: 1,
     ease: 'power2.out',
-    duration: 0.6, // Longer fade in duration
-  }, 1.4) // Start at 1.4 (after second redaction completes at 1.35, with slight pause)
-  // Animation completes at: 1.4 + 0.6 = 2.0, then extra scroll time before unpinning
+    duration: 0.6,
+  }, 1.4)
+
+  // Add a pause/hold at the end to keep "ip is queen" visible longer
+  // This extends the timeline, giving more scroll distance before unpinning
+  tl.to({}, { duration: 1.2 }) // Add 1.2 more timeline duration (60% more viewing time)
+
+  // Handle resize - recalculate dimensions and refresh ScrollTrigger
+  ScrollTrigger.addEventListener('refresh', () => {
+    const newDims = getDimensions()
+    gsap.set(redactionFirst, { height: newDims.firstHeight })
+    gsap.set(redactionSecond, { height: newDims.secondHeight })
+  })
 }
 
 /**
