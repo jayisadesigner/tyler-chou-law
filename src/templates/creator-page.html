@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html, body { background-color: #932125; }
+      body:not(.ready) { visibility: hidden; }
+    </style>
+    <script>
+      window.addEventListener('load', function() {
+        document.body.classList.add('ready');
+      });
+    </script>
+    <title>{{metaTitle}} | Tyler Chou Law Roster</title>
+    <meta name="description" content="{{metaDescription}}" />
+    <link rel="canonical" href="https://tylerchoulaw.com/roster/{{creatorId}}.html" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{metaTitle}} | Tyler Chou Law Roster" />
+    <meta property="og:description" content="{{metaDescription}}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tylerchoulaw.com/roster/{{creatorId}}.html" />
+    {{ogImage}}
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{metaTitle}} | Tyler Chou Law Roster" />
+    <meta name="twitter:description" content="{{metaDescription}}" />
+    {{twitterImage}}
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "{{name}}",
+      "description": "{{metaDescription}}",
+      "url": "https://tylerchoulaw.com/roster/{{creatorId}}.html",
+      "sameAs": [{{youtubeUrl}}]
+    }
+    </script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header></header>
+    
+    <main id="main-content">
+      <!-- Pre-rendered Content (SEO) -->
+      <article class="creator-page-content section">
+        <div class="container-wide">
+          <h1>{{name}}</h1>
+          
+          <!-- Stats -->
+          <div class="creator-stats">
+            <div class="creator-stat">
+              <p class="creator-stat-value">{{stat1Value}}</p>
+              <p class="creator-stat-label">{{stat1Label}}</p>
+            </div>
+            <div class="creator-stat">
+              <p class="creator-stat-value">{{stat2Value}}</p>
+              <p class="creator-stat-label">{{stat2Label}}</p>
+            </div>
+            <div class="creator-stat">
+              <p class="creator-stat-value">{{stat3Value}}</p>
+              <p class="creator-stat-label">{{stat3Label}}</p>
+            </div>
+            <div class="creator-stat">
+              <p class="creator-stat-value">{{stat4Value}}</p>
+              <p class="creator-stat-label">{{stat4Label}}</p>
+            </div>
+          </div>
+          
+          <!-- Description -->
+          <div class="creator-description">
+            {{description}}
+          </div>
+          
+          <!-- Videos -->
+          {{videos}}
+        </div>
+      </article>
+      
+      <!-- Creator Page Overlay (Enhanced UX) -->
+      <div class="creator-page-overlay" id="creator-page-overlay" aria-hidden="true">
+        <!-- Close Button -->
+        <button class="creator-page-overlay__close" aria-label="Close creator page">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 5L32 32L59 59" stroke="#F5F3FF" stroke-width="6"/>
+            <path d="M59 5L32 32L5 59" stroke="#F5F3FF" stroke-width="6"/>
+          </svg>
+        </button>
+
+        <!-- Breadcrumbs -->
+        <nav class="creator-page-overlay__breadcrumbs" aria-label="Breadcrumb">
+          <a href="/">tyler chou law for creators</a>
+          <span>/</span>
+          <a href="/roster.html">CREATORS</a>
+          <span>/</span>
+          <span class="creator-page-overlay__breadcrumb-name">{{breadcrumbName}}</span>
+        </nav>
+
+        <!-- Header (fades out in middle state) -->
+        <div class="creator-page-overlay__header">
+          <h2 class="creator-page-overlay__header-title">who we work with</h2>
+          <a href="/roster.html" class="creator-page-overlay__header-link">view roster</a>
+        </div>
+
+        <!-- Main Content Container -->
+        <div class="creator-page-overlay__container">
+          <!-- Media Kit Stats (Row 1, Full Width) -->
+          <div class="creator-page-overlay__stats">
+            <div class="creator-page-overlay__stat">
+              <p class="creator-page-overlay__stat-value"></p>
+              <p class="creator-page-overlay__stat-label"></p>
+            </div>
+            <div class="creator-page-overlay__stat">
+              <p class="creator-page-overlay__stat-value"></p>
+              <p class="creator-page-overlay__stat-label"></p>
+            </div>
+            <div class="creator-page-overlay__stat">
+              <p class="creator-page-overlay__stat-value"></p>
+              <p class="creator-page-overlay__stat-label"></p>
+            </div>
+            <div class="creator-page-overlay__stat">
+              <p class="creator-page-overlay__stat-value"></p>
+              <p class="creator-page-overlay__stat-label"></p>
+            </div>
+          </div>
+
+          <!-- Left: Creator Image Card (transitions from grid card) -->
+          <div class="creator-page-overlay__image-card">
+            <div class="creator-page-overlay__image-wrapper">
+              <img src="" alt="" class="creator-page-overlay__image">
+              <div class="creator-page-overlay__image-overlay"></div>
+              <div class="creator-page-overlay__image-scrim"></div>
+            </div>
+            <p class="creator-page-overlay__handle"></p>
+          </div>
+
+          <!-- Right: Content Area (appears in middle/end states) -->
+          <div class="creator-page-overlay__content-wrapper">
+            <div class="creator-page-overlay__content">
+              <!-- Description -->
+              <div class="creator-page-overlay__description">
+                <p class="creator-page-overlay__description-text"></p>
+                <p class="creator-page-overlay__description-text"></p>
+              </div>
+            </div>
+
+            <!-- Sample Videos (Row 3, Right Side) -->
+            <div class="creator-page-overlay__videos">
+              <!-- Videos will be populated dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <footer></footer>
+    
+    <script type="module" src="/src/scripts/main.js"></script>
+  </body>
+</html>
+
