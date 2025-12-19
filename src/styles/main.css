@@ -48,7 +48,7 @@ body.bg-palo-verde {
 
 .container-wide {
   width: 100%;
-  max-width: 1536px;
+  max-width: 1512px;
   margin: 0 auto;
   padding: 0 var(--space-lg);
 }

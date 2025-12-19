@@ -5,128 +5,188 @@
 
 let isTransitioning = false
 let savedScrollPosition = 0
+let previousURL = null
 
 // Creator data (would ideally come from a data source)
 const creatorData = {
-  samandcolby: {
-    name: '@samandcolby',
-    breadcrumb: 'sam and colby',
-    description: [
-      'Sam Golbach and Colby Brock are paranormal investigators and YouTubers best known for their haunted exploration videos. Based in Los Angeles, they started making Vine videos together in 2014 after bonding at Blue Valley High School marching band camp in Kansas, where two self-described "shy, awkward band kids" pushed each other to step out of their comfort zones.',
-      'Their signature style combines cinematic storytelling with genuine friendship chemistry, often featuring feature-length investigations at iconic locations like The Conjuring House, Queen Mary, and Stanley Hotel. They\'ve expanded into theatrical releases with two films and built XPLR, a clothing line sold at Zumiez and Hot Topic. Their most-watched upload, "ALONE in The Real Conjuring House," has been viewed over 16 million times.'
-    ],
-    stats: [
-      { value: '15.3m', label: 'subscribers' },
-      { value: '2.3b', label: 'total views' },
-      { value: '13-35', label: 'core demo' },
-      { value: 'US', label: 'top region' }
-    ],
-    videos: ['hij-U_onHXg', '9vNnBJmtBio', 'zSJRUojx3dE']
-  },
   jennyhoyos: {
     name: '@jennyhoyos',
     breadcrumb: 'jenny hoyos',
     description: [
-      'Jenny Hoyos is a short-form content strategist and finance educator from Miami who averages 10 million views per YouTube Short. Based in Miami, she started creating content at age eight when all 20 of her cousins were making YouTube videos at family sleepovers.',
-      'Her signature style combines extreme budgeting challenges with cinematic storytelling hooks, featuring videos like "$1 fast food hacks" and turning her brother\'s room into an Airbnb (168M views). She graduated from Florida International University with a finance degree in just two years as a first-generation college student. Her most-watched content proves that viral isn\'t luck, it\'s architecture: powerful hooks, deliberate retention curves, and endings that satisfy.'
+      'Miami-based short-form strategist who reverse-engineered virality before most creators knew what a hook was. A former Peloton marketing prodigy turned YouTube phenom, Jenny built her empire on extreme budgeting challenges (think surviving on $1/day) that pull 10M+ views per Short on average.',
+      'Her secret? Psychological precision in the first 2 seconds. She\'s cracked the code on attention economics and now teaches creators how to stop leaving views on the table.'
     ],
     stats: [
-      { value: '9.15m', label: 'subscribers' },
-      { value: '2b+', label: 'total views' },
-      { value: '13-24', label: 'core demo' },
+      { value: '9.15M', label: 'subscribers' },
+      { value: '2B+', label: 'total views' },
+      { value: 'Gen Z/Millennial', label: 'core demo' },
       { value: 'US', label: 'top region' }
     ],
     videos: ['rGdOljEhqBc', 'BJv4MYm7-rU', 'Ie7Ywgwfxxo']
-  },
-  cassandrabankson: {
-    name: '@cassandrabankson',
-    breadcrumb: 'cassandra bankson',
-    description: [
-      'Cassandra Bankson is a licensed medical aesthetician and acne-positive advocate from San Francisco who turned her biggest insecurity into her platform. At fourteen, severe cystic acne covered 90% of her face. She was pulled from school due to bullying and completed her education with a private tutor.',
-      'Her signature style combines clinical skincare expertise with raw vulnerability, featuring before-and-after reveals, ingredient deep-dives, and celebrity routine reactions. Her breakthrough video showing her bare skin transformation garnered 28 million views and media features from Good Morning America to Vogue. She\'s spent 14+ years studying cosmetic chemistry and now calls herself an "Acne Warrior" helping others embrace and care for their skin through science-backed routines.'
-    ],
-    stats: [
-      { value: '2.4m', label: 'subscribers' },
-      { value: '178m+', label: 'total views' },
-      { value: '18-34', label: 'core demo' },
-      { value: 'US', label: 'top region' }
-    ],
-    videos: ['X4h364JPPVc', 'csCdlDhAgso', 'd77Sqiji4OY']
-  },
-  jeanelleats: {
-    name: '@jeanelleats',
-    breadcrumb: 'jeanelle castro',
-    description: [
-      'Jeanelle Castro is a Filipino-American food and travel creator who moved from the Philippines to California at age eight. Based in the US, she started her channel in 2016 with a mission to make cooking feel accessible to people afraid to experiment in the kitchen.',
-      'Her signature style combines quick-hit food content with cultural storytelling, featuring everything from Spam musubi tutorials to global street food adventures. She launched MyMusubi, a product that lets people create perfectly shaped musubi at home. Her most-watched videos include "Is peas and corn still a thing?" and "How to keep pizza dough from sticking," each pulling millions of views through relatable, snackable content.'
-    ],
-    stats: [
-      { value: '1.9m', label: 'subscribers' },
-      { value: '1.25b+', label: 'total views' },
-      { value: '25-44', label: 'core demo' },
-      { value: 'US', label: 'top region' }
-    ],
-    videos: ['lOYXrhi42_Q', 'uJBQfZEplpg', 'Kps7CFBr0-g']
-  },
-  andymorris: {
-    name: '@andymorris',
-    breadcrumb: 'andy morris',
-    description: [
-      'Andy Morris is a pianist and classical crossover artist from Bloomington, Indiana who turned TikTok piano challenges into a multi-platform music career. Born in 1998, he studied at Indiana University\'s Kelley School of Business before going full-time creator.',
-      'His signature style combines viral piano performances with intimate fan interaction, taking song requests live and turning them into polished covers. His cafeteria performance of Coldplay\'s "Viva La Vida" pulled 6.9 million YouTube views. He\'s released original arrangements on Spotify (857K monthly listeners) and built a sheet music business alongside his content. His dog Coco makes regular appearances.'
-    ],
-    stats: [
-      { value: '5m', label: 'subscribers' },
-      { value: '166m+', label: 'total likes' },
-      { value: '18-34', label: 'core demo' },
-      { value: 'US', label: 'top region' }
-    ],
-    videos: ['zhSx7i44tjc', 'S2AdAFFq24M', '6CwFngCj3xA']
   },
   calebhammer: {
     name: '@calebhammer',
     breadcrumb: 'caleb hammer',
     description: [
-      'Caleb Hammer is a personal finance educator from Kalamazoo, Michigan who hosts Financial Audit, described as "Jerry Springer meets Dave Ramsey." Based in Austin, Texas, he started the show in 2022 after clawing his way out of $69,500 in debt himself.',
-      'His signature style combines tough-love accountability with genuine compassion, auditing real guests\' bank statements and spending habits live on camera. He recently signed with CAA and became the largest membership channel on YouTube. Notable guests have included Michigan Governor Gretchen Whitmer. His DollarWise budgeting app extends the show\'s mission beyond content.'
+      'Austin-based creator behind Financial Audit, the viral series best described as "Jerry Springer meets Dave Ramsey." Caleb\'s unflinching approach to personal finance, where guests bare their bank statements and get brutally honest advice, has turned financial literacy into must-watch content.',
+      'With CAA backing and a growing media empire, Caleb\'s proving that tough love sells, and that Americans are desperate for someone to tell them the truth about their money.'
     ],
     stats: [
-      { value: '2.7m', label: 'subscribers' },
-      { value: '2.4b', label: 'total views' },
+      { value: '2.7M', label: 'subscribers' },
+      { value: '2.4B+', label: 'total views' },
       { value: '25-44', label: 'core demo' },
       { value: 'US', label: 'top region' }
     ],
     videos: ['Y60e5Q2EYf0', 'nGj_iUGzNBM', 'icNanVDqpL0']
   },
+  jesser: {
+    name: '@jesser',
+    breadcrumb: 'jesser',
+    description: [
+      'LA-based basketball content king who turned NBA 2K gameplay into a media empire. Three-time Streamy Award winner for Sports Creator of the Year, Jesser has collaborated with Giannis, Damian Lillard, and James Harden, and sat courtside as a judge at the 2025 NBA Slam Dunk Contest.',
+      'With an official NBA apparel partnership and CAA representation, he\'s the blueprint for how gaming creators cross over into real-world sports legitimacy. Member of 2HYPE and 100 Thieves.'
+    ],
+    stats: [
+      { value: '32M', label: 'subscribers' },
+      { value: '7.9B+', label: 'total views' },
+      { value: 'Gen Z Male', label: 'core demo' },
+      { value: 'US', label: 'top region' }
+    ],
+    videos: ['A94VYOssTF8', 'RqnbCPEXE-M', 'Ip2b0YeDMxI']
+  },
   jadroppingscience: {
     name: '@jadroppingscience',
     breadcrumb: 'james andrews',
     description: [
-      'James Andrews is an educational YouTuber and Cal Poly graduate who makes science digestible through punchy short-form content. Based in Portland, he launched his channel in November 2020 and uploaded his first Short, "How to deal with getting impaled," in March 2021 (33M+ views).',
-      'His signature style combines quick science facts with visual hooks and dry humor, featuring series like "2 Truths & Trash" now in its fourth season. He\'s turned his format into a physical product with the "2 Truths & Trash Science Trivia Pack." His content covers everything from laser physics demonstrations to party-trick science explainers.'
+      'Portland-based educational creator turning complex science into binge-worthy content. His signature style (deadpan delivery meets absurdist scenarios) makes learning feel like entertainment.',
+      'Breakout hit "How to deal with getting impaled" racked up 33M+ views and established his lane: morbid curiosity meets genuine utility. He\'s building the next generation of science communicators, one unhinged hypothetical at a time.'
     ],
     stats: [
-      { value: '2.17m', label: 'subscribers' },
-      { value: '1.6b', label: 'total views' },
-      { value: '13-34', label: 'core demo' },
+      { value: '2.17M', label: 'subscribers' },
+      { value: '1.6B+', label: 'total views' },
+      { value: '18-34', label: 'core demo' },
       { value: 'US', label: 'top region' }
     ],
     videos: ['wlZCcLFzoC0', 'y0_fFuEpz5E', 'd87CjFIlCGw']
   },
-  rogerwakefield: {
-    name: '@rogerwakefield',
-    breadcrumb: 'roger wakefield',
+  sticks: {
+    name: '@Sticks',
+    breadcrumb: 'sticks',
     description: [
-      'Roger Wakefield is a Texas Master Plumber with 40+ years of experience who built the largest plumbing YouTube channel in the world. Based in Richardson, Texas, he started making videos in 2018 after spending $4,000/month on marketing that wasn\'t working.',
-      'His signature style combines practical DIY tutorials with trade advocacy, teaching both homeowners and aspiring plumbers. He went from 361 subscribers his first year to selling his plumbing company and going full-time creator. He founded The Trades Academy to recruit the next generation into construction, driven by his goal to fill hundreds of thousands of open trade jobs. His content gains 1,000+ subscribers daily.'
+      'Australian-American filmmaking duo Lucas and Curtis Nicotra are redefining creator content with Hollywood-level production. Known for making cinematic trailers for creators like Emma Chamberlain, Ryan Trahan, and MatPat, they\'ve graduated to full branded productions, most recently helming MrBeast\'s Feastables "mini movie."',
+      'Their mission: make a feature film about MrBeast and release it in theaters. They\'re not waiting for Hollywood\'s permission.'
     ],
     stats: [
-      { value: '650k', label: 'subscribers' },
-      { value: '125m', label: 'total views' },
-      { value: '35-54', label: 'core demo' },
+      { value: '1.1M', label: 'subscribers' },
+      { value: '53M+', label: 'total views' },
+      { value: 'Creator/Filmmaker Audience', label: 'core demo' },
+      { value: 'US/Australia', label: 'top region' }
+    ],
+    videos: ['NvTduUDqozE', 'Q9yK7OPkdzc', '6jQw52XTvK4']
+  },
+  jacksfilms: {
+    name: '@jacksfilms',
+    breadcrumb: 'jacksfilms',
+    description: [
+      'John Patrick Douglass has been a YouTube institution since 2006, nearly two decades of parodies, sketch comedy, and the iconic Yesterday I Asked You (YIAY) series. A 2018 Shorty Award winner for YouTuber of the Year, JacksFilms built his empire on community interaction and sharp comedic timing.',
+      'He\'s outlasted algorithm shifts, platform pivots, and countless trends. Longevity is rare in the creator economy; Jack\'s the blueprint.'
+    ],
+    stats: [
+      { value: '5M', label: 'subscribers' },
+      { value: '2.8B+', label: 'total views' },
+      { value: '18-34', label: 'core demo' },
       { value: 'US', label: 'top region' }
     ],
-    videos: ['hibRt6dIBHM', 'zIp-qmIJ3Cs', 'jw15b1RacP0']
+    videos: ['xDDxe_2AUEQ', 'dFbFHIsy_-c', 'CnnMrQaHupk']
+  },
+  cassandrabankson: {
+    name: '@cassandraBankson',
+    breadcrumb: 'cassandra bankson',
+    description: [
+      'San Francisco-based medical aesthetician and acne-positive advocate who turned her struggle with severe cystic acne into a skincare education empire. Her 2010 breakthrough video showing her bare skin transformation pulled 28M+ views and helped destigmatize skin conditions globally.',
+      'Now a licensed professional, Cassandra bridges the gap between clinical expertise and accessible beauty content, proving that vulnerability can be a business strategy.'
+    ],
+    stats: [
+      { value: '2.4M', label: 'subscribers' },
+      { value: '178M+', label: 'total views' },
+      { value: '18-34 Female', label: 'core demo' },
+      { value: 'US', label: 'top region' }
+    ],
+    videos: ['X4h364JPPVc', 'csCdlDhAgso', 'd77Sqiji4OY']
+  },
+  samandcolby: {
+    name: '@samandcolby',
+    breadcrumb: 'sam and colby',
+    description: [
+      'Sam Golbach and Colby Brock turned urban exploration and paranormal investigation into appointment viewing. Their signature series (Stanley Hotel, Hell Week, The Conjuring House) blend horror entertainment with genuine friendship chemistry.',
+      'With their XPLR clothing line and a fanbase that rivals traditional media audiences, they\'ve proven that fear sells when you\'ve got the right hosts. Feature-length investigations averaging 90+ minutes regularly pull 10M+ views.'
+    ],
+    stats: [
+      { value: '15.3M', label: 'subscribers' },
+      { value: '2.3B+', label: 'total views' },
+      { value: 'Gen Z', label: 'core demo' },
+      { value: 'US', label: 'top region' }
+    ],
+    videos: ['hij-U_onHXg', '9vNnBJmtBio', 'zSJRUojx3dE']
+  }
+}
+
+/**
+ * Get creator ID from current URL
+ */
+function getCreatorIdFromURL() {
+  const pathname = window.location.pathname
+  const match = pathname.match(/\/roster\/([^\/]+)\.html$/)
+  return match ? match[1] : null
+}
+
+/**
+ * Update URL when opening overlay
+ */
+function updateURLForCreator(creatorId) {
+  const newURL = `/roster/${creatorId}.html`
+  previousURL = window.location.pathname + window.location.search
+  history.pushState({ creatorId }, '', newURL)
+}
+
+/**
+ * Restore previous URL when closing overlay
+ */
+function restoreURL() {
+  if (previousURL) {
+    history.replaceState(null, '', previousURL)
+    previousURL = null
+  } else {
+    // Fallback: go back in history or go to home
+    const currentPath = window.location.pathname
+    if (currentPath.startsWith('/roster/') && currentPath.endsWith('.html')) {
+      history.replaceState(null, '', '/roster.html')
+    }
+  }
+}
+
+/**
+ * Handle browser back/forward navigation
+ */
+function handlePopState(event) {
+  const creatorId = getCreatorIdFromURL()
+  const overlay = document.getElementById('creator-page-overlay')
+  
+  if (!overlay) return
+  
+  const isOverlayOpen = overlay.getAttribute('aria-hidden') === 'false'
+  
+  if (creatorId && !isOverlayOpen) {
+    // URL has creator ID but overlay is closed - open it
+    const card = document.querySelector(`[data-creator="${creatorId}"]`)
+    if (card) {
+      openCreatorPage(card, creatorId, false) // false = don't update URL (already updated)
+    } else {
+      openCreatorPage(null, creatorId, false) // No card found, use fallback
+    }
+  } else if (!creatorId && isOverlayOpen) {
+    // URL doesn't have creator ID but overlay is open - close it
+    closeCreatorPage(false) // false = don't update URL (already updated)
   }
 }
 
@@ -165,22 +225,47 @@ export function initCreatorTransitions() {
       closeCreatorPage()
     }
   })
+
+  // Handle browser navigation
+  window.addEventListener('popstate', handlePopState)
+
+  // Check URL on initialization - open overlay if creator ID is in URL
+  const creatorIdFromURL = getCreatorIdFromURL()
+  if (creatorIdFromURL) {
+    // Wait for first paint before opening overlay
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const card = document.querySelector(`[data-creator="${creatorIdFromURL}"]`)
+        if (card) {
+          openCreatorPage(card, creatorIdFromURL, false) // false = don't update URL (already correct)
+        } else {
+          openCreatorPage(null, creatorIdFromURL, false) // No card found, use fallback
+        }
+      })
+    })
+  }
 }
 
 /**
  * Open creator page (static - no animations)
+ * @param {HTMLElement|null} sourceCard - The roster card element, or null for direct URL access
+ * @param {string} creatorId - The creator ID
+ * @param {boolean} updateURL - Whether to update the URL (default: true)
  */
-function openCreatorPage(sourceCard, creatorId) {
+function openCreatorPage(sourceCard, creatorId, updateURL = true) {
   const overlay = document.getElementById('creator-page-overlay')
   if (!overlay || isTransitioning) return
 
   isTransitioning = true
 
-  // Get source card image
-  const cardImage = sourceCard.querySelector('.roster-card__image')
-  if (!cardImage) {
-    isTransitioning = false
-    return
+  // Get source card image (if card exists)
+  let cardImage = null
+  if (sourceCard) {
+    cardImage = sourceCard.querySelector('.roster-card__image')
+    if (!cardImage) {
+      isTransitioning = false
+      return
+    }
   }
 
   // Get overlay elements
@@ -217,14 +302,36 @@ function openCreatorPage(sourceCard, creatorId) {
   // Populate overlay content
   populateCreatorContent(creatorId, data, overlay)
   
-  // Set image source
-  overlayImage.src = cardImage.src
-  overlayImage.alt = cardImage.alt || ''
+  // Set image source (from card if available, or use data)
+  if (cardImage) {
+    overlayImage.src = cardImage.src
+    overlayImage.alt = cardImage.alt || ''
+  } else {
+    // Fallback: map creator IDs to their actual image file names and extensions
+    const imageMap = {
+      'jesser': '/src/assets/images/roster/@jesser.webp',
+      'sticks': '/src/assets/images/roster/@sticks.jpg',
+      'jacksfilms': '/src/assets/images/roster/@jacksfilms.webp',
+      'jennyhoyos': '/src/assets/images/roster/jennyhoyos.png',
+      'samandcolby': '/src/assets/images/roster/samandcolby.png',
+      'calebhammer': '/src/assets/images/roster/@calebhammer.png',
+      'jadroppingscience': '/src/assets/images/roster/@jadroppingscience.png',
+      'cassandrabankson': '/src/assets/images/roster/@cassandraBankson.png'
+    }
+    
+    const imagePath = imageMap[creatorId] || `/src/assets/images/roster/${creatorId}.png`
+    overlayImage.src = imagePath
+    overlayImage.alt = data.name || `@${creatorId}`
+  }
   
-  // Set handle text from card
-  const cardHandle = sourceCard.querySelector('.roster-card__handle')
-  if (overlayHandle && cardHandle) {
-    overlayHandle.textContent = cardHandle.textContent
+  // Set handle text from card or data
+  if (sourceCard) {
+    const cardHandle = sourceCard.querySelector('.roster-card__handle')
+    if (overlayHandle && cardHandle) {
+      overlayHandle.textContent = cardHandle.textContent
+    }
+  } else if (overlayHandle) {
+    overlayHandle.textContent = data.name || `@${creatorId}`
   }
 
   // Save current scroll position
@@ -246,13 +353,20 @@ function openCreatorPage(sourceCard, creatorId) {
   if (overlayCloseBtn) overlayCloseBtn.style.opacity = '1'
   
   overlay.classList.add('creator-page-overlay--middle')
+  
+  // Update URL if requested
+  if (updateURL) {
+    updateURLForCreator(creatorId)
+  }
+  
   isTransitioning = false
 }
 
 /**
  * Close creator page
+ * @param {boolean} updateURL - Whether to update the URL (default: true)
  */
-function closeCreatorPage() {
+function closeCreatorPage(updateURL = true) {
   const overlay = document.getElementById('creator-page-overlay')
   if (!overlay || isTransitioning) return
 
@@ -270,6 +384,11 @@ function closeCreatorPage() {
   document.body.style.top = ''
   window.scrollTo({ top: savedScrollPosition, behavior: 'auto' })
   savedScrollPosition = 0
+  
+  // Restore URL if requested
+  if (updateURL) {
+    restoreURL()
+  }
   
   isTransitioning = false
 }
