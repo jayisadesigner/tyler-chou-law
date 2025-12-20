@@ -103,6 +103,27 @@ export const pageData = {
       variant: 'default'
     }
   },
+  'creatorarq-apply': {
+    hero: {
+      headline: 'Apply to CreatorArq',
+      subheadline: 'Tell us about your empire.',
+      variant: 'default'
+    },
+    body: {
+      columns: 1,
+      content: [
+        '<p>CreatorArq invests in creators building businesses that outlast algorithms. If you\'re building IP, products, or a company designed for long-term growth, we want to hear from you.</p><p>Fill out the application below and our team will review your submission. We typically respond within 2-3 weeks.</p>'
+      ],
+      variant: 'default',
+      wide: false
+    },
+    cta: {
+      headline: 'Questions?',
+      buttonText: 'Contact Us',
+      buttonLink: '/contact.html',
+      variant: 'default'
+    }
+  },
   'love-letters': {
     hero: {
       headline: 'Love Letters',

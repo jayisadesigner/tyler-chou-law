@@ -49,7 +49,11 @@
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="site-header">
   <nav class="main-nav" role="navigation" aria-label="Main navigation">
-    <a href="/" class="logo">TYLER CHOU LAW FOR CREATORS</a>
+    <a href="/" class="logo">
+      <span class="logo-line">TYLER CHOU</span>
+      <span class="logo-line">LAW FOR</span>
+      <span class="logo-line">CREATORS</span>
+    </a>
     
     <div class="nav-menu" id="mobile-menu">
       <div class="nav-column">
@@ -78,6 +82,28 @@
 </header>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     <main id="main-content">
       <!-- Hero Section - replaced at build time -->
@@ -96,7 +122,41 @@
       <div class="body-content__column"><p>Tyler Chou Law for Creators works with established YouTube creators, creator-founders building businesses, talent managers seeking high-level legal partnership, venture funds evaluating creator investments, and industry professionals who need serious representation for serious deals.</p><p>If you're here, something is at stake. Fill out the form below and the team will be in touch within 48 hours.</p></div>
     </div>
   </div>
-</section>
+      </section>
+
+      <!-- Contact Form -->
+      <section class="section section-reveal">
+        <div class="container">
+          <form id="contact-form" class="contact-form" data-netlify="true" name="contact" method="POST" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="contact" />
+            <p class="hidden">
+              <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+            </p>
+            
+            <div class="form-group">
+              <label for="name">Name *</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            
+            <div class="form-group">
+              <label for="company">Company / Channel Name</label>
+              <input type="text" id="company" name="company" />
+            </div>
+            
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" rows="6" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit</button>
+          </form>
+        </div>
+      </section>
 
       
       <!-- CTA Section - replaced at build time -->
@@ -117,6 +177,28 @@
     <p class="footer-item footer-item--right">made by sick design co.</p>
   </div>
 </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     

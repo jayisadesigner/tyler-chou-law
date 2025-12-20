@@ -17,7 +17,7 @@ const { pageData } = await import(join(projectRoot, 'src', 'data', 'pages.js'))
 
 // Paths
 const componentsDir = join(projectRoot, 'src', 'components')
-const pagesToBuild = ['index', 'about', 'services', 'contact', 'creatorarq', 'love-letters', 'roster']
+const pagesToBuild = ['index', 'about', 'services', 'contact', 'creatorarq', 'creatorarq-apply', 'love-letters', 'roster']
 
 /**
  * Load component template
@@ -109,16 +109,21 @@ async function buildPage(pageName) {
     const bodyContentTemplate = await loadComponentTemplate('body-content')
     const ctaTemplate = await loadComponentTemplate('cta-section')
     
-    // Inject header and footer (replace empty tags)
+    // Inject header and footer (replace both empty tags and existing content)
+    // Match header tag with any attributes and content, or empty header tag
+    html = html.replace(/<header[^>]*>[\s\S]*?<\/header>/g, headerTemplate)
     html = html.replace(/<header><\/header>/g, headerTemplate)
+    
     // Replace footer tag that's outside main (look for </main> followed by footer before </body>)
     const mainEndIndex = html.indexOf('</main>')
     if (mainEndIndex !== -1) {
       const afterMain = html.substring(mainEndIndex)
-      const footerReplaced = afterMain.replace(/<footer><\/footer>/, footerTemplate)
+      // Match footer tag with any attributes and content, or empty footer tag
+      const footerReplaced = afterMain.replace(/<footer[^>]*>[\s\S]*?<\/footer>/, footerTemplate)
       html = html.substring(0, mainEndIndex) + footerReplaced
     } else {
-      // Fallback: replace any empty footer tag
+      // Fallback: replace any footer tag (with content or empty)
+      html = html.replace(/<footer[^>]*>[\s\S]*?<\/footer>/g, footerTemplate)
       html = html.replace(/<footer><\/footer>/g, footerTemplate)
     }
     
