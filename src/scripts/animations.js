@@ -115,7 +115,7 @@ function initAnimations() {
 
     ScrollTrigger.create({
       trigger: paloVerdeSection,
-      start: 'top top',
+      start: 'top center',
       end: 'bottom top',
       onEnter: () => {
         gsap.set(document.body, { backgroundColor: paloVerdeColor })
@@ -135,62 +135,6 @@ function initAnimations() {
         gsap.set(document.body, { backgroundColor: defaultColor })
         document.body.classList.remove('bg-palo-verde')
       },
-    })
-  }
-
-  // Philosophy section (bone background) switching
-  const philosophySection = document.querySelector('.philosophy')
-  if (philosophySection) {
-    const boneColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--bone').trim()
-
-    // Calculate the same end point as the pinned animation to stay in sync
-    const scrollMultiplier = Math.max(2.5, Math.min(5, window.innerHeight / 250))
-    const pinnedDuration = scrollMultiplier * 100 // Percentage of viewport height
-
-    // Get nav height to determine when section is actually behind nav
-    const nav = document.querySelector('.site-header')
-    const navHeight = nav ? nav.offsetHeight : 60 // Default to 60px if nav not found
-
-    let isBoneBackground = false
-
-    ScrollTrigger.create({
-      trigger: philosophySection,
-      // Start when the section's background is actually visible behind the nav
-      // Offset by nav height plus a small buffer to ensure background is fully visible
-      start: `top ${navHeight + 20}px`,
-      end: `+=${pinnedDuration}%`, // Match the pinned animation duration
-      onEnter: () => {
-        if (!isBoneBackground) {
-          gsap.set(document.body, { backgroundColor: boneColor })
-          document.body.classList.add('bg-bone')
-          document.body.classList.remove('bg-palo-verde')
-          isBoneBackground = true
-        }
-      },
-      onLeave: () => {
-        if (isBoneBackground) {
-          gsap.set(document.body, { backgroundColor: defaultColor })
-          document.body.classList.remove('bg-bone')
-          isBoneBackground = false
-        }
-      },
-      onEnterBack: () => {
-        if (!isBoneBackground) {
-          gsap.set(document.body, { backgroundColor: boneColor })
-          document.body.classList.add('bg-bone')
-          document.body.classList.remove('bg-palo-verde')
-          isBoneBackground = true
-        }
-      },
-      onLeaveBack: () => {
-        if (isBoneBackground) {
-          gsap.set(document.body, { backgroundColor: defaultColor })
-          document.body.classList.remove('bg-bone')
-          isBoneBackground = false
-        }
-      },
-      refreshPriority: -1, // Lower priority to avoid conflicts with pinned animation
     })
   }
 
@@ -351,7 +295,21 @@ function initPhilosophyRedaction() {
       pin: true,
       pinSpacing: true,
       anticipatePin: 1,
-      onRefresh: updateDimensions
+      onRefresh: updateDimensions,
+      onEnter: () => {
+        document.body.classList.add('bg-bone')
+        document.body.classList.remove('bg-palo-verde')
+      },
+      onLeave: () => {
+        document.body.classList.remove('bg-bone')
+      },
+      onEnterBack: () => {
+        document.body.classList.add('bg-bone')
+        document.body.classList.remove('bg-palo-verde')
+      },
+      onLeaveBack: () => {
+        document.body.classList.remove('bg-bone')
+      },
     },
   })
 
