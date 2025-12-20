@@ -103,21 +103,24 @@ function initAnimations() {
   }
 
   // Animate page background color based on scroll position
+  const defaultColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--chuparosa-600').trim()
+  
+  gsap.set(document.body, { backgroundColor: defaultColor })
+
+  // Palo Verde section background switching
   if (paloVerdeSection) {
-    const defaultColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--chuparosa-800').trim()
     const paloVerdeColor = getComputedStyle(document.documentElement)
       .getPropertyValue('--palo-verde-700').trim()
 
-    gsap.set(document.body, { backgroundColor: defaultColor })
-
     ScrollTrigger.create({
       trigger: paloVerdeSection,
-      start: 'top top',
+      start: 'top center',
       end: 'bottom top',
       onEnter: () => {
         gsap.set(document.body, { backgroundColor: paloVerdeColor })
         document.body.classList.add('bg-palo-verde')
+        document.body.classList.remove('bg-bone')
       },
       onLeave: () => {
         gsap.set(document.body, { backgroundColor: defaultColor })
@@ -126,6 +129,7 @@ function initAnimations() {
       onEnterBack: () => {
         gsap.set(document.body, { backgroundColor: paloVerdeColor })
         document.body.classList.add('bg-palo-verde')
+        document.body.classList.remove('bg-bone')
       },
       onLeaveBack: () => {
         gsap.set(document.body, { backgroundColor: defaultColor })
@@ -212,24 +216,70 @@ function initPhilosophyRedaction() {
   philosophySection.style.setProperty('--philosophy-third-justify', 'start')
   philosophySection.style.setProperty('--philosophy-queen-opacity', '0')
 
-  // Measure actual text dimensions (elements are already rendered)
+  // Get spacing values from CSS variables
+  const getSpacingValue = (variableName) => {
+    const value = getComputedStyle(document.documentElement)
+      .getPropertyValue(variableName).trim()
+    // Convert rem to pixels (assuming 16px base)
+    const remValue = parseFloat(value)
+    return Math.ceil(remValue * 16) // Convert to pixels
+  }
+
+  // Measure actual text dimensions and calculate positioning
   const getDimensions = () => {
+    // Force a reflow to ensure accurate measurements
+    void contentText.offsetHeight
+    void kingText.offsetHeight
+    
     const contentRect = contentText.getBoundingClientRect()
     const kingRect = kingText.getBoundingClientRect()
+    const firstItem = contentText.closest('.philosophy-item')
+    const secondItem = kingText.closest('.philosophy-item')
+    const firstItemRect = firstItem.getBoundingClientRect()
+    const secondItemRect = secondItem.getBoundingClientRect()
+    
+    const strikethroughHeight = getSpacingValue('--space-lg')
+    const strikethroughPadding = getSpacingValue('--space-xs') // Small padding on left and right
+    
+    // Calculate left offset: text position relative to its container minus padding
+    // This positions the strikethrough to start before the text by the padding amount
+    const firstLeft = (contentRect.left - firstItemRect.left) - strikethroughPadding
+    const secondLeft = (kingRect.left - secondItemRect.left) - strikethroughPadding
+    
+    // Width = exact text width + padding on both sides (no rounding until final pixel value)
+    const firstWidth = contentRect.width + (strikethroughPadding * 2)
+    const secondWidth = kingRect.width + (strikethroughPadding * 2)
     
     return {
-      firstWidth: Math.ceil(contentRect.width * 1.05), // 5% padding for full coverage
-      firstHeight: Math.ceil(contentRect.height * 1.1), // 10% padding for height
-      secondWidth: Math.ceil(kingRect.width * 1.05),
-      secondHeight: Math.ceil(kingRect.height * 1.1),
+      firstWidth: Math.round(firstWidth), // Round to nearest pixel for clean rendering
+      firstHeight: strikethroughHeight,
+      firstLeft: Math.round(firstLeft), // Round to nearest pixel
+      secondWidth: Math.round(secondWidth), // Round to nearest pixel
+      secondHeight: strikethroughHeight,
+      secondLeft: Math.round(secondLeft), // Round to nearest pixel
     }
   }
 
-  const dims = getDimensions()
+  // Calculate dimensions - will be recalculated on resize
+  let dims = getDimensions()
+  
+  // Function to update dimensions (position and height only)
+  const updateDimensions = () => {
+    dims = getDimensions()
+    gsap.set(redactionFirst, { 
+      height: dims.firstHeight,
+      left: dims.firstLeft
+    })
+    gsap.set(redactionSecond, { 
+      height: dims.secondHeight,
+      left: dims.secondLeft
+    })
+  }
 
-  // Set initial state - boxes start at 0 width, queen text hidden
-  gsap.set(redactionFirst, { width: 0, height: dims.firstHeight })
-  gsap.set(redactionSecond, { width: 0, height: dims.secondHeight })
+  // Set initial state - boxes start at 0 width, positioned correctly, queen text hidden
+  updateDimensions()
+  gsap.set(redactionFirst, { width: 0 })
+  gsap.set(redactionSecond, { width: 0 })
   gsap.set(queenText, { opacity: 0 })
 
   // Responsive scroll duration based on viewport height
@@ -245,6 +295,21 @@ function initPhilosophyRedaction() {
       pin: true,
       pinSpacing: true,
       anticipatePin: 1,
+      onRefresh: updateDimensions,
+      onEnter: () => {
+        document.body.classList.add('bg-bone')
+        document.body.classList.remove('bg-palo-verde')
+      },
+      onLeave: () => {
+        document.body.classList.remove('bg-bone')
+      },
+      onEnterBack: () => {
+        document.body.classList.add('bg-bone')
+        document.body.classList.remove('bg-palo-verde')
+      },
+      onLeaveBack: () => {
+        document.body.classList.remove('bg-bone')
+      },
     },
   })
 
@@ -273,11 +338,67 @@ function initPhilosophyRedaction() {
   // This extends the timeline, giving more scroll distance before unpinning
   tl.to({}, { duration: 1.2 }) // Add 1.2 more timeline duration (60% more viewing time)
 
+  // Function to update dimensions on resize
+  const updateDimensionsOnResize = () => {
+    dims = getDimensions() // Update the dims variable
+    
+    // Update position and height
+    gsap.set(redactionFirst, { 
+      height: dims.firstHeight,
+      left: dims.firstLeft
+    })
+    gsap.set(redactionSecond, { 
+      height: dims.secondHeight,
+      left: dims.secondLeft
+    })
+    
+    // Get current progress to maintain visual state
+    const progress = tl.progress()
+    
+    // Update widths immediately based on current progress
+    if (progress >= 0.2) {
+      const firstProgress = Math.min(1, (progress - 0.2) / 0.8)
+      gsap.set(redactionFirst, { width: dims.firstWidth * firstProgress })
+    } else {
+      gsap.set(redactionFirst, { width: 0 })
+    }
+    
+    if (progress >= 0.35) {
+      const secondProgress = Math.min(1, (progress - 0.35) / 0.65)
+      gsap.set(redactionSecond, { width: dims.secondWidth * secondProgress })
+    } else {
+      gsap.set(redactionSecond, { width: 0 })
+    }
+    
+    // Update the timeline tween end values
+    const children = tl.getChildren()
+    const firstTween = children.find(t => t.targets && t.targets().includes(redactionFirst))
+    const secondTween = children.find(t => t.targets && t.targets().includes(redactionSecond))
+    
+    if (firstTween) {
+      firstTween.vars.width = dims.firstWidth
+      firstTween.invalidate()
+    }
+    if (secondTween) {
+      secondTween.vars.width = dims.secondWidth
+      secondTween.invalidate()
+    }
+    
+    // Invalidate timeline to force recalculation
+    tl.invalidate()
+  }
+
   // Handle resize - recalculate dimensions and refresh ScrollTrigger
-  ScrollTrigger.addEventListener('refresh', () => {
-    const newDims = getDimensions()
-    gsap.set(redactionFirst, { height: newDims.firstHeight })
-    gsap.set(redactionSecond, { height: newDims.secondHeight })
+  ScrollTrigger.addEventListener('refresh', updateDimensionsOnResize)
+  
+  // Also handle window resize directly
+  let resizeTimeout
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout)
+    resizeTimeout = setTimeout(() => {
+      updateDimensionsOnResize()
+      ScrollTrigger.refresh()
+    }, 150) // Debounce resize events
   })
 }
 

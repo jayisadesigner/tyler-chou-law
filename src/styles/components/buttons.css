@@ -105,7 +105,7 @@
 .btn--secondary.btn--on-dark:active {
   background-color: var(--gray-200);
   color: var(--obsidian);
-  border-color: #d1d1d1;
+  border-color: var(--gray-200);
 }
 
 .btn--secondary.btn--on-dark:focus,
@@ -142,7 +142,7 @@
 .btn--secondary.btn--on-light:active {
   background-color: var(--gray-200);
   color: var(--obsidian);
-  border-color: #d1d1d1;
+  border-color: var(--gray-200);
 }
 
 .btn--secondary.btn--on-light:focus,
@@ -176,17 +176,17 @@
 }
 
 .btn--tertiary.btn--on-dark:hover {
-  color: var(--chuparosa-300); /* #f8a9ac - crimson-300 */
+  color: var(--chuparosa-100); /* Accessible light red for hover */
 }
 
 .btn--tertiary.btn--on-dark:active {
-  color: var(--chuparosa-300); /* #f8a9ac - crimson-300 */
+  color: var(--chuparosa-100); /* Accessible light red for active */
 }
 
 .btn--tertiary.btn--on-dark:focus,
 .btn--tertiary.btn--on-dark:focus-visible {
   padding: var(--space-sm);
-  background-color: rgba(18, 2, 3, 0.1); /* subtle dark background */
+  background-color: var(--obsidian-10); /* subtle dark background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
   color: var(--bone);
@@ -220,7 +220,7 @@
 .btn--tertiary.btn--on-light:focus,
 .btn--tertiary.btn--on-light:focus-visible {
   padding: var(--space-sm);
-  background-color: rgba(255, 255, 245, 0.1); /* subtle light background */
+  background-color: var(--bone-10); /* subtle light background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
   color: var(--obsidian);
@@ -248,17 +248,17 @@
 }
 
 .btn--ghost.btn--on-dark:hover {
-  color: var(--chuparosa-300); /* #f8a9ac - crimson-300 */
+  color: var(--chuparosa-100); /* Accessible light red for hover */
 }
 
 .btn--ghost.btn--on-dark:active {
-  color: var(--chuparosa-300); /* #f8a9ac - crimson-300 */
+  color: var(--chuparosa-100); /* Accessible light red for active */
 }
 
 .btn--ghost.btn--on-dark:focus,
 .btn--ghost.btn--on-dark:focus-visible {
   padding: var(--space-sm);
-  background-color: rgba(18, 2, 3, 0.1); /* subtle dark background */
+  background-color: var(--obsidian-10); /* subtle dark background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
   color: var(--bone);
@@ -292,7 +292,7 @@
 .btn--ghost.btn--on-light:focus,
 .btn--ghost.btn--on-light:focus-visible {
   padding: var(--space-sm);
-  background-color: rgba(255, 255, 245, 0.1); /* subtle light background */
+  background-color: var(--bone-10); /* subtle light background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
   color: var(--obsidian);

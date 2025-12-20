@@ -40,7 +40,7 @@
   font-family: var(--font-body);
   font-size: var(--text-h5-size);
   line-height: var(--text-h5-line-height);
-  color: var(--chuparosa-300);
+  color: var(--chuparosa-100);
   text-align: center;
   margin-top: var(--space-lg);
   margin-bottom: 0;
@@ -65,14 +65,14 @@
 
 .service-card {
   padding: var(--space-xl);
-  border: 1px solid rgba(18, 2, 3, 0.1);
+  border: 1px solid var(--obsidian-10);
   border-radius: 8px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .service-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(18, 2, 3, 0.1);
+  box-shadow: 0 8px 24px var(--obsidian-10);
 }
 
 .service-card h3 {
@@ -153,7 +153,7 @@
 }
 
 .palo-verde-tree__placeholder {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--white-10);
 }
 
 /* Decorative Name Text (About only) */
@@ -203,7 +203,7 @@
 
 /* When background flips to palo-verde, change flower to desert gold */
 body.bg-palo-verde .palo-verde-flower__image {
-  color: var(--desert-gold-400); /* #ffdc1b */
+  color: var(--desert-gold-500); /* Brighter gold */
 }
 
 /* Shared Headline Styles */
@@ -280,11 +280,11 @@ body.bg-palo-verde .palo-verde-headline {
 }
 
 .about-body__column {
-  color: var(--chuparosa-300);
+  color: var(--chuparosa-100);
 }
 
 .palo-verde-body__column {
-  color: var(--chuparosa-300); /* Match about section before flip */
+  color: var(--chuparosa-100); /* Match about section before flip */
 }
 
 /* When background flips to palo-verde, change text and flower colors */
@@ -455,8 +455,8 @@ body.bg-palo-verde .palo-verde-body__column {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(18, 2, 3, 0) 12.019%,
-    rgba(18, 2, 3, 0.3) 92.308%
+    var(--obsidian-0) 12.019%,
+    var(--obsidian-30) 92.308%
   );
   pointer-events: none;
 }
@@ -483,7 +483,7 @@ body.bg-palo-verde .palo-verde-body__column {
   align-items: center;
   justify-content: center;
   overflow: visible;
-  /* Background inherits from body for animated transitions */
+  background-color: var(--bone);
 }
 
 .philosophy-container {
@@ -556,19 +556,19 @@ body.bg-palo-verde .palo-verde-body__column {
 .philosophy-text--content {
   font-size: clamp(4rem, 8vw, 153.541px); /* Responsive from 4rem to 153.541px */
   letter-spacing: -0.03em;
-  color: var(--obsidian);
+  color: var(--chuparosa-600); /* WCAG accessible red on bone background */
 }
 
 .philosophy-text--king {
   font-size: clamp(5rem, 10vw, 212.351px); /* Responsive from 5rem to 212.351px */
   letter-spacing: -0.03em;
-  color: var(--obsidian);
+  color: var(--chuparosa-600); /* WCAG accessible red on bone background */
 }
 
 .philosophy-text--queen {
   font-size: clamp(6rem, 12vw, 239.141px); /* Responsive from 6rem to 239.141px */
   letter-spacing: -0.03em;
-  color: var(--bone);
+  color: var(--obsidian);
   opacity: var(--philosophy-queen-opacity, 1); /* CSS variable with visible fallback */
   visibility: visible; /* Keep element in layout flow to maintain grid height */
 }
@@ -576,7 +576,7 @@ body.bg-palo-verde .palo-verde-body__column {
 /* Philosophy Redaction Boxes - Hidden by default (fallback) */
 .philosophy-redaction {
   position: absolute;
-  background-color: var(--obsidian);
+  background-color: var(--chuparosa-600); /* Red strikethrough color matching text */
   z-index: 2;
   width: var(--philosophy-redaction-width, 0); /* CSS variable with hidden fallback */
   height: var(--philosophy-redaction-height, 0); /* CSS variable with hidden fallback */
@@ -586,24 +586,24 @@ body.bg-palo-verde .palo-verde-body__column {
 
 .philosophy-redaction--first {
   position: absolute;
-  left: 0;
-  top: 0;
-  max-width: 100%;
-  /* height set dynamically via JS or CSS variable */
+  /* left position set dynamically via JS to align with text */
+  top: 50%;
+  transform: translateY(-50%);
+  /* width and height set dynamically via JS */
 }
 
 .philosophy-redaction--second {
   position: absolute;
-  left: 0;
-  top: 0;
-  max-width: 100%;
-  /* height set dynamically via JS or CSS variable */
+  /* left position set dynamically via JS to align with text */
+  top: 50%;
+  transform: translateY(-50%);
+  /* width and height set dynamically via JS */
 }
 
 /* Credentials Section */
 .credentials {
   position: relative;
-  background-color: var(--chuparosa-800); /* #932125 */
+  background-color: var(--chuparosa-600);
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
@@ -775,7 +775,7 @@ body.bg-palo-verde .palo-verde-body__column {
 /* CTA Videos Section */
 .cta-videos {
   position: relative;
-  background-color: var(--chuparosa-800); /* #932125 */
+  background-color: var(--chuparosa-600);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -830,7 +830,7 @@ body.bg-palo-verde .palo-verde-body__column {
 .disclaimer {
   position: relative;
   width: 100%;
-  background-color: var(--chuparosa-900);
+  background-color: var(--chuparosa-600);
   z-index: 1; /* Below other sections but above footer */
 }
 
@@ -983,11 +983,11 @@ body.bg-palo-verde .palo-verde-body__column {
 
 .service-card:hover {
   box-shadow: 
-    0px 447px 125px 0px rgba(66, 13, 15, 0.01),
-    0px 286px 114px 0px rgba(66, 13, 15, 0.05),
-    0px 161px 97px 0px rgba(66, 13, 15, 0.18),
-    0px 72px 72px 0px rgba(66, 13, 15, 0.3),
-    0px 18px 39px 0px rgba(66, 13, 15, 0.34);
+    0px 447px 125px 0px var(--chuparosa-950-01),
+    0px 286px 114px 0px var(--chuparosa-950-05),
+    0px 161px 97px 0px var(--chuparosa-950-18),
+    0px 72px 72px 0px var(--chuparosa-950-30),
+    0px 18px 39px 0px var(--chuparosa-950-34);
 }
 
 .service-card__title {
@@ -1005,7 +1005,7 @@ body.bg-palo-verde .palo-verde-body__column {
   font-size: 1.414rem; /* 22.62px */
   font-weight: 400;
   line-height: 1.2;
-  color: var(--chuparosa-300);
+  color: var(--chuparosa-100);
   margin: 0;
   flex: 1;
 }
@@ -1544,7 +1544,7 @@ body.bg-palo-verde .palo-verde-body__column {
 .creator-page-overlay {
   position: fixed;
   inset: 0;
-  background-color: var(--chuparosa-800);
+  background-color: var(--chuparosa-600);
   z-index: 9999;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1731,7 +1731,7 @@ body.bg-palo-verde .palo-verde-body__column {
 .creator-page-overlay__image-scrim {
   position: absolute;
   inset: 0;
-  background-color: rgba(18, 2, 3, 0.3); /* Fallback for older browsers */
+  background-color: var(--obsidian-30); /* Fallback for older browsers */
   background-color: color-mix(in srgb, var(--obsidian) 30%, transparent);
   pointer-events: none;
 }
@@ -1780,7 +1780,7 @@ body.bg-palo-verde .palo-verde-body__column {
   font-family: var(--font-body);
   font-size: 1.375rem; /* 22px */
   line-height: 1.2;
-  color: var(--chuparosa-300);
+  color: var(--chuparosa-100);
   margin: 0;
 }
 

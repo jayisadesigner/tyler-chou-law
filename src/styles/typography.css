@@ -41,7 +41,7 @@ body {
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
   color: var(--chuparosa-100);
-  background-color: var(--chuparosa-800);
+  background-color: var(--chuparosa-600);
 }
 
 /* Headings */

@@ -15,6 +15,9 @@ dist-ssr
 # Content (blog posts are tracked, but generated files are not)
 content/blog/*.md.bak
 
+# Color generation backups
+*.css.backup.*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
