@@ -643,7 +643,7 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 .credentials-card-inner {
-  padding: var(--space-2xl) var(--space-xl);
+  padding: var(--space-xl) var(--space-lg);
 }
 
 .credentials-header-section {
@@ -680,7 +680,7 @@ body.bg-palo-verde .palo-verde-body__column {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-xs);
   height: 132px;
 }
 
@@ -724,7 +724,7 @@ body.bg-palo-verde .palo-verde-body__column {
   letter-spacing: -0.02em; /* -1.2792px */
   color: var(--obsidian);
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
   margin: 0 0 var(--space-md) 0; /* Reduced bottom margin */
 }
 
@@ -761,7 +761,6 @@ body.bg-palo-verde .palo-verde-body__column {
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: rotate(17.822deg);
   z-index: 10;
   pointer-events: none;
 }
@@ -880,8 +879,8 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 @media (max-width: 768px) {
-  .credentials-card {
-    padding: var(--space-lg) var(--space-md);
+  .credentials-card-inner {
+    padding: var(--space-xl) var(--space-lg);
   }
   
   .credentials-title {
