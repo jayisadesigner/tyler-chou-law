@@ -154,46 +154,47 @@
 }
 
 /* Navigation color adjustments for different backgrounds */
+/* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
 body:not(.bg-palo-verde):not(.bg-bone) .logo-line,
 body:not(.bg-palo-verde):not(.bg-bone) .nav-column a {
-  color: var(--chuparosa-100);
+  color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
 body:not(.bg-palo-verde):not(.bg-bone) .logo-image {
-  color: var(--chuparosa-100);
+  color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
 body:not(.bg-palo-verde):not(.bg-bone) .hamburger-line {
-  background-color: var(--obsidian);
+  background-color: var(--nav-text-on-chuparosa-600, var(--obsidian));
 }
 
 /* Palo Verde background: light text on dark green background */
 body.bg-palo-verde .logo-line,
 body.bg-palo-verde .nav-column a {
-  color: var(--palo-verde-50);
+  color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
 }
 
 body.bg-palo-verde .logo-image {
-  color: var(--palo-verde-50);
+  color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
 }
 
 body.bg-palo-verde .hamburger-line {
-  background-color: var(--palo-verde-50);
+  background-color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
 }
 
 /* Bone background: dark text on light background */
 body.bg-bone .logo-line,
 body.bg-bone .nav-column a {
-  color: var(--obsidian);
+  color: var(--nav-text-on-bone, var(--obsidian));
 }
 
 body.bg-bone .logo-image {
-  color: var(--obsidian);
+  color: var(--nav-text-on-bone, var(--obsidian));
 }
 
 body.bg-bone .hamburger-line {
-  background-color: var(--obsidian);
+  background-color: var(--nav-text-on-bone, var(--obsidian));
 }
 
 /* Mobile Styles */
@@ -233,15 +234,15 @@ body.bg-bone .hamburger-line {
   
   /* Mobile hamburger color adjustments */
   body:not(.bg-palo-verde):not(.bg-bone) .hamburger-line {
-    background-color: var(--chuparosa-100);
+    background-color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
   }
   
   body.bg-palo-verde .hamburger-line {
-    background-color: var(--palo-verde-50);
+    background-color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
   }
   
   body.bg-bone .hamburger-line {
-    background-color: var(--obsidian);
+    background-color: var(--nav-text-on-bone, var(--obsidian));
   }
   
   /* Mobile menu overlay */

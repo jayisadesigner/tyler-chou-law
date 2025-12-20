@@ -148,27 +148,47 @@ function initAnimations() {
     const scrollMultiplier = Math.max(2.5, Math.min(5, window.innerHeight / 250))
     const pinnedDuration = scrollMultiplier * 100 // Percentage of viewport height
 
+    // Get nav height to determine when section is actually behind nav
+    const nav = document.querySelector('.site-header')
+    const navHeight = nav ? nav.offsetHeight : 60 // Default to 60px if nav not found
+
+    let isBoneBackground = false
+
     ScrollTrigger.create({
       trigger: philosophySection,
-      start: 'top top',
+      // Start when the section's background is actually visible behind the nav
+      // Offset by nav height plus a small buffer to ensure background is fully visible
+      start: `top ${navHeight + 20}px`,
       end: `+=${pinnedDuration}%`, // Match the pinned animation duration
       onEnter: () => {
-        gsap.set(document.body, { backgroundColor: boneColor })
-        document.body.classList.add('bg-bone')
-        document.body.classList.remove('bg-palo-verde')
+        if (!isBoneBackground) {
+          gsap.set(document.body, { backgroundColor: boneColor })
+          document.body.classList.add('bg-bone')
+          document.body.classList.remove('bg-palo-verde')
+          isBoneBackground = true
+        }
       },
       onLeave: () => {
-        gsap.set(document.body, { backgroundColor: defaultColor })
-        document.body.classList.remove('bg-bone')
+        if (isBoneBackground) {
+          gsap.set(document.body, { backgroundColor: defaultColor })
+          document.body.classList.remove('bg-bone')
+          isBoneBackground = false
+        }
       },
       onEnterBack: () => {
-        gsap.set(document.body, { backgroundColor: boneColor })
-        document.body.classList.add('bg-bone')
-        document.body.classList.remove('bg-palo-verde')
+        if (!isBoneBackground) {
+          gsap.set(document.body, { backgroundColor: boneColor })
+          document.body.classList.add('bg-bone')
+          document.body.classList.remove('bg-palo-verde')
+          isBoneBackground = true
+        }
       },
       onLeaveBack: () => {
-        gsap.set(document.body, { backgroundColor: defaultColor })
-        document.body.classList.remove('bg-bone')
+        if (isBoneBackground) {
+          gsap.set(document.body, { backgroundColor: defaultColor })
+          document.body.classList.remove('bg-bone')
+          isBoneBackground = false
+        }
       },
       refreshPriority: -1, // Lower priority to avoid conflicts with pinned animation
     })

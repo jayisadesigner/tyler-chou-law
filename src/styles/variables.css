@@ -100,6 +100,32 @@
 }
 
 
+/* Nav/Footer Text Color Mappings (WCAG AA) */
+/* Automatically generated - best contrast colors for each background */
+:root {
+  --nav-text-on-bone: var(--obsidian);
+  --nav-text-on-obsidian: var(--bone);
+  --nav-text-on-black: var(--bone);
+  --nav-text-on-white: var(--obsidian);
+  --nav-text-on-chuparosa-600: var(--bone);
+  --nav-text-on-chuparosa-700: var(--bone);
+  --nav-text-on-chuparosa-800: var(--bone);
+  --nav-text-on-chuparosa-900: var(--bone);
+  --nav-text-on-lupine-600: var(--bone);
+  --nav-text-on-lupine-700: var(--bone);
+  --nav-text-on-lupine-800: var(--bone);
+  --nav-text-on-lupine-900: var(--bone);
+  --nav-text-on-palo-verde-600: var(--obsidian);
+  --nav-text-on-palo-verde-700: var(--bone);
+  --nav-text-on-palo-verde-800: var(--bone);
+  --nav-text-on-palo-verde-900: var(--bone);
+  --nav-text-on-desert-gold-600: var(--obsidian);
+  --nav-text-on-desert-gold-700: var(--bone);
+  --nav-text-on-desert-gold-800: var(--bone);
+  --nav-text-on-desert-gold-900: var(--bone);
+}
+
+
 /* Spacing System */
 :root {
   --space-xs: 0.5rem;   /* 8px */
