@@ -203,7 +203,7 @@
 
 /* When background flips to palo-verde, change flower to desert gold */
 body.bg-palo-verde .palo-verde-flower__image {
-  color: var(--desert-gold-400); /* #ffdc1b */
+  color: var(--desert-gold-500); /* Brighter gold */
 }
 
 /* Shared Headline Styles */
@@ -483,7 +483,7 @@ body.bg-palo-verde .palo-verde-body__column {
   align-items: center;
   justify-content: center;
   overflow: visible;
-  /* Background inherits from body for animated transitions */
+  background-color: var(--bone);
 }
 
 .philosophy-container {
@@ -556,19 +556,19 @@ body.bg-palo-verde .palo-verde-body__column {
 .philosophy-text--content {
   font-size: clamp(4rem, 8vw, 153.541px); /* Responsive from 4rem to 153.541px */
   letter-spacing: -0.03em;
-  color: var(--obsidian);
+  color: var(--chuparosa-600); /* WCAG accessible red on bone background */
 }
 
 .philosophy-text--king {
   font-size: clamp(5rem, 10vw, 212.351px); /* Responsive from 5rem to 212.351px */
   letter-spacing: -0.03em;
-  color: var(--obsidian);
+  color: var(--chuparosa-600); /* WCAG accessible red on bone background */
 }
 
 .philosophy-text--queen {
   font-size: clamp(6rem, 12vw, 239.141px); /* Responsive from 6rem to 239.141px */
   letter-spacing: -0.03em;
-  color: var(--bone);
+  color: var(--obsidian);
   opacity: var(--philosophy-queen-opacity, 1); /* CSS variable with visible fallback */
   visibility: visible; /* Keep element in layout flow to maintain grid height */
 }
@@ -576,7 +576,7 @@ body.bg-palo-verde .palo-verde-body__column {
 /* Philosophy Redaction Boxes - Hidden by default (fallback) */
 .philosophy-redaction {
   position: absolute;
-  background-color: var(--obsidian);
+  background-color: var(--chuparosa-600); /* Red strikethrough color matching text */
   z-index: 2;
   width: var(--philosophy-redaction-width, 0); /* CSS variable with hidden fallback */
   height: var(--philosophy-redaction-height, 0); /* CSS variable with hidden fallback */
@@ -586,18 +586,18 @@ body.bg-palo-verde .palo-verde-body__column {
 
 .philosophy-redaction--first {
   position: absolute;
-  left: 0;
-  top: 0;
-  max-width: 100%;
-  /* height set dynamically via JS or CSS variable */
+  /* left position set dynamically via JS to align with text */
+  top: 50%;
+  transform: translateY(-50%);
+  /* width and height set dynamically via JS */
 }
 
 .philosophy-redaction--second {
   position: absolute;
-  left: 0;
-  top: 0;
-  max-width: 100%;
-  /* height set dynamically via JS or CSS variable */
+  /* left position set dynamically via JS to align with text */
+  top: 50%;
+  transform: translateY(-50%);
+  /* width and height set dynamically via JS */
 }
 
 /* Credentials Section */
