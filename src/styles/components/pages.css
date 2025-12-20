@@ -40,7 +40,7 @@
   font-family: var(--font-body);
   font-size: var(--text-h5-size);
   line-height: var(--text-h5-line-height);
-  color: var(--chuparosa-300);
+  color: var(--chuparosa-100);
   text-align: center;
   margin-top: var(--space-lg);
   margin-bottom: 0;
@@ -65,14 +65,14 @@
 
 .service-card {
   padding: var(--space-xl);
-  border: 1px solid rgba(18, 2, 3, 0.1);
+  border: 1px solid var(--obsidian-10);
   border-radius: 8px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .service-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(18, 2, 3, 0.1);
+  box-shadow: 0 8px 24px var(--obsidian-10);
 }
 
 .service-card h3 {
@@ -153,7 +153,7 @@
 }
 
 .palo-verde-tree__placeholder {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--white-10);
 }
 
 /* Decorative Name Text (About only) */
@@ -280,11 +280,11 @@ body.bg-palo-verde .palo-verde-headline {
 }
 
 .about-body__column {
-  color: var(--chuparosa-300);
+  color: var(--chuparosa-100);
 }
 
 .palo-verde-body__column {
-  color: var(--chuparosa-300); /* Match about section before flip */
+  color: var(--chuparosa-100); /* Match about section before flip */
 }
 
 /* When background flips to palo-verde, change text and flower colors */
@@ -455,8 +455,8 @@ body.bg-palo-verde .palo-verde-body__column {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(18, 2, 3, 0) 12.019%,
-    rgba(18, 2, 3, 0.3) 92.308%
+    var(--obsidian-0) 12.019%,
+    var(--obsidian-30) 92.308%
   );
   pointer-events: none;
 }
@@ -603,7 +603,7 @@ body.bg-palo-verde .palo-verde-body__column {
 /* Credentials Section */
 .credentials {
   position: relative;
-  background-color: var(--chuparosa-800); /* #932125 */
+  background-color: var(--chuparosa-600);
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
@@ -775,7 +775,7 @@ body.bg-palo-verde .palo-verde-body__column {
 /* CTA Videos Section */
 .cta-videos {
   position: relative;
-  background-color: var(--chuparosa-800); /* #932125 */
+  background-color: var(--chuparosa-600);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -830,7 +830,7 @@ body.bg-palo-verde .palo-verde-body__column {
 .disclaimer {
   position: relative;
   width: 100%;
-  background-color: var(--chuparosa-900);
+  background-color: var(--chuparosa-600);
   z-index: 1; /* Below other sections but above footer */
 }
 
@@ -983,11 +983,11 @@ body.bg-palo-verde .palo-verde-body__column {
 
 .service-card:hover {
   box-shadow: 
-    0px 447px 125px 0px rgba(66, 13, 15, 0.01),
-    0px 286px 114px 0px rgba(66, 13, 15, 0.05),
-    0px 161px 97px 0px rgba(66, 13, 15, 0.18),
-    0px 72px 72px 0px rgba(66, 13, 15, 0.3),
-    0px 18px 39px 0px rgba(66, 13, 15, 0.34);
+    0px 447px 125px 0px var(--chuparosa-950-01),
+    0px 286px 114px 0px var(--chuparosa-950-05),
+    0px 161px 97px 0px var(--chuparosa-950-18),
+    0px 72px 72px 0px var(--chuparosa-950-30),
+    0px 18px 39px 0px var(--chuparosa-950-34);
 }
 
 .service-card__title {
@@ -1005,7 +1005,7 @@ body.bg-palo-verde .palo-verde-body__column {
   font-size: 1.414rem; /* 22.62px */
   font-weight: 400;
   line-height: 1.2;
-  color: var(--chuparosa-300);
+  color: var(--chuparosa-100);
   margin: 0;
   flex: 1;
 }
@@ -1544,7 +1544,7 @@ body.bg-palo-verde .palo-verde-body__column {
 .creator-page-overlay {
   position: fixed;
   inset: 0;
-  background-color: var(--chuparosa-800);
+  background-color: var(--chuparosa-600);
   z-index: 9999;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1731,7 +1731,7 @@ body.bg-palo-verde .palo-verde-body__column {
 .creator-page-overlay__image-scrim {
   position: absolute;
   inset: 0;
-  background-color: rgba(18, 2, 3, 0.3); /* Fallback for older browsers */
+  background-color: var(--obsidian-30); /* Fallback for older browsers */
   background-color: color-mix(in srgb, var(--obsidian) 30%, transparent);
   pointer-events: none;
 }
@@ -1780,7 +1780,7 @@ body.bg-palo-verde .palo-verde-body__column {
   font-family: var(--font-body);
   font-size: 1.375rem; /* 22px */
   line-height: 1.2;
-  color: var(--chuparosa-300);
+  color: var(--chuparosa-100);
   margin: 0;
 }
 

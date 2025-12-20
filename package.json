@@ -9,7 +9,8 @@
     "build:creators": "node scripts/build-creators.js",
     "build:pages": "node scripts/build-pages.js",
     "build": "npm run build:creators && npm run build:blog && npm run build:pages && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "colors": "node scripts/generate-colors.js"
   },
   "devDependencies": {
     "vite": "^7.2.4"

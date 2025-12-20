@@ -1,0 +1,35 @@
+{
+  "baseRed": "#B2141B",
+  "baseRedPosition": 600,
+  "palettes": {
+    "chuparosa": {
+      "hue": 355,
+      "enabled": true,
+      "description": "Power, protection, intensity"
+    },
+    "lupine": {
+      "hue": 270,
+      "enabled": true,
+      "description": "Creativity, wisdom, premium"
+    },
+    "paloVerde": {
+      "hue": 120,
+      "enabled": true,
+      "description": "Growth, resilience, life"
+    },
+    "desertGold": {
+      "hue": 45,
+      "enabled": true,
+      "description": "Achievement, value, legacy"
+    }
+  },
+  "accessibility": {
+    "enforceLevel": "AA",
+    "testPairs": [
+      ["bone", "chuparosa-600", false],
+      ["chuparosa-100", "chuparosa-600", false],
+      ["white", "chuparosa-600", false]
+    ]
+  }
+}
+
