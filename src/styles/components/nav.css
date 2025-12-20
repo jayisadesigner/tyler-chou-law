@@ -5,11 +5,17 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 99999; /* Very high z-index to stay above all pinned sections and GSAP wrappers */
   background-color: transparent;
   pointer-events: none;
   /* Ensure header is always inspectable - add minimal background for dev tools */
   min-height: 60px;
+  will-change: transform; /* Optimize for transforms */
+}
+
+/* Utility class for color detection - ensures nav doesn't block elementFromPoint */
+.site-header.nav-detecting {
+  pointer-events: none;
 }
 
 .main-nav {
@@ -186,15 +192,15 @@ body.bg-palo-verde .hamburger-line {
 /* Bone background: dark text on light background */
 body.bg-bone .logo-line,
 body.bg-bone .nav-column a {
-  color: var(--nav-text-on-bone, var(--obsidian));
+  color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */
 }
 
 body.bg-bone .logo-image {
-  color: var(--nav-text-on-bone, var(--obsidian));
+  color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */
 }
 
 body.bg-bone .hamburger-line {
-  background-color: var(--nav-text-on-bone, var(--obsidian));
+  background-color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */
 }
 
 /* Mobile Styles */
