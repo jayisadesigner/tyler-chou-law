@@ -30,34 +30,35 @@
 }
 
 /* Footer color adjustments for different backgrounds */
+/* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
 body:not(.bg-palo-verde):not(.bg-bone) .site-footer {
   background-color: var(--chuparosa-600);
-  color: var(--chuparosa-100);
+  color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
 body:not(.bg-palo-verde):not(.bg-bone) .footer-item {
-  color: var(--chuparosa-100);
+  color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
 /* Palo Verde background: light text on dark green background */
 body.bg-palo-verde .site-footer {
   background-color: var(--palo-verde-700);
-  color: var(--palo-verde-50);
+  color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
 }
 
 body.bg-palo-verde .footer-item {
-  color: var(--palo-verde-50);
+  color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
 }
 
 /* Bone background: dark text on light background */
 body.bg-bone .site-footer {
   background-color: var(--bone);
-  color: var(--obsidian);
+  color: var(--nav-text-on-bone, var(--obsidian));
 }
 
 body.bg-bone .footer-item {
-  color: var(--obsidian);
+  color: var(--nav-text-on-bone, var(--obsidian));
 }
 
 .footer-item--left {

@@ -189,9 +189,101 @@ async function parseCSSFile() {
 }
 
 /**
+ * Generate nav/footer text color mappings based on background colors
+ * Automatically finds best WCAG AA compliant colors
+ */
+function generateNavColorMappings(allColors, generatedPalettes) {
+  // Convert camelCase to kebab-case helper
+  const toKebabCase = (str) => str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
+  
+  // Automatically find all potential background colors
+  const backgrounds = ['bone', 'obsidian', 'black', 'white']
+  
+  // Add all palette colors at positions 600, 700, 800, 900 (typical background positions)
+  Object.keys(generatedPalettes).forEach(paletteName => {
+    const cssName = toKebabCase(paletteName)
+    ;['600', '700', '800', '900'].forEach(pos => {
+      if (generatedPalettes[paletteName][pos]) {
+        backgrounds.push(`${cssName}-${pos}`)
+      }
+    })
+  })
+  
+  let css = '\n/* Nav/Footer Text Color Mappings (WCAG AA) */\n'
+  css += '/* Automatically generated - best contrast colors for each background */\n'
+  css += ':root {\n'
+  
+  backgrounds.forEach(bgName => {
+    const bgColor = allColors[bgName]
+    if (!bgColor) return
+    
+    // Find best contrast color that meets WCAG AA (4.5:1)
+    // Prefer design system colors over pure white/black
+    let bestColor = null
+    let bestContrast = 0
+    const designSystemColors = [] // Colors from palettes
+    const baseColors = [] // Pure white/black
+    
+    Object.entries(allColors).forEach(([name, color]) => {
+      // Skip the background color itself
+      if (name === bgName) return
+      
+      const contrast = calculateContrastRatio(color, bgColor)
+      
+      // Categorize colors
+      if (name === 'white' || name === 'black') {
+        baseColors.push({ name, color, contrast })
+      } else {
+        designSystemColors.push({ name, color, contrast })
+      }
+      
+      // Prefer colors that meet WCAG AA and have highest contrast
+      if (contrast >= 4.5 && contrast > bestContrast) {
+        bestContrast = contrast
+        bestColor = name
+      }
+    })
+    
+    // If we have design system colors that meet AA, prefer those over white/black
+    if (bestColor && (bestColor === 'white' || bestColor === 'black')) {
+      const bestDesignSystem = designSystemColors
+        .filter(c => c.contrast >= 4.5)
+        .sort((a, b) => b.contrast - a.contrast)[0]
+      
+      if (bestDesignSystem && bestDesignSystem.contrast >= 4.5) {
+        bestColor = bestDesignSystem.name
+        bestContrast = bestDesignSystem.contrast
+      }
+    }
+    
+    // If no color meets AA, use highest contrast anyway
+    if (!bestColor) {
+      Object.entries(allColors).forEach(([name, color]) => {
+        if (name === bgName) return
+        const contrast = calculateContrastRatio(color, bgColor)
+        if (contrast > bestContrast) {
+          bestContrast = contrast
+          bestColor = name
+        }
+      })
+    }
+    
+    if (bestColor) {
+      // Convert color name to CSS variable format
+      const cssVarName = bestColor.replace(/-(\d+)$/, '-$1') // Keep as-is
+      const bgCssVar = bgName.replace(/-(\d+)$/, '-$1')
+      css += `  --nav-text-on-${bgCssVar}: var(--${cssVarName});\n`
+    }
+  })
+  
+  css += '}\n\n'
+  return css
+}
+
+/**
  * Generate CSS color sections
  */
-function generateColorSections(palettes, opacityVariants, config) {
+function generateColorSections(palettes, opacityVariants, config, allColors) {
   let css = ''
   
   // Base Colors section
@@ -295,7 +387,10 @@ function generateColorSections(palettes, opacityVariants, config) {
     css += '}\n\n'
   }
   
-  return css
+  // Add nav color mappings
+  const navMappings = generateNavColorMappings(allColors, palettes)
+  
+  return css + navMappings
 }
 
 /**
@@ -525,7 +620,7 @@ async function main() {
     const parsedSections = await parseCSSFile()
     
     // Generate new color sections
-    const colorSections = generateColorSections(generatedPalettes, opacityVariants, config)
+    const colorSections = generateColorSections(generatedPalettes, opacityVariants, config, allColors)
     
     // Reassemble CSS
     const newCSS = reassembleCSS(parsedSections, colorSections)
