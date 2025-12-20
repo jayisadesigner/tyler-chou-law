@@ -8,67 +8,123 @@
   --gray-200: #d1d1d1;   /* Light gray for active states */
   --gray-400: #888;      /* Medium gray for disabled states */
   --gray-600: #666;      /* Dark gray for disabled text */
+  --black: #000000;     /* Pure black */
+  --white: #FFFFFF;     /* Pure white */
+}
+
+/* Opacity Variants */
+:root {
+  /* Obsidian opacity variants */
+  --obsidian-0: rgba(18, 2, 3, 0);
+  --obsidian-10: rgba(18, 2, 3, 0.1);
+  --obsidian-20: rgba(18, 2, 3, 0.2);
+  --obsidian-30: rgba(18, 2, 3, 0.3);
+  --obsidian-50: rgba(18, 2, 3, 0.5);
+  
+  /* Bone/White opacity variants */
+  --bone-10: rgba(255, 255, 245, 0.1);
+  --white-10: rgba(255, 255, 255, 0.1);
+  
+  /* Chuparosa opacity variants (for gradients) */
+  --chuparosa-rgba-25: rgba(225, 25, 35, 0.25);
+  
+  /* Lupine opacity variants (for gradients) */
+  --lupine-rgba-25: rgba(125, 25, 225, 0.25);
+  
+  /* Desert gold opacity variants (for gradients) */
+  --desert-gold-rgba-20: rgba(225, 175, 25, 0.2);
+  
+  /* Obsidian dark variant (for video overlays) */
+  --obsidian-dark-20: rgba(13, 8, 9, 0.2);
+  --obsidian-dark-50: rgba(13, 8, 9, 0.5);
 }
 
 /* Chuparosa (Red) - Power, protection, intensity */
 :root {
-  --chuparosa-50: #fdf3f3;
-  --chuparosa-100: #fde3e4;
-  --chuparosa-200: #fcccce;
-  --chuparosa-300: #f8a9ac;
-  --chuparosa-400: #f2777b;
-  --chuparosa-500: #e74c51;  /* Primary red */
-  --chuparosa-600: #d32f34;
-  --chuparosa-700: #c4272c;
-  --chuparosa-800: #932125;
-  --chuparosa-900: #7a2225;
-  --chuparosa-950: #420d0f;
+  --chuparosa-50: #F9F6F6;
+  --chuparosa-100: #FCE3E5;
+  --chuparosa-200: #F9CDCF;
+  --chuparosa-300: #F49FA3;
+  --chuparosa-400: #ED5A61;
+  --chuparosa-500: #E11923;  /* Primary color */
+  --chuparosa-600: #B2141B;
+  --chuparosa-700: #850F15;
+  --chuparosa-800: #570A0E;
+  --chuparosa-900: #430407;
+  --chuparosa-950: #2B0305;
 }
 
 /* Lupine (Purple) - Creativity, wisdom, premium */
 :root {
-  --lupine-50: #f5f3ff;
-  --lupine-100: #ede9fe;
-  --lupine-200: #ddd6fe;
-  --lupine-300: #c4b6fc;
-  --lupine-400: #a78cf9;
-  --lupine-500: #8b5ef4;  /* Primary purple */
-  --lupine-600: #8347ec;
-  --lupine-700: #6c2ad7;
-  --lupine-800: #5a23b4;
-  --lupine-900: #4b1e94;
-  --lupine-950: #2e1164;
+  --lupine-50: #F7F6F9;
+  --lupine-100: #F0E3FC;
+  --lupine-200: #E3CDF9;
+  --lupine-300: #C99FF4;
+  --lupine-400: #A35AED;
+  --lupine-500: #7D19E1;  /* Primary color */
+  --lupine-600: #6314B3;
+  --lupine-700: #4A0F85;
+  --lupine-800: #300A57;
+  --lupine-900: #240443;
+  --lupine-950: #17032B;
 }
 
 /* Palo Verde (Green) - Growth, resilience, life */
 :root {
-  --palo-verde-50: #e8ffe6;
-  --palo-verde-100: #cefec9;
-  --palo-verde-200: #9efe98;
-  --palo-verde-300: #65f95d;
-  --palo-verde-400: #36ef2f;
-  --palo-verde-500: #11d50d;  /* Primary green */
-  --palo-verde-600: #06aa06;
-  --palo-verde-700: #0a810c;
-  --palo-verde-800: #0e6610;
-  --palo-verde-900: #115614;
-  --palo-verde-950: #033006;
+  --palo-verde-50: #F6F9F6;
+  --palo-verde-100: #E3FCE3;
+  --palo-verde-200: #CDF9CD;
+  --palo-verde-300: #9FF49F;
+  --palo-verde-400: #5AED5A;
+  --palo-verde-500: #19E119;  /* Primary color */
+  --palo-verde-600: #14B314;
+  --palo-verde-700: #0F850F;
+  --palo-verde-800: #0A570A;
+  --palo-verde-900: #044304;
+  --palo-verde-950: #032B03;
 }
 
 /* Desert Gold (Yellow/Gold) - Achievement, value, legacy */
 :root {
-  --desert-gold-50: #fffeea;
-  --desert-gold-100: #fffac5;
-  --desert-gold-200: #fff685;
-  --desert-gold-300: #ffeb46;
-  --desert-gold-400: #ffdc1b;
-  --desert-gold-500: #ffbc01;  /* Primary gold */
-  --desert-gold-600: #e29000;
-  --desert-gold-700: #bb6602;
-  --desert-gold-800: #984f08;
-  --desert-gold-900: #7c400b;
-  --desert-gold-950: #482100;
+  --desert-gold-50: #F9F8F6;
+  --desert-gold-100: #FCF6E3;
+  --desert-gold-200: #F9EECD;
+  --desert-gold-300: #F4DF9F;
+  --desert-gold-400: #EDC85A;
+  --desert-gold-500: #E1AF19;  /* Primary color */
+  --desert-gold-600: #B38B14;
+  --desert-gold-700: #85680F;
+  --desert-gold-800: #57440A;
+  --desert-gold-900: #433304;
+  --desert-gold-950: #2B2103;
 }
+
+
+/* Nav/Footer Text Color Mappings (WCAG AA) */
+/* Automatically generated - best contrast colors for each background */
+:root {
+  --nav-text-on-bone: var(--obsidian);
+  --nav-text-on-obsidian: var(--bone);
+  --nav-text-on-black: var(--bone);
+  --nav-text-on-white: var(--obsidian);
+  --nav-text-on-chuparosa-600: var(--bone);
+  --nav-text-on-chuparosa-700: var(--bone);
+  --nav-text-on-chuparosa-800: var(--bone);
+  --nav-text-on-chuparosa-900: var(--bone);
+  --nav-text-on-lupine-600: var(--bone);
+  --nav-text-on-lupine-700: var(--bone);
+  --nav-text-on-lupine-800: var(--bone);
+  --nav-text-on-lupine-900: var(--bone);
+  --nav-text-on-palo-verde-600: var(--obsidian);
+  --nav-text-on-palo-verde-700: var(--bone);
+  --nav-text-on-palo-verde-800: var(--bone);
+  --nav-text-on-palo-verde-900: var(--bone);
+  --nav-text-on-desert-gold-600: var(--obsidian);
+  --nav-text-on-desert-gold-700: var(--bone);
+  --nav-text-on-desert-gold-800: var(--bone);
+  --nav-text-on-desert-gold-900: var(--bone);
+}
+
 
 /* Spacing System */
 :root {
