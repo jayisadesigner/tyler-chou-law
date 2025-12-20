@@ -292,6 +292,7 @@ function initCredentialsShadow() {
   const credentialsCard = credentialsSection.querySelector('.credentials-card')
   const credentialsList = credentialsSection.querySelector('.credentials-list')
   const credentialsHeaderSection = credentialsSection.querySelector('.credentials-header-section')
+  const credentialsBadge = credentialsSection.querySelector('.credentials-badge')
   
   if (!credentialsCard || !credentialsList || !credentialsHeaderSection) return
 
@@ -304,9 +305,13 @@ function initCredentialsShadow() {
     '0 120px 120px 0 rgba(66, 13, 15, 0.09), ' +
     '0 30px 66px 0 rgba(66, 13, 15, 0.10)'
 
-  // Set initial state - header shadow hidden, list at starting position
+  // Set initial state - header shadow hidden, list at starting position, badge at initial rotation
   gsap.set(credentialsHeaderSection, { boxShadow: 'none' })
   gsap.set(credentialsList, { y: 0, clearProps: 'transform' })
+  if (credentialsBadge) {
+    // Clear CSS transform and set rotation to 0
+    gsap.set(credentialsBadge, { clearProps: 'transform', rotation: 0 })
+  }
 
   // Use ScrollTrigger's refresh to ensure proper calculations
   ScrollTrigger.refresh()
@@ -350,6 +355,15 @@ function initCredentialsShadow() {
         ease: 'power2.out',
         duration: 0.3,
       }, 0.15) // Start shadow animation shortly after scroll begins
+
+      // Animate badge rotation on scroll
+      if (credentialsBadge) {
+        tl.to(credentialsBadge, {
+          rotation: 30, // 0 + 30 degrees
+          ease: 'none',
+          duration: 1,
+        }, 0.1) // Start at same time as list scroll
+      }
     }
   }
 
