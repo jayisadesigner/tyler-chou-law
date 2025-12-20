@@ -17,25 +17,30 @@ if (document.readyState === 'loading') {
   initNavigation()
 }
 
-// Load header and footer components
+// Load header and footer components (dev mode only)
+// In production, these are injected at build time, so we only load if they're empty
 async function loadComponent(selector, path) {
   try {
-    const response = await fetch(path)
-    const html = await response.text()
     const element = document.querySelector(selector)
-    if (element) {
+    // Only load if element is empty (dev mode) - in production, content is already in HTML
+    if (element && !element.innerHTML.trim()) {
+      const response = await fetch(path)
+      const html = await response.text()
       element.innerHTML = html
-      // Re-initialize navigation after header is loaded
+      // Re-initialize navigation after header is loaded (dev mode only)
+      // In production, navigation is already initialized at startup (line 17)
       if (selector === 'header') {
         initNavigation()
       }
     }
+    // Note: If content already exists (production), navigation was already initialized
+    // at startup, so we don't need to call initNavigation() again here
   } catch (error) {
     console.warn(`Could not load component from ${path}:`, error)
   }
 }
 
-// Load global components
+// Load global components (only if empty - dev mode convenience)
 loadComponent('header', '/components/header.html')
 loadComponent('footer', '/components/footer.html')
 
