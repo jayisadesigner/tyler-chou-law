@@ -1,7 +1,7 @@
 /* Footer Styles */
 
 .site-footer {
-  background-color: var(--chuparosa-800); /* #932125 */
+  background-color: var(--chuparosa-600);
   color: var(--chuparosa-100);
   padding: var(--space-md) 0;
   position: relative;

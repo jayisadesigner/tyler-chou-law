@@ -15,13 +15,13 @@
 /* Base Layout */
 html {
   scroll-behavior: smooth;
-  background-color: var(--chuparosa-800); /* Prevent white flash on page load */
+  background-color: var(--chuparosa-600); /* Prevent white flash on page load */
 }
 
 body {
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: var(--chuparosa-800); /* Default background */
+  background-color: var(--chuparosa-600); /* Default background */
   /* No transition - allows for instant flip on Palo Verde section */
   /* Fade transitions can be added per-page as needed */
 }

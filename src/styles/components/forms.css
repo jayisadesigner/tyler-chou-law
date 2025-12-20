@@ -22,7 +22,7 @@
 .form-group select {
   width: 100%;
   padding: var(--space-sm);
-  border: 1px solid rgba(18, 2, 3, 0.2);
+  border: 1px solid var(--obsidian-20);
   border-radius: 4px;
   font-family: var(--font-body);
   font-size: var(--text-p-size);

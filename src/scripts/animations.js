@@ -105,7 +105,7 @@ function initAnimations() {
   // Animate page background color based on scroll position
   if (paloVerdeSection) {
     const defaultColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--chuparosa-800').trim()
+      .getPropertyValue('--chuparosa-600').trim()
     const paloVerdeColor = getComputedStyle(document.documentElement)
       .getPropertyValue('--palo-verde-700').trim()
 

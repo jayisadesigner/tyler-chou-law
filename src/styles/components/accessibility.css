@@ -37,11 +37,11 @@ select:focus {
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .bg-obsidian {
-    background-color: #000;
+    background-color: var(--black);
   }
   
   .bg-bone {
-    background-color: #fff;
+    background-color: var(--white);
   }
 }
 
