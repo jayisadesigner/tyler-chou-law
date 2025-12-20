@@ -50,15 +50,46 @@
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <header></header>
+    <header class="site-header">
+  <nav class="main-nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="logo">TYLER CHOU LAW FOR CREATORS</a>
+    
+    <div class="nav-menu" id="mobile-menu">
+      <div class="nav-column">
+        <a href="/roster.html">Roster</a>
+        <a href="/services.html">Services</a>
+        <a href="/about.html">About</a>
+      </div>
+      <div class="nav-column">
+        <a href="/creatorarq.html">CreatorArq</a>
+        <a href="/love-letters.html">Love Letters</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
+    
+    <button 
+      class="mobile-menu-button" 
+      aria-label="Open menu" 
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </nav>
+</header>
+
+
     
     <main id="main-content">
-      <!-- Hero Section -->
       <section class="hero section">
-        <div class="hero-content container">
-          <h1 class="hero-headline">Where Creator Empires Are Built and Protected</h1>
-        </div>
-      </section>
+  <div class="hero-content container">
+    <h1 class="hero-headline">Where Creator Empires Are Built and Protected</h1>
+    
+  </div>
+</section>
+
 
       <!-- Videos Section -->
       <section class="videos section section-reveal">
@@ -369,16 +400,15 @@
         </div>
       </section>
 
-      <!-- CTA Section -->
       <section class="cta-videos section">
-        <div class="cta-videos-container">
-          <div class="cta-videos-content">
-            <h2 class="cta-videos-headline">Ready to protect you empire?</h2>
-            <a href="/contact.html" class="btn btn--secondary btn--on-dark btn--chuparosa">Get In Touch</a>
-          </div>
-        </div>
-        <footer></footer>
-      </section>
+  <div class="cta-videos-container">
+    <div class="cta-videos-content">
+      <h2 class="cta-videos-headline">Ready to protect your empire?</h2>
+      <a href="/contact.html" class="btn btn--secondary btn--on-dark btn--chuparosa">Get In Touch</a>
+    </div>
+  </div>
+</section>
+
 
       <!-- Creator Page Overlay (for transitions) -->
       <div class="creator-page-overlay" id="creator-page-overlay" aria-hidden="true">
@@ -455,6 +485,15 @@
         </div>
       </div>
     </main>
+    
+    <footer class="site-footer">
+  <div class="footer-container">
+    <p class="footer-item footer-item--left">© 2025 Tyler Chou Law P.C.</p>
+    <p class="footer-item footer-item--right">made by sick design co.</p>
+  </div>
+</footer>
+
+
     
     <!-- Disclaimer Section -->
     <section class="disclaimer">
