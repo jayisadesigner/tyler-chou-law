@@ -6,6 +6,7 @@
   padding: var(--space-md) 0;
   position: relative;
   z-index: 2; /* Above disclaimer */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .footer-container {
@@ -25,6 +26,38 @@
   color: var(--chuparosa-100);
   text-transform: uppercase;
   margin: 0;
+  transition: color 0.3s ease;
+}
+
+/* Footer color adjustments for different backgrounds */
+/* Default: light text on dark chuparosa background */
+body:not(.bg-palo-verde):not(.bg-bone) .site-footer {
+  background-color: var(--chuparosa-600);
+  color: var(--chuparosa-100);
+}
+
+body:not(.bg-palo-verde):not(.bg-bone) .footer-item {
+  color: var(--chuparosa-100);
+}
+
+/* Palo Verde background: light text on dark green background */
+body.bg-palo-verde .site-footer {
+  background-color: var(--palo-verde-700);
+  color: var(--palo-verde-50);
+}
+
+body.bg-palo-verde .footer-item {
+  color: var(--palo-verde-50);
+}
+
+/* Bone background: dark text on light background */
+body.bg-bone .site-footer {
+  background-color: var(--bone);
+  color: var(--obsidian);
+}
+
+body.bg-bone .footer-item {
+  color: var(--obsidian);
 }
 
 .footer-item--left {

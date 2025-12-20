@@ -103,13 +103,15 @@ function initAnimations() {
   }
 
   // Animate page background color based on scroll position
+  const defaultColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--chuparosa-600').trim()
+  
+  gsap.set(document.body, { backgroundColor: defaultColor })
+
+  // Palo Verde section background switching
   if (paloVerdeSection) {
-    const defaultColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--chuparosa-600').trim()
     const paloVerdeColor = getComputedStyle(document.documentElement)
       .getPropertyValue('--palo-verde-700').trim()
-
-    gsap.set(document.body, { backgroundColor: defaultColor })
 
     ScrollTrigger.create({
       trigger: paloVerdeSection,
@@ -118,6 +120,7 @@ function initAnimations() {
       onEnter: () => {
         gsap.set(document.body, { backgroundColor: paloVerdeColor })
         document.body.classList.add('bg-palo-verde')
+        document.body.classList.remove('bg-bone')
       },
       onLeave: () => {
         gsap.set(document.body, { backgroundColor: defaultColor })
@@ -126,11 +129,48 @@ function initAnimations() {
       onEnterBack: () => {
         gsap.set(document.body, { backgroundColor: paloVerdeColor })
         document.body.classList.add('bg-palo-verde')
+        document.body.classList.remove('bg-bone')
       },
       onLeaveBack: () => {
         gsap.set(document.body, { backgroundColor: defaultColor })
         document.body.classList.remove('bg-palo-verde')
       },
+    })
+  }
+
+  // Philosophy section (bone background) switching
+  const philosophySection = document.querySelector('.philosophy')
+  if (philosophySection) {
+    const boneColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--bone').trim()
+
+    // Calculate the same end point as the pinned animation to stay in sync
+    const scrollMultiplier = Math.max(2.5, Math.min(5, window.innerHeight / 250))
+    const pinnedDuration = scrollMultiplier * 100 // Percentage of viewport height
+
+    ScrollTrigger.create({
+      trigger: philosophySection,
+      start: 'top top',
+      end: `+=${pinnedDuration}%`, // Match the pinned animation duration
+      onEnter: () => {
+        gsap.set(document.body, { backgroundColor: boneColor })
+        document.body.classList.add('bg-bone')
+        document.body.classList.remove('bg-palo-verde')
+      },
+      onLeave: () => {
+        gsap.set(document.body, { backgroundColor: defaultColor })
+        document.body.classList.remove('bg-bone')
+      },
+      onEnterBack: () => {
+        gsap.set(document.body, { backgroundColor: boneColor })
+        document.body.classList.add('bg-bone')
+        document.body.classList.remove('bg-palo-verde')
+      },
+      onLeaveBack: () => {
+        gsap.set(document.body, { backgroundColor: defaultColor })
+        document.body.classList.remove('bg-bone')
+      },
+      refreshPriority: -1, // Lower priority to avoid conflicts with pinned animation
     })
   }
 
