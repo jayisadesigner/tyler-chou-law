@@ -12,25 +12,25 @@
   z-index: 100;
 }
 
-.skip-link:focus {
+.skip-link:focus-visible {
   top: 0;
 }
 
 /* Focus states */
-a:focus,
-button:focus,
-input:focus,
-textarea:focus,
-select:focus {
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
   outline: 2px solid var(--obsidian);
   outline-offset: 2px;
 }
 
-.bg-obsidian a:focus,
-.bg-obsidian button:focus,
-.bg-obsidian input:focus,
-.bg-obsidian textarea:focus,
-.bg-obsidian select:focus {
+.bg-obsidian a:focus-visible,
+.bg-obsidian button:focus-visible,
+.bg-obsidian input:focus-visible,
+.bg-obsidian textarea:focus-visible,
+.bg-obsidian select:focus-visible {
   outline-color: var(--bone);
 }
 
