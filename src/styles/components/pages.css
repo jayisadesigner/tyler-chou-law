@@ -55,6 +55,27 @@
   opacity: 1; /* Always visible - GSAP will enhance with animation if available */
 }
 
+/* Line Animation Styles */
+[js-line-animation] {
+  overflow: hidden;
+}
+
+[js-line-animation] .line {
+  display: block;
+  overflow: hidden;
+  line-height: inherit; /* Preserve original line-height */
+}
+
+[js-line-animation] .line-inner {
+  display: block;
+}
+
+/* Reduce extra spacing for palo-verde headline specifically */
+.palo-verde-headline[js-line-animation] .line {
+  margin: 0;
+  padding: 0;
+}
+
 /* Services Grid */
 .services-grid {
   display: grid;
@@ -225,14 +246,40 @@ body.bg-palo-verde .palo-verde-flower__image {
   width: 100%;
 }
 
-.palo-verde-headline {
+/* ========================================
+   REUSABLE PATTERN: Animated Heading Layout
+   
+   For sections with absolutely positioned content that contains
+   animated headings (js-line-animation), use this pattern:
+   
+   HTML: Create a wrapper div that contains both headline and content.
+   The wrapper should be absolutely positioned.
+   Headline and content inside should be relatively positioned.
+   
+   CSS: Wrapper uses position absolute, display flex column, gap for spacing.
+   Headline and content inside use position relative (NOT absolute).
+   
+   This ensures the container adjusts to heading height automatically.
+   See .palo-verde-text-wrapper and .about-content for examples.
+   ======================================== */
+
+/* Palo Verde Text Wrapper - contains headline and content */
+.palo-verde-text-wrapper {
   position: absolute;
   left: var(--space-md);
   top: 366px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl); /* Spacing between headline and content */
+}
+
+.palo-verde-headline {
+  position: relative; /* Changed from absolute to relative */
   color: var(--chuparosa-100); /* Match about section headline before flip */
   text-align: justify;
   width: 724px;
-  z-index: 2;
+  margin: 0; /* Remove default margins */
 }
 
 /* When background flips to palo-verde, change headline color */
@@ -258,11 +305,8 @@ body.bg-palo-verde .palo-verde-headline {
 
 /* Palo Verde Content Wrapper */
 .palo-verde-content {
-  position: absolute;
-  left: var(--space-md);
-  top: 560px;
+  position: relative; /* Changed from absolute to relative */
   width: 539px;
-  z-index: 2;
   display: flex;
   flex-direction: column;
   gap: var(--space-lg); /* 32px spacing between body and button */
@@ -306,6 +350,7 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 /* Main Content Container (About only) */
+/* About Content - follows reusable animated heading pattern */
 .about-content {
   position: absolute;
   left: 50%;
@@ -314,10 +359,16 @@ body.bg-palo-verde .palo-verde-body__column {
   width: 724px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: var(--space-lg); /* Spacing between headline, body, and button */
   align-items: center;
   z-index: 3;
   padding-bottom: var(--space-2xl);
+}
+
+/* Ensure animated headings inside adjust container height */
+.about-content [js-line-animation],
+.palo-verde-text-wrapper [js-line-animation] {
+  width: 100%; /* Full width within container */
 }
 
 /* Button styles now in components/buttons.css */
@@ -1490,13 +1541,22 @@ body.bg-palo-verde .palo-verde-body__column {
     padding: 0 var(--space-lg);
   }
   
+  /* Palo Verde Text Wrapper - responsive */
+  .palo-verde-text-wrapper {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    padding: 0 var(--space-lg);
+  }
+  
   .palo-verde-content {
     position: relative;
     left: auto;
     top: auto;
     transform: none;
     width: 100%;
-    padding: 0 var(--space-lg);
+    padding: 0;
   }
   
   .palo-verde-content .btn {
