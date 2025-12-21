@@ -76,29 +76,7 @@
   padding: 0;
 }
 
-/* Services Grid */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-xl);
-  margin: var(--space-2xl) 0;
-}
-
-.service-card {
-  padding: var(--space-xl);
-  border: 1px solid var(--obsidian-10);
-  border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px var(--obsidian-10);
-}
-
-.service-card h3 {
-  margin-bottom: var(--space-md);
-}
+/* Services Grid - old definition removed, see Services Section below */
 
 /* Roster Grid */
 .roster-grid {
@@ -1010,7 +988,6 @@ body.bg-palo-verde .palo-verde-body__column {
   background-color: transparent; /* Inherits from body, allows background animation */
   border: none;
   border-radius: 0;
-  transition: box-shadow 0.3s ease;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
@@ -1020,6 +997,8 @@ body.bg-palo-verde .palo-verde-body__column {
     0px 80px 48px 0px var(--chuparosa-950-18),
     0px 36px 36px 0px var(--chuparosa-950-30),
     0px 9px 19px 0px var(--chuparosa-950-34);
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: box-shadow;
 }
 
 /* Large screens - limit to 3 columns max (since cards are wider: 477px) */
