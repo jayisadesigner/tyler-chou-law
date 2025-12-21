@@ -28,6 +28,13 @@
   /* Chuparosa opacity variants (for gradients) */
   --chuparosa-rgba-25: rgba(225, 25, 35, 0.25);
   
+  /* Chuparosa-950 opacity variants (for shadows) */
+  --chuparosa-950-01: rgba(43, 3, 5, 0.01);
+  --chuparosa-950-05: rgba(43, 3, 5, 0.05);
+  --chuparosa-950-18: rgba(43, 3, 5, 0.18);
+  --chuparosa-950-30: rgba(43, 3, 5, 0.30);
+  --chuparosa-950-34: rgba(43, 3, 5, 0.34);
+  
   /* Lupine opacity variants (for gradients) */
   --lupine-rgba-25: rgba(125, 25, 225, 0.25);
   
