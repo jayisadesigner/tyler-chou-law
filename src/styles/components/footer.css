@@ -76,6 +76,7 @@ body.bg-bone .footer-item {
     gap: var(--space-sm);
   }
   
+  /* !important justified: Override flexbox alignment on mobile for centered text layout */
   .footer-item {
     text-align: center !important;
   }
