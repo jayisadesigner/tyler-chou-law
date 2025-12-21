@@ -992,8 +992,8 @@ body.bg-palo-verde .palo-verde-body__column {
   color: inherit;
   cursor: pointer;
   box-shadow: none;
-  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: box-shadow;
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: box-shadow, transform;
 }
 
 /* Large screens - limit to 3 columns max (since cards are wider: 477px) */
@@ -1004,6 +1004,7 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 .service-card:hover {
+  transform: translateY(-4px);
   box-shadow: 
     0px 447px 125px 0px var(--chuparosa-950-01),
     0px 286px 114px 0px var(--chuparosa-950-05),
