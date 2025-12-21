@@ -190,6 +190,7 @@ body.bg-palo-verde .hamburger-line {
 }
 
 /* Bone background: dark text on light background */
+/* !important justified: Override dynamic background color changes during scroll animations to maintain nav visibility */
 body.bg-bone .logo-line,
 body.bg-bone .nav-column a {
   color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */

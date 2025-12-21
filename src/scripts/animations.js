@@ -75,8 +75,52 @@ function initLenis() {
   return lenis
 }
 
+// Check for reduced motion preference
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 // Initialize animations when DOM is ready
 function initAnimations() {
+  // If user prefers reduced motion, set all elements to final state and skip animations
+  if (prefersReducedMotion) {
+    // Set hero content to visible
+    const heroContent = document.querySelector('.hero-content')
+    if (heroContent) {
+      gsap.set(heroContent, { opacity: 1, y: 0 })
+    }
+    
+    // Set all section reveals to visible
+    document.querySelectorAll('.section-reveal').forEach((section) => {
+      gsap.set(section, { opacity: 1, y: 0 })
+    })
+    
+    // Set all fade-in elements to visible
+    document.querySelectorAll('.fade-in').forEach((element) => {
+      gsap.set(element, { opacity: 1 })
+    })
+    
+    // Set flowers to final rotation state
+    const aboutFlower = document.querySelector('.about-flower')
+    if (aboutFlower) {
+      gsap.set(aboutFlower, { rotation: 30 })
+    }
+    const paloVerdeFlower = document.querySelector('.palo-verde-flower')
+    if (paloVerdeFlower) {
+      gsap.set(paloVerdeFlower, { rotation: 30 })
+    }
+    
+    // Set background colors
+    const defaultColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--chuparosa-600').trim()
+    gsap.set(document.body, { backgroundColor: defaultColor })
+    
+    // Initialize static versions of complex animations
+    initPhilosophyRedaction(true) // Pass true for reduced motion
+    initCredentialsShadow(true) // Pass true for reduced motion
+    initLineAnimations(true) // Pass true for reduced motion
+    
+    return // Skip all animations
+  }
+
   // Hero content reveal animation
   const heroSection = document.querySelector('.hero')
   if (heroSection) {
@@ -203,21 +247,22 @@ function initAnimations() {
   }
 
   // Philosophy section redaction animation
-  initPhilosophyRedaction()
+  initPhilosophyRedaction(false)
 
   // Credentials section shadow animation
-  initCredentialsShadow()
+  initCredentialsShadow(false)
 
   // Line animations for headings
-  initLineAnimations()
+  initLineAnimations(false)
 }
 
 /**
  * Philosophy section redaction animation
  * Redacts "Content" and "is king" text and fades in "ip is Queen" based on scroll progress
  * Fully responsive - calculates widths/heights dynamically based on actual text dimensions
+ * @param {boolean} reducedMotion - If true, skip animation and show final state
  */
-function initPhilosophyRedaction() {
+function initPhilosophyRedaction(reducedMotion = false) {
   const philosophySection = document.querySelector('.philosophy')
   if (!philosophySection) return
 
@@ -228,6 +273,29 @@ function initPhilosophyRedaction() {
   const kingText = philosophySection.querySelector('.philosophy-text--king')
 
   if (!redactionFirst || !redactionSecond || !queenText || !contentText || !kingText) return
+
+  // If reduced motion, show final state immediately
+  if (reducedMotion) {
+    gsap.set([contentText, kingText], { opacity: 1 })
+    gsap.set(queenText, { opacity: 1 })
+    // Set redaction boxes to full width (final state)
+    const getSpacingValue = (variableName) => {
+      const value = getComputedStyle(document.documentElement)
+        .getPropertyValue(variableName).trim()
+      const remValue = parseFloat(value)
+      return Math.ceil(remValue * 16)
+    }
+    void contentText.offsetHeight
+    void kingText.offsetHeight
+    const contentRect = contentText.getBoundingClientRect()
+    const kingRect = kingText.getBoundingClientRect()
+    const strikethroughPadding = getSpacingValue('--space-xs')
+    const firstWidth = contentRect.width + (strikethroughPadding * 2)
+    const secondWidth = kingRect.width + (strikethroughPadding * 2)
+    gsap.set(redactionFirst, { width: firstWidth })
+    gsap.set(redactionSecond, { width: secondWidth })
+    return
+  }
 
   // Mobile: fade in text elements sequentially on scroll
   if (window.matchMedia('(max-width: 768px)').matches) {
@@ -469,8 +537,9 @@ function initPhilosophyRedaction() {
 /**
  * Credentials section scroll animation
  * Pins the section and scrolls credentials content, with shadow on header
+ * @param {boolean} reducedMotion - If true, skip animation and show final state
  */
-function initCredentialsShadow() {
+function initCredentialsShadow(reducedMotion = false) {
   const credentialsSection = document.querySelector('.credentials')
   if (!credentialsSection) return
 
@@ -489,6 +558,15 @@ function initCredentialsShadow() {
     '0 271px 162px 0 rgba(66, 13, 15, 0.05), ' +
     '0 120px 120px 0 rgba(66, 13, 15, 0.09), ' +
     '0 30px 66px 0 rgba(66, 13, 15, 0.10)'
+
+  // If reduced motion, show final state immediately
+  if (reducedMotion) {
+    gsap.set(credentialsHeaderSection, { boxShadow: headerShadow })
+    if (credentialsBadge) {
+      gsap.set(credentialsBadge, { rotation: 30 })
+    }
+    return
+  }
 
   // Set initial state - header shadow hidden, list at starting position, badge at initial rotation
   gsap.set(credentialsHeaderSection, { boxShadow: 'none' })
@@ -571,11 +649,20 @@ function initCredentialsShadow() {
  * Line Animation for Headings
  * Splits text into lines and animates them on scroll
  * Simple approach - doesn't preserve text justification
+ * @param {boolean} reducedMotion - If true, skip animation and show final state
  */
-function initLineAnimations() {
+function initLineAnimations(reducedMotion = false) {
   const animatedElements = document.querySelectorAll('[js-line-animation]')
   
   if (animatedElements.length === 0) {
+    return
+  }
+
+  // If reduced motion, show all elements immediately
+  if (reducedMotion) {
+    animatedElements.forEach((element) => {
+      gsap.set(element, { opacity: 1 })
+    })
     return
   }
   

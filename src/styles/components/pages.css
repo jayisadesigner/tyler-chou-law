@@ -820,6 +820,7 @@ body.bg-palo-verde .palo-verde-body__column {
   display: flex;
   flex-direction: column;
   padding: 0 var(--space-md) 0;
+  /* !important justified: Override GSAP ScrollTrigger pinSpacing which adds unwanted margin */
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
   overflow: hidden;
@@ -896,6 +897,7 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 /* Remove excess margin added by GSAP pinSpacing */
+/* !important justified: Override GSAP ScrollTrigger pinSpacing which adds unwanted margin */
 .disclaimer {
   margin-bottom: 0 !important;
 }
@@ -1363,6 +1365,7 @@ body.bg-palo-verde .palo-verde-body__column {
   
   .philosophy-item {
     width: 100%;
+    /* !important justified: Force full width on mobile to override desktop grid positioning */
     grid-column: 1 / -1 !important; /* Full width on mobile */
     justify-self: center;
     text-align: center;
@@ -1372,6 +1375,7 @@ body.bg-palo-verde .palo-verde-body__column {
   .philosophy-text {
     position: relative;
     transform: none;
+    /* !important justified: Reset absolute positioning on mobile to prevent layout issues */
     left: auto !important;
     top: auto !important;
     font-size: clamp(3rem, 12vw, 153.541px);
