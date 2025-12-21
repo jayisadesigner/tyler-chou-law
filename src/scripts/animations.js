@@ -5,10 +5,74 @@
 
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Lenis from 'lenis'
 
 // Register GSAP plugins
 if (typeof gsap !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
+}
+
+// Initialize Lenis for smooth scrolling
+let lenis = null
+
+function initLenis() {
+  lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    smoothTouch: false, // Disable on touch devices to avoid conflicts
+    touchMultiplier: 2,
+  })
+
+  // Get scroll value (optional - for debugging or custom behavior)
+  lenis.on('scroll', ({ scroll, limit, velocity, direction, progress }) => {
+    // Optional: use scroll data for custom effects
+  })
+
+  // Animation frame loop
+  function raf(time) {
+    lenis.raf(time)
+    requestAnimationFrame(raf)
+  }
+
+  requestAnimationFrame(raf)
+
+  // Make Lenis available globally if needed
+  window.lenis = lenis
+
+  // Integrate with GSAP ScrollTrigger
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        if (arguments.length) {
+          lenis.scrollTo(value, { immediate: true })
+        }
+        return lenis.scroll
+      },
+      getBoundingClientRect() {
+        return { 
+          top: 0, 
+          left: 0, 
+          width: window.innerWidth, 
+          height: window.innerHeight 
+        }
+      },
+      pinType: document.body.style.transform ? 'transform' : 'fixed'
+    })
+
+    // Update ScrollTrigger when Lenis scrolls
+    lenis.on('scroll', ScrollTrigger.update)
+
+    // Refresh ScrollTrigger on resize
+    window.addEventListener('resize', () => {
+      ScrollTrigger.refresh()
+    })
+  }
+
+  return lenis
 }
 
 // Initialize animations when DOM is ready
@@ -146,6 +210,9 @@ function initAnimations() {
 
   // Headshot shuffle animation on hover
   initHeadshotShuffle()
+  
+  // Line animations for headings
+  initLineAnimations()
 }
 
 /**
@@ -498,59 +565,210 @@ function initCredentialsShadow() {
 
 /**
  * CTA Videos section animation
- * Text scales up and fades in from center on scroll
+ * REMOVED: Now using line animation (js-line-animation) instead
+ * The line animation handles the headline animation
+ * Button animation can be added separately if needed
  */
-function initCTAVideos() {
-  const ctaSection = document.querySelector('.cta-videos')
-  if (!ctaSection) return
 
-  const ctaHeadline = ctaSection.querySelector('.cta-videos-headline')
-  const ctaButton = ctaSection.querySelector('.cta-videos-content .btn')
+/**
+ * Line Animation for Headings
+ * Splits text into lines and animates them on scroll
+ * Simple approach - doesn't preserve text justification
+ */
+function initLineAnimations() {
+  const animatedElements = document.querySelectorAll('[js-line-animation]')
   
-  if (!ctaHeadline) return
-
-  // Set initial state - scaled down and transparent
-  gsap.set(ctaHeadline, { 
-    scale: 0.8, 
-    opacity: 0,
-    transformOrigin: 'center center'
-  })
+  if (animatedElements.length === 0) {
+    return
+  }
   
-  if (ctaButton) {
-    gsap.set(ctaButton, {
-      scale: 0.8,
-      opacity: 0,
-      transformOrigin: 'center center'
+  animatedElements.forEach((element) => {
+    const originalText = element.textContent.trim()
+    const words = originalText.split(' ').filter(w => w.length > 0)
+    
+    if (words.length === 0) {
+      return
+    }
+    
+    // Get element width for clone measurement - try multiple methods
+    let elementWidth = element.getBoundingClientRect().width
+    if (elementWidth === 0) {
+      elementWidth = element.offsetWidth
+    }
+    if (elementWidth === 0) {
+      // Try parent width
+      const parent = element.parentElement
+      if (parent) {
+        elementWidth = parent.getBoundingClientRect().width || parent.offsetWidth
+      }
+    }
+    if (elementWidth === 0) {
+      // Last resort: use window width
+      elementWidth = window.innerWidth
+    }
+    
+    // Ensure we have a valid width
+    if (elementWidth <= 0) {
+      console.warn('Could not determine width for element:', element)
+      return
+    }
+    
+    // Create clone to measure line breaks
+    const clone = element.cloneNode(true)
+    const computedStyle = window.getComputedStyle(element)
+    
+    clone.style.position = 'absolute'
+    clone.style.visibility = 'hidden'
+    clone.style.top = '-9999px'
+    clone.style.left = '0'
+    clone.style.width = elementWidth + 'px'
+    clone.style.height = 'auto'
+    clone.style.margin = '0'
+    clone.style.padding = computedStyle.padding
+    clone.style.fontSize = computedStyle.fontSize
+    clone.style.fontFamily = computedStyle.fontFamily
+    clone.style.fontWeight = computedStyle.fontWeight
+    clone.style.letterSpacing = computedStyle.letterSpacing
+    clone.style.lineHeight = computedStyle.lineHeight
+    clone.style.textTransform = computedStyle.textTransform
+    clone.style.whiteSpace = 'normal'
+    
+    document.body.appendChild(clone)
+    clone.textContent = originalText
+    void clone.offsetHeight
+    
+    // Create word spans to measure positions
+    const wordSpans = []
+    clone.innerHTML = ''
+    
+    words.forEach((word, index) => {
+      const span = document.createElement('span')
+      span.textContent = word + (index < words.length - 1 ? ' ' : '')
+      span.style.whiteSpace = 'pre'
+      clone.appendChild(span)
+      wordSpans.push(span)
     })
-  }
-
-  // Animate on scroll
-  gsap.to(ctaHeadline, {
-    scale: 1,
-    opacity: 1,
-    duration: 1,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: ctaSection,
-      start: 'top 80%',
-      toggleActions: 'play none none none',
-    },
+    
+    void clone.offsetHeight
+    
+    // Group words into lines based on vertical position
+    const lines = []
+    let currentLine = []
+    let currentLineTop = null
+    
+    wordSpans.forEach((span, index) => {
+      const rect = span.getBoundingClientRect()
+      const top = Math.round(rect.top)
+      
+      if (currentLineTop === null || Math.abs(top - currentLineTop) < 5) {
+        currentLine.push(words[index])
+        if (currentLineTop === null) currentLineTop = top
+      } else {
+        if (currentLine.length > 0) {
+          lines.push([...currentLine])
+        }
+        currentLine = [words[index]]
+        currentLineTop = top
+      }
+      
+      if (index === wordSpans.length - 1 && currentLine.length > 0) {
+        lines.push([...currentLine])
+      }
+    })
+    
+    // Clean up clone
+    if (clone.parentNode) {
+      document.body.removeChild(clone)
+    }
+    
+    // Fallback to single line if no lines detected
+    if (lines.length === 0) {
+      lines.push(words)
+    }
+    
+    // Clear original and create line structure
+    element.innerHTML = ''
+    element.style.overflow = 'hidden'
+    
+    lines.forEach((lineWords) => {
+      const lineSpan = document.createElement('span')
+      lineSpan.className = 'line'
+      lineSpan.style.display = 'block'
+      lineSpan.style.overflow = 'hidden'
+      
+      const lineInner = document.createElement('span')
+      lineInner.className = 'line-inner'
+      lineInner.style.display = 'block'
+      lineInner.textContent = lineWords.join(' ')
+      
+      lineSpan.appendChild(lineInner)
+      element.appendChild(lineSpan)
+    })
+    
+    // Get line elements and animate
+    const lineElements = element.querySelectorAll('.line-inner')
+    
+    if (lineElements.length === 0) {
+      element.innerHTML = originalText
+      element.style.overflow = ''
+      return
+    }
+    
+    // Set initial state
+    gsap.set(lineElements, {
+      y: '100%',
+      opacity: 0
+    })
+    
+    // Check if element is already in viewport
+    const rect = element.getBoundingClientRect()
+    const viewportHeight = window.innerHeight
+    const isInView = rect.top < viewportHeight * 0.85 && rect.bottom > 0
+    
+    if (isInView) {
+      // Animate immediately if already in view
+      gsap.to(lineElements, {
+        y: '0%',
+        opacity: 1,
+        duration: 0.9,
+        ease: 'power2.out',
+        stagger: 0.1
+      })
+    } else {
+      // Use ScrollTrigger for elements not yet in view
+      const anim = gsap.to(lineElements, {
+        y: '0%',
+        opacity: 1,
+        duration: 0.9,
+        ease: 'power2.out',
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+          onEnter: () => {
+            // Ensure animation plays
+            anim.restart()
+          },
+          onEnterBack: () => {
+            // Ensure animation plays when scrolling back
+            anim.restart()
+          }
+        }
+      })
+      
+      // Fallback: if ScrollTrigger doesn't fire, animate after a delay
+      setTimeout(() => {
+        if (anim.progress() === 0) {
+          // Animation hasn't started, check if element is now in view
+          const currentRect = element.getBoundingClientRect()
+          if (currentRect.top < viewportHeight && currentRect.bottom > 0) {
+            anim.restart()
+          }
+        }
+      }, 1000)
+    }
   })
-
-  if (ctaButton) {
-    gsap.to(ctaButton, {
-      scale: 1,
-      opacity: 1,
-      duration: 1,
-      ease: 'power3.out',
-      delay: 0.2, // Slight delay after headline
-      scrollTrigger: {
-        trigger: ctaSection,
-        start: 'top 80%',
-        toggleActions: 'play none none none',
-      },
-    })
-  }
 }
 
 /**
@@ -638,10 +856,14 @@ function initHeadshotShuffle() {
   portraitContainer.addEventListener('mouseleave', stopShuffle)
 }
 
-// Initialize when DOM is ready
+// Initialize Lenis first, then animations
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initAnimations)
+  document.addEventListener('DOMContentLoaded', () => {
+    initLenis()
+    initAnimations()
+  })
 } else {
+  initLenis()
   initAnimations()
 }
 

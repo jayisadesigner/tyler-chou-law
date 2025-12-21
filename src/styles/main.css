@@ -14,7 +14,7 @@
 
 /* Base Layout */
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior handled by Lenis */
   background-color: var(--chuparosa-600); /* Prevent white flash on page load */
 }
 
@@ -84,6 +84,27 @@ body.bg-palo-verde {
 
 .text-right {
   text-align: right;
+}
+
+/* Lenis Smooth Scroll Styles */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 /* Responsive Utilities */
