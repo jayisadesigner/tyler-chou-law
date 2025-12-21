@@ -1014,6 +1014,12 @@ body.bg-palo-verde .palo-verde-body__column {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  box-shadow: 
+    0px 223px 62px 0px var(--chuparosa-950-01),
+    0px 143px 57px 0px var(--chuparosa-950-05),
+    0px 80px 48px 0px var(--chuparosa-950-18),
+    0px 36px 36px 0px var(--chuparosa-950-30),
+    0px 9px 19px 0px var(--chuparosa-950-34);
 }
 
 /* Large screens - limit to 3 columns max (since cards are wider: 477px) */
