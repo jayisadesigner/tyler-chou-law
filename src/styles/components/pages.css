@@ -592,14 +592,15 @@ body.bg-palo-verde .palo-verde-body__column {
   .roster-grid {
     grid-template-columns: repeat(4, 1fr);
     /* Constrain grid to match card widths: 4 cards × 366px = 1464px */
-    max-width: 1464px;
-    margin-inline: auto;
+    /* Add negative margin to compensate for container-wide padding (2rem = 32px each side) */
+    max-width: calc(1464px + var(--space-lg) * 2);
+    margin-inline: calc(var(--space-lg) * -1);
   }
   
   .roster-header {
     /* Match grid max-width for alignment */
-    max-width: 1464px;
-    margin-inline: auto;
+    max-width: calc(1464px + var(--space-lg) * 2);
+    margin-inline: calc(var(--space-lg) * -1);
   }
 }
 
