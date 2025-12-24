@@ -1,6 +1,22 @@
 /**
  * GSAP Animations
  * Handles all page animations including hero reveals and scroll triggers
+ * 
+ * Required HTML elements for animations:
+ * - .hero-content (hero section fade-in)
+ * - .section-reveal (scroll-triggered section reveals)
+ * - .background-image__img (parallax background images)
+ * - .philosophy (with nested: .philosophy-redaction--first, .philosophy-redaction--second, 
+ *   .philosophy-text--content, .philosophy-text--king, .philosophy-text--queen)
+ * - .credentials (with nested: .credentials-card, .credentials-list, 
+ *   .credentials-header-section, .credentials-badge)
+ * - [js-line-animation] (text line animations)
+ * 
+ * Optional (page-specific):
+ * - .about-flower (about page - flower rotation)
+ * - .palo-verde-flower (palo verde section - flower rotation)
+ * - .about (about section - trigger for flower)
+ * - .palo-verde (palo verde section - trigger for flower and background color)
  */
 
 import { gsap } from 'gsap'
@@ -27,10 +43,7 @@ function initLenis() {
     touchMultiplier: 2,
   })
 
-  // Get scroll value (optional - for debugging or custom behavior)
-  lenis.on('scroll', ({ scroll, limit, velocity, direction, progress }) => {
-    // Optional: use scroll data for custom effects
-  })
+  // Lenis scroll integrated with ScrollTrigger below
 
   // Animation frame loop
   function raf(time) {
@@ -66,10 +79,7 @@ function initLenis() {
     // Update ScrollTrigger when Lenis scrolls
     lenis.on('scroll', ScrollTrigger.update)
 
-    // Refresh ScrollTrigger on resize
-    window.addEventListener('resize', () => {
-      ScrollTrigger.refresh()
-    })
+    // Resize handling consolidated below
   }
 
   return lenis
@@ -77,6 +87,34 @@ function initLenis() {
 
 // Check for reduced motion preference
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/**
+ * Animate flower rotation on scroll (reusable)
+ * @param {string} flowerSelector - CSS selector for flower element
+ * @param {string} triggerSelector - CSS selector for trigger section
+ */
+function animateFlowerRotation(flowerSelector, triggerSelector) {
+  const flower = document.querySelector(flowerSelector)
+  const trigger = document.querySelector(triggerSelector)
+  
+  if (!flower || !trigger) return
+  
+  if (prefersReducedMotion) {
+    gsap.set(flower, { rotation: 30 })
+    return
+  }
+  
+  gsap.to(flower, {
+    rotation: 30,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: trigger,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1,
+    },
+  })
+}
 
 // Initialize animations when DOM is ready
 function initAnimations() {
@@ -93,20 +131,10 @@ function initAnimations() {
       gsap.set(section, { opacity: 1, y: 0 })
     })
     
-    // Set all fade-in elements to visible
-    document.querySelectorAll('.fade-in').forEach((element) => {
-      gsap.set(element, { opacity: 1 })
-    })
     
     // Set flowers to final rotation state
-    const aboutFlower = document.querySelector('.about-flower')
-    if (aboutFlower) {
-      gsap.set(aboutFlower, { rotation: 30 })
-    }
-    const paloVerdeFlower = document.querySelector('.palo-verde-flower')
-    if (paloVerdeFlower) {
-      gsap.set(paloVerdeFlower, { rotation: 30 })
-    }
+    animateFlowerRotation('.about-flower', '.about')
+    animateFlowerRotation('.palo-verde-flower', '.palo-verde')
     
     // Set background colors
     const defaultColor = getComputedStyle(document.documentElement)
@@ -164,89 +192,31 @@ function initAnimations() {
       )
   })
 
-  // Fade in elements on scroll
-  document.querySelectorAll('.fade-in').forEach((element) => {
-      gsap.fromTo(element,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 0.6,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: element,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        }
-      )
-  })
 
-  // Subtle flower rotation on scroll - About section
-  const aboutFlower = document.querySelector('.about-flower')
-  if (aboutFlower) {
-    const aboutSection = document.querySelector('.about')
-    if (aboutSection) {
-      gsap.to(aboutFlower, {
-        rotation: 30,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: aboutSection,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      })
-    }
-  }
-
-  // Subtle flower rotation on scroll - Palo Verde section
-  const paloVerdeFlower = document.querySelector('.palo-verde-flower')
+  // Flower rotation animations
+  animateFlowerRotation('.about-flower', '.about')
+  animateFlowerRotation('.palo-verde-flower', '.palo-verde')
+  
   const paloVerdeSection = document.querySelector('.palo-verde')
-  
-  if (paloVerdeFlower && paloVerdeSection) {
-    gsap.to(paloVerdeFlower, {
-      rotation: 30,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: paloVerdeSection,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1,
-      },
-    })
-  }
 
-  // Animate page background color based on scroll position
-  const defaultColor = getComputedStyle(document.documentElement)
-    .getPropertyValue('--chuparosa-600').trim()
-  
-  gsap.set(document.body, { backgroundColor: defaultColor })
-
-  // Palo Verde section background switching
+  // Palo Verde section background switching (CSS handles color transition)
   if (paloVerdeSection) {
-    const paloVerdeColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--palo-verde-700').trim()
-
     ScrollTrigger.create({
       trigger: paloVerdeSection,
       start: 'top center',
       end: 'bottom top',
       onEnter: () => {
-        gsap.set(document.body, { backgroundColor: paloVerdeColor })
         document.body.classList.add('bg-palo-verde')
         document.body.classList.remove('bg-bone')
       },
       onLeave: () => {
-        gsap.set(document.body, { backgroundColor: defaultColor })
         document.body.classList.remove('bg-palo-verde')
       },
       onEnterBack: () => {
-        gsap.set(document.body, { backgroundColor: paloVerdeColor })
         document.body.classList.add('bg-palo-verde')
         document.body.classList.remove('bg-bone')
       },
       onLeaveBack: () => {
-        gsap.set(document.body, { backgroundColor: defaultColor })
         document.body.classList.remove('bg-palo-verde')
       },
     })
@@ -263,6 +233,15 @@ function initAnimations() {
 
   // Hero background parallax effect
   initHeroParallax(false)
+  
+  // Consolidated resize handler (debounced)
+  let resizeTimeout
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout)
+    resizeTimeout = setTimeout(() => {
+      ScrollTrigger.refresh()
+    }, 150)
+  })
 }
 
 /**
@@ -325,7 +304,7 @@ function initPhilosophyRedaction(reducedMotion = false) {
   if (reducedMotion) {
     gsap.set([contentText, kingText], { opacity: 1 })
     gsap.set(queenText, { opacity: 1 })
-    // Set redaction boxes to full width (final state)
+    // Set redaction boxes to full scale (final state)
     const getSpacingValue = (variableName) => {
       const value = getComputedStyle(document.documentElement)
         .getPropertyValue(variableName).trim()
@@ -339,8 +318,8 @@ function initPhilosophyRedaction(reducedMotion = false) {
     const strikethroughPadding = getSpacingValue('--space-xs')
     const firstWidth = contentRect.width + (strikethroughPadding * 2)
     const secondWidth = kingRect.width + (strikethroughPadding * 2)
-    gsap.set(redactionFirst, { width: firstWidth })
-    gsap.set(redactionSecond, { width: secondWidth })
+    gsap.set(redactionFirst, { width: firstWidth, scaleX: 1, transformOrigin: 'left center' })
+    gsap.set(redactionSecond, { width: secondWidth, scaleX: 1, transformOrigin: 'left center' })
     return
   }
 
@@ -455,10 +434,10 @@ function initPhilosophyRedaction(reducedMotion = false) {
     })
   }
 
-  // Set initial state - boxes start at 0 width, positioned correctly, queen text hidden
+  // Set initial state - boxes start at 0 scale, positioned correctly, queen text hidden
   updateDimensions()
-  gsap.set(redactionFirst, { width: 0 })
-  gsap.set(redactionSecond, { width: 0 })
+  gsap.set(redactionFirst, { width: dims.firstWidth, scaleX: 0, transformOrigin: 'left center' })
+  gsap.set(redactionSecond, { width: dims.secondWidth, scaleX: 0, transformOrigin: 'left center' })
   gsap.set(queenText, { opacity: 0 })
 
   // Responsive scroll duration based on viewport height
@@ -494,14 +473,14 @@ function initPhilosophyRedaction(reducedMotion = false) {
 
   // First redaction box - starts after delay to give time to read
   tl.to(redactionFirst, {
-    width: dims.firstWidth,
+    scaleX: 1,
     ease: 'power2.inOut',
     duration: 1,
   }, 0.2)
 
   // Second redaction box - starts slightly after first (staggered)
   tl.to(redactionSecond, {
-    width: dims.secondWidth,
+    scaleX: 1,
     ease: 'power2.inOut',
     duration: 1,
   }, 0.35)
@@ -521,64 +500,38 @@ function initPhilosophyRedaction(reducedMotion = false) {
   const updateDimensionsOnResize = () => {
     dims = getDimensions() // Update the dims variable
     
-    // Update position and height
+    // Update position, dimensions, and maintain scale
+    const progress = tl.progress()
+    
     gsap.set(redactionFirst, { 
       height: dims.firstHeight,
-      left: dims.firstLeft
+      left: dims.firstLeft,
+      width: dims.firstWidth
     })
     gsap.set(redactionSecond, { 
       height: dims.secondHeight,
-      left: dims.secondLeft
+      left: dims.secondLeft,
+      width: dims.secondWidth
     })
     
-    // Get current progress to maintain visual state
-    const progress = tl.progress()
-    
-    // Update widths immediately based on current progress
+    // Maintain current scale based on progress
     if (progress >= 0.2) {
       const firstProgress = Math.min(1, (progress - 0.2) / 0.8)
-      gsap.set(redactionFirst, { width: dims.firstWidth * firstProgress })
+      gsap.set(redactionFirst, { scaleX: firstProgress })
     } else {
-      gsap.set(redactionFirst, { width: 0 })
+      gsap.set(redactionFirst, { scaleX: 0 })
     }
     
     if (progress >= 0.35) {
       const secondProgress = Math.min(1, (progress - 0.35) / 0.65)
-      gsap.set(redactionSecond, { width: dims.secondWidth * secondProgress })
+      gsap.set(redactionSecond, { scaleX: secondProgress })
     } else {
-      gsap.set(redactionSecond, { width: 0 })
+      gsap.set(redactionSecond, { scaleX: 0 })
     }
-    
-    // Update the timeline tween end values
-    const children = tl.getChildren()
-    const firstTween = children.find(t => t.targets && t.targets().includes(redactionFirst))
-    const secondTween = children.find(t => t.targets && t.targets().includes(redactionSecond))
-    
-    if (firstTween) {
-      firstTween.vars.width = dims.firstWidth
-      firstTween.invalidate()
-    }
-    if (secondTween) {
-      secondTween.vars.width = dims.secondWidth
-      secondTween.invalidate()
-    }
-    
-    // Invalidate timeline to force recalculation
-    tl.invalidate()
   }
 
   // Handle resize - recalculate dimensions and refresh ScrollTrigger
   ScrollTrigger.addEventListener('refresh', updateDimensionsOnResize)
-  
-  // Also handle window resize directly
-  let resizeTimeout
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout)
-    resizeTimeout = setTimeout(() => {
-      updateDimensionsOnResize()
-      ScrollTrigger.refresh()
-    }, 150) // Debounce resize events
-  })
 }
 
 /**
