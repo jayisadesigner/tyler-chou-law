@@ -1779,11 +1779,6 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   visibility: hidden;
 }
 
-/* Lock body scroll when overlay is open */
-body:has(.creator-page-overlay[aria-hidden="false"]) {
-  overflow: hidden;
-}
-
 /* Close Button - Fixed */
 .creator-page-overlay__close {
   position: fixed;
