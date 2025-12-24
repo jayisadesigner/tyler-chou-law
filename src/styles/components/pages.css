@@ -234,7 +234,7 @@
 .roster-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-md);
+  gap: 0;
   margin: var(--space-2xl) 0;
 }
 
@@ -242,7 +242,7 @@
 @media (min-width: 640px) {
   .roster-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-xl);
+    gap: 0;
   }
 }
 
@@ -591,14 +591,14 @@ body.bg-palo-verde .palo-verde-body__column {
 @media (min-width: 1536px) {
   .roster-grid {
     grid-template-columns: repeat(4, 1fr);
-    /* Constrain grid to match card widths: 4 cards × 366px + 3 gaps × 48px = 1608px */
-    max-width: 1608px;
+    /* Constrain grid to match card widths: 4 cards × 366px = 1464px */
+    max-width: 1464px;
     margin-inline: auto;
   }
   
   .roster-header {
     /* Match grid max-width for alignment */
-    max-width: 1608px;
+    max-width: 1464px;
     margin-inline: auto;
   }
 }
