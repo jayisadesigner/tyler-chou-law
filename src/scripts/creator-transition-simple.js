@@ -282,10 +282,7 @@ export function initCreatorTransitions() {
   }
 
   // Escape key is handled by a11y-dialog automatically
-  // But we can add custom behavior if needed
-  dialog.on('hide', () => {
-    // Any cleanup needed when dialog closes
-  })
+  // Event listeners can be added if needed (check a11y-dialog docs for API)
 
   // Browser navigation
   window.addEventListener('popstate', handlePopState)
