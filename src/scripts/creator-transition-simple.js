@@ -4,14 +4,14 @@
  */
 
 // Import images so Vite processes them for production
-import jennyImage from '../assets/images/roster/jennyhoyos.png'
-import calebImage from '../assets/images/roster/@calebhammer.png'
+import jennyImage from '../assets/images/roster/jennyhoyos.webp'
+import calebImage from '../assets/images/roster/@calebhammer.webp'
 import jesserImage from '../assets/images/roster/@jesser.webp'
-import jaImage from '../assets/images/roster/@jadroppingscience.png'
+import jaImage from '../assets/images/roster/@jadroppingscience.webp'
 import sticksImage from '../assets/images/roster/@sticks.jpg'
 import jacksImage from '../assets/images/roster/@jacksfilms.webp'
-import cassandraImage from '../assets/images/roster/@cassandraBankson.png'
-import samandcolbyImage from '../assets/images/roster/samandcolby.png'
+import cassandraImage from '../assets/images/roster/@cassandraBankson.webp'
+import samandcolbyImage from '../assets/images/roster/samandcolby.webp'
 
 // Creator data
 const creatorData = {

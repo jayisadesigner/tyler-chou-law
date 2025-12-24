@@ -13,6 +13,7 @@
     "colors": "node scripts/generate-colors.js"
   },
   "devDependencies": {
+    "sharp": "^0.34.5",
     "vite": "^7.2.4"
   },
   "dependencies": {
