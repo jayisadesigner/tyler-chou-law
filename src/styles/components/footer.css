@@ -12,9 +12,20 @@
 .footer-container {
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column; /* Mobile-first: stack vertically */
+  align-items: center;
+  gap: var(--space-sm);
   padding: 0 var(--space-md);
+}
+
+/* Desktop: horizontal layout */
+@media (min-width: 769px) {
+  .footer-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 0;
+  }
 }
 
 .footer-item {
@@ -69,16 +80,19 @@ body.bg-bone .footer-item {
   text-align: right;
 }
 
-@media (max-width: 768px) {
-  .footer-container {
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-sm);
+/* Mobile styles now in base - footer items centered by default */
+.footer-item {
+  text-align: center;
+}
+
+/* Desktop: restore original alignment */
+@media (min-width: 769px) {
+  .footer-item--left {
+    text-align: left;
   }
   
-  /* !important justified: Override flexbox alignment on mobile for centered text layout */
-  .footer-item {
-    text-align: center !important;
+  .footer-item--right {
+    text-align: right;
   }
 }
 
