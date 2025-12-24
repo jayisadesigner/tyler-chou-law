@@ -221,9 +221,7 @@ function openOverlay(creatorId) {
   }
 
   populateOverlay(creatorId)
-  console.log('Opening dialog for:', creatorId)
   dialog.show()
-  console.log('Dialog show called, aria-hidden:', dialog.el.getAttribute('aria-hidden'))
   history.pushState({ creatorId }, '', `/roster/${creatorId}.html`)
 }
 
@@ -244,7 +242,10 @@ function handlePopState() {
   if (!dialog) return
 
   const creatorId = getCreatorIdFromURL()
-  const isOpen = !dialog.el.hasAttribute('aria-hidden') || dialog.el.getAttribute('aria-hidden') === 'false'
+  const overlay = document.getElementById('creator-page-overlay')
+  if (!overlay) return
+  
+  const isOpen = !overlay.hasAttribute('aria-hidden') || overlay.getAttribute('aria-hidden') === 'false'
 
   if (creatorId && !isOpen) {
     populateOverlay(creatorId)
@@ -264,12 +265,6 @@ export function initCreatorTransitions() {
   // Initialize a11y-dialog
   // Pass the container element - a11y-dialog will manage aria-hidden
   dialog = new A11yDialog(overlay)
-  
-  // Debug: Check if dialog was created
-  if (!dialog) {
-    console.error('Failed to initialize a11y-dialog')
-    return
-  }
 
   // Card clicks
   document.querySelectorAll('.roster-card[data-creator]').forEach(card => {
