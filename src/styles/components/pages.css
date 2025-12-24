@@ -591,6 +591,15 @@ body.bg-palo-verde .palo-verde-body__column {
 @media (min-width: 1536px) {
   .roster-grid {
     grid-template-columns: repeat(4, 1fr);
+    /* Constrain grid to match card widths: 4 cards × 366px + 3 gaps × 48px = 1608px */
+    max-width: 1608px;
+    margin-inline: auto;
+  }
+  
+  .roster-header {
+    /* Match grid max-width for alignment */
+    max-width: 1608px;
+    margin-inline: auto;
   }
 }
 
