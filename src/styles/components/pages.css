@@ -1778,16 +1778,12 @@ body.bg-palo-verde .palo-verde-body__column {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* a11y-dialog removes aria-hidden when showing, or sets it to false */
-.creator-page-overlay:not([aria-hidden]),
 .creator-page-overlay[aria-hidden="false"] {
   opacity: 1;
   visibility: visible;
 }
 
 /* Hide navigation when overlay is open */
-/* a11y-dialog removes aria-hidden when showing, so check for both cases */
-body:has(.creator-page-overlay:not([aria-hidden])) .site-header,
 body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   opacity: 0;
   visibility: hidden;
