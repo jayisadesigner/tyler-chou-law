@@ -212,8 +212,23 @@ function openOverlay(creatorId) {
   const overlay = document.getElementById('creator-page-overlay')
   if (!overlay) return
 
+  // Store the element that had focus before opening
+  const previouslyFocused = document.activeElement
+
   populateOverlay(creatorId)
   overlay.setAttribute('aria-hidden', 'false')
+  
+  // Lock body scroll
+  document.body.style.overflow = 'hidden'
+  
+  // Move focus to overlay for accessibility (but don't focus close button to avoid warning)
+  // Set focus to overlay itself with tabindex
+  overlay.setAttribute('tabindex', '-1')
+  overlay.focus()
+  
+  // Store reference for focus restoration
+  overlay.dataset.previousFocus = previouslyFocused?.id || ''
+  
   history.pushState({ creatorId }, '', `/roster/${creatorId}.html`)
 }
 
@@ -224,7 +239,30 @@ function closeOverlay() {
   const overlay = document.getElementById('creator-page-overlay')
   if (!overlay) return
 
+  const creatorId = getCreatorIdFromURL()
+  
+  // If we're on a standalone creator page, always redirect to roster
+  if (creatorId) {
+    window.location.href = '/roster.html'
+    return
+  }
+
+  // Otherwise, we're on roster.html or index.html - just close the overlay
+  // Restore focus to previously focused element
+  const previousFocusId = overlay.dataset.previousFocus
+  if (previousFocusId) {
+    const previousElement = document.getElementById(previousFocusId)
+    if (previousElement) {
+      previousElement.focus()
+    }
+  }
+
   overlay.setAttribute('aria-hidden', 'true')
+  overlay.removeAttribute('tabindex')
+  
+  // Unlock body scroll
+  document.body.style.overflow = ''
+  
   history.back()
 }
 
@@ -239,10 +277,17 @@ function handlePopState() {
   const isOpen = overlay.getAttribute('aria-hidden') === 'false'
 
   if (creatorId && !isOpen) {
+    // Opening via browser navigation
     populateOverlay(creatorId)
     overlay.setAttribute('aria-hidden', 'false')
+    overlay.setAttribute('tabindex', '-1')
+    overlay.focus()
+    document.body.style.overflow = 'hidden'
   } else if (!creatorId && isOpen) {
+    // Closing via browser navigation
     overlay.setAttribute('aria-hidden', 'true')
+    overlay.removeAttribute('tabindex')
+    document.body.style.overflow = ''
   }
 }
 
@@ -278,10 +323,16 @@ export function initCreatorTransitions() {
   // Browser navigation
   window.addEventListener('popstate', handlePopState)
 
-  // Open on page load if URL has creator ID
+  // Open on page load if URL has creator ID (direct load or refresh)
   const creatorId = getCreatorIdFromURL()
   if (creatorId) {
     populateOverlay(creatorId)
     overlay.setAttribute('aria-hidden', 'false')
+    overlay.setAttribute('tabindex', '-1')
+    overlay.focus()
+    document.body.style.overflow = 'hidden'
+    
+    // Replace current history state to ensure we have proper state
+    history.replaceState({ creatorId }, '', `/roster/${creatorId}.html`)
   }
 }
