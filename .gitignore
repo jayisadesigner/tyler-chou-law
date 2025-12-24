@@ -28,3 +28,6 @@ content/blog/*.md.bak
 *.njsproj
 *.sln
 *.sw?
+
+# Local Netlify folder
+.netlify
