@@ -21,7 +21,7 @@ export const pageData = {
       eyebrow: 'about tyler',
       headline: 'Twenty Years in Hollywood. Now Fighting for Creators.',
       subheadline: 'Tyler Chou left a career advising studios to stand on the other side of the table. Yours.',
-      backgroundImage: 'src/assets/images/about/tyler-chou-headshot.jpeg',
+      backgroundImage: 'src/assets/images/about/hero-about-tyler-chou-on-stage.jpg',
       variant: 'default'
     },
     body: {
