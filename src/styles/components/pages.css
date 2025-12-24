@@ -254,6 +254,18 @@
   overflow: visible; /* Allow decorative elements to overflow on large screens */
 }
 
+/* About page: adjust hero image position on mobile to show subject */
+/* Target via image src attribute since about page doesn't have .about class */
+.background-image__img[src*="about"] {
+  object-position: 75% center; /* Show right portion on mobile (subject is on right) */
+}
+
+@media (min-width: 769px) {
+  .background-image__img[src*="about"] {
+    object-position: center; /* Center on desktop */
+  }
+}
+
 /* About and Palo Verde sections inherit background from body for animated transitions */
 
 .about-container,
