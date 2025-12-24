@@ -34,42 +34,36 @@
 }
 
 /* Inner Page Hero Content - Grid Layout */
+/* Mobile-first: Start with simple single column, enhance to complex grid on desktop */
 .hero-content--inner-page {
   position: relative;
   z-index: 2;
   width: 100%;
   max-width: 1512px;
-  padding: var(--space-4xl) var(--space-md);
+  padding: var(--space-2xl) var(--space-md);
   display: grid;
-  grid-template-columns: 
-    minmax(80px, auto)           /* Eyebrow - fits content, smaller min for mobile */
-    repeat(3, minmax(120px, 1fr)) /* Content - flexible, smaller min allows mobile */
-    minmax(0, 1fr);               /* Spacing - can shrink to 0 */
-  grid-template-rows: repeat(2, fit-content(100%));
-  gap: clamp(0.5rem, 1.5vw, 1rem); /* Fluid gap that scales */
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  gap: var(--space-md);
   overflow: clip;
 }
 
-/* Desktop - Medium screens (1025px - 1280px) */
-/* Typography scaling handled by variables.css media queries */
-/* Large Desktop */
-/* Typography scaling handled by variables.css media queries */
-
-/* Hero Eyebrow - Column 1, Row 1 */
+/* Hero Eyebrow - Mobile: Row 1 */
 .hero-eyebrow {
   grid-column: 1;
   grid-row: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  align-self: start;
-  padding-top: var(--space-xl);
+  align-self: start; /* Align to top of grid cell */
+  padding-top: 0;
+  width: 100%;
 }
 
 .hero-eyebrow__text {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: 1rem; /* 16px */
+  font-size: var(--text-ui-nav);
   line-height: 1;
   text-transform: uppercase;
   color: var(--bone);
@@ -77,14 +71,16 @@
   white-space: nowrap;
 }
 
-/* Hero Headline Wrapper - Columns 2-4, Row 1 */
+/* Hero Headline Wrapper - Mobile: Row 2, contains nested subheadline */
 .hero-headline-wrapper {
-  grid-column: 2 / span 3;
-  grid-row: 1;
+  grid-column: 1;
+  grid-row: 2;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-top: var(--space-xl);
+  padding-top: 0;
+  width: 100%;
+  gap: var(--space-xs); /* Small gap between headline and nested subheadline */
 }
 
 .hero-headline {
@@ -114,17 +110,73 @@
   text-align: left;
   text-align-last: left;
   width: 100%;
-  max-width: 872px;
+  max-width: 100%;
   margin: 0;
 }
 
-/* Hero Subheadline Wrapper - Columns 2-4, Row 2 */
+/* Desktop: Enhance to complex grid layout */
+@media (min-width: 769px) {
+  .hero-content--inner-page {
+    grid-template-columns: 
+      minmax(80px, auto)
+      repeat(3, minmax(120px, 1fr))
+      minmax(0, 1fr);
+    grid-template-rows: repeat(2, fit-content(100%));
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    padding: var(--space-4xl) var(--space-md);
+  }
+  
+  .hero-eyebrow {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start; /* Align to top of grid cell */
+    padding-top: var(--space-xl);
+  }
+  
+  .hero-headline-wrapper {
+    grid-column: 2 / span 3;
+    grid-row: 1;
+    padding-top: var(--space-xl);
+    gap: 0; /* Remove gap on desktop - subheadline is in separate row */
+  }
+  
+  /* Hide nested subheadline on desktop */
+  .hero-subheadline--nested {
+    display: none;
+  }
+  
+  /* Show desktop subheadline wrapper on desktop */
+  .hero-subheadline-wrapper {
+    display: block;
+    grid-column: 2 / span 3;
+    grid-row: 2;
+    margin-top: 0;
+  }
+  
+  /* Show desktop subheadline on desktop */
+  .hero-subheadline--desktop {
+    display: block;
+  }
+  
+  .hero-headline-wrapper .hero-headline--inner-page,
+  .hero-headline--inner-page {
+    max-width: 872px;
+  }
+}
+
+/* Hero Subheadline Wrapper - Mobile: Hidden (subheadline is nested in headline wrapper) */
 .hero-subheadline-wrapper {
-  grid-column: 2 / span 3;
-  grid-row: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  display: none; /* Hide on mobile - subheadline is nested in headline wrapper */
+}
+
+/* Nested subheadline - visible on mobile */
+.hero-subheadline--nested {
+  display: block;
+}
+
+/* Desktop subheadline - hidden on mobile */
+.hero-subheadline--desktop {
+  display: none;
 }
 
 .hero-subheadline {
@@ -178,14 +230,22 @@
   padding: 0;
 }
 
-/* Services Grid - old definition removed, see Services Section below */
 
 /* Roster Grid */
+/* Mobile-first: single column, then auto-fit at 640px+ */
 .roster-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-xl);
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
   margin: var(--space-2xl) 0;
+}
+
+/* Small tablet and up: auto-fit columns */
+@media (min-width: 640px) {
+  .roster-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl);
+  }
 }
 
 /* Shared Layout Styles for About and Palo Verde Sections */
@@ -459,14 +519,24 @@ body.bg-palo-verde .palo-verde-body__column {
 /* .roster uses .section padding - var(--space-4xl) 0 on desktop, var(--space-2xl) 0 on mobile */
 /* Background inherits from body for animated transitions */
 
-/* roster-container replaced with .container-wide */
 
 .roster-header {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  flex-direction: column; /* Mobile-first: stack vertically */
+  align-items: flex-start;
+  gap: var(--space-md);
   margin-bottom: var(--space-lg);
   width: 100%;
+}
+
+/* Desktop: horizontal layout */
+@media (min-width: 769px) {
+  .roster-header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0;
+  }
 }
 
 .roster-title {
@@ -507,15 +577,7 @@ body.bg-palo-verde .palo-verde-body__column {
   border-radius: 2px;
 }
 
-.roster-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 0;
-  width: 100%;
-  padding: 0;
-}
-
-/* Limit to 4 columns max on widest screens */
+/* Large desktop: fixed 4 columns */
 @media (min-width: 1536px) {
   .roster-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -620,17 +682,27 @@ body.bg-palo-verde .palo-verde-body__column {
 
 .philosophy-content {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: 1fr; /* Mobile-first: single column */
   grid-auto-rows: min-content;
   align-content: center;
-  justify-content: var(--philosophy-justify, center); /* CSS variable with centered fallback */
+  justify-content: center;
   width: 100%;
   max-width: 100%;
-  padding: 0 24px;
-  gap: var(--space-sm) 16px;
+  padding: 0 var(--space-md);
+  gap: var(--space-md);
   overflow: visible;
   box-sizing: border-box;
   flex-shrink: 0;
+}
+
+/* Desktop: Enhance to 8-column grid */
+@media (min-width: 769px) {
+  .philosophy-content {
+    grid-template-columns: repeat(8, 1fr);
+    justify-content: var(--philosophy-justify, center); /* CSS variable with centered fallback */
+    padding: 0 var(--space-md);
+    gap: var(--space-sm) var(--space-md);
+  }
 }
 
 .philosophy-item {
@@ -1028,15 +1100,25 @@ body.bg-palo-verde .palo-verde-body__column {
 /* .services uses .section padding - var(--space-4xl) 0 on desktop, var(--space-2xl) 0 on mobile */
 /* Background inherits from body for animated transitions */
 
-/* services-container replaced with .container-wide */
 
 .services-header {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  flex-direction: column; /* Mobile-first: stack vertically */
+  align-items: flex-start;
+  gap: var(--space-md);
   margin-bottom: var(--space-lg);
   width: 100%;
   padding: 0;
+}
+
+/* Desktop: horizontal layout */
+@media (min-width: 769px) {
+  .services-header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0;
+  }
 }
 
 .services-title {
@@ -1068,10 +1150,18 @@ body.bg-palo-verde .palo-verde-body__column {
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-sm);
+  grid-template-columns: 1fr; /* Mobile-first: single column */
+  gap: var(--space-md);
   width: 100%;
   padding: 0;
+}
+
+/* Small tablet and up: auto-fit columns */
+@media (min-width: 640px) {
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-sm);
+  }
 }
 
 .service-card {
@@ -1311,11 +1401,6 @@ body.bg-palo-verde .palo-verde-body__column {
     min-height: auto;
   }
   
-  .philosophy-content {
-    padding: 0 var(--space-md);
-    overflow-x: visible; /* Allow text to overflow if needed */
-  }
-  
   .philosophy-item {
     width: 100%;
     overflow: visible; /* Allow text to overflow if needed */
@@ -1334,13 +1419,6 @@ body.bg-palo-verde .palo-verde-body__column {
     max-width: 724px;
   }
   
-  /* services-container uses .container-wide responsive padding */
-  
-  .services-grid {
-    gap: var(--space-md);
-    padding: 0;
-  }
-  
   .service-card {
     width: 100%;
     max-width: 477px;
@@ -1348,96 +1426,13 @@ body.bg-palo-verde .palo-verde-body__column {
     min-height: 380px;
   }
   
-  .services-header {
-    padding: 0;
-  }
-  
-  /* Inner Page Hero - Mobile Responsive */
   .hero--inner-page {
     padding: var(--space-2xl) var(--space-md);
     min-height: auto;
   }
-  
-  /* Increase specificity to ensure mobile override works */
-  .hero--inner-page .hero-content--inner-page {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    gap: var(--space-md);
-    padding: var(--space-2xl) var(--space-md);
-  }
-  
-  .hero-eyebrow {
-    grid-column: 1;
-    grid-row: 1;
-    padding-top: 0;
-  }
-  
-  .hero-eyebrow__text {
-    font-size: var(--text-ui-nav);
-  }
-  
-  .hero-headline-wrapper {
-    grid-column: 1;
-    grid-row: 2;
-    padding-top: 0;
-  }
-  
-  .hero-headline-wrapper .hero-headline--inner-page,
-  .hero-headline--inner-page {
-    font-size: var(--text-h2-size);
-    max-width: 100%;
-  }
-  
-  .hero-subheadline-wrapper {
-    grid-column: 1;
-    grid-row: 3;
-  }
-  
-  .hero-subheadline--inner-page {
-    font-size: var(--text-h3-size);
-  }
 }
 
-/* Tablet - Medium screens */
-@media (max-width: 1024px) and (min-width: 769px) {
-  /* Inner Page Hero - Tablet */
-  /* Grid adapts naturally with minmax, no need to override */
-  .hero-content--inner-page {
-    padding: var(--space-3xl) var(--space-md);
-  }
-  
-  .hero-headline-wrapper .hero-headline--inner-page,
-  .hero-headline--inner-page {
-    font-size: var(--text-h2-size);
-  }
-  
-  .hero-subheadline--inner-page {
-    font-size: var(--text-h3-size);
-  }
-  
-  .hero-eyebrow__text {
-    font-size: var(--text-ui-nav);
-  }
-}
-
-/* Small tablets */
-@media (max-width: 900px) and (min-width: 769px) {
-  .service-card {
-    width: 100%;
-    max-width: 100%;
-  }
-  
-  /* Inner Page Hero - Small Tablet */
-  /* Grid adapts naturally with minmax, no need to override */
-  .hero-headline-wrapper .hero-headline--inner-page,
-  .hero-headline--inner-page {
-    font-size: var(--text-h2-size);
-  }
-  
-  .hero-subheadline--inner-page {
-    font-size: var(--text-h3-size);
-  }
-}
+/* Tablet breakpoint overrides removed - typography handled by variables.css, layout handled by mobile-first base styles */
 
 /* Mobile */
 @media (max-width: 768px) {
@@ -1476,18 +1471,8 @@ body.bg-palo-verde .palo-verde-body__column {
   
   /* .roster uses .section responsive padding */
   
-  .roster-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-  
   .roster-title {
     font-size: var(--text-h3-size);
-  }
-  
-  .roster-grid {
-    gap: var(--space-md);
   }
   
   .roster-card {
@@ -1895,10 +1880,19 @@ body.bg-palo-verde .palo-verde-body__column {
   height: auto; /* Allow container to grow with content */
   padding: 0 0 var(--space-lg) 0; /* Add bottom padding for scroll */
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 16px; /* Gutter */
-  margin: 24px; /* Margin */
+  grid-template-columns: 1fr; /* Mobile-first: single column */
+  gap: var(--space-md);
+  margin: var(--space-md);
   box-sizing: border-box;
+}
+
+/* Desktop: enhance to 8-column grid */
+@media (min-width: 769px) {
+  .creator-page-overlay__container {
+    grid-template-columns: repeat(8, 1fr);
+    gap: var(--space-md); /* Gutter */
+    margin: var(--space-md); /* Margin */
+  }
 }
 
 /* Image Card - Base styles (positioned by JS during transition) */
@@ -2151,13 +2145,9 @@ body.bg-palo-verde .palo-verde-body__column {
 
   /* Container - simple vertical layout */
   .creator-page-overlay__container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
     margin: 0;
     padding: var(--space-lg) var(--space-md);
     padding-top: calc(88px + var(--space-md));
-    grid-template-columns: 1fr;
     min-height: auto;
   }
 
