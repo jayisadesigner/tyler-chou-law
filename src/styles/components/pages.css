@@ -1751,16 +1751,18 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 /* ========================================
-   Creator Page Overlay - Simple Two-Column Layout
+   Creator Page Overlay - Simplified Single-Scroll Layout
    ======================================== */
 
-/* Base Overlay - Mobile: container is scrollable */
+/* Base Overlay - Scrolls naturally on both mobile and desktop */
 .creator-page-overlay {
   position: fixed;
   inset: 0;
   background-color: var(--chuparosa-600);
   z-index: 9999;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -1834,19 +1836,13 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   color: var(--lupine-50);
 }
 
-/* Container - Mobile: scrollable */
+/* Container - Just a normal flowing block */
 .creator-page-overlay__container {
-  position: absolute;
-  inset: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
+  min-height: 100vh;
   padding: calc(var(--space-md) * 3) var(--space-md) var(--space-4xl);
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-md);
-  min-height: 100%;
 }
 
 /* Stats - Mobile: 2x2 grid */
@@ -1999,6 +1995,15 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     font-size: var(--text-small-size);
   }
 
+  /* Container - Push to right half, normal flow */
+  .creator-page-overlay__container {
+    margin-left: 50%;
+    width: 50%;
+    padding: var(--space-4xl) var(--space-md);
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+  }
+
   /* Image Card - Fixed left (50% width, full height) */
   .creator-page-overlay__image-card {
     position: fixed;
@@ -2008,7 +2013,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     height: 100vh;
     aspect-ratio: auto;
     order: unset;
-    pointer-events: none; /* Allow scroll events to pass through */
+    z-index: 1;
   }
 
   .creator-page-overlay__image-wrapper {
@@ -2016,28 +2021,14 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     inset: 0;
   }
 
-  /* Handle - Desktop sizing */
+  /* Handle - Fixed over image */
   .creator-page-overlay__handle {
+    position: fixed;
     bottom: var(--space-xl);
     left: var(--space-md);
     font-size: var(--text-h2-size);
     line-height: var(--text-h2-line-height);
-  }
-
-  /* Container - Scrollable right (50% width, height: 100vh, overflow: auto) */
-  .creator-page-overlay__container {
-    position: fixed;
-    left: 50%;
-    top: 0;
-    width: 50%;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    overscroll-behavior: contain;
-    padding: var(--space-4xl) var(--space-md);
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(0.5rem, 1.5vw, 1rem);
-    min-height: 100%;
+    z-index: 2;
   }
 
   /* Stats - Desktop: 2x2 grid, full width */
