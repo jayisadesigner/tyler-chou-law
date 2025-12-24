@@ -1748,23 +1748,39 @@ body.bg-palo-verde .palo-verde-body__column {
 /* Base Overlay */
 .creator-page-overlay {
   position: fixed;
-  inset: 0;
-  background-color: var(--chuparosa-600);
+  inset: 0; /* Handles top/right/bottom/left = 0, making it fill viewport */
+  background-color: var(--chuparosa-600); /* Base color */
   z-index: 9999;
   overflow-y: auto;
   overflow-x: hidden;
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
-  /* Smooth scrolling */
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+  /* Ensure overlay can scroll even when body is locked */
+  overscroll-behavior: contain;
 }
 
 .creator-page-overlay[aria-hidden="false"] {
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
+  background-color: var(--chuparosa-600); /* Base color */
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  /* Ensure overlay receives scroll events */
+  touch-action: pan-y;
+}
+
+/* Hide navigation when overlay is open */
+body.creator-overlay-open .site-header,
+body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* Close Button */
@@ -2116,6 +2132,14 @@ body.bg-palo-verde .palo-verde-body__column {
   /* Overlay adjustments */
   .creator-page-overlay {
     padding: 0;
+    /* Don't override inset, background, or overflow - they're handled by base styles */
+  }
+
+  /* Ensure active state works on mobile */
+  .creator-page-overlay[aria-hidden="false"] {
+    background-color: var(--chuparosa-600);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   /* Breadcrumbs */

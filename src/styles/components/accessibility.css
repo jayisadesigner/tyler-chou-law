@@ -26,6 +26,15 @@ select:focus-visible {
   outline-offset: 2px;
 }
 
+/* Suppress focus styles for programmatic focus (mouse clicks) */
+a.programmatic-focus:focus,
+button.programmatic-focus:focus,
+input.programmatic-focus:focus,
+textarea.programmatic-focus:focus,
+select.programmatic-focus:focus {
+  outline: none;
+}
+
 .bg-obsidian a:focus-visible,
 .bg-obsidian button:focus-visible,
 .bg-obsidian input:focus-visible,

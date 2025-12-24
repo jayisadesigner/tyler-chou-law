@@ -280,7 +280,7 @@
       </section>
 
       <!-- Creator Page Overlay (for transitions) -->
-      <div class="creator-page-overlay" id="creator-page-overlay" aria-hidden="true">
+      <div class="creator-page-overlay" id="creator-page-overlay" aria-hidden="true" role="dialog" aria-modal="true">
         <!-- Close Button -->
         <button class="creator-page-overlay__close" aria-label="Close creator page">
           <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -333,7 +333,7 @@
               <div class="creator-page-overlay__image-overlay"></div>
               <div class="creator-page-overlay__image-scrim"></div>
             </div>
-            <p class="creator-page-overlay__handle"></p>
+            <p class="creator-page-overlay__handle" id="creator-overlay-handle"></p>
           </div>
 
           <!-- Right: Content Area (appears in middle/end states) -->
