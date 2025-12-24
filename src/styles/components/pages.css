@@ -1745,34 +1745,24 @@ body.bg-palo-verde .palo-verde-body__column {
    Creator Page Overlay - Transition States
    ======================================== */
 
-/* Base Overlay */
+/* Base Overlay - Mobile: scrollable */
 .creator-page-overlay {
   position: fixed;
-  inset: 0; /* Handles top/right/bottom/left = 0, making it fill viewport */
-  background-color: var(--chuparosa-600); /* Base color */
+  inset: 0;
+  background-color: var(--chuparosa-600);
   z-index: 9999;
-  overflow-y: auto;
+  overflow-y: auto; /* Mobile: overlay scrolls */
   overflow-x: hidden;
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
   -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  /* Ensure overlay can scroll even when body is locked */
-  overscroll-behavior: contain;
 }
 
 .creator-page-overlay[aria-hidden="false"] {
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
-  background-color: var(--chuparosa-600); /* Base color */
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  /* Ensure overlay receives scroll events */
-  touch-action: pan-y;
 }
 
 /* Hide navigation when overlay is open */
@@ -1783,13 +1773,13 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   pointer-events: none;
 }
 
-/* Close Button */
+/* Close Button - Fixed, mobile-first */
 .creator-page-overlay__close {
   position: fixed;
-  top: 24px;
-  right: 24px;
-  width: 64px;
-  height: 64px;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  width: calc(var(--space-md) * 2); /* 48px mobile */
+  height: calc(var(--space-md) * 2);
   background: none;
   border: none;
   cursor: pointer;
@@ -1819,16 +1809,16 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   opacity: 0.7;
 }
 
-/* Breadcrumbs */
+/* Breadcrumbs - Fixed, mobile-first */
 .creator-page-overlay__breadcrumbs {
   position: fixed;
-  top: 24px;
-  left: 24px;
+  top: var(--space-sm);
+  left: var(--space-sm);
   display: flex;
   align-items: center;
   gap: var(--space-xs);
   font-family: var(--font-display);
-  font-size: var(--text-small-size);
+  font-size: var(--text-tiny-size); /* Mobile: smaller */
   font-weight: 500;
   color: var(--lupine-50);
   text-transform: uppercase;
@@ -1857,27 +1847,26 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   color: var(--lupine-50);
 }
 
-/* Header */
+/* Header - Mobile-first: relative, scrollable */
 .creator-page-overlay__header {
-  position: fixed;
-  top: 88px;
-  left: 24px;
-  right: 24px;
+  position: relative;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  height: 64px;
-  z-index: 10000;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+  padding-top: calc(var(--space-sm) + calc(var(--space-md) * 2) + var(--space-md)); /* Space for fixed breadcrumbs/close button */
+  z-index: 1;
   opacity: 1;
   transition: opacity 0.4s ease;
 }
 
 .creator-page-overlay__header-title {
   font-family: var(--font-display);
-  font-size: 3.998rem; /* 63.96px */
+  font-size: var(--text-h5-size); /* Mobile */
   font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.02em; /* -1.2792px */
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: var(--chuparosa-100);
   text-transform: uppercase;
   margin: 0;
@@ -1885,7 +1874,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 
 .creator-page-overlay__header-link {
   font-family: var(--font-display);
-  font-size: 1rem; /* 16px */
+  font-size: var(--text-small-size); /* Mobile */
   font-weight: 600;
   color: var(--chuparosa-100);
   text-transform: uppercase;
@@ -1897,45 +1886,33 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   opacity: 0.7;
 }
 
-/* Container */
+/* Container - Mobile-first: scrollable overlay */
 .creator-page-overlay__container {
   position: relative;
   width: 100%;
-  max-width: 100%;
-  min-height: 200vh; /* Ensure enough height for scroll transition */
-  height: auto; /* Allow container to grow with content */
-  padding: 0 0 var(--space-lg) 0; /* Add bottom padding for scroll */
+  height: auto;
+  padding: var(--space-2xl) var(--space-md);
+  padding-bottom: var(--space-4xl);
   display: grid;
-  grid-template-columns: 1fr; /* Mobile-first: single column */
+  grid-template-columns: 1fr;
   gap: var(--space-md);
-  margin: var(--space-md);
   box-sizing: border-box;
 }
 
-/* Desktop: enhance to 8-column grid */
-@media (min-width: 769px) {
-  .creator-page-overlay__container {
-    grid-template-columns: repeat(8, 1fr);
-    gap: var(--space-md); /* Gutter */
-    margin: var(--space-md); /* Margin */
-  }
-}
-
-/* Image Card - Base styles (positioned by JS during transition) */
+/* Image Card - Mobile-first: relative, scrollable */
 .creator-page-overlay__image-card {
-  position: fixed;
-  left: 24px;
-  top: 177px;
-  width: 724px;
-  height: 903.977px;
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
   z-index: 1;
+  order: 2; /* Mobile: after stats */
 }
 
 .creator-page-overlay__image-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
-  aspect-ratio: 4 / 5;
   overflow: hidden;
 }
 
@@ -1966,35 +1943,33 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   pointer-events: none;
 }
 
-/* Handle - Base styles (animated by JS) */
+/* Handle - Mobile-first: absolute within image card */
 .creator-page-overlay__handle {
   position: absolute;
-  bottom: 23.97px;
-  left: 24.4px;
+  bottom: var(--space-sm);
+  left: var(--space-sm);
   font-family: var(--font-display);
-  font-size: 5.653rem; /* 90.44px - Final size */
+  font-size: var(--text-h6-size); /* Mobile - already responsive */
   font-weight: 500;
-  line-height: 0.9;
+  line-height: var(--text-h6-line-height);
   letter-spacing: -0.03em;
   color: var(--bone);
   text-transform: uppercase;
   margin: 0;
-  z-index: 2;
+  z-index: 15; /* Above stats (10) and image card (1) */
 }
 
-/* Content Wrapper - Contains content and videos */
+/* Content Wrapper - Mobile-first: relative, scrollable */
 .creator-page-overlay__content-wrapper {
-  position: absolute;
-  left: calc(50% + 8px); /* Centered with 8px offset to the right */
-  top: 457px;
-  bottom: var(--space-lg);
-  width: 724px;
+  position: relative;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 10002; /* Above transition wrapper (10000) and stats (10001) */
+  opacity: 1; /* Mobile: always visible */
+  pointer-events: auto;
+  z-index: 1;
+  order: 3; /* Mobile: after image card */
 }
 
 /* Content Area - Hidden in start, appears in middle/end */
@@ -2003,15 +1978,16 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   width: 100%;
 }
 
-/* Description */
+/* Description - Mobile-first: column layout */
 .creator-page-overlay__description {
   display: flex;
+  flex-direction: column; /* Mobile: stacked */
   gap: var(--space-md);
   font-family: var(--font-body);
-  font-size: 1.375rem; /* 22px */
-  line-height: 1.2;
+  font-size: var(--text-p-size); /* Mobile - already responsive */
+  line-height: var(--text-p-line-height);
   color: var(--chuparosa-100);
-  margin: 0;
+  margin: 0 0 var(--space-2xl) 0;
 }
 
 .creator-page-overlay__description-text {
@@ -2019,34 +1995,31 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   margin: 0;
 }
 
-/* Stats */
+/* Stats - Mobile-first: relative, 2x2 grid */
 .creator-page-overlay__stats {
-  position: absolute;
-  left: calc(12.5% + 20px); /* Start after first column (12.5% = 1/8) + 20px offset */
-  top: 225px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  width: 1279px;
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Mobile: 2x2 grid */
+  gap: var(--space-md);
   margin-bottom: 0;
-  z-index: 10001; /* Always above image card and transition wrapper (which is 10000) */
+  z-index: 10; /* Above image card */
+  order: 1; /* Mobile: first */
 }
 
 .creator-page-overlay__stat {
-  flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  text-align: center;
+  text-align: left; /* Left aligned */
 }
 
 .creator-page-overlay__stat-value {
   font-family: var(--font-display);
-  font-size: 5.653rem; /* 90.44px */
+  font-size: var(--text-h4-size); /* Mobile - already responsive */
   font-weight: 500;
-  line-height: 0.9;
-  letter-spacing: -0.03em; /* -2.7132px */
+  line-height: var(--text-h4-line-height);
+  letter-spacing: -0.03em;
   color: var(--lupine-50);
   text-transform: uppercase;
   margin: 0;
@@ -2054,22 +2027,23 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 
 .creator-page-overlay__stat-label {
   font-family: var(--font-display);
-  font-size: 1rem; /* 16px */
+  font-size: var(--text-h6-size); /* Mobile - already responsive, matches desktop pattern */
   font-weight: 500;
-  letter-spacing: 0.32px;
+  letter-spacing: 0.02em;
   color: var(--lupine-50);
   text-transform: uppercase;
   margin: 0;
-  line-height: 1.2;
+  line-height: var(--text-h6-line-height);
 }
 
-/* Videos */
+/* Videos - Mobile-first: relative, scrollable */
 .creator-page-overlay__videos {
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-md);
+  order: 4; /* Mobile: last */
 }
 
 .creator-page-overlay__video {
@@ -2080,10 +2054,10 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 
 .creator-page-overlay__video-label {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
+  bottom: var(--space-sm);
+  left: var(--space-sm);
   font-family: var(--font-display);
-  font-size: 0.75rem; /* 12px */
+  font-size: var(--text-tiny-size); /* Mobile */
   font-weight: 500;
   line-height: 0.93;
   color: var(--lupine-50);
@@ -2092,206 +2066,230 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   pointer-events: none;
 }
 
-/* Middle State - Content visible */
+/* Middle State - Content visible (mobile: always visible) */
 .creator-page-overlay--middle .creator-page-overlay__content-wrapper {
   opacity: 1;
   pointer-events: auto;
+  touch-action: pan-y;
 }
 
 .creator-page-overlay--middle .creator-page-overlay__header {
-  opacity: 0;
+  opacity: 0; /* Hide on desktop, but mobile shows it */
 }
 
-/* End State - Full height card */
+/* End State - Mobile: same as middle */
 .creator-page-overlay--end .creator-page-overlay__image-card {
-  left: 0;
-  top: 0;
-  width: 748px;
-  height: 1266px;
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
 }
 
 .creator-page-overlay--end .creator-page-overlay__handle {
-  font-size: 3.998rem; /* 63.96px */
-  top: 82px;
-  bottom: auto;
-  left: 24px;
-  line-height: 1;
-  letter-spacing: -0.02em;
+  position: absolute;
+  bottom: var(--space-sm);
+  left: var(--space-sm);
+  top: auto;
+  font-size: var(--text-h6-size);
+  line-height: var(--text-h6-line-height);
+  letter-spacing: -0.03em;
 }
 
 .creator-page-overlay--end .creator-page-overlay__content-wrapper {
-  top: -14px;
+  position: relative;
+  top: auto;
 }
 
 .creator-page-overlay--end .creator-page-overlay__description {
   position: relative;
 }
 
-/* Mobile: Simple stacked vertical layout */
-@media (max-width: 768px) {
-  /* Overlay adjustments */
-  .creator-page-overlay {
-    padding: 0;
-    /* Don't override inset, background, or overflow - they're handled by base styles */
-  }
-
-  /* Ensure active state works on mobile */
-  .creator-page-overlay[aria-hidden="false"] {
-    background-color: var(--chuparosa-600);
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  /* Breadcrumbs */
-  .creator-page-overlay__breadcrumbs {
-    top: 16px;
-    left: 16px;
-    font-size: 0.75rem;
-  }
-
-  /* Close button */
+/* Desktop Enhancements - @media (min-width: 769px) */
+@media (min-width: 769px) {
+  /* Close Button - Desktop sizing */
   .creator-page-overlay__close {
-    top: 16px;
-    right: 16px;
-    width: 48px;
-    height: 48px;
+    top: var(--space-md);
+    right: var(--space-md);
+    width: calc(var(--space-md) * 2.67); /* 64px */
+    height: calc(var(--space-md) * 2.67);
   }
 
-  /* Header */
+  /* Breadcrumbs - Desktop sizing */
+  .creator-page-overlay__breadcrumbs {
+    top: var(--space-md);
+    left: var(--space-md);
+    font-size: var(--text-small-size);
+  }
+
+  /* Header - Desktop: fixed positioning */
   .creator-page-overlay__header {
-    top: 64px;
-    left: 16px;
-    right: 16px;
-    height: auto;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-xs);
+    position: fixed;
+    top: calc(var(--space-md) * 3.67); /* 88px */
+    left: var(--space-md);
+    right: var(--space-md);
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: calc(var(--space-md) * 2.67); /* 64px */
+    padding: 0;
+    gap: 0;
   }
 
   .creator-page-overlay__header-title {
-    font-size: var(--text-h5-size);
-    line-height: 1.1;
+    font-size: var(--text-h3-size); /* Desktop */
   }
 
   .creator-page-overlay__header-link {
-    font-size: 0.875rem;
+    font-size: var(--text-p-size); /* Desktop */
   }
 
-  /* Container - simple vertical layout */
+  /* Overlay - Desktop: scrollable (right column scrolls with normal flow) */
+  .creator-page-overlay {
+    overflow-y: auto; /* Desktop: overlay scrolls */
+    overflow-x: hidden;
+  }
+
+  .creator-page-overlay[aria-hidden="false"] {
+    overflow-y: auto; /* Desktop: overlay scrolls */
+    overflow-x: hidden;
+  }
+
+  /* Container - Desktop: right column (50% width, margin-left: 50%, scrolls independently) */
   .creator-page-overlay__container {
-    margin: 0;
-    padding: var(--space-lg) var(--space-md);
-    padding-top: calc(88px + var(--space-md));
-    min-height: auto;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    position: relative; /* Normal document flow */
+    width: 50%;
+    margin-left: 50%; /* Sit next to fixed left column */
+    padding: var(--space-4xl) var(--space-md);
+    padding-top: calc(var(--space-md) * 3.67 + calc(var(--space-md) * 2.67) + var(--space-md));
+    padding-bottom: var(--space-4xl);
+    box-sizing: border-box;
   }
 
-  /* Stats - 2x2 grid on mobile */
+  /* Stats - Desktop: relative positioning, full width of 4-column container */
   .creator-page-overlay__stats {
     position: relative;
     left: auto;
     top: auto;
-    width: 100%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-md);
-    margin-bottom: 0;
-    order: 1;
+    grid-template-columns: repeat(2, 1fr); /* 2x2 grid matching Figma */
+    width: 100%;
+    max-width: none;
+    gap: var(--space-sm);
+    order: unset;
+    z-index: 10; /* Above image card */
+    grid-column: 1 / 5; /* Full width across all 4 columns of the container */
   }
 
   .creator-page-overlay__stat {
-    flex: none;
+    flex: 1;
+    min-width: 0;
   }
 
   .creator-page-overlay__stat-value {
-    font-size: var(--text-h4-size);
+    font-size: var(--text-h2-size); /* Desktop - already responsive */
+    line-height: var(--text-h2-line-height);
+    letter-spacing: -0.03em;
   }
 
   .creator-page-overlay__stat-label {
-    font-size: 0.875rem;
+    font-size: var(--text-h6-size); /* Desktop - already responsive */
+    line-height: var(--text-h6-line-height);
   }
 
-  /* Image Card */
+  /* Image Card - Desktop: fixed left column (50% width, 100vh height) */
   .creator-page-overlay__image-card {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 5;
-    order: 2;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 1;
   }
 
+  /* Image Wrapper - Desktop: fill container */
   .creator-page-overlay__image-wrapper {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
   }
 
-  /* Handle */
+  /* Handle - Desktop: absolute positioning within fixed image card */
   .creator-page-overlay__handle {
     position: absolute;
-    bottom: 16px;
-    left: 16px;
-    font-size: var(--text-h6-size);
-    line-height: 1.1;
-    order: 2;
+    bottom: var(--space-xl);
+    left: var(--space-md);
+    font-size: var(--text-h2-size); /* Desktop - already responsive */
+    line-height: var(--text-h2-line-height);
+    letter-spacing: -0.03em;
+    z-index: 15; /* Above stats (10) and image card (1) */
   }
 
-  /* Content Wrapper */
+  /* Content Wrapper - Desktop: relative positioning, full width of 4-column container */
   .creator-page-overlay__content-wrapper {
     position: relative;
     left: auto;
     top: auto;
+    bottom: auto;
     width: 100%;
-    opacity: 1;
+    opacity: 1; /* Always visible on desktop (scrollable layout) */
     pointer-events: auto;
-    order: 3;
+    z-index: 1;
+    order: unset;
+    grid-column: 1 / 5; /* Full width across all 4 columns of the container */
   }
 
-  /* Content */
-  .creator-page-overlay__content {
-    position: relative;
-    width: 100%;
-  }
-
+  /* Description - Desktop: row layout */
   .creator-page-overlay__description {
-    flex-direction: column;
-    gap: var(--space-md);
-    font-size: 1rem;
-    margin-bottom: var(--space-2xl);
+    flex-direction: row; /* Desktop: side-by-side */
+    font-size: var(--text-h6-size); /* Desktop: use h6 size */
+    line-height: 1.2;
+    margin: 0;
   }
 
-  /* Videos */
+  /* Videos - Desktop: adjust spacing */
   .creator-page-overlay__videos {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    gap: var(--space-md);
-    order: 4;
+    gap: var(--space-sm);
+    order: unset;
   }
 
   .creator-page-overlay__video-label {
-    font-size: 0.7rem;
-    bottom: 12px;
-    left: 12px;
+    bottom: var(--space-md);
+    left: var(--space-md);
+    font-size: var(--text-tiny-size); /* Desktop - already responsive */
   }
 
-  /* End state adjustments for mobile */
+  /* Middle State - Desktop */
+  .creator-page-overlay--middle .creator-page-overlay__content-wrapper {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .creator-page-overlay--middle .creator-page-overlay__header {
+    opacity: 0;
+  }
+
+  /* End State - Desktop: same as normal state (fixed image card) */
   .creator-page-overlay--end .creator-page-overlay__image-card {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 5;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100vh;
+    height: 100dvh;
+    aspect-ratio: auto;
   }
 
   .creator-page-overlay--end .creator-page-overlay__handle {
     position: absolute;
-    bottom: 16px;
-    left: 16px;
+    bottom: var(--space-xl);
+    left: var(--space-md);
     top: auto;
-    font-size: var(--text-h6-size);
+    font-size: var(--text-h2-size);
+    line-height: var(--text-h2-line-height);
   }
 
   .creator-page-overlay--end .creator-page-overlay__content-wrapper {
