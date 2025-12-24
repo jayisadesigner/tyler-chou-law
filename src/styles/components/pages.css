@@ -1757,22 +1757,13 @@ body.bg-palo-verde .palo-verde-body__column {
 /* Base Overlay - Mobile-first: Scrolls naturally */
 .creator-page-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100vh;
-  height: 100dvh; /* Dynamic viewport height for mobile browsers */
-  max-height: 100vh;
-  max-height: 100dvh;
+  inset: 0; /* Shorthand for top: 0; right: 0; bottom: 0; left: 0; */
   background-color: var(--chuparosa-600);
   z-index: 9999;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   overscroll-behavior: contain; /* Prevent scroll chaining */
-  touch-action: pan-y; /* Allow vertical scrolling on touch devices */
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -1846,17 +1837,26 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   color: var(--lupine-50);
 }
 
+/* Header - Hidden by default (not used in simplified layout) */
+.creator-page-overlay__header {
+  display: none;
+}
+
+/* Content - Nested wrapper (not used in simplified layout) */
+.creator-page-overlay__content {
+  width: 100%;
+}
+
 /* Container - Mobile-first: Normal flowing block that can grow */
 .creator-page-overlay__container {
   min-height: 100vh;
-  min-height: 100dvh; /* Dynamic viewport height for mobile */
   padding: calc(var(--space-md) * 3) var(--space-md) var(--space-4xl);
   padding-bottom: calc(var(--space-4xl) + env(safe-area-inset-bottom)); /* Account for safe area on mobile */
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-md);
-  /* Ensure content can grow beyond viewport */
   box-sizing: border-box;
+  width: 100%;
 }
 
 /* Stats - Mobile: 2x2 grid */
@@ -1864,7 +1864,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-md);
-  order: 1;
+  width: 100%;
 }
 
 .creator-page-overlay__stat {
@@ -1901,7 +1901,6 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
-  order: 2;
 }
 
 .creator-page-overlay__image-wrapper {
@@ -1946,7 +1945,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
-  order: 3;
+  width: 100%;
 }
 
 /* Description */
@@ -1959,6 +1958,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   line-height: var(--text-p-line-height);
   color: var(--chuparosa-100);
   margin: 0 0 var(--space-2xl) 0;
+  width: 100%;
 }
 
 .creator-page-overlay__description-text {
@@ -1970,12 +1970,30 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  width: 100%;
 }
 
 .creator-page-overlay__video {
   position: relative;
   width: 100%;
   aspect-ratio: 602 / 339;
+  overflow: hidden; /* Prevent iframe overflow */
+}
+
+/* Ensure video iframes don't break layout */
+.creator-page-overlay__video .video {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.creator-page-overlay__video .video__embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .creator-page-overlay__video-label {
@@ -2013,8 +2031,11 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   .creator-page-overlay__container {
     margin-left: 50%;
     width: 50%;
+    min-height: 100vh;
     padding: var(--space-4xl) var(--space-md);
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: auto;
     gap: clamp(0.5rem, 1.5vw, 1rem);
   }
 
@@ -2026,7 +2047,6 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     width: 50%;
     height: 100vh;
     aspect-ratio: auto;
-    order: unset;
     z-index: 1;
   }
 
