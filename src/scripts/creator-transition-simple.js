@@ -239,6 +239,15 @@ function closeOverlay() {
   const overlay = document.getElementById('creator-page-overlay')
   if (!overlay) return
 
+  const creatorId = getCreatorIdFromURL()
+  
+  // If we're on a standalone creator page, always redirect to roster
+  if (creatorId) {
+    window.location.href = '/roster.html'
+    return
+  }
+
+  // Otherwise, we're on roster.html or index.html - just close the overlay
   // Restore focus to previously focused element
   const previousFocusId = overlay.dataset.previousFocus
   if (previousFocusId) {
@@ -314,7 +323,7 @@ export function initCreatorTransitions() {
   // Browser navigation
   window.addEventListener('popstate', handlePopState)
 
-  // Open on page load if URL has creator ID
+  // Open on page load if URL has creator ID (direct load or refresh)
   const creatorId = getCreatorIdFromURL()
   if (creatorId) {
     populateOverlay(creatorId)
@@ -322,5 +331,8 @@ export function initCreatorTransitions() {
     overlay.setAttribute('tabindex', '-1')
     overlay.focus()
     document.body.style.overflow = 'hidden'
+    
+    // Replace current history state to ensure we have proper state
+    history.replaceState({ creatorId }, '', `/roster/${creatorId}.html`)
   }
 }

@@ -1754,6 +1754,11 @@ body.bg-palo-verde .palo-verde-body__column {
    Creator Page Overlay - Simplified Single-Scroll Layout
    ======================================== */
 
+/* Hide SEO content - overlay provides the UX */
+.creator-page-content {
+  display: none;
+}
+
 /* Base Overlay - Mobile-first: Scrolls naturally */
 .creator-page-overlay {
   position: fixed;
