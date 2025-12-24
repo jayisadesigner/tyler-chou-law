@@ -16,7 +16,6 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
-    "a11y-dialog": "^8.1.4",
     "decap-cms": "^3.9.0",
     "gsap": "^3.14.2",
     "lenis": "^1.3.16",
