@@ -215,10 +215,15 @@ let dialog = null
  * Open overlay
  */
 function openOverlay(creatorId) {
-  if (!dialog) return
+  if (!dialog) {
+    console.error('Dialog not initialized')
+    return
+  }
 
   populateOverlay(creatorId)
+  console.log('Opening dialog for:', creatorId)
   dialog.show()
+  console.log('Dialog show called, aria-hidden:', dialog.el.getAttribute('aria-hidden'))
   history.pushState({ creatorId }, '', `/roster/${creatorId}.html`)
 }
 
@@ -257,7 +262,14 @@ export function initCreatorTransitions() {
   if (!overlay) return
 
   // Initialize a11y-dialog
+  // Pass the container element - a11y-dialog will manage aria-hidden
   dialog = new A11yDialog(overlay)
+  
+  // Debug: Check if dialog was created
+  if (!dialog) {
+    console.error('Failed to initialize a11y-dialog')
+    return
+  }
 
   // Card clicks
   document.querySelectorAll('.roster-card[data-creator]').forEach(card => {
