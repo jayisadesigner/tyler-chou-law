@@ -11,6 +11,15 @@
   /* Ensure header is always inspectable - add minimal background for dev tools */
   min-height: 60px;
   will-change: transform; /* Optimize for transforms */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Hide nav when creator overlay is open */
+body.creator-overlay-open .site-header,
+body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* Utility class for color detection - ensures nav doesn't block elementFromPoint */
