@@ -1,12 +1,163 @@
 /**
  * Creator Page Overlay
  * Static overlay for creator pages (no animations)
+ * Implements best practices: state persistence, focus management, accessibility
  */
 
 let isTransitioning = false
 let savedScrollPosition = 0
 let previousURL = null
 let originPage = null // Track which page user came from (home or roster)
+let previouslyFocusedElement = null // For focus restoration
+let focusTrapHandler = null // For focus trap management
+
+// SessionStorage keys for state persistence
+const STORAGE_KEYS = {
+  ORIGIN_URL: 'creatorOverlay_originURL',
+  ORIGIN_SCROLL: 'creatorOverlay_originScrollPosition',
+  ORIGIN_PAGE: 'creatorOverlay_originPage',
+  CREATOR_ID: 'creatorOverlay_creatorId'
+}
+
+/**
+ * Save overlay state to sessionStorage
+ */
+function saveOverlayState(originURL, scrollPosition, originPage, creatorId) {
+  try {
+    sessionStorage.setItem(STORAGE_KEYS.ORIGIN_URL, originURL)
+    sessionStorage.setItem(STORAGE_KEYS.ORIGIN_SCROLL, String(scrollPosition))
+    sessionStorage.setItem(STORAGE_KEYS.ORIGIN_PAGE, originPage)
+    sessionStorage.setItem(STORAGE_KEYS.CREATOR_ID, creatorId)
+  } catch (e) {
+    // sessionStorage may not be available (private browsing, etc.)
+    console.warn('Could not save overlay state to sessionStorage:', e)
+  }
+}
+
+/**
+ * Get overlay state from sessionStorage
+ */
+function getOverlayState() {
+  try {
+    const originURL = sessionStorage.getItem(STORAGE_KEYS.ORIGIN_URL)
+    const originScroll = sessionStorage.getItem(STORAGE_KEYS.ORIGIN_SCROLL)
+    const originPage = sessionStorage.getItem(STORAGE_KEYS.ORIGIN_PAGE)
+    const creatorId = sessionStorage.getItem(STORAGE_KEYS.CREATOR_ID)
+    
+    if (originURL && originScroll !== null && originPage && creatorId) {
+      return {
+        originURL,
+        originScrollPosition: parseInt(originScroll, 10) || 0,
+        originPage,
+        creatorId
+      }
+    }
+  } catch (e) {
+    console.warn('Could not read overlay state from sessionStorage:', e)
+  }
+  return null
+}
+
+/**
+ * Clear overlay state from sessionStorage
+ */
+function clearOverlayState() {
+  try {
+    sessionStorage.removeItem(STORAGE_KEYS.ORIGIN_URL)
+    sessionStorage.removeItem(STORAGE_KEYS.ORIGIN_SCROLL)
+    sessionStorage.removeItem(STORAGE_KEYS.ORIGIN_PAGE)
+    sessionStorage.removeItem(STORAGE_KEYS.CREATOR_ID)
+  } catch (e) {
+    console.warn('Could not clear overlay state from sessionStorage:', e)
+  }
+}
+
+/**
+ * Get all focusable elements within a container
+ */
+function getFocusableElements(container) {
+  const focusableSelectors = [
+    'a[href]',
+    'button:not([disabled])',
+    'textarea:not([disabled])',
+    'input:not([disabled])',
+    'select:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])'
+  ].join(', ')
+  
+  return Array.from(container.querySelectorAll(focusableSelectors)).filter(
+    el => el.offsetParent !== null && !el.hasAttribute('aria-hidden')
+  )
+}
+
+/**
+ * Trap focus within overlay
+ */
+function trapFocus(overlay) {
+  const focusableElements = getFocusableElements(overlay)
+  if (focusableElements.length === 0) return
+  
+  const firstElement = focusableElements[0]
+  const lastElement = focusableElements[focusableElements.length - 1]
+  
+  // Move focus to first element if overlay just opened
+  if (document.activeElement === document.body || !overlay.contains(document.activeElement)) {
+    firstElement.focus()
+  }
+  
+  // Set up focus trap handler
+  focusTrapHandler = (e) => {
+    if (e.key !== 'Tab') return
+    
+    if (e.shiftKey) {
+      // Shift + Tab
+      if (document.activeElement === firstElement) {
+        e.preventDefault()
+        lastElement.focus()
+      }
+    } else {
+      // Tab
+      if (document.activeElement === lastElement) {
+        e.preventDefault()
+        firstElement.focus()
+      }
+    }
+  }
+  
+  overlay.addEventListener('keydown', focusTrapHandler)
+}
+
+/**
+ * Remove focus trap
+ */
+function removeFocusTrap(overlay) {
+  if (focusTrapHandler) {
+    overlay.removeEventListener('keydown', focusTrapHandler)
+    focusTrapHandler = null
+  }
+}
+
+/**
+ * Restore focus to previously focused element
+ */
+function restoreFocus() {
+  if (previouslyFocusedElement && typeof previouslyFocusedElement.focus === 'function') {
+    // Check if element is still in DOM
+    if (document.body.contains(previouslyFocusedElement)) {
+      previouslyFocusedElement.focus()
+    } else {
+      // Element no longer exists, try to find the card by creator ID
+      const state = getOverlayState()
+      if (state) {
+        const card = document.querySelector(`[data-creator="${state.creatorId}"]`)
+        if (card && typeof card.focus === 'function') {
+          card.focus()
+        }
+      }
+    }
+  }
+  previouslyFocusedElement = null
+}
 
 // Creator data (would ideally come from a data source)
 const creatorData = {
@@ -143,31 +294,73 @@ function getCreatorIdFromURL() {
 
 /**
  * Update URL when opening overlay
+ * Includes full state object for better state management
  */
-function updateURLForCreator(creatorId) {
+function updateURLForCreator(creatorId, originURL, originScrollPosition, originPage) {
   const newURL = `/roster/${creatorId}.html`
-  previousURL = window.location.pathname + window.location.search
-  history.pushState({ creatorId }, '', newURL)
+  previousURL = originURL || window.location.pathname + window.location.search
+  
+  // Store full state in history
+  const state = {
+    creatorId,
+    originURL: previousURL,
+    originScrollPosition: originScrollPosition || savedScrollPosition,
+    originPage: originPage || 'roster'
+  }
+  
+  history.pushState(state, '', newURL)
 }
 
 /**
  * Restore previous URL when closing overlay
+ * Checks sessionStorage if previousURL is missing (refresh scenario)
+ * If we're on a creator page URL after refresh, we need to actually navigate
  */
 function restoreURL() {
-  if (previousURL) {
-    history.replaceState(null, '', previousURL)
+  let urlToRestore = previousURL
+  
+  // If previousURL is missing, try to get from sessionStorage (refresh scenario)
+  if (!urlToRestore) {
+    const state = getOverlayState()
+    if (state) {
+      urlToRestore = state.originURL
+    }
+  }
+  
+  // Check if we're currently on a creator page (refresh scenario)
+  const currentPath = window.location.pathname
+  const isOnCreatorPage = currentPath.startsWith('/roster/') && currentPath.endsWith('.html')
+  
+  if (urlToRestore) {
+    // If we're on a creator page and need to navigate to a different page, use full navigation
+    if (isOnCreatorPage && urlToRestore !== currentPath) {
+      // Full page navigation to restore to origin page
+      window.location.href = urlToRestore
+      return // Don't continue - navigation will happen
+    } else {
+      // Just update URL (same page, different state)
+      history.replaceState(null, '', urlToRestore)
+    }
     previousURL = null
   } else {
-    // Fallback: go back in history or go to home
-    const currentPath = window.location.pathname
-    if (currentPath.startsWith('/roster/') && currentPath.endsWith('.html')) {
-      history.replaceState(null, '', '/roster.html')
+    // Fallback: determine where to go
+    if (isOnCreatorPage) {
+      // Try to determine origin from sessionStorage
+      const state = getOverlayState()
+      if (state && state.originPage === 'home') {
+        window.location.href = '/'
+        return
+      } else {
+        window.location.href = '/roster.html'
+        return
+      }
     }
   }
 }
 
 /**
  * Handle browser back/forward navigation
+ * Reads from event.state first, then falls back to sessionStorage
  */
 function handlePopState(event) {
   const creatorId = getCreatorIdFromURL()
@@ -176,6 +369,24 @@ function handlePopState(event) {
   if (!overlay) return
   
   const isOverlayOpen = overlay.getAttribute('aria-hidden') === 'false'
+  
+  // Try to get state from event.state first, then sessionStorage
+  let state = null
+  if (event.state && event.state.creatorId) {
+    state = event.state
+    // Restore previousURL and savedScrollPosition from state
+    previousURL = state.originURL || null
+    savedScrollPosition = state.originScrollPosition || 0
+    originPage = state.originPage || null
+  } else {
+    // Fallback to sessionStorage
+    state = getOverlayState()
+    if (state) {
+      previousURL = state.originURL
+      savedScrollPosition = state.originScrollPosition
+      originPage = state.originPage
+    }
+  }
   
   if (creatorId && !isOverlayOpen) {
     // URL has creator ID but overlay is closed - open it
@@ -233,17 +444,66 @@ export function initCreatorTransitions() {
   // Check URL on initialization - open overlay if creator ID is in URL
   const creatorIdFromURL = getCreatorIdFromURL()
   if (creatorIdFromURL) {
-    // Wait for first paint before opening overlay
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const card = document.querySelector(`[data-creator="${creatorIdFromURL}"]`)
-        if (card) {
-          openCreatorPage(card, creatorIdFromURL, false) // false = don't update URL (already correct)
-        } else {
-          openCreatorPage(null, creatorIdFromURL, false) // No card found, use fallback
+    // Check if we have state in sessionStorage (refresh scenario)
+    const savedState = getOverlayState()
+    if (savedState && savedState.creatorId === creatorIdFromURL) {
+      // Restore state from sessionStorage
+      previousURL = savedState.originURL
+      savedScrollPosition = savedState.originScrollPosition
+      originPage = savedState.originPage
+    }
+    
+    // Wait for all resources (CSS, fonts, etc.) to load before opening overlay
+    // This prevents broken styles when closing after a page refresh
+    const openOverlayFromURL = () => {
+      const card = document.querySelector(`[data-creator="${creatorIdFromURL}"]`)
+      if (card) {
+        openCreatorPage(card, creatorIdFromURL, false) // false = don't update URL (already correct)
+      } else {
+        openCreatorPage(null, creatorIdFromURL, false) // No card found, use fallback
+      }
+    }
+
+    // Wait for stylesheets to be loaded before opening overlay
+    // This prevents broken styles when closing after a page refresh
+    const waitForStyles = () => {
+      // Check if stylesheets are loaded
+      const stylesheets = Array.from(document.styleSheets)
+      const allLoaded = stylesheets.every(sheet => {
+        try {
+          return sheet.cssRules || sheet.rules // Accessing rules checks if sheet is loaded
+        } catch (e) {
+          // Cross-origin stylesheets will throw, but that's okay
+          return true
         }
       })
-    })
+      
+      if (allLoaded || document.readyState === 'complete') {
+        // Use a small delay to ensure CSS is fully parsed and applied
+        setTimeout(openOverlayFromURL, 50)
+      } else {
+        // Wait a bit more and try again
+        setTimeout(waitForStyles, 50)
+      }
+    }
+
+    // If page is already fully loaded, check stylesheets
+    if (document.readyState === 'complete') {
+      waitForStyles()
+    } else {
+      // Wait for window.onload first, then check stylesheets
+      let overlayOpened = false
+      const openOnce = () => {
+        if (!overlayOpened) {
+          overlayOpened = true
+          waitForStyles()
+        }
+      }
+      
+      window.addEventListener('load', openOnce, { once: true })
+      // Fallback timeout in case onload doesn't fire (shouldn't happen, but safety)
+      setTimeout(openOnce, 200)
+    }
   }
 }
 
@@ -335,17 +595,36 @@ function openCreatorPage(sourceCard, creatorId, updateURL = true) {
     overlayHandle.textContent = data.name || `@${creatorId}`
   }
 
-  // Determine origin page (home or roster)
-  // If previousURL exists, use it; otherwise check current path
-  if (previousURL) {
-    originPage = previousURL === '/' || previousURL === '/index.html' ? 'home' : 'roster'
+  // Store reference to source card for focus restoration
+  previouslyFocusedElement = sourceCard || document.activeElement
+  
+  // IMPORTANT: Check sessionStorage FIRST for refresh scenarios
+  const savedState = getOverlayState()
+  if (savedState && savedState.creatorId === creatorId) {
+    // We have saved state - use it (refresh scenario)
+    previousURL = savedState.originURL
+    savedScrollPosition = savedState.originScrollPosition
+    originPage = savedState.originPage
   } else {
-    const currentPath = window.location.pathname
-    // If on a creator page, default to roster; otherwise use current path
-    if (currentPath.startsWith('/roster/') && currentPath.endsWith('.html')) {
-      originPage = 'roster' // Direct URL access defaults to roster page
+    // Determine origin page (home or roster) from current state
+    // If previousURL exists, use it; otherwise check current path
+    if (previousURL) {
+      originPage = previousURL === '/' || previousURL === '/index.html' ? 'home' : 'roster'
     } else {
-      originPage = currentPath === '/' || currentPath === '/index.html' ? 'home' : 'roster'
+      const currentPath = window.location.pathname
+      // If on a creator page, default to roster; otherwise use current path
+      if (currentPath.startsWith('/roster/') && currentPath.endsWith('.html')) {
+        originPage = 'roster' // Direct URL access defaults to roster page
+        previousURL = '/roster.html' // Set fallback
+      } else {
+        originPage = currentPath === '/' || currentPath === '/index.html' ? 'home' : 'roster'
+        previousURL = currentPath === '/' || currentPath === '/index.html' ? '/' : '/roster.html'
+      }
+    }
+    
+    // Save current scroll position (only if not already saved from sessionStorage)
+    if (savedScrollPosition === 0) {
+      savedScrollPosition = window.scrollY
     }
   }
   
@@ -360,11 +639,28 @@ function openCreatorPage(sourceCard, creatorId, updateURL = true) {
     }
   }
   
-  // Save current scroll position
-  savedScrollPosition = window.scrollY
+  // Determine origin URL for state persistence
+  const currentOriginURL = previousURL || (window.location.pathname + window.location.search)
+  
+  // Save state to sessionStorage for refresh scenarios
+  saveOverlayState(currentOriginURL, savedScrollPosition, originPage, creatorId)
+  
+  // Set accessibility attributes
+  overlay.setAttribute('role', 'dialog')
+  overlay.setAttribute('aria-modal', 'true')
+  if (overlayHandle) {
+    overlayHandle.id = 'creator-overlay-handle'
+    overlay.setAttribute('aria-labelledby', 'creator-overlay-handle')
+  }
+  
+  // Stop Lenis smooth scrolling to allow overlay to scroll independently
+  if (window.lenis) {
+    window.lenis.stop()
+  }
   
   // Show overlay
   overlay.setAttribute('aria-hidden', 'false')
+  document.body.classList.add('creator-overlay-open') // Hide nav
   document.body.style.overflow = 'hidden'
   document.body.style.position = 'fixed'
   document.body.style.width = '100%'
@@ -380,9 +676,21 @@ function openCreatorPage(sourceCard, creatorId, updateURL = true) {
   
   overlay.classList.add('creator-page-overlay--middle')
   
+  // Set up focus trap and move focus to close button
+  trapFocus(overlay)
+  if (overlayCloseBtn) {
+    // Add class to suppress focus styles for programmatic focus
+    overlayCloseBtn.classList.add('programmatic-focus')
+    overlayCloseBtn.focus()
+    // Remove class after a short delay to allow keyboard focus to work normally
+    setTimeout(() => {
+      overlayCloseBtn.classList.remove('programmatic-focus')
+    }, 100)
+  }
+  
   // Update URL if requested
   if (updateURL) {
-    updateURLForCreator(creatorId)
+    updateURLForCreator(creatorId, currentOriginURL, savedScrollPosition, originPage)
   }
   
   isTransitioning = false
@@ -398,10 +706,33 @@ function closeCreatorPage(updateURL = true) {
 
   isTransitioning = true
 
-  // Hide overlay
+  // Remove focus trap
+  removeFocusTrap(overlay)
+  
+  // Get state from sessionStorage FIRST (before clearing) - needed for refresh scenarios
+  const savedState = getOverlayState()
+  
+  // Get scroll position from sessionStorage if savedScrollPosition is 0 (refresh scenario)
+  let scrollToRestore = savedScrollPosition
+  if (scrollToRestore === 0 && savedState) {
+    scrollToRestore = savedState.originScrollPosition
+  }
+  
+  // Get previousURL from sessionStorage if missing (refresh scenario)
+  if (!previousURL && savedState) {
+    previousURL = savedState.originURL
+    originPage = savedState.originPage
+  }
+
+  // Hide overlay - let CSS handle visibility/opacity via aria-hidden
   overlay.setAttribute('aria-hidden', 'true')
+  overlay.removeAttribute('role')
+  overlay.removeAttribute('aria-modal')
+  overlay.removeAttribute('aria-labelledby')
   overlay.classList.remove('creator-page-overlay--middle', 'creator-page-overlay--end')
-  overlay.style.opacity = '0'
+  // Clear any inline opacity that was set when opening - let CSS handle it via aria-hidden
+  overlay.style.removeProperty('opacity')
+  document.body.classList.remove('creator-overlay-open') // Show nav
   
   // Restore body scroll styles first
   document.body.style.overflow = ''
@@ -409,20 +740,35 @@ function closeCreatorPage(updateURL = true) {
   document.body.style.width = ''
   document.body.style.top = ''
   
+  // Re-enable Lenis smooth scrolling
+  if (window.lenis) {
+    window.lenis.start()
+  }
+  
+  // Restore URL if requested (do this BEFORE clearing state, as restoreURL might need it)
+  if (updateURL) {
+    restoreURL()
+    // If restoreURL triggered navigation, don't continue - let the page reload
+    // (This happens in refresh scenarios where we navigate to a different page)
+    return
+  }
+  
   // Restore scroll position in next frame (after fixed is removed)
+  // Only do this if we're not navigating away
   requestAnimationFrame(() => {
     const html = document.documentElement
     const originalScrollBehavior = html.style.scrollBehavior
     html.style.scrollBehavior = 'auto'
-    window.scrollTo(0, savedScrollPosition)
+    window.scrollTo(0, scrollToRestore)
     html.style.scrollBehavior = originalScrollBehavior
     savedScrollPosition = 0
   })
   
-  // Restore URL if requested
-  if (updateURL) {
-    restoreURL()
-  }
+  // Clear sessionStorage after successful close (only if we're not navigating)
+  clearOverlayState()
+  
+  // Restore focus to previously focused element
+  restoreFocus()
   
   isTransitioning = false
 }
