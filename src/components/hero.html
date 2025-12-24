@@ -1,6 +1,22 @@
-<section class="hero section{{variant-class}}">
-  <div class="hero-content container">
-    <h1 class="hero-headline">{{headline}}</h1>
-    {{subheadline}}
+<section class="hero hero--inner-page section{{variant-class}}">
+  <!-- Background Image Component -->
+  {{background-image}}
+  
+  <!-- Hero Content Grid -->
+  <div class="hero-content hero-content--inner-page container-wide">
+    <!-- Eyebrow (Column 1, Row 1) -->
+    <div class="hero-eyebrow">
+      <p class="hero-eyebrow__text">{{eyebrow}}</p>
+    </div>
+    
+    <!-- Headline (Columns 2-4, Row 1) -->
+    <div class="hero-headline-wrapper">
+      <h1 class="hero-headline hero-headline--inner-page">{{headline}}</h1>
+    </div>
+    
+    <!-- Subheadline (Columns 2-4, Row 2) -->
+    <div class="hero-subheadline-wrapper">
+      <p class="hero-subheadline hero-subheadline--inner-page">{{subheadline}}</p>
+    </div>
   </div>
 </section>

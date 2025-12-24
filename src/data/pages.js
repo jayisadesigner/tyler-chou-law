@@ -18,8 +18,10 @@ export const pageData = {
   },
   'about': {
     hero: {
+      eyebrow: 'about tyler',
       headline: 'Twenty Years in Hollywood. Now Fighting for Creators.',
-      subheadline: 'Tyler Chou left a career advising studios to stand on the other side of the table—yours.',
+      subheadline: 'Tyler Chou left a career advising studios to stand on the other side of the table. Yours.',
+      backgroundImage: 'src/assets/images/about/tyler-chou-headshot.jpeg',
       variant: 'default'
     },
     body: {
@@ -40,6 +42,7 @@ export const pageData = {
   },
   'services': {
     hero: {
+      eyebrow: 'services',
       headline: 'Your Empire Needs an Architect, Not Just an Attorney.',
       subheadline: 'Strategic legal counsel and business architecture for creators who are building something that lasts.',
       variant: 'default'
@@ -62,6 +65,7 @@ export const pageData = {
   },
   'contact': {
     hero: {
+      eyebrow: 'contact',
       headline: 'Let\'s Build Something.',
       subheadline: 'For creators ready to protect and grow their empires.',
       variant: 'default'
@@ -83,6 +87,7 @@ export const pageData = {
   },
   'creatorarq': {
     hero: {
+      eyebrow: 'creatorarq',
       headline: 'CreatorArq',
       subheadline: 'Strategic capital for creators building empires.',
       variant: 'default'
@@ -105,6 +110,7 @@ export const pageData = {
   },
   'creatorarq-apply': {
     hero: {
+      eyebrow: 'apply',
       headline: 'Apply to CreatorArq',
       subheadline: 'Tell us about your empire.',
       variant: 'default'
@@ -126,6 +132,7 @@ export const pageData = {
   },
   'love-letters': {
     hero: {
+      eyebrow: 'testimonials',
       headline: 'Love Letters',
       subheadline: 'What creators say about working with Tyler.',
       variant: 'default'
@@ -147,6 +154,7 @@ export const pageData = {
   },
   'roster': {
     hero: {
+      eyebrow: 'roster',
       headline: 'The Creators We Protect',
       subheadline: 'A roster of empire builders who trust Tyler Chou with their IP, their deals, and their futures.',
       variant: 'default'

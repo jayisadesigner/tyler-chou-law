@@ -145,6 +145,26 @@
   --space-4xl: 8rem;    /* 128px */
 }
 
+/* Responsive Spacing - Section-level spacing scales, component-level stays fixed */
+/* Mobile (≤768px) */
+@media (max-width: 768px) {
+  :root {
+    --space-4xl: 4rem;    /* Reduced from 8rem */
+    --space-3xl: 3rem;    /* Reduced from 6rem */
+    --space-2xl: 2.5rem;  /* Reduced from 4rem */
+    --space-xl: 2rem;     /* Reduced from 3rem */
+    --space-lg: 1.5rem;   /* Reduced from 2rem */
+  }
+}
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --space-4xl: 6rem;    /* Intermediate between mobile and desktop */
+    --space-3xl: 4.5rem;  /* Intermediate */
+  }
+}
+
 /* Breakpoints */
 :root {
   --breakpoint-sm: 640px;   /* Tablet */
@@ -186,5 +206,58 @@
   
   --text-tiny-size: 0.79rem;     /* ~13px */
   --text-tiny-line-height: 1.6;
+  
+  /* UI Typography - Fixed sizes for consistency */
+  --text-ui-nav: 1rem;              /* Nav links */
+  --text-ui-nav-logo: 1.1875rem;    /* Logo text */
+  --text-ui-nav-mobile: 0.875rem;   /* Mobile nav logo */
+  --text-ui-nav-mobile-link: 1.25rem; /* Mobile nav links */
+  --text-ui-button-sm: 0.889rem;    /* Small button */
+  --text-ui-button-md: 1rem;        /* Medium button */
+  --text-ui-button-lg: 1.125rem;    /* Large button */
+  --text-ui-footer: 1rem;            /* Footer text */
+}
+
+/* Responsive Display Typography - Variables update at breakpoints */
+/* Mobile (≤768px) */
+@media (max-width: 768px) {
+  :root {
+    --text-h1-size: clamp(3rem, 8vw, 7.993rem);
+    --text-h2-size: clamp(2.5rem, 7vw, 5.653rem);
+    --text-h3-size: clamp(2rem, 6vw, 3.998rem);
+    --text-h4-size: clamp(1.5rem, 5vw, 2.827rem);
+  }
+}
+
+/* Small Tablet (769px - 900px) */
+@media (min-width: 769px) and (max-width: 900px) {
+  :root {
+    --text-h2-size: clamp(3rem, 6.5vw, 5.653rem);
+    --text-h3-size: clamp(1.75rem, 4vw, 3.998rem);
+  }
+}
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --text-h2-size: clamp(3.5rem, 7vw, 5.653rem);
+    --text-h3-size: clamp(2rem, 6vw, 3.998rem);
+  }
+}
+
+/* Desktop Medium (1025px - 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  :root {
+    --text-h2-size: clamp(4.5rem, 5.5vw, 5.653rem);
+    --text-h3-size: clamp(3rem, 3.5vw, 3.998rem);
+  }
+}
+
+/* Large Desktop (≥1536px) */
+@media (min-width: 1536px) {
+  :root {
+    --text-h2-size: 6rem;
+    --text-h3-size: 4.5rem;
+  }
 }
 
