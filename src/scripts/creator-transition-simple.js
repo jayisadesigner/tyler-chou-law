@@ -1,14 +1,9 @@
 /**
- * Creator Page Overlay
- * Static overlay for creator pages (no animations)
+ * Creator Page Overlay - Simplified
+ * Dead simple open/close functionality with URL management
  */
 
-let isTransitioning = false
-let savedScrollPosition = 0
-let previousURL = null
-let originPage = null // Track which page user came from (home or roster)
-
-// Creator data (would ideally come from a data source)
+// Creator data
 const creatorData = {
   jennyhoyos: {
     name: '@jennyhoyos',
@@ -133,356 +128,160 @@ const creatorData = {
 }
 
 /**
- * Get creator ID from current URL
+ * Get creator ID from URL
  */
 function getCreatorIdFromURL() {
-  const pathname = window.location.pathname
-  const match = pathname.match(/\/roster\/([^\/]+)\.html$/)
+  const match = window.location.pathname.match(/\/roster\/([^\/]+)\.html$/)
   return match ? match[1] : null
 }
 
 /**
- * Update URL when opening overlay
+ * Populate overlay with creator data
  */
-function updateURLForCreator(creatorId) {
-  const newURL = `/roster/${creatorId}.html`
-  previousURL = window.location.pathname + window.location.search
-  history.pushState({ creatorId }, '', newURL)
-}
+function populateOverlay(creatorId) {
+  const overlay = document.getElementById('creator-page-overlay')
+  if (!overlay) return
 
-/**
- * Restore previous URL when closing overlay
- */
-function restoreURL() {
-  if (previousURL) {
-    history.replaceState(null, '', previousURL)
-    previousURL = null
-  } else {
-    // Fallback: go back in history or go to home
-    const currentPath = window.location.pathname
-    if (currentPath.startsWith('/roster/') && currentPath.endsWith('.html')) {
-      history.replaceState(null, '', '/roster.html')
-    }
+  const data = creatorData[creatorId]
+  if (!data) return
+
+  // Image
+  const imageMap = {
+    'jesser': '/src/assets/images/roster/@jesser.webp',
+    'sticks': '/src/assets/images/roster/@sticks.jpg',
+    'jacksfilms': '/src/assets/images/roster/@jacksfilms.webp',
+    'jennyhoyos': '/src/assets/images/roster/jennyhoyos.png',
+    'samandcolby': '/src/assets/images/roster/samandcolby.png',
+    'calebhammer': '/src/assets/images/roster/@calebhammer.png',
+    'jadroppingscience': '/src/assets/images/roster/@jadroppingscience.png',
+    'cassandrabankson': '/src/assets/images/roster/@cassandraBankson.png'
+  }
+  
+  const img = overlay.querySelector('.creator-page-overlay__image')
+  if (img) {
+    img.src = imageMap[creatorId] || `/src/assets/images/roster/${creatorId}.png`
+    img.alt = data.name
+  }
+
+  // Handle
+  const handle = overlay.querySelector('.creator-page-overlay__handle')
+  if (handle) handle.textContent = data.name
+
+  // Breadcrumb
+  const breadcrumbName = overlay.querySelector('.creator-page-overlay__breadcrumb-name')
+  if (breadcrumbName) breadcrumbName.textContent = data.breadcrumb
+
+  // Description
+  const descTexts = overlay.querySelectorAll('.creator-page-overlay__description-text')
+  if (descTexts.length >= 2) {
+    descTexts[0].textContent = data.description[0]
+    descTexts[1].textContent = data.description[1]
+  }
+
+  // Stats
+  const statValues = overlay.querySelectorAll('.creator-page-overlay__stat-value')
+  const statLabels = overlay.querySelectorAll('.creator-page-overlay__stat-label')
+  data.stats.forEach((stat, i) => {
+    if (statValues[i]) statValues[i].textContent = stat.value
+    if (statLabels[i]) statLabels[i].textContent = stat.label
+  })
+
+  // Videos
+  const videosContainer = overlay.querySelector('.creator-page-overlay__videos')
+  if (videosContainer && data.videos.length > 0) {
+    videosContainer.innerHTML = data.videos.map((videoId, i) => `
+      <div class="creator-page-overlay__video">
+        <div class="video">
+          <iframe 
+            class="video__embed"
+            src="https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0"
+            allow="encrypted-media; fullscreen"
+            title="Video ${i + 1}"
+          ></iframe>
+        </div>
+        <p class="creator-page-overlay__video-label">watch on youtube</p>
+      </div>
+    `).join('')
   }
 }
 
 /**
- * Handle browser back/forward navigation
+ * Open overlay
  */
-function handlePopState(event) {
+function openOverlay(creatorId) {
+  const overlay = document.getElementById('creator-page-overlay')
+  if (!overlay) return
+
+  populateOverlay(creatorId)
+  overlay.setAttribute('aria-hidden', 'false')
+  history.pushState({ creatorId }, '', `/roster/${creatorId}.html`)
+}
+
+/**
+ * Close overlay
+ */
+function closeOverlay() {
+  const overlay = document.getElementById('creator-page-overlay')
+  if (!overlay) return
+
+  overlay.setAttribute('aria-hidden', 'true')
+  history.back()
+}
+
+/**
+ * Handle browser back/forward
+ */
+function handlePopState() {
   const creatorId = getCreatorIdFromURL()
   const overlay = document.getElementById('creator-page-overlay')
-  
   if (!overlay) return
-  
-  const isOverlayOpen = overlay.getAttribute('aria-hidden') === 'false'
-  
-  if (creatorId && !isOverlayOpen) {
-    // URL has creator ID but overlay is closed - open it
-    const card = document.querySelector(`[data-creator="${creatorId}"]`)
-    if (card) {
-      openCreatorPage(card, creatorId, false) // false = don't update URL (already updated)
-    } else {
-      openCreatorPage(null, creatorId, false) // No card found, use fallback
-    }
-  } else if (!creatorId && isOverlayOpen) {
-    // URL doesn't have creator ID but overlay is open - close it
-    closeCreatorPage(false) // false = don't update URL (already updated)
+
+  const isOpen = overlay.getAttribute('aria-hidden') === 'false'
+
+  if (creatorId && !isOpen) {
+    populateOverlay(creatorId)
+    overlay.setAttribute('aria-hidden', 'false')
+  } else if (!creatorId && isOpen) {
+    overlay.setAttribute('aria-hidden', 'true')
   }
 }
 
+/**
+ * Initialize
+ */
 export function initCreatorTransitions() {
-  const cards = document.querySelectorAll('.roster-card[data-creator]')
   const overlay = document.getElementById('creator-page-overlay')
-  const closeButton = overlay?.querySelector('.creator-page-overlay__close')
+  if (!overlay) return
 
-  if (!overlay) {
-    console.warn('Creator page overlay not found')
-    return
-  }
-
-  // Handle card clicks
-  cards.forEach(card => {
+  // Card clicks
+  document.querySelectorAll('.roster-card[data-creator]').forEach(card => {
     card.addEventListener('click', (e) => {
       e.preventDefault()
       const creatorId = card.getAttribute('data-creator')
-      
-      if (creatorId && !isTransitioning) {
-        openCreatorPage(card, creatorId)
-      }
+      if (creatorId) openOverlay(creatorId)
     })
   })
 
-  // Handle close button
-  if (closeButton) {
-    closeButton.addEventListener('click', () => {
-      closeCreatorPage()
-    })
+  // Close button
+  const closeBtn = overlay.querySelector('.creator-page-overlay__close')
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeOverlay)
   }
 
-  // Handle escape key
+  // Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') {
-      closeCreatorPage()
+      closeOverlay()
     }
   })
 
-  // Handle browser navigation
+  // Browser navigation
   window.addEventListener('popstate', handlePopState)
 
-  // Check URL on initialization - open overlay if creator ID is in URL
-  const creatorIdFromURL = getCreatorIdFromURL()
-  if (creatorIdFromURL) {
-    // Wait for first paint before opening overlay
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const card = document.querySelector(`[data-creator="${creatorIdFromURL}"]`)
-        if (card) {
-          openCreatorPage(card, creatorIdFromURL, false) // false = don't update URL (already correct)
-        } else {
-          openCreatorPage(null, creatorIdFromURL, false) // No card found, use fallback
-        }
-      })
-    })
+  // Open on page load if URL has creator ID
+  const creatorId = getCreatorIdFromURL()
+  if (creatorId) {
+    populateOverlay(creatorId)
+    overlay.setAttribute('aria-hidden', 'false')
   }
 }
-
-/**
- * Open creator page (static - no animations)
- * @param {HTMLElement|null} sourceCard - The roster card element, or null for direct URL access
- * @param {string} creatorId - The creator ID
- * @param {boolean} updateURL - Whether to update the URL (default: true)
- */
-function openCreatorPage(sourceCard, creatorId, updateURL = true) {
-  const overlay = document.getElementById('creator-page-overlay')
-  if (!overlay || isTransitioning) return
-
-  isTransitioning = true
-
-  // Get source card image (if card exists)
-  let cardImage = null
-  if (sourceCard) {
-    cardImage = sourceCard.querySelector('.roster-card__image')
-    if (!cardImage) {
-      isTransitioning = false
-      return
-    }
-  }
-
-  // Get overlay elements
-  const overlayImageCard = overlay.querySelector('.creator-page-overlay__image-card')
-  const overlayImage = overlay.querySelector('.creator-page-overlay__image')
-  const overlayHandle = overlay.querySelector('.creator-page-overlay__handle')
-  const overlayHeader = overlay.querySelector('.creator-page-overlay__header')
-  const overlayContentWrapper = overlay.querySelector('.creator-page-overlay__content-wrapper')
-  const overlayBreadcrumbs = overlay.querySelector('.creator-page-overlay__breadcrumbs')
-  const overlayCloseBtn = overlay.querySelector('.creator-page-overlay__close')
-
-  if (!overlayImageCard || !overlayImage) {
-    isTransitioning = false
-    return
-  }
-
-  // Get creator data with fallback
-  const data = creatorData[creatorId] || {
-    name: `@${creatorId}`,
-    breadcrumb: creatorId,
-    description: [
-      'Creator description will be added here.',
-      'Additional details about the creator will be added here.'
-    ],
-    stats: [
-      { value: '0', label: 'subscribers' },
-      { value: '0', label: 'total views' },
-      { value: '0', label: 'core demo' },
-      { value: 'US', label: 'top region' }
-    ],
-    videos: []
-  }
-
-  // Populate overlay content
-  populateCreatorContent(creatorId, data, overlay)
-  
-  // Set image source (from card if available, or use data)
-  if (cardImage) {
-    overlayImage.src = cardImage.src
-    overlayImage.alt = cardImage.alt || ''
-  } else {
-    // Fallback: map creator IDs to their actual image file names and extensions
-    const imageMap = {
-      'jesser': '/src/assets/images/roster/@jesser.webp',
-      'sticks': '/src/assets/images/roster/@sticks.jpg',
-      'jacksfilms': '/src/assets/images/roster/@jacksfilms.webp',
-      'jennyhoyos': '/src/assets/images/roster/jennyhoyos.png',
-      'samandcolby': '/src/assets/images/roster/samandcolby.png',
-      'calebhammer': '/src/assets/images/roster/@calebhammer.png',
-      'jadroppingscience': '/src/assets/images/roster/@jadroppingscience.png',
-      'cassandrabankson': '/src/assets/images/roster/@cassandraBankson.png'
-    }
-    
-    const imagePath = imageMap[creatorId] || `/src/assets/images/roster/${creatorId}.png`
-    overlayImage.src = imagePath
-    overlayImage.alt = data.name || `@${creatorId}`
-  }
-  
-  // Set handle text from card or data
-  if (sourceCard) {
-    const cardHandle = sourceCard.querySelector('.roster-card__handle')
-    if (overlayHandle && cardHandle) {
-      overlayHandle.textContent = cardHandle.textContent
-    }
-  } else if (overlayHandle) {
-    overlayHandle.textContent = data.name || `@${creatorId}`
-  }
-
-  // Determine origin page (home or roster)
-  // If previousURL exists, use it; otherwise check current path
-  if (previousURL) {
-    originPage = previousURL === '/' || previousURL === '/index.html' ? 'home' : 'roster'
-  } else {
-    const currentPath = window.location.pathname
-    // If on a creator page, default to roster; otherwise use current path
-    if (currentPath.startsWith('/roster/') && currentPath.endsWith('.html')) {
-      originPage = 'roster' // Direct URL access defaults to roster page
-    } else {
-      originPage = currentPath === '/' || currentPath === '/index.html' ? 'home' : 'roster'
-    }
-  }
-  
-  // Update breadcrumb link based on origin
-  const breadcrumbLink = overlayBreadcrumbs?.querySelector('a[href="/roster.html"], a[href="/#roster"]')
-  if (breadcrumbLink) {
-    breadcrumbLink.textContent = 'roster'
-    if (originPage === 'home') {
-      breadcrumbLink.href = '/#roster'
-    } else {
-      breadcrumbLink.href = '/roster.html'
-    }
-  }
-  
-  // Save current scroll position
-  savedScrollPosition = window.scrollY
-  
-  // Show overlay
-  overlay.setAttribute('aria-hidden', 'false')
-  document.body.style.overflow = 'hidden'
-  document.body.style.position = 'fixed'
-  document.body.style.width = '100%'
-  document.body.style.top = `-${savedScrollPosition}px`
-  overlay.style.opacity = '1'
-  
-  // Show all elements
-  if (overlayImageCard) overlayImageCard.style.opacity = '1'
-  if (overlayContentWrapper) overlayContentWrapper.style.opacity = '1'
-  if (overlayHeader) overlayHeader.style.opacity = '0'
-  if (overlayBreadcrumbs) overlayBreadcrumbs.style.opacity = '1'
-  if (overlayCloseBtn) overlayCloseBtn.style.opacity = '1'
-  
-  overlay.classList.add('creator-page-overlay--middle')
-  
-  // Update URL if requested
-  if (updateURL) {
-    updateURLForCreator(creatorId)
-  }
-  
-  isTransitioning = false
-}
-
-/**
- * Close creator page
- * @param {boolean} updateURL - Whether to update the URL (default: true)
- */
-function closeCreatorPage(updateURL = true) {
-  const overlay = document.getElementById('creator-page-overlay')
-  if (!overlay || isTransitioning) return
-
-  isTransitioning = true
-
-  // Hide overlay
-  overlay.setAttribute('aria-hidden', 'true')
-  overlay.classList.remove('creator-page-overlay--middle', 'creator-page-overlay--end')
-  overlay.style.opacity = '0'
-  
-  // Restore body scroll styles first
-  document.body.style.overflow = ''
-  document.body.style.position = ''
-  document.body.style.width = ''
-  document.body.style.top = ''
-  
-  // Restore scroll position in next frame (after fixed is removed)
-  requestAnimationFrame(() => {
-    const html = document.documentElement
-    const originalScrollBehavior = html.style.scrollBehavior
-    html.style.scrollBehavior = 'auto'
-    window.scrollTo(0, savedScrollPosition)
-    html.style.scrollBehavior = originalScrollBehavior
-    savedScrollPosition = 0
-  })
-  
-  // Restore URL if requested
-  if (updateURL) {
-    restoreURL()
-  }
-  
-  isTransitioning = false
-}
-
-/**
- * Populate creator content in overlay
- */
-function populateCreatorContent(creatorId, data, overlay) {
-  if (!overlay || !data) return
-
-  // Set breadcrumb name
-  const breadcrumbName = overlay.querySelector('.creator-page-overlay__breadcrumb-name')
-  if (breadcrumbName) {
-    breadcrumbName.textContent = data.breadcrumb || creatorId
-  }
-
-  // Set handle
-  const handle = overlay.querySelector('.creator-page-overlay__handle')
-  if (handle) {
-    handle.textContent = data.name || `@${creatorId}`
-  }
-
-  // Set description
-  const descriptionTexts = overlay.querySelectorAll('.creator-page-overlay__description-text')
-  if (descriptionTexts.length >= 2 && data.description && data.description.length >= 2) {
-    descriptionTexts[0].textContent = data.description[0] || ''
-    descriptionTexts[1].textContent = data.description[1] || ''
-  }
-
-  // Set stats
-  const statValues = overlay.querySelectorAll('.creator-page-overlay__stat-value')
-  const statLabels = overlay.querySelectorAll('.creator-page-overlay__stat-label')
-  if (statValues.length >= 4 && statLabels.length >= 4 && data.stats && data.stats.length >= 4) {
-    data.stats.forEach((stat, index) => {
-      if (statValues[index]) statValues[index].textContent = stat.value || '0'
-      if (statLabels[index]) statLabels[index].textContent = stat.label || ''
-    })
-  }
-
-  // Set videos using the video component structure
-  const videosContainer = overlay.querySelector('.creator-page-overlay__videos')
-  if (videosContainer) {
-    if (data.videos && data.videos.length > 0) {
-      videosContainer.innerHTML = data.videos.map((videoId, index) => `
-        <div class="creator-page-overlay__video">
-          <div class="video">
-              <iframe 
-                class="video__embed"
-                src="https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0"
-                allow="encrypted-media; fullscreen"
-                title="Video ${index + 1}"
-              ></iframe>
-          </div>
-          <p class="creator-page-overlay__video-label">watch on youtube</p>
-        </div>
-      `).join('')
-    } else {
-      // Show placeholder if no videos
-      videosContainer.innerHTML = ''
-    }
-  }
-}
-
