@@ -214,6 +214,7 @@ function openOverlay(creatorId) {
 
   populateOverlay(creatorId)
   overlay.setAttribute('aria-hidden', 'false')
+  document.body.style.overflow = 'hidden'
   history.pushState({ creatorId }, '', `/roster/${creatorId}.html`)
 }
 
@@ -225,6 +226,7 @@ function closeOverlay() {
   if (!overlay) return
 
   overlay.setAttribute('aria-hidden', 'true')
+  document.body.style.overflow = ''
   history.back()
 }
 
@@ -241,8 +243,10 @@ function handlePopState() {
   if (creatorId && !isOpen) {
     populateOverlay(creatorId)
     overlay.setAttribute('aria-hidden', 'false')
+    document.body.style.overflow = 'hidden'
   } else if (!creatorId && isOpen) {
     overlay.setAttribute('aria-hidden', 'true')
+    document.body.style.overflow = ''
   }
 }
 
