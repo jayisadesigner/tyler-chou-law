@@ -1,7 +1,10 @@
 /**
  * Creator Page Overlay - Simplified
  * Dead simple open/close functionality with URL management
+ * Uses a11y-dialog for accessibility and scroll locking
  */
+
+import A11yDialog from 'a11y-dialog'
 
 // Creator data
 const creatorData = {
@@ -205,15 +208,17 @@ function populateOverlay(creatorId) {
   }
 }
 
+// Dialog instance (initialized in initCreatorTransitions)
+let dialog = null
+
 /**
  * Open overlay
  */
 function openOverlay(creatorId) {
-  const overlay = document.getElementById('creator-page-overlay')
-  if (!overlay) return
+  if (!dialog) return
 
   populateOverlay(creatorId)
-  overlay.setAttribute('aria-hidden', 'false')
+  dialog.show()
   history.pushState({ creatorId }, '', `/roster/${creatorId}.html`)
 }
 
@@ -221,10 +226,9 @@ function openOverlay(creatorId) {
  * Close overlay
  */
 function closeOverlay() {
-  const overlay = document.getElementById('creator-page-overlay')
-  if (!overlay) return
+  if (!dialog) return
 
-  overlay.setAttribute('aria-hidden', 'true')
+  dialog.hide()
   history.back()
 }
 
@@ -232,17 +236,16 @@ function closeOverlay() {
  * Handle browser back/forward
  */
 function handlePopState() {
-  const creatorId = getCreatorIdFromURL()
-  const overlay = document.getElementById('creator-page-overlay')
-  if (!overlay) return
+  if (!dialog) return
 
-  const isOpen = overlay.getAttribute('aria-hidden') === 'false'
+  const creatorId = getCreatorIdFromURL()
+  const isOpen = !dialog.el.hasAttribute('aria-hidden') || dialog.el.getAttribute('aria-hidden') === 'false'
 
   if (creatorId && !isOpen) {
     populateOverlay(creatorId)
-    overlay.setAttribute('aria-hidden', 'false')
+    dialog.show()
   } else if (!creatorId && isOpen) {
-    overlay.setAttribute('aria-hidden', 'true')
+    dialog.hide()
   }
 }
 
@@ -253,6 +256,9 @@ export function initCreatorTransitions() {
   const overlay = document.getElementById('creator-page-overlay')
   if (!overlay) return
 
+  // Initialize a11y-dialog
+  dialog = new A11yDialog(overlay)
+
   // Card clicks
   document.querySelectorAll('.roster-card[data-creator]').forEach(card => {
     card.addEventListener('click', (e) => {
@@ -262,17 +268,16 @@ export function initCreatorTransitions() {
     })
   })
 
-  // Close button
+  // Close button (a11y-dialog handles this automatically, but we can keep it for explicit control)
   const closeBtn = overlay.querySelector('.creator-page-overlay__close')
   if (closeBtn) {
     closeBtn.addEventListener('click', closeOverlay)
   }
 
-  // Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') {
-      closeOverlay()
-    }
+  // Escape key is handled by a11y-dialog automatically
+  // But we can add custom behavior if needed
+  dialog.on('hide', () => {
+    // Any cleanup needed when dialog closes
   })
 
   // Browser navigation
@@ -282,6 +287,6 @@ export function initCreatorTransitions() {
   const creatorId = getCreatorIdFromURL()
   if (creatorId) {
     populateOverlay(creatorId)
-    overlay.setAttribute('aria-hidden', 'false')
+    dialog.show()
   }
 }
