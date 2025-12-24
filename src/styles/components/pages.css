@@ -95,6 +95,7 @@
   text-align-last: justify;
   width: 100%;
   margin: 0;
+  text-wrap: balance; /* Balance lines to avoid widows */
 }
 
 /* Inner Page Hero Headline */
@@ -117,10 +118,7 @@
 /* Desktop: Enhance to complex grid layout */
 @media (min-width: 769px) {
   .hero-content--inner-page {
-    grid-template-columns: 
-      minmax(80px, auto)
-      repeat(3, minmax(120px, 1fr))
-      minmax(0, 1fr);
+    grid-template-columns: repeat(5, 1fr); /* All columns equal width */
     grid-template-rows: repeat(2, fit-content(100%));
     gap: clamp(0.5rem, 1.5vw, 1rem);
     padding: var(--space-4xl) var(--space-md);
