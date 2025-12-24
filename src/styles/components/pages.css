@@ -1783,6 +1783,8 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 /* Hide navigation when overlay is open */
+/* a11y-dialog removes aria-hidden when showing, so check for both cases */
+body:has(.creator-page-overlay:not([aria-hidden])) .site-header,
 body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   opacity: 0;
   visibility: hidden;
