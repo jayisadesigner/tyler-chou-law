@@ -234,7 +234,7 @@
 .roster-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-md);
+  gap: 0;
   margin: var(--space-2xl) 0;
 }
 
@@ -242,7 +242,7 @@
 @media (min-width: 640px) {
   .roster-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-xl);
+    gap: 0;
   }
 }
 
@@ -591,6 +591,15 @@ body.bg-palo-verde .palo-verde-body__column {
 @media (min-width: 1536px) {
   .roster-grid {
     grid-template-columns: repeat(4, 1fr);
+    /* Constrain grid to match card widths: 4 cards × 366px = 1464px */
+    max-width: 1464px;
+    margin-inline: auto;
+  }
+  
+  .roster-header {
+    /* Match grid max-width for alignment */
+    max-width: 1464px;
+    margin-inline: auto;
   }
 }
 
@@ -1742,16 +1751,24 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 /* ========================================
-   Creator Page Overlay - Simple Two-Column Layout
+   Creator Page Overlay - Simplified Single-Scroll Layout
    ======================================== */
 
-/* Base Overlay - Mobile: container is scrollable */
+/* Hide SEO content - overlay provides the UX */
+.creator-page-content {
+  display: none;
+}
+
+/* Base Overlay - Mobile-first: Scrolls naturally */
 .creator-page-overlay {
   position: fixed;
-  inset: 0;
+  inset: 0; /* Shorthand for top: 0; right: 0; bottom: 0; left: 0; */
   background-color: var(--chuparosa-600);
   z-index: 9999;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  overscroll-behavior: contain; /* Prevent scroll chaining */
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -1825,24 +1842,35 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   color: var(--lupine-50);
 }
 
-/* Container - Mobile: scrollable */
-.creator-page-overlay__container {
-  position: absolute;
-  inset: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: calc(var(--space-md) * 3) var(--space-md) var(--space-4xl);
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-md);
+/* Header - Hidden by default (not used in simplified layout) */
+.creator-page-overlay__header {
+  display: none;
 }
 
-/* Stats - Mobile: 2x2 grid */
+/* Content - Nested wrapper (not used in simplified layout) */
+.creator-page-overlay__content {
+  width: 100%;
+}
+
+/* Container - Mobile-first: Normal flowing block that can grow */
+.creator-page-overlay__container {
+  min-height: 100vh;
+  padding: calc(var(--space-md) * 3) var(--space-md) var(--space-4xl);
+  padding-bottom: calc(var(--space-4xl) + env(safe-area-inset-bottom)); /* Account for safe area on mobile */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Stats - Mobile: 2x2 grid, appears after image */
 .creator-page-overlay__stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-md);
-  order: 1;
+  width: 100%;
+  order: 2;
 }
 
 .creator-page-overlay__stat {
@@ -1874,12 +1902,12 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   line-height: var(--text-h6-line-height);
 }
 
-/* Image Card - Mobile: stacked */
+/* Image Card - Mobile: appears first */
 .creator-page-overlay__image-card {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
-  order: 2;
+  order: 1;
 }
 
 .creator-page-overlay__image-wrapper {
@@ -1919,11 +1947,12 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   z-index: 2;
 }
 
-/* Content Wrapper - Mobile: stacked */
+/* Content Wrapper - Mobile: appears last */
 .creator-page-overlay__content-wrapper {
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
+  width: 100%;
   order: 3;
 }
 
@@ -1937,6 +1966,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   line-height: var(--text-p-line-height);
   color: var(--chuparosa-100);
   margin: 0 0 var(--space-2xl) 0;
+  width: 100%;
 }
 
 .creator-page-overlay__description-text {
@@ -1948,12 +1978,30 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  width: 100%;
 }
 
 .creator-page-overlay__video {
   position: relative;
   width: 100%;
   aspect-ratio: 602 / 339;
+  overflow: hidden; /* Prevent iframe overflow */
+}
+
+/* Ensure video iframes don't break layout */
+.creator-page-overlay__video .video {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.creator-page-overlay__video .video__embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .creator-page-overlay__video-label {
@@ -1987,6 +2035,18 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     font-size: var(--text-small-size);
   }
 
+  /* Container - Push to right half, normal flow */
+  .creator-page-overlay__container {
+    margin-left: 50%;
+    width: 50%;
+    min-height: 100vh;
+    padding: var(--space-4xl) var(--space-md);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: auto;
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+  }
+
   /* Image Card - Fixed left (50% width, full height) */
   .creator-page-overlay__image-card {
     position: fixed;
@@ -1995,8 +2055,8 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     width: 50%;
     height: 100vh;
     aspect-ratio: auto;
-    order: unset;
-    pointer-events: none; /* Allow scroll events to pass through */
+    z-index: 1;
+    order: unset; /* Reset mobile order */
   }
 
   .creator-page-overlay__image-wrapper {
@@ -2004,32 +2064,21 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     inset: 0;
   }
 
-  /* Handle - Desktop sizing */
+  /* Handle - Fixed over image */
   .creator-page-overlay__handle {
+    position: fixed;
     bottom: var(--space-xl);
     left: var(--space-md);
     font-size: var(--text-h2-size);
     line-height: var(--text-h2-line-height);
-  }
-
-  /* Container - Scrollable right (50% width, height: 100vh, overflow: auto) */
-  .creator-page-overlay__container {
-    position: fixed;
-    left: 50%;
-    top: 0;
-    width: 50%;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: var(--space-4xl) var(--space-md);
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(0.5rem, 1.5vw, 1rem);
+    z-index: 2;
   }
 
   /* Stats - Desktop: 2x2 grid, full width */
   .creator-page-overlay__stats {
     grid-column: 1 / 5;
     gap: var(--space-sm);
+    order: unset; /* Reset mobile order */
   }
 
   .creator-page-overlay__stat-value {
@@ -2040,6 +2089,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   /* Content Wrapper - Desktop: full width */
   .creator-page-overlay__content-wrapper {
     grid-column: 1 / 5;
+    order: unset; /* Reset mobile order */
   }
 
   /* Description - Desktop: side-by-side */
