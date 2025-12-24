@@ -35,18 +35,40 @@ async function loadComponentTemplate(name) {
 /**
  * Generate hero HTML from template and data
  */
-function generateHero(template, data) {
+async function generateHero(template, data) {
   if (!data) return ''
+  
+  // Load background image component if needed (only for inner pages)
+  let backgroundImageHtml = ''
+  if (data.backgroundImage) {
+    try {
+      const backgroundImageTemplate = await loadComponentTemplate('background-image')
+      backgroundImageHtml = backgroundImageTemplate.replace(/\{\{image-src\}\}/g, data.backgroundImage)
+    } catch (error) {
+      console.warn(`Warning: Could not load background-image component: ${error.message}`)
+    }
+  }
   
   let html = template
     .replace(/\{\{headline\}\}/g, data.headline || '')
+    .replace(/\{\{eyebrow\}\}/g, data.eyebrow || '')
+    .replace(/\{\{subheadline\}\}/g, data.subheadline || '')
     .replace(/\{\{variant-class\}\}/g, data.variant && data.variant !== 'default' ? ` hero--${data.variant}` : '')
+    .replace(/\{\{background-image\}\}/g, backgroundImageHtml)
   
-  // Handle subheadline
-  if (data.subheadline) {
+  // Handle subheadline for home page (simple format)
+  if (data.subheadline && html.includes('{{subheadline}}') && !html.includes('hero-subheadline--inner-page')) {
     html = html.replace(/\{\{subheadline\}\}/g, `<p class="hero-subheadline">${data.subheadline}</p>`)
-  } else {
-    html = html.replace(/\{\{subheadline\}\}/g, '')
+  }
+  
+  // Hide eyebrow div if empty (inner pages only)
+  if (!data.eyebrow) {
+    html = html.replace(/<div class="hero-eyebrow">[\s\S]*?<\/div>/g, '')
+  }
+  
+  // Hide subheadline div if empty (inner pages only)
+  if (!data.subheadline) {
+    html = html.replace(/<div class="hero-subheadline-wrapper">[\s\S]*?<\/div>/g, '')
   }
   
   return html
@@ -105,7 +127,10 @@ async function buildPage(pageName) {
     // Load component templates
     const headerTemplate = await loadComponentTemplate('header')
     const footerTemplate = await loadComponentTemplate('footer')
-    const heroTemplate = await loadComponentTemplate('hero')
+    // Use home hero template for index, regular hero for other pages
+    const heroTemplate = pageName === 'index' 
+      ? await loadComponentTemplate('hero-home')
+      : await loadComponentTemplate('hero')
     const bodyContentTemplate = await loadComponentTemplate('body-content')
     const ctaTemplate = await loadComponentTemplate('cta-section')
     
@@ -128,12 +153,21 @@ async function buildPage(pageName) {
     }
     
     // Generate component HTML
-    const heroHtml = data.hero ? generateHero(heroTemplate, data.hero) : ''
+    const heroHtml = data.hero ? await generateHero(heroTemplate, data.hero) : ''
     const bodyHtml = data.body ? generateBodyContent(bodyContentTemplate, data.body) : ''
     const ctaHtml = data.cta ? generateCTA(ctaTemplate, data.cta) : ''
     
+    // Replace hero section (handle both placeholder and existing hero section)
+    if (heroHtml) {
+      // First try to replace placeholder
+      html = html.replace(/\{\{hero\}\}/g, heroHtml)
+      // Then replace existing hero section if placeholder wasn't found
+      html = html.replace(/<!-- Hero Section[^>]*-->[\s\S]*?<section class="hero[^>]*>[\s\S]*?<\/section>/g, heroHtml)
+      // Fallback: replace any hero section
+      html = html.replace(/<section class="hero[^>]*>[\s\S]*?<\/section>/g, heroHtml)
+    }
+    
     // Replace placeholders in HTML
-    html = html.replace(/\{\{hero\}\}/g, heroHtml)
     html = html.replace(/\{\{body-content\}\}/g, bodyHtml)
     html = html.replace(/\{\{cta-section\}\}/g, ctaHtml)
     

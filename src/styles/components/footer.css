@@ -19,7 +19,7 @@
 
 .footer-item {
   font-family: var(--font-display);
-  font-size: 1rem; /* 16px */
+  font-size: var(--text-ui-footer);
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.02em;
