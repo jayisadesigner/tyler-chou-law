@@ -13,12 +13,14 @@
 
 .background-image__img {
   position: absolute;
-  inset: 0;
+  top: -10%; /* Offset to allow for parallax movement */
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 120%; /* Taller to ensure coverage during parallax */
   object-fit: cover;
   object-position: center;
   display: block;
+  transform-origin: center center; /* Scale from center for parallax */
 }
 
 /* Overlay effects - applied to background images */
