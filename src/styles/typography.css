@@ -50,6 +50,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
   line-height: 1.1;
   color: var(--chuparosa-100);
+  text-wrap: balance; /* Balance lines to avoid widows */
 }
 
 /* Headings in dark sections should be bone */
@@ -110,21 +111,6 @@ small {
 }
 
 /* Responsive Typography */
-@media (max-width: 768px) {
-  h1 {
-    font-size: clamp(3rem, 8vw, var(--text-h1-size));
-  }
-  
-  h2 {
-    font-size: clamp(2.5rem, 7vw, var(--text-h2-size));
-  }
-  
-  h3 {
-    font-size: clamp(2rem, 6vw, var(--text-h3-size));
-  }
-  
-  h4 {
-    font-size: clamp(1.5rem, 5vw, var(--text-h4-size));
-  }
-}
+/* Typography now scales automatically via CSS variables in variables.css */
+/* Variables update at breakpoints, so no media query needed here */
 

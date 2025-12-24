@@ -113,10 +113,16 @@ function initAnimations() {
       .getPropertyValue('--chuparosa-600').trim()
     gsap.set(document.body, { backgroundColor: defaultColor })
     
+    // Set background images to final state (no parallax)
+    document.querySelectorAll('.background-image__img').forEach((img) => {
+      gsap.set(img, { scale: 1, yPercent: 0 })
+    })
+    
     // Initialize static versions of complex animations
     initPhilosophyRedaction(true) // Pass true for reduced motion
     initCredentialsShadow(true) // Pass true for reduced motion
     initLineAnimations(true) // Pass true for reduced motion
+    initHeroParallax(true) // Pass true for reduced motion
     
     return // Skip all animations
   }
@@ -254,6 +260,47 @@ function initAnimations() {
 
   // Line animations for headings
   initLineAnimations(false)
+
+  // Hero background parallax effect
+  initHeroParallax(false)
+}
+
+/**
+ * Hero background parallax scroll effect
+ * Moves background image slower than scroll for subtle depth effect
+ * @param {boolean} reducedMotion - If true, skip animation and show final state
+ */
+function initHeroParallax(reducedMotion = false) {
+  const backgroundImages = document.querySelectorAll('.background-image__img')
+  
+  if (!backgroundImages.length || !ScrollTrigger) return
+  
+  backgroundImages.forEach(img => {
+    if (reducedMotion) {
+      // Skip animation, show final state
+      gsap.set(img, { scale: 1, yPercent: 0 })
+      return
+    }
+    
+    // Find parent hero section for trigger
+    const heroSection = img.closest('.hero--inner-page') || img.closest('.hero')
+    if (!heroSection) return
+    
+    // Moderate parallax: scale + y movement for reliable coverage
+    // Image is already taller in CSS (120%) and offset (-10%) for initial coverage
+    gsap.to(img, {
+      scale: 1.15, // Zoom in 15% (covers more area, prevents gaps)
+      yPercent: 10, // Move down 10% (image is already taller, so this is safe)
+      ease: 'none', // Linear movement for smooth parallax
+      scrollTrigger: {
+        trigger: heroSection,
+        start: 'top bottom', // Start when hero top hits viewport bottom
+        end: 'bottom top', // End when hero bottom hits viewport top
+        scrub: 1, // Smooth scrubbing (1 = 1 second lag for smoothness)
+        invalidateOnRefresh: true // Recalculate on resize
+      }
+    })
+  })
 }
 
 /**

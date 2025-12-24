@@ -114,15 +114,117 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     <main id="main-content">
-      <!-- Hero Section - replaced at build time -->
-      <section class="hero section">
-  <div class="hero-content container">
-    <h1 class="hero-headline">Twenty Years in Hollywood. Now Fighting for Creators.</h1>
-    <p class="hero-subheadline">Tyler Chou left a career advising studios to stand on the other side of the table—yours.</p>
+      <section class="hero hero--inner-page section">
+  <!-- Background Image Component -->
+  <!-- Reusable Background Image Component with Overlay Effects -->
+<!-- Usage: Include this component and pass image src via src/assets/images/about/hero-about-tyler-chou-on-stage.jpg -->
+<div class="background-image" aria-hidden="true">
+  <img 
+    src="src/assets/images/about/hero-about-tyler-chou-on-stage.jpg" 
+    alt="" 
+    class="background-image__img"
+  />
+  <!-- Overlay Layer 1: Crimson to Purple gradient with soft-light blend -->
+  <div class="background-image__overlay background-image__overlay-gradient-1"></div>
+  <!-- Overlay Layer 2: Dark brown to gold gradient with hue blend -->
+  <div class="background-image__overlay background-image__overlay-gradient-2"></div>
+  <!-- Overlay Layer 3: Dark overlay with difference blend -->
+  <div class="background-image__overlay background-image__overlay-dark"></div>
+  <!-- Overlay Layer 4: Final opacity overlay -->
+  <div class="background-image__overlay background-image__overlay-opacity"></div>
+</div>
+
+
+  
+  <!-- Hero Content Grid -->
+  <div class="hero-content hero-content--inner-page container-wide">
+    <!-- Eyebrow (Column 1, Row 1) -->
+    <div class="hero-eyebrow">
+      <p class="hero-eyebrow__text">about tyler</p>
+    </div>
+    
+    <!-- Headline (Columns 2-4, Row 1) - Contains nested subheadline for mobile-first stacking -->
+    <div class="hero-headline-wrapper">
+      <h1 class="hero-headline hero-headline--inner-page">Twenty Years in Hollywood. Now Fighting for Creators.</h1>
+      <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--nested">Tyler Chou left a career advising studios to stand on the other side of the table. Yours.</p>
+    </div>
+    
+    <!-- Subheadline Wrapper (Columns 2-4, Row 2) - Desktop only, hidden on mobile -->
+    <div class="hero-subheadline-wrapper">
+      <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--desktop">Tyler Chou left a career advising studios to stand on the other side of the table. Yours.</p>
+    </div>
   </div>
 </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       
       <!-- Body Content - replaced at build time -->
@@ -155,6 +257,52 @@
     <p class="footer-item footer-item--right">made by sick design co.</p>
   </div>
 </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

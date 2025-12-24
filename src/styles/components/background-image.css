@@ -1,0 +1,74 @@
+/* Background Image Component - Reusable across site */
+/* Supports background images with overlay effects for hero sections */
+
+.background-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.background-image__img {
+  position: absolute;
+  top: -10%; /* Offset to allow for parallax movement */
+  left: 0;
+  width: 100%;
+  height: 120%; /* Taller to ensure coverage during parallax */
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transform-origin: center center; /* Scale from center for parallax */
+}
+
+/* Overlay effects - applied to background images */
+/* All overlays are stacked to match Figma design exactly */
+.background-image__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1; /* Above image but allow image to show through */
+}
+
+/* Gradient overlays matching Figma design */
+/* Layer 1: Crimson to Purple gradient with soft-light blend */
+.background-image__overlay-gradient-1 {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to left,
+    var(--chuparosa-rgba-25) 3.243%,
+    var(--lupine-rgba-25) 83.581%
+  );
+  mix-blend-mode: soft-light;
+}
+
+/* Layer 2: Dark brown to gold gradient with hue blend */
+.background-image__overlay-gradient-2 {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to left,
+    var(--obsidian-dark-20) 59.932%,
+    var(--desert-gold-rgba-20) 100%
+  );
+  mix-blend-mode: hue;
+}
+
+/* Layer 3: Dark overlay with difference blend */
+.background-image__overlay-dark {
+  position: absolute;
+  inset: 0;
+  background-color: var(--obsidian-dark-50);
+  mix-blend-mode: difference;
+}
+
+/* Layer 4: Final opacity overlay */
+.background-image__overlay-opacity {
+  position: absolute;
+  inset: 0;
+  background-color: var(--obsidian-dark-50);
+}
+
