@@ -3,6 +3,16 @@
  * Dead simple open/close functionality with URL management
  */
 
+// Import images so Vite processes them for production
+import jennyImage from '../assets/images/roster/jennyhoyos.png'
+import calebImage from '../assets/images/roster/@calebhammer.png'
+import jesserImage from '../assets/images/roster/@jesser.webp'
+import jaImage from '../assets/images/roster/@jadroppingscience.png'
+import sticksImage from '../assets/images/roster/@sticks.jpg'
+import jacksImage from '../assets/images/roster/@jacksfilms.webp'
+import cassandraImage from '../assets/images/roster/@cassandraBankson.png'
+import samandcolbyImage from '../assets/images/roster/samandcolby.png'
+
 // Creator data
 const creatorData = {
   jennyhoyos: {
@@ -145,21 +155,21 @@ function populateOverlay(creatorId) {
   const data = creatorData[creatorId]
   if (!data) return
 
-  // Image
+  // Image - use imported images for production builds
   const imageMap = {
-    'jesser': '/src/assets/images/roster/@jesser.webp',
-    'sticks': '/src/assets/images/roster/@sticks.jpg',
-    'jacksfilms': '/src/assets/images/roster/@jacksfilms.webp',
-    'jennyhoyos': '/src/assets/images/roster/jennyhoyos.png',
-    'samandcolby': '/src/assets/images/roster/samandcolby.png',
-    'calebhammer': '/src/assets/images/roster/@calebhammer.png',
-    'jadroppingscience': '/src/assets/images/roster/@jadroppingscience.png',
-    'cassandrabankson': '/src/assets/images/roster/@cassandraBankson.png'
+    'jesser': jesserImage,
+    'sticks': sticksImage,
+    'jacksfilms': jacksImage,
+    'jennyhoyos': jennyImage,
+    'samandcolby': samandcolbyImage,
+    'calebhammer': calebImage,
+    'jadroppingscience': jaImage,
+    'cassandrabankson': cassandraImage
   }
   
   const img = overlay.querySelector('.creator-page-overlay__image')
   if (img) {
-    img.src = imageMap[creatorId] || `/src/assets/images/roster/${creatorId}.png`
+    img.src = imageMap[creatorId]
     img.alt = data.name
   }
 
