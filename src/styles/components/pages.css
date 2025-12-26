@@ -2178,6 +2178,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     margin-bottom: 0;
     width: 50%;
     flex-shrink: 0;
+    align-self: center;
   }
 
   .content-section__media {
