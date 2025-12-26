@@ -247,6 +247,7 @@ function initAnimations() {
 /**
  * Hero background parallax scroll effect
  * Moves background image slower than scroll for subtle depth effect
+ * Also supports content sections with --parallax modifier
  * @param {boolean} reducedMotion - If true, skip animation and show final state
  */
 function initHeroParallax(reducedMotion = false) {
@@ -261,9 +262,12 @@ function initHeroParallax(reducedMotion = false) {
       return
     }
     
-    // Find parent hero section for trigger
+    // Find parent section for trigger (hero or content-section with parallax)
     const heroSection = img.closest('.hero--inner-page') || img.closest('.hero')
-    if (!heroSection) return
+    const contentSection = img.closest('.content-section--parallax')
+    const triggerSection = heroSection || contentSection
+    
+    if (!triggerSection) return
     
     // Moderate parallax: scale + y movement for reliable coverage
     // Image is already taller in CSS (120%) and offset (-10%) for initial coverage
@@ -272,9 +276,9 @@ function initHeroParallax(reducedMotion = false) {
       yPercent: 10, // Move down 10% (image is already taller, so this is safe)
       ease: 'none', // Linear movement for smooth parallax
       scrollTrigger: {
-        trigger: heroSection,
-        start: 'top bottom', // Start when hero top hits viewport bottom
-        end: 'bottom top', // End when hero bottom hits viewport top
+        trigger: triggerSection,
+        start: 'top bottom', // Start when section top hits viewport bottom
+        end: 'bottom top', // End when section bottom hits viewport top
         scrub: 1, // Smooth scrubbing (1 = 1 second lag for smoothness)
         invalidateOnRefresh: true // Recalculate on resize
       }
