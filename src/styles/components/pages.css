@@ -2098,7 +2098,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   width: 100%;
   max-width: 1512px;
   margin: 0 auto;
-  padding: 0 var(--space-lg);
+  padding: 0 var(--space-md); /* Mobile: md left/right padding */
 }
 
 /* Mobile: Stacked layout (content first, then media) */
@@ -2415,110 +2415,73 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 }
 
 /* ===================================================================
-   Centered Section Component
+   Content Section - Centered Modifier
+   Unifies section--centered into content-section system
    ================================================================ */
 
-/* Base centered section - mobile-first */
-.section--centered {
-  position: relative;
-  width: 100%;
-  min-height: 500px;
+/* Centered modifier - centers content and text, removes 50/50 layout */
+.content-section--centered .content-section__container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: var(--space-4xl) var(--space-md);
-  overflow: hidden;
+  min-height: 500px; /* Mobile: minimum height */
+  padding: var(--space-4xl) var(--space-md); /* Apply padding directly to container */
 }
 
-/* Content container */
-.section--centered__content {
-  position: relative;
-  z-index: 1;
-  display: flex;
+.content-section--centered .content-section__content {
+  display: flex; /* Use flex instead of grid */
   flex-direction: column;
   align-items: center;
   gap: var(--space-sm);
-  width: 100%;
   text-align: center;
+  max-width: 960px; /* Mobile: constrain width for readability */
+  margin-bottom: 0;
+  padding: 0; /* Remove default padding, container handles it */
+  background-color: transparent; /* Remove background */
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+  width: 100%;
 }
 
-/* Eyebrow */
-.section--centered__eyebrow {
+/* Remove grid-specific properties from child elements */
+.content-section--centered .content-section__eyebrow {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: var(--space-xl);
   width: 100%;
+  max-width: none; /* Remove constraint */
 }
 
-.section--centered__eyebrow-text {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: var(--text-ui-nav);
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--bone);
-  margin: 0;
-}
-
-/* Headline */
-.section--centered__headline {
+.content-section--centered .content-section__headline {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: var(--space-xs);
   width: 100%;
+  max-width: none; /* Remove constraint */
 }
 
-.section--centered__headline-text {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: var(--text-h3-size);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--bone);
-  text-transform: uppercase;
-  margin: 0;
-}
-
-/* Body */
-.section--centered__body {
-  font-family: var(--font-body);
-  font-size: var(--text-p-large-size);
-  line-height: var(--text-p-large-line-height);
-  letter-spacing: -0.02em;
-  color: var(--bone);
+.content-section--centered .content-section__body {
   width: 100%;
+  max-width: none; /* Remove constraint */
+  text-align: center;
 }
 
-.section--centered__body p {
-  margin: 0;
-}
-
-.section--centered__body p:not(:last-child) {
-  margin-bottom: var(--space-md);
-}
-
-/* Button spacing within centered sections */
-.section--centered__content .btn {
-  margin-top: var(--space-lg);
-}
-
-/* Background modifier - uses existing background-image component */
-.section--centered-has-bg {
-  background-color: var(--chuparosa-600);
-}
-
-/* Full height modifier - visual height only */
-.section--centered--full-height {
+/* Full height for centered sections */
+.content-section--centered.content-section--full-height .content-section__container {
   min-height: 100vh;
 }
 
-/* Pinned modifier - triggers scroll pinning animation via JavaScript */
+/* Background modifier for centered sections */
+.content-section--centered.content-section--has-bg {
+  background-color: var(--chuparosa-600);
+}
 
-/* Large text modifier - uses body font as display copy for visual impact */
-.section--centered--large-text .section--centered__headline-text {
+/* Large text modifier - uses body font as display copy for visual impact (headlines) */
+.content-section--centered.content-section--large-text .content-section__headline-text {
   font-family: var(--font-body);
   font-size: var(--text-h1-size);
   font-weight: 400;
@@ -2528,12 +2491,38 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   text-transform: none;
 }
 
-/* Mousetrail modifier - placeholder for future JS functionality (no styles needed) */
+/* Large body modifier - increases body text size for centered sections */
+.content-section--centered.content-section--large-body .content-section__body,
+.content-section--centered.content-section--large-body .content-section__body p {
+  font-size: var(--text-p-large-size); /* Mobile: start with large paragraph size */
+  line-height: var(--text-p-large-line-height);
+}
 
-/* Desktop styles for centered section */
+/* Desktop: wider max-width and ensure flex centering is maintained */
 @media (min-width: 768px) {
-  .section--centered__content {
-    max-width: 960px;
+  .content-section--centered .content-section__container {
+    display: flex; /* Maintain flex */
+    justify-content: center;
+    align-items: center; /* Vertically center */
+  }
+  
+  .content-section--centered .content-section__content {
+    max-width: 960px; /* Desktop: readable width */
+  }
+}
+
+@media (min-width: 1024px) {
+  .content-section--centered .content-section__content {
+    max-width: 1512px; /* Match standard container width */
+  }
+}
+
+/* Tablet and up: increase body text to h5 size */
+@media (min-width: 768px) {
+  .content-section--centered.content-section--large-body .content-section__body,
+  .content-section--centered.content-section--large-body .content-section__body p {
+    font-size: var(--text-h5-size);
+    line-height: var(--text-h5-line-height);
   }
 }
 

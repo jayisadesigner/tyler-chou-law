@@ -11,7 +11,7 @@
  * - .credentials (with nested: .credentials-card, .credentials-list, 
  *   .credentials-header-section, .credentials-badge)
  * - [js-line-animation] (text line animations)
- * - .section--centered--pinned (pinned scroll sections)
+ * - .content-section--pinned (pinned scroll sections)
  * - .love-notes--full-height (Love Letters section with carousel parallax on mobile, 
  *   pinned section with cards scrolling through on desktop - responsive on resize)
  * 
@@ -197,11 +197,11 @@ function createThemeScrollTrigger(trigger, start = 'top center', end = 'bottom t
 
 /**
  * Pin centered sections during scroll
- * Creates a sticky effect for sections with .section--centered--pinned
+ * Creates a sticky effect for sections with .content-section--pinned
  * Note: Use --pinned modifier separately from --full-height for more control
  */
 function initPinnedSections() {
-  const pinnedSections = document.querySelectorAll('.section--centered--pinned')
+  const pinnedSections = document.querySelectorAll('.content-section--pinned')
   
   if (!pinnedSections.length || !ScrollTrigger) return
   
@@ -455,7 +455,7 @@ function initAnimations() {
   // because the section is pinned on desktop and needs to coordinate with the pin animation
 
   // Final CTA section - return to default (chuparosa/red)
-  createThemeScrollTrigger('.section--centered:last-of-type', 'top center', 'bottom top', '')
+  createThemeScrollTrigger('.content-section--centered:last-of-type', 'top center', 'bottom top', '')
 
   // Philosophy section redaction animation
   initPhilosophyRedaction(false)
