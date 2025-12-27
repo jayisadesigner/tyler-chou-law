@@ -18,8 +18,8 @@
   padding: 0 var(--space-md);
 }
 
-/* Desktop: horizontal layout */
-@media (min-width: 769px) {
+/* Tablet+ (768px): horizontal layout */
+@media (min-width: 768px) {
   .footer-container {
     flex-direction: row;
     justify-content: space-between;
@@ -85,8 +85,8 @@ body.bg-bone .footer-item {
   text-align: center;
 }
 
-/* Desktop: restore original alignment */
-@media (min-width: 769px) {
+/* Tablet+ (768px): restore original alignment */
+@media (min-width: 768px) {
   .footer-item--left {
     text-align: left;
   }
