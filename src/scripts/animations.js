@@ -12,6 +12,8 @@
  *   .credentials-header-section, .credentials-badge)
  * - [js-line-animation] (text line animations)
  * - .section--centered--pinned (pinned scroll sections)
+ * - .love-notes--full-height (Love Letters section with carousel parallax on mobile, 
+ *   pinned section with cards scrolling through on desktop - responsive on resize)
  * 
  * Optional (page-specific):
  * - .about-flower (about page - flower rotation)
@@ -112,6 +114,122 @@ function initPinnedSections() {
 }
 
 /**
+ * Love Letters section scroll animations
+ * Mobile: Horizontal parallax effect on carousel cards (scale: 1)
+ * Desktop: Pinned section with cards scrolling through viewport, parallax by depth (scale from CSS --scale)
+ * Uses matchMedia for responsive behavior - animations update automatically on resize
+ * GSAP handles all transforms to avoid CSS/JS conflicts
+ * @param {boolean} reducedMotion - If true, skip animations
+ */
+function initLoveLettersScroll(reducedMotion = false) {
+  const loveNotesSection = document.querySelector('.love-notes--full-height')
+  if (!loveNotesSection || !ScrollTrigger) return
+  
+  const cards = loveNotesSection.querySelectorAll('.roster-card--testimonial')
+  const headline = loveNotesSection.querySelector('.love-notes__headline')
+  
+  if (reducedMotion) {
+    // Set all cards to final visible state
+    gsap.set(cards, { x: 0, y: 0, opacity: 1 })
+    return
+  }
+  
+  // Use matchMedia for responsive animations that update on resize
+  ScrollTrigger.matchMedia({
+    // Mobile: Horizontal parallax
+    "(max-width: 1279px)": function() {
+      const topCards = loveNotesSection.querySelectorAll('.love-notes__carousel--top .roster-card--testimonial')
+      const bottomCards = loveNotesSection.querySelectorAll('.love-notes__carousel--bottom .roster-card--testimonial')
+      
+      // Reset cards to base state for mobile (no scale on mobile)
+      gsap.set(cards, { x: 0, y: 0, scale: 1 })
+      
+      const mobileTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: loveNotesSection,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+          invalidateOnRefresh: true
+        }
+      })
+      
+      // Top carousel - moves right
+      topCards.forEach((card, index) => {
+        const speed = 0.6 + (index * 0.15)
+        mobileTl.to(card, {
+          x: 60 * speed,
+          ease: 'none',
+        }, 0)
+      })
+      
+      // Bottom carousel - moves left
+      bottomCards.forEach((card, index) => {
+        const speed = 0.6 + (index * 0.15)
+        mobileTl.to(card, {
+          x: -60 * speed,
+          ease: 'none',
+        }, 0)
+      })
+    },
+    
+    // Desktop: Pin section and scroll cards through viewport with parallax
+    "(min-width: 1280px)": function() {
+      if (!cards.length) return
+      
+      // Set initial scale from CSS custom property for each card
+      cards.forEach(card => {
+        const computedStyle = window.getComputedStyle(card)
+        const scale = parseFloat(computedStyle.getPropertyValue('--scale').trim() || '1')
+        gsap.set(card, { x: 0, y: 0, scale: scale })
+      })
+      
+      // Headline is centered in section via CSS, ensure it's visible
+      if (headline) {
+        gsap.set(headline, { opacity: 1 })
+      }
+      
+      // Create a pinned scroll-through effect
+      const desktopTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: loveNotesSection,
+          start: 'top top',
+          end: '+=500%', // Pin for 5x viewport height - enough to scroll all cards through
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true
+        }
+      })
+      
+      // Cards move through viewport based on depth
+      cards.forEach((card) => {
+        // Get depth value from CSS (1 = back, 3 = front)
+        const computedStyle = window.getComputedStyle(card)
+        const depth = parseInt(computedStyle.getPropertyValue('--depth').trim() || '2')
+        
+        // Movement distance based on depth - all cards scroll through and off screen
+        // depth 1 (back) = slower movement (less distance)
+        // depth 2 (mid) = normal movement
+        // depth 3 (front) = faster movement (more distance)
+        let yMovement
+        if (depth === 1) {
+          yMovement = -window.innerHeight * 0.8 // 80vh upward
+        } else if (depth === 2) {
+          yMovement = -window.innerHeight * 1.2 // 120vh upward
+        } else {
+          yMovement = -window.innerHeight * 1.5 // 150vh upward
+        }
+        
+        desktopTl.to(card, {
+          y: yMovement,
+          ease: 'none',
+        }, 0) // All animations start at the same time for parallax effect
+      })
+    }
+  })
+}
+
+/**
  * Animate flower rotation on scroll (reusable)
  * @param {string} flowerSelector - CSS selector for flower element
  * @param {string} triggerSelector - CSS selector for trigger section
@@ -174,6 +292,7 @@ function initAnimations() {
     initCredentialsShadow(true) // Pass true for reduced motion
     initLineAnimations(true) // Pass true for reduced motion
     initHeroParallax(true) // Pass true for reduced motion
+    initLoveLettersScroll(true) // Pass true for reduced motion
     
     return // Skip all animations
   }
@@ -259,6 +378,9 @@ function initAnimations() {
 
   // Pin full-height centered sections
   initPinnedSections()
+  
+  // Love Letters section scroll animations
+  initLoveLettersScroll(false)
   
   // Consolidated resize handler (debounced)
   let resizeTimeout
