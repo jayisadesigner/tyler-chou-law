@@ -28,17 +28,6 @@ body {
   /* Fade transitions can be added per-page as needed */
 }
 
-/* Page background changes when Palo Verde section is in view */
-body.bg-palo-verde {
-  background-color: var(--palo-verde-700);
-  --page-bg-color: var(--palo-verde-700);
-}
-
-body.bg-bone {
-  background-color: var(--bone);
-  --page-bg-color: var(--bone);
-}
-
 /* Page-specific backgrounds with CSS variable for sections */
 body.page-creatorarq {
   background-color: var(--palo-verde-700);
@@ -60,6 +49,18 @@ body.page-creator {
 /* Default fallback */
 body {
   --page-bg-color: var(--chuparosa-600);
+}
+
+/* Page background changes when Palo Verde section is in view */
+/* These come after page-specific classes so they can override them */
+body.bg-palo-verde {
+  background-color: var(--palo-verde-700);
+  --page-bg-color: var(--palo-verde-700);
+}
+
+body.bg-bone {
+  background-color: var(--bone);
+  --page-bg-color: var(--bone);
 }
 
 /* Container Utilities - Mobile First */

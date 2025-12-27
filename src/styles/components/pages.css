@@ -2131,6 +2131,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   overflow: visible;
 }
 
+
 .content-section__container {
   position: relative;
   width: 100%;
@@ -2161,9 +2162,17 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   overflow: hidden;
 }
 
-/* Full height modifier */
+/* Full height modifier - flexible height, can grow beyond viewport */
 .content-section--full-height {
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Full height with background modifier - fixed height for absolute positioning */
+.content-section--full-height-bg {
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   align-items: center;
 }
@@ -2513,6 +2522,14 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   min-height: 100vh;
 }
 
+/* Pinned sections - ensure vertical centering when pinned */
+.content-section--pinned .content-section__container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Background modifier for centered sections */
 .content-section--centered.content-section--has-bg {
   background-color: var(--page-bg-color);
@@ -2542,6 +2559,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     display: flex; /* Maintain flex */
     justify-content: center;
     align-items: center; /* Vertically center */
+    min-height: 100vh; /* Ensure full height for vertical centering when pinned */
   }
   
   .content-section--centered .content-section__content {
