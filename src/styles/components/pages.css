@@ -819,6 +819,7 @@ body.bg-palo-verde .palo-verde-body__column {
   justify-content: center;
   padding: var(--space-4xl) var(--space-md) 0; /* 4xl from top, 0 from bottom */
   overflow: visible; /* Allow section to be visible when unpinned */
+  z-index: 100; /* High z-index to ensure it stays on top of following sections while pinned */
 }
 
 .credentials-container {
@@ -986,7 +987,7 @@ body.bg-palo-verde .palo-verde-body__column {
   position: relative;
   width: 100%;
   background-color: var(--chuparosa-600);
-  z-index: 1; /* Below other sections but above footer */
+  z-index: 1; /* Below credentials section but above footer */
 }
 
 .disclaimer-container {
@@ -2125,6 +2126,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     flex-shrink: 0;
     align-self: center;
     justify-items: center;
+    padding: var(--space-4xl) var(--space-xl); /* Desktop padding */
   }
 
   .content-section__media {
@@ -2178,8 +2180,8 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     object-fit: cover;
   }
 
-  /* Parallax sections with bleed need extra room for animation */
-  .content-section--media-bleed.content-section--parallax .content-section__media .background-image__img {
+  /* Parallax sections need extra room for animation - works with all layout modifiers */
+  .content-section.content-section--parallax .content-section__media .background-image__img {
     top: -10%;
     height: 120%;
   }
@@ -2196,7 +2198,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   grid-template-columns: 1fr;
   grid-template-rows: repeat(3, fit-content(100%));
   gap: var(--space-sm);
-  padding: var(--space-4xl) var(--space-xl);
+  padding: var(--space-2xl) var(--space-lg); /* Mobile-first: start with mobile padding */
   background-color: var(--chuparosa-600);
   overflow: clip;
 }
@@ -2266,6 +2268,77 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 
 /* Media area - default contained behavior (styles moved to --media-bleed modifier above) */
 
+/* Stacked modifier - keeps vertical layout on desktop instead of 50/50 */
+.content-section--stacked .content-section__container {
+  display: flex;
+  flex-direction: column;
+  max-width: none; /* Remove max-width for full bleed */
+  padding: 0; /* Remove padding for full bleed */
+}
+
+.content-section--stacked .content-section__content {
+  margin-bottom: 0;
+  max-width: 1512px; /* Constrain content only */
+  margin-left: auto;
+  margin-right: auto;
+  /* Padding inherits from base mobile-first styles */
+}
+
+.content-section--stacked .content-section__media {
+  order: -1; /* Image first */
+  width: 100vw; /* Full viewport width */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+@media (min-width: 769px) {
+  .content-section--stacked .content-section__container {
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+    padding: 0;
+  }
+
+  .content-section--stacked .content-section__content {
+    width: 100%;
+    max-width: 1512px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: var(--space-4xl) var(--space-lg);
+  }
+
+  .content-section--stacked .content-section__media {
+    width: 100vw; /* Full viewport width */
+    min-height: 100vh; /* Full viewport height for image */
+    padding: 0;
+    order: -1; /* Image first on desktop too */
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+
+  .content-section--stacked .content-section__media .background-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .content-section--stacked .content-section__media .background-image__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+  }
+}
+
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .content-section__container {
@@ -2274,7 +2347,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 
   .content-section__content {
     margin-bottom: var(--space-lg);
-    padding: var(--space-2xl) var(--space-lg);
+    /* Padding already set mobile-first in base styles */
   }
 
   .content-section__headline,
@@ -2285,6 +2358,10 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   .content-section__media {
     height: auto;
     min-height: 500px;
+  }
+  
+  .content-section--stacked .content-section__media {
+    min-height: 100vh;
   }
 }
 
