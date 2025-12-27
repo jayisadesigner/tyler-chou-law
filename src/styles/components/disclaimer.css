@@ -1,7 +1,7 @@
 /* Disclaimer Styles */
 
 .site-disclaimer {
-  background-color: var(--chuparosa-600);
+  background-color: var(--page-bg-color);
   color: var(--chuparosa-100);
   padding: var(--space-md) 0;
   position: relative;
@@ -42,7 +42,7 @@
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
 body:not(.bg-palo-verde):not(.bg-bone) .site-disclaimer {
-  background-color: var(--chuparosa-600);
+  background-color: var(--page-bg-color);
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
@@ -52,7 +52,7 @@ body:not(.bg-palo-verde):not(.bg-bone) .disclaimer-container .disclaimer-text {
 
 /* Palo Verde background: light text on dark green background */
 body.bg-palo-verde .site-disclaimer {
-  background-color: var(--palo-verde-700);
+  background-color: var(--page-bg-color);
   color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
 }
 
@@ -62,7 +62,7 @@ body.bg-palo-verde .disclaimer-container .disclaimer-text {
 
 /* Bone background: dark text on light background */
 body.bg-bone .site-disclaimer {
-  background-color: var(--bone);
+  background-color: var(--page-bg-color);
   color: var(--nav-text-on-bone, var(--obsidian));
 }
 

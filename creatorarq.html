@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-      html, body { background-color: var(--palo-verde-700); }
       body:not(.ready) { visibility: hidden; }
     </style>
     <script>
@@ -43,7 +42,7 @@
     }
     </script>
   </head>
-  <body>
+  <body class="page-creatorarq">
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="site-header">
   <nav class="main-nav" role="navigation" aria-label="Main navigation">
@@ -373,18 +372,32 @@
     <main id="main-content">
       <section class="hero hero--inner-page section">
   <!-- Background Image Component -->
+  <div class="background-image" aria-hidden="true">
+    <img 
+      src="src/assets/images/creatorarq/creatorarq-hero-youtuber-placeholder.jpg" 
+      alt="" 
+      class="background-image__img"
+    />
+    <!-- Overlay Layer 1: Crimson to Purple gradient with soft-light blend -->
+    <div class="background-image__overlay background-image__overlay-gradient-1"></div>
+    <!-- Overlay Layer 2: Dark brown to gold gradient with hue blend -->
+    <div class="background-image__overlay background-image__overlay-gradient-2"></div>
+    <!-- Overlay Layer 3: Dark overlay with difference blend -->
+    <div class="background-image__overlay background-image__overlay-dark"></div>
+    <!-- Overlay Layer 4: Final opacity overlay -->
+    <div class="background-image__overlay background-image__overlay-opacity"></div>
+  </div>
   
   
   <!-- Hero Content Grid -->
   <div class="hero-content hero-content--inner-page container-wide">
-    <!-- Eyebrow (Column 1, Row 1) -->
-    <div class="hero-eyebrow">
-      <p class="hero-eyebrow__text">creatorarq</p>
-    </div>
-    
     <!-- Headline (Columns 2-4, Row 1) - Contains nested subheadline for mobile-first stacking -->
     <div class="hero-headline-wrapper">
-      <h1 class="hero-headline hero-headline--inner-page">CreatorArq</h1>
+      <img 
+        src="src/assets/images/creatorarq/creatorarq-logo-horizontal-on-dark.svg" 
+        alt="CreatorArq" 
+        class="hero-logo hero-logo--horizontal"
+      />
       <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--nested">Strategic capital for creators building empires.</p>
     </div>
     
@@ -421,10 +434,9 @@
 
 
       
-      <!-- Content Section 1: Beyond Brand Deals -->
-      <section class="content-section section section-reveal">
+      <!-- Content Section 2: Full Height Centered Section (for mouse trail effect) -->
+      <section class="content-section content-section--centered content-section--has-bg content-section--has-mousetrail content-section--full-height content-section--pinned content-section--large-body section section-reveal">
         <div class="content-section__container">
-          <!-- Content Area (Left on desktop) -->
           <div class="content-section__content">
             <div class="content-section__eyebrow">
               <p class="content-section__eyebrow-text">investment</p>
@@ -437,34 +449,6 @@
               <p>This isn't influencer funding. This is empire capital.</p>
             </div>
           </div>
-          
-          <!-- Media Area (Right on desktop) -->
-          <div class="content-section__media">
-            <div class="background-image">
-              <img src="src/assets/images/placeholder.jpg" alt="Beyond Brand Deals" class="background-image__img">
-              <div class="background-image__overlay background-image__overlay-gradient-1"></div>
-              <div class="background-image__overlay background-image__overlay-gradient-2"></div>
-              <div class="background-image__overlay background-image__overlay-dark"></div>
-              <div class="background-image__overlay background-image__overlay-opacity"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Content Section 2: Full Height Centered Section (for mouse trail effect) -->
-      <section class="content-section content-section--centered content-section--has-bg content-section--has-mousetrail content-section--full-height content-section--pinned content-section--large-body section section-reveal">
-        <div class="content-section__container">
-          <div class="content-section__content">
-            <div class="content-section__eyebrow">
-              <p class="content-section__eyebrow-text">criteria</p>
-            </div>
-            <div class="content-section__headline">
-              <h2 class="content-section__headline-text">What We Look For</h2>
-            </div>
-            <div class="content-section__body">
-              <p>Creators with proven audiences and untapped business potential. Founders who understand that content is the top of the funnel, not the whole business. Entrepreneurs ready for strategic partnership, not just a check. Visionaries building IP that compounds over time.</p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -475,14 +459,14 @@
           <!-- Content Area (Left on desktop) -->
           <div class="content-section__content">
             <div class="content-section__eyebrow">
-              <p class="content-section__eyebrow-text">contact</p>
+              <p class="content-section__eyebrow-text">apply</p>
             </div>
             <div class="content-section__headline">
-              <h2 class="content-section__headline-text">Let's Talk About Your Empire</h2>
+              <h2 class="content-section__headline-text">Invest in Your Empire</h2>
             </div>
             <div class="content-section__body">
-              <p>Tyler Chou Law for Creators works with established YouTube creators, creator-founders building businesses, talent managers seeking high-level legal partnership, venture funds evaluating creator investments, and industry professionals who need serious representation for serious deals.</p>
-              <p>If you're here, something is at stake. Fill out the form and the team will be in touch within 48 hours.</p>
+              <p>CreatorArq invests in creators who think beyond the algorithm. If you're building IP, products, or businesses designed to outlast any platform, we want to hear from you.</p>
+              <p>This isn't influencer funding. This is strategic capital for creators ready to own their future. Submit your application and we'll be in touch within 48 hours.</p>
             </div>
           </div>
           
@@ -505,16 +489,16 @@
               </div>
               
               <div class="form-group">
-                <input type="text" id="company" name="company" placeholder="Company / Channel Name" />
-                <label for="company">Company / Channel Name</label>
+                <input type="text" id="company" name="company" placeholder="Channel / Business Name" />
+                <label for="company">Channel / Business Name</label>
               </div>
               
               <div class="form-group">
-                <textarea id="message" name="message" rows="6" placeholder="Message *" required></textarea>
-                <label for="message">Message *</label>
+                <textarea id="message" name="message" rows="6" placeholder="Tell us about your business, audience, and what you're building *" required></textarea>
+                <label for="message">Tell us about your business, audience, and what you're building *</label>
               </div>
               
-              <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit</button>
+              <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit Application</button>
             </form>
           </div>
         </div>
