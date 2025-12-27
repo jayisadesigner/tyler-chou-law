@@ -361,6 +361,28 @@ function animateFlowerRotation(flowerSelector, triggerSelector) {
   })
 }
 
+/**
+ * Reusable line animation effect
+ * Used for text line animations across the site (headlines, nav items, etc.)
+ * @param {NodeList|Array} elements - Elements to animate (usually .line-inner elements)
+ * @param {Object} options - Animation options to override defaults
+ * @returns {gsap.core.Tween} GSAP animation instance
+ */
+export function animateLineElements(elements, options = {}) {
+  const defaults = {
+    y: '0%',
+    opacity: 1,
+    duration: 0.9,
+    stagger: 0.1,
+    ease: 'power2.out',
+    delay: 0
+  }
+  
+  const config = { ...defaults, ...options }
+  
+  return gsap.to(elements, config)
+}
+
 // Initialize animations when DOM is ready
 function initAnimations() {
   // If user prefers reduced motion, set all elements to final state and skip animations
@@ -1029,24 +1051,13 @@ function initLineAnimations(reducedMotion = false) {
     const isInView = rect.top < viewportHeight * 0.85 && rect.bottom > 0
     
     if (isInView) {
-      // Animate immediately if already in view
-      gsap.to(lineElements, {
-        y: '0%',
-        opacity: 1,
-        duration: 0.9,
-        ease: 'power2.out',
-        stagger: 0.1
-      })
+      // Animate immediately if already in view using shared utility
+      animateLineElements(lineElements)
     } else {
       // Use ScrollTrigger for elements not yet in view
       // Declare anim first to avoid temporal dead zone error
       let anim;
-      anim = gsap.to(lineElements, {
-        y: '0%',
-        opacity: 1,
-        duration: 0.9,
-        ease: 'power2.out',
-        stagger: 0.1,
+      anim = animateLineElements(lineElements, {
         scrollTrigger: {
           trigger: element,
           start: 'top 85%',
