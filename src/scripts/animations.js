@@ -12,6 +12,8 @@
  *   .credentials-header-section, .credentials-badge)
  * - [js-line-animation] (text line animations)
  * - .section--centered--pinned (pinned scroll sections)
+ * - .love-notes--pinned (Love Letters section with carousel parallax on mobile, 
+ *   pinned card reveal on desktop)
  * 
  * Optional (page-specific):
  * - .about-flower (about page - flower rotation)
@@ -112,6 +114,59 @@ function initPinnedSections() {
 }
 
 /**
+ * Love Letters section scroll animations
+ * Mobile: Horizontal parallax effect on carousel cards (single timeline for performance)
+ * Desktop: TODO - Will implement after mobile is finalized
+ * @param {boolean} reducedMotion - If true, skip animations
+ */
+function initLoveLettersScroll(reducedMotion = false) {
+  const loveNotesSection = document.querySelector('.love-notes--pinned')
+  if (!loveNotesSection || !ScrollTrigger) return
+  
+  // Only run on mobile for now (< 1280px)
+  const isMobile = window.innerWidth < 1280
+  if (!isMobile) return
+  
+  const topCards = loveNotesSection.querySelectorAll('.love-notes__carousel--top .roster-card--testimonial')
+  const bottomCards = loveNotesSection.querySelectorAll('.love-notes__carousel--bottom .roster-card--testimonial')
+  
+  if (reducedMotion) {
+    // Set all cards to final visible state
+    gsap.set([...topCards, ...bottomCards], { x: 0 })
+    return
+  }
+  
+  // Single timeline for all mobile animations
+  const mobileTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: loveNotesSection,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1,
+      invalidateOnRefresh: true
+    }
+  })
+  
+  // Top carousel - moves right as you scroll down
+  topCards.forEach((card, index) => {
+    const speed = 0.6 + (index * 0.15)
+    mobileTl.to(card, {
+      x: 60 * speed,
+      ease: 'none',
+    }, 0)
+  })
+  
+  // Bottom carousel - moves left as you scroll down (opposite direction)
+  bottomCards.forEach((card, index) => {
+    const speed = 0.6 + (index * 0.15)
+    mobileTl.to(card, {
+      x: -60 * speed,
+      ease: 'none',
+    }, 0)
+  })
+}
+
+/**
  * Animate flower rotation on scroll (reusable)
  * @param {string} flowerSelector - CSS selector for flower element
  * @param {string} triggerSelector - CSS selector for trigger section
@@ -174,6 +229,7 @@ function initAnimations() {
     initCredentialsShadow(true) // Pass true for reduced motion
     initLineAnimations(true) // Pass true for reduced motion
     initHeroParallax(true) // Pass true for reduced motion
+    initLoveLettersScroll(true) // Pass true for reduced motion
     
     return // Skip all animations
   }
@@ -259,6 +315,9 @@ function initAnimations() {
 
   // Pin full-height centered sections
   initPinnedSections()
+  
+  // Love Letters section scroll animations
+  initLoveLettersScroll(false)
   
   // Consolidated resize handler (debounced)
   let resizeTimeout
