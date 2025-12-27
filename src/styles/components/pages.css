@@ -755,11 +755,17 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.4s ease;
 }
 
-.roster-card:hover .roster-card__image {
-  transform: scale(1.05);
+/* Hover effects - Desktop only (1024px+) */
+@media (min-width: 1024px) {
+  .roster-card__image {
+    transition: transform 0.4s ease;
+  }
+
+  .roster-card:hover .roster-card__image {
+    transform: scale(1.05);
+  }
 }
 
 .roster-card__overlay {
@@ -803,6 +809,11 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs); /* 8px - gap between image and content */
+  
+  /* Performance optimizations for scroll animations */
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
   
   /* Custom properties for depth system (desktop) */
   --scale: 1;
@@ -915,9 +926,22 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 .love-notes__carousel {
   width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
   position: relative;
   display: flex;
   justify-content: center;
+  /* Smooth momentum scrolling for iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Snap scrolling disabled to allow free swiping */
+  scroll-behavior: smooth;
+  /* Hide scrollbar while maintaining functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+/* Hide scrollbar for WebKit browsers */
+.love-notes__carousel::-webkit-scrollbar {
+  display: none;
 }
 
 /* Carousel Track - horizontal scrolling container */
@@ -926,6 +950,8 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   gap: var(--space-md);
   padding: 0 var(--space-md);
   width: fit-content;
+  /* Enable horizontal pan gestures only */
+  touch-action: pan-x pan-y;
 }
 
 /* Desktop: Grid-based scattered layout with depth */
@@ -939,9 +965,10 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
     gap: var(--space-lg);
   }
   
-  /* Flatten carousel structure for grid */
+  /* Flatten carousel structure for grid - disable mobile scroll behavior */
   .love-notes__carousel {
     display: contents;
+    overflow: visible;
   }
   
   .love-notes__carousel-track {
