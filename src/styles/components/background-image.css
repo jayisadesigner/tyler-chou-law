@@ -72,3 +72,8 @@
   background-color: var(--obsidian-dark-50);
 }
 
+/* Modifier: Hide overlays when not needed */
+.background-image--no-overlay .background-image__overlay {
+  display: none;
+}
+

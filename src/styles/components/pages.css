@@ -2189,6 +2189,23 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     padding: var(--space-xl);
   }
 
+  /* Default (contained) media: fill container height */
+  .content-section__media .background-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .content-section__media .background-image__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   /* Media on left modifier */
   .content-section--media-left .content-section__container {
     flex-direction: row-reverse;
