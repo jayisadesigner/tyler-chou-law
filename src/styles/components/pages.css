@@ -549,7 +549,17 @@ body.bg-palo-verde .palo-verde-body__column {
   }
 }
 
-/* roster-title removed - now using content-section__headline-text */
+.roster-title {
+  font-family: var(--font-display);
+  font-size: 3.998rem; /* 63.96px */
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em; /* -1.2792px equivalent */
+  color: var(--chuparosa-100);
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 0;
+}
 
 .roster-link {
   font-family: var(--font-display);
@@ -1204,7 +1214,16 @@ body.bg-palo-verde .palo-verde-body__column {
   text-align: center;
 }
 
-/* videos-headline removed - now using content-section__headline-text */
+.videos-headline {
+  font-family: var(--font-body);
+  font-size: 5.653rem; /* 90.44px */
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.03em; /* -2.7132px equivalent */
+  color: var(--chuparosa-100);
+  text-align: center;
+  margin: 0;
+}
 
 /* Responsive */
 /* Tablet only (768px-1023px) */
