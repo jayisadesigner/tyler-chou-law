@@ -9,6 +9,9 @@
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
+  /* Extend background into iOS safe area (notch) */
+  top: calc(-1 * env(safe-area-inset-top, 0px));
+  height: calc(100% + env(safe-area-inset-top, 0px));
 }
 
 .background-image__img,
