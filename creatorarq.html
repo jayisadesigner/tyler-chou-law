@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-      html, body { background-color: var(--chuparosa-500); }
+      html, body { background-color: var(--palo-verde-700); }
       body:not(.ready) { visibility: hidden; }
     </style>
     <script>
@@ -451,10 +451,9 @@
         </div>
       </section>
 
-      <!-- Content Section 2: What We Look For -->
-      <section class="content-section content-section--media-left section section-reveal">
+      <!-- Content Section 2: Full Height Centered Section (for mouse trail effect) -->
+      <section class="content-section content-section--centered content-section--has-bg content-section--has-mousetrail content-section--full-height content-section--pinned content-section--large-body section section-reveal">
         <div class="content-section__container">
-          <!-- Content Area (Right on desktop) -->
           <div class="content-section__content">
             <div class="content-section__eyebrow">
               <p class="content-section__eyebrow-text">criteria</p>
@@ -464,32 +463,62 @@
             </div>
             <div class="content-section__body">
               <p>Creators with proven audiences and untapped business potential. Founders who understand that content is the top of the funnel, not the whole business. Entrepreneurs ready for strategic partnership, not just a check. Visionaries building IP that compounds over time.</p>
-              <p>CreatorArq backs creators who are ready to own their future.</p>
-            </div>
-          </div>
-          
-          <!-- Media Area (Left on desktop) -->
-          <div class="content-section__media">
-            <div class="background-image">
-              <img src="src/assets/images/placeholder.jpg" alt="What We Look For" class="background-image__img">
-              <div class="background-image__overlay background-image__overlay-gradient-1"></div>
-              <div class="background-image__overlay background-image__overlay-gradient-2"></div>
-              <div class="background-image__overlay background-image__overlay-dark"></div>
-              <div class="background-image__overlay background-image__overlay-opacity"></div>
             </div>
           </div>
         </div>
       </section>
 
       
-      <section class="section--centered section--centered--full-height section--centered--large-text section">
-  <div class="section--centered__content">
-    <div class="section--centered__headline">
-      <h2 class="section--centered__headline-text">Think you're ready?</h2>
-    </div>
-    <a href="/creatorarq-apply.html" class="btn btn--secondary btn--on-dark btn--chuparosa">Apply to CreatorArq</a>
-  </div>
-</section>
+      <!-- Contact Form Section -->
+      <section class="content-section content-section--form section section-reveal">
+        <div class="content-section__container">
+          <!-- Content Area (Left on desktop) -->
+          <div class="content-section__content">
+            <div class="content-section__eyebrow">
+              <p class="content-section__eyebrow-text">contact</p>
+            </div>
+            <div class="content-section__headline">
+              <h2 class="content-section__headline-text">Let's Talk About Your Empire</h2>
+            </div>
+            <div class="content-section__body">
+              <p>Tyler Chou Law for Creators works with established YouTube creators, creator-founders building businesses, talent managers seeking high-level legal partnership, venture funds evaluating creator investments, and industry professionals who need serious representation for serious deals.</p>
+              <p>If you're here, something is at stake. Fill out the form and the team will be in touch within 48 hours.</p>
+            </div>
+          </div>
+          
+          <!-- Form Area (Right on desktop) -->
+          <div class="content-section__media content-section__media--form">
+            <form id="contact-form" class="contact-form" data-netlify="true" name="contact" method="POST" netlify-honeypot="bot-field">
+              <input type="hidden" name="form-name" value="contact" />
+              <p class="hidden">
+                <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+              </p>
+              
+              <div class="form-group">
+                <input type="text" id="name" name="name" placeholder="Name *" required />
+                <label for="name">Name *</label>
+              </div>
+              
+              <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Email *" required />
+                <label for="email">Email *</label>
+              </div>
+              
+              <div class="form-group">
+                <input type="text" id="company" name="company" placeholder="Company / Channel Name" />
+                <label for="company">Company / Channel Name</label>
+              </div>
+              
+              <div class="form-group">
+                <textarea id="message" name="message" rows="6" placeholder="Message *" required></textarea>
+                <label for="message">Message *</label>
+              </div>
+              
+              <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit</button>
+            </form>
+          </div>
+        </div>
+      </section>
 
 
 
