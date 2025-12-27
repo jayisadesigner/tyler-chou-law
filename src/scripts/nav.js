@@ -8,7 +8,7 @@ import { animateLineElements } from './animations.js'
 export function initNavigation() {
   const menu = document.querySelector('.nav-menu')
   const button = document.querySelector('.mobile-menu-button')
-  const menuItems = document.querySelectorAll('.nav-menu__items a')
+  const menuItems = document.querySelectorAll('.nav-menu a')
   
   if (!menu || !button) return
   
@@ -18,7 +18,7 @@ export function initNavigation() {
     item.innerHTML = `<span class="line"><span class="line-inner">${text}</span></span>`
   })
   
-  const lineInners = document.querySelectorAll('.nav-menu__items a .line-inner')
+  const lineInners = document.querySelectorAll('.nav-menu a .line-inner')
   
   // Set initial state - menu off-screen at bottom, line-inner elements below
   gsap.set(menu, { yPercent: 100 })
