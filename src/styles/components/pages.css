@@ -1215,6 +1215,9 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   height: var(--philosophy-redaction-height, 0); /* CSS variable with hidden fallback */
   transform-origin: left;
   overflow: hidden;
+  opacity: 1;
+  visibility: visible;
+  display: block;
 }
 
 .philosophy-redaction--first {
