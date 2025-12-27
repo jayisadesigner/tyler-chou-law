@@ -863,12 +863,16 @@ function initLineAnimations(reducedMotion = false) {
           start: 'top 85%',
           toggleActions: 'play none none none',
           onEnter: () => {
-            // Ensure animation plays
-            anim.restart()
+            // Ensure animation plays - check if anim is defined first
+            if (anim) {
+              anim.restart()
+            }
           },
           onEnterBack: () => {
             // Ensure animation plays when scrolling back
-            anim.restart()
+            if (anim) {
+              anim.restart()
+            }
           }
         }
       })
