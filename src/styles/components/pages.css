@@ -3,11 +3,13 @@
 /* Hero Section - Mobile First */
 .hero {
   position: relative;
-  min-height: 80vh; /* Mobile first */
+  min-height: 100vh; /* Full viewport height */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
+  /* Start at absolute top of page (behind fixed header) */
+  margin-top: 0;
   /* Background inherits from body for animated transitions */
 }
 
