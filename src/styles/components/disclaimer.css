@@ -1,0 +1,72 @@
+/* Disclaimer Styles */
+
+.site-disclaimer {
+  background-color: var(--chuparosa-600);
+  color: var(--chuparosa-100);
+  padding: var(--space-md) 0;
+  position: relative;
+  z-index: 1; /* Below footer */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.disclaimer-container {
+  width: 100%;
+  padding: 0 var(--space-md); /* Mobile: matches nav horizontal padding exactly */
+  box-sizing: border-box; /* Ensure padding is included in width calculation */
+}
+
+.disclaimer-container .disclaimer-text {
+  font-family: var(--font-body);
+  font-size: var(--text-small-size);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--chuparosa-100);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+  transition: color 0.3s ease;
+  box-sizing: border-box;
+  text-indent: 0;
+}
+
+/* Tablet+ (768px): matches nav padding exactly */
+@media (min-width: 768px) {
+  .disclaimer-container {
+    padding: 0 var(--space-md); /* Matches nav horizontal padding at tablet+ */
+  }
+}
+
+/* Disclaimer color adjustments for different backgrounds */
+/* Uses automatically generated WCAG AA compliant colors */
+/* Default: light text on dark chuparosa background */
+body:not(.bg-palo-verde):not(.bg-bone) .site-disclaimer {
+  background-color: var(--chuparosa-600);
+  color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
+}
+
+body:not(.bg-palo-verde):not(.bg-bone) .disclaimer-container .disclaimer-text {
+  color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
+}
+
+/* Palo Verde background: light text on dark green background */
+body.bg-palo-verde .site-disclaimer {
+  background-color: var(--palo-verde-700);
+  color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
+}
+
+body.bg-palo-verde .disclaimer-container .disclaimer-text {
+  color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
+}
+
+/* Bone background: dark text on light background */
+body.bg-bone .site-disclaimer {
+  background-color: var(--bone);
+  color: var(--nav-text-on-bone, var(--obsidian));
+}
+
+body.bg-bone .disclaimer-container .disclaimer-text {
+  color: var(--nav-text-on-bone, var(--obsidian));
+}
+

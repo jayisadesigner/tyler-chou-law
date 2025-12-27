@@ -1418,26 +1418,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   z-index: 1; /* Below credentials section but above footer */
 }
 
-.disclaimer-container {
-  width: 100%;
-  max-width: 1512px;
-  margin: 0 auto;
-  padding: var(--space-lg) var(--space-lg);
-}
-
-.disclaimer-content {
-  max-width: 1512px;
-  margin: 0 auto;
-}
-
-.disclaimer-text {
-  font-family: var(--font-body);
-  font-size: 1rem; /* 16px */
-  font-weight: 400;
-  line-height: 1.4;
-  color: var(--chuparosa-100);
-  margin: 0;
-}
+/* Old disclaimer styles removed - now using dedicated disclaimer component in disclaimer.css */
 
 /* Remove excess margin added by GSAP pinSpacing */
 /* !important justified: Override GSAP ScrollTrigger pinSpacing which adds unwanted margin */

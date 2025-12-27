@@ -1,6 +1,6 @@
 /**
  * Pages Build Script
- * Injects global header and footer components into page HTML files
+ * Injects global header, footer, and disclaimer components into page HTML files
  * Simplified: Page content is hand-written in HTML files, not templated
  */
 
@@ -43,6 +43,7 @@ async function buildPage(pageName) {
     // Load global component templates
     const headerTemplate = await loadComponentTemplate('header')
     const footerTemplate = await loadComponentTemplate('footer')
+    const disclaimerTemplate = await loadComponentTemplate('disclaimer')
     
     // Replace header (match any header tag with or without content)
     html = html.replace(/<header[^>]*>[\s\S]*?<\/header>/g, headerTemplate)
@@ -57,6 +58,33 @@ async function buildPage(pageName) {
     } else {
       // Fallback: replace any footer tag
       html = html.replace(/<footer[^>]*>[\s\S]*?<\/footer>/g, footerTemplate)
+    }
+    
+    // Remove all existing disclaimer sections (both site-disclaimer and disclaimer classes)
+    // Match sections with class containing disclaimer (with or without quotes, any order)
+    html = html.replace(/<section[^>]*class="[^"]*site-disclaimer[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')
+    html = html.replace(/<section[^>]*class="[^"]*disclaimer[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')
+    // Also match sections with class='disclaimer' (single quotes)
+    html = html.replace(/<section[^>]*class='[^']*site-disclaimer[^']*'[^>]*>[\s\S]*?<\/section>/gi, '')
+    html = html.replace(/<section[^>]*class='[^']*disclaimer[^']*'[^>]*>[\s\S]*?<\/section>/gi, '')
+    // Remove any remaining disclaimer-related comments
+    html = html.replace(/<!--\s*Disclaimer[^>]*-->/gi, '')
+    
+    // Add disclaimer after footer (or before </body> if no footer found)
+    // First, try to find footer closing tag
+    const footerEndIndex = html.lastIndexOf('</footer>')
+    if (footerEndIndex !== -1) {
+      // Insert disclaimer after footer
+      html = html.substring(0, footerEndIndex + 9) + '\n' + disclaimerTemplate + html.substring(footerEndIndex + 9)
+    } else {
+      // Fallback: insert before </body>
+      const bodyEndIndex = html.lastIndexOf('</body>')
+      if (bodyEndIndex !== -1) {
+        html = html.substring(0, bodyEndIndex) + disclaimerTemplate + '\n' + html.substring(bodyEndIndex)
+      } else {
+        // Last resort: append to end
+        html = html + '\n' + disclaimerTemplate
+      }
     }
     
     // Write updated HTML back to file
