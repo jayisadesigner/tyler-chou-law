@@ -2549,11 +2549,6 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   }
 }
 
-@media (min-width: 1024px) {
-  .content-section--centered .content-section__content {
-    max-width: 1512px; /* Match standard container width */
-  }
-}
 
 /* Tablet and up: increase body text to h5 size */
 @media (min-width: 768px) {
