@@ -665,8 +665,8 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   }
 }
 
-/* Large desktop: 4 columns */
-@media (min-width: 1440px) {
+/* Extra large desktop: 4 columns */
+@media (min-width: 1536px) {
   .section-grid--roster .section-grid__grid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -786,7 +786,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
     bottom: 16px;
     left: 16px;
     font-family: var(--font-display);
-    font-size: 1.414rem; /* 22.62px */
+    font-size: var(--text-h6-size); /* 1.414rem / 22.62px */
     font-weight: 500;
     line-height: 1.2;
     color: var(--chuparosa-100);
@@ -794,6 +794,247 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
     margin: 0;
     z-index: 1;
   }
+
+/* Testimonial Modifier - adds content area below image instead of overlaid handle */
+.roster-card--testimonial {
+  width: 280px; /* Fixed width from Figma */
+  flex-shrink: 0;
+  cursor: default; /* Not clickable */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs); /* 8px - gap between image and content */
+  
+  /* Custom properties for depth system (desktop) */
+  --scale: 1;
+  --depth: 2;
+}
+
+/* Hide overlaid handle when using testimonial modifier */
+.roster-card--testimonial .roster-card__handle {
+  display: none;
+}
+
+/* Hide overlay and scrim on testimonial cards */
+.roster-card--testimonial .roster-card__overlay,
+.roster-card--testimonial .roster-card__scrim {
+  display: none;
+}
+
+/* Content area for testimonial cards (name + quote below image) */
+.roster-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Figma spec */
+}
+
+.roster-card__name {
+  font-family: var(--font-display);
+  font-size: var(--text-h6-size); /* 1.414rem / 22.62px - matches Figma */
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--obsidian);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.roster-card__quote {
+  font-family: var(--font-body);
+  font-size: var(--text-p-size); /* 1rem / 16px - matches Figma */
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--obsidian);
+  margin: 0;
+}
+
+/* ========================================
+   Love Notes Section (Client Testimonials)
+   Mobile: Two stacked horizontal carousels
+   Desktop: Pinned section with falling cards animation
+   ======================================== */
+
+.love-notes {
+  position: relative;
+  width: 100%;
+  background-color: var(--bone); /* Off-white background from Figma */
+  overflow: hidden;
+}
+
+/* Full height modifier */
+.love-notes--full-height {
+  min-height: 100vh;
+}
+
+/* Pinned modifier - triggers scroll pinning animation via JavaScript (Phase 2) */
+
+.love-notes__container {
+  width: 100%;
+  max-width: 1512px;
+  margin: 0 auto;
+  padding: var(--space-2xl) 0;
+}
+
+/* Desktop: Full viewport width */
+@media (min-width: 1280px) {
+  .love-notes__container {
+    max-width: none;
+  }
+}
+
+/* Section Header */
+.love-notes__header {
+  padding: 0 var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.love-notes__headline {
+  font-family: var(--font-display);
+  font-size: var(--text-h3-size); /* Responsive: 32px mobile → 64px desktop */
+  font-weight: 500;
+  line-height: var(--text-h3-line-height);
+  color: var(--obsidian);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Desktop header sizing */
+@media (min-width: 768px) {
+  .love-notes__header {
+    padding: 0 var(--space-lg);
+  }
+}
+
+/* Carousels Container */
+.love-notes__carousels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+/* Individual Carousel Row */
+.love-notes__carousel {
+  width: 100%;
+  overflow-x: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+/* Carousel Track - horizontal scrolling container */
+.love-notes__carousel-track {
+  display: flex;
+  gap: var(--space-md);
+  padding: 0 var(--space-md);
+  width: fit-content;
+}
+
+/* Desktop: Grid-based scattered layout with depth */
+@media (min-width: 1280px) {
+  .love-notes__carousels {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    min-height: 100vh;
+    padding: var(--space-2xl) var(--space-xl);
+    gap: var(--space-lg);
+  }
+  
+  /* Flatten carousel structure for grid */
+  .love-notes__carousel {
+    display: contents;
+  }
+  
+  .love-notes__carousel-track {
+    display: contents;
+  }
+  
+  /* Cards positioned by grid with depth system */
+  .roster-card--testimonial {
+    width: 240px; /* Reduced from 280px to prevent overflow when scaled */
+    transform: scale(var(--scale));
+    z-index: var(--depth);
+    justify-self: center;
+    align-self: center;
+  }
+  
+  /* Card 1 - Large, top left (red background woman in Figma) */
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(1) {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+    --scale: 1.25;
+    --depth: 3;
+  }
+  
+  /* Card 2 - Medium, top middle-right (grayscale woman) */
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(2) {
+    grid-column: 7 / 9;
+    grid-row: 1 / 3;
+    --scale: 0.9;
+    --depth: 2;
+  }
+  
+  /* Card 3 - Medium, left middle (blonde in dark lighting) */
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(3) {
+    grid-column: 2 / 4;
+    grid-row: 3 / 5;
+    --scale: 0.9;
+    --depth: 1;
+  }
+  
+  /* Card 4 - Medium, center bottom (man with cap) */
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(4) {
+    grid-column: 5 / 7;
+    grid-row: 5 / 7;
+    --scale: 1;
+    --depth: 2;
+  }
+  
+  /* Card 5 - Large, right middle-top (purple lighting woman) */
+  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(1) {
+    grid-column: 10 / 12;
+    grid-row: 2 / 4;
+    --scale: 1.25;
+    --depth: 3;
+  }
+  
+  /* Card 6 - Small, hidden behind text */
+  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(2) {
+    grid-column: 4 / 6;
+    grid-row: 2 / 4;
+    --scale: 0.75;
+    --depth: 1;
+  }
+  
+  /* Card 7 - Medium, bottom left area */
+  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(3) {
+    grid-column: 3 / 5;
+    grid-row: 6 / 7;
+    --scale: 0.85;
+    --depth: 2;
+  }
+  
+  /* Card 8 - Medium, bottom right */
+  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(4) {
+    grid-column: 8 / 10;
+    grid-row: 6 / 7;
+    --scale: 0.9;
+    --depth: 2;
+  }
+  
+  /* Headline positioned absolutely in center - doesn't use grid */
+  .love-notes__headline {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    width: auto;
+    max-width: 80%;
+    font-size: var(--text-h1-size); /* 128px at 1280px+ */
+    line-height: var(--text-h1-line-height); /* 0.85 at 1280px+ */
+  }
+}
 
 /* Philosophy Section */
 .philosophy {
