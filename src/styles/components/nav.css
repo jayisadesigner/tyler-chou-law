@@ -80,7 +80,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   opacity: 0.7;
 }
 
-/* Mobile menu - hidden by default */
+/* Mobile menu - hidden by default, positioned for slide-up animation */
 .nav-menu {
   display: none;
 }
@@ -98,6 +98,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   background-color: var(--chuparosa-800);
   z-index: 999;
   padding-top: var(--space-4xl);
+  will-change: transform;
 }
 
 /* Nav links container - base styles */
@@ -119,6 +120,17 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   text-transform: uppercase;
   text-decoration: none;
   text-align: center;
+  display: block;
+  position: relative;
+}
+
+/* Line animation structure (matching headline animation) */
+.nav-menu__items a .line {
+  display: block;
+  overflow: hidden;
+}
+
+.nav-menu__items a .line-inner {
   display: block;
 }
 
