@@ -110,6 +110,13 @@ small {
   line-height: var(--text-tiny-line-height);
 }
 
+/* Large Body Text - For emphasis, lead paragraphs, feature descriptions */
+.text-large,
+p.text-large {
+  font-size: var(--text-p-large-size);
+  line-height: var(--text-p-large-line-height);
+}
+
 /* Responsive Typography */
 /* Typography now scales automatically via CSS variables in variables.css */
 /* Variables update at breakpoints, so no media query needed here */
