@@ -15,6 +15,7 @@ const projectRoot = join(__dirname, '..')
 const contentDir = join(projectRoot, 'content', 'blog')
 const outputDir = join(projectRoot, 'dist', 'love-letters')
 const templatePath = join(projectRoot, 'src', 'templates', 'blog-post.html')
+const componentsDir = join(projectRoot, 'src', 'components')
 
 /**
  * Calculate reading time from word count
@@ -69,6 +70,19 @@ function parseFrontmatter(content) {
   })
   
   return { metadata, body }
+}
+
+/**
+ * Load component template
+ */
+async function loadComponentTemplate(name) {
+  try {
+    const path = join(componentsDir, `${name}.html`)
+    return await readFile(path, 'utf-8')
+  } catch (error) {
+    console.error(`Error loading component ${name}:`, error)
+    throw error
+  }
 }
 
 /**
@@ -128,6 +142,11 @@ async function buildPost(filePath, fileName) {
 </html>`
     }
     
+    // Load global component templates
+    const headerTemplate = await loadComponentTemplate('header')
+    const footerTemplate = await loadComponentTemplate('footer')
+    const disclaimerTemplate = await loadComponentTemplate('disclaimer')
+    
     // Replace template variables
     template = template
       .replace(/\{\{title\}\}/g, metadata.title || 'Untitled')
@@ -141,6 +160,31 @@ async function buildPost(filePath, fileName) {
       .replace(/\{\{content\}\}/g, htmlContent)
       .replace(/\{\{excerpt\}\}/g, metadata.excerpt || '')
       .replace(/\{\{tags\}\}/g, metadata.tags ? metadata.tags.split(',').map(t => `<span class="tag">${t.trim()}</span>`).join('') : '')
+    
+    // Replace header and footer placeholders
+    template = template.replace(/<header[^>]*>[\s\S]*?<\/header>/g, headerTemplate)
+    template = template.replace(/<footer[^>]*>[\s\S]*?<\/footer>/g, footerTemplate)
+    
+    // Remove all existing disclaimer sections (both site-disclaimer and disclaimer classes)
+    // Match sections with class containing disclaimer (with or without quotes, any order)
+    template = template.replace(/<section[^>]*class="[^"]*site-disclaimer[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')
+    template = template.replace(/<section[^>]*class="[^"]*disclaimer[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')
+    // Also match sections with class='disclaimer' (single quotes)
+    template = template.replace(/<section[^>]*class='[^']*site-disclaimer[^']*'[^>]*>[\s\S]*?<\/section>/gi, '')
+    template = template.replace(/<section[^>]*class='[^']*disclaimer[^']*'[^>]*>[\s\S]*?<\/section>/gi, '')
+    // Remove any remaining disclaimer-related comments
+    template = template.replace(/<!--\s*Disclaimer[^>]*-->/gi, '')
+    
+    // Add disclaimer after footer (or before </body> if no footer found)
+    const footerEndIndex = template.lastIndexOf('</footer>')
+    if (footerEndIndex !== -1) {
+      template = template.substring(0, footerEndIndex + 9) + '\n    ' + disclaimerTemplate + template.substring(footerEndIndex + 9)
+    } else {
+      const bodyEndIndex = template.lastIndexOf('</body>')
+      if (bodyEndIndex !== -1) {
+        template = template.substring(0, bodyEndIndex) + '    ' + disclaimerTemplate + '\n' + template.substring(bodyEndIndex)
+      }
+    }
     
     // Create output directory
     const postOutputDir = join(outputDir, slug)

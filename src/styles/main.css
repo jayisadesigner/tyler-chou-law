@@ -6,6 +6,7 @@
 @import './typography.css';
 @import './components/nav.css';
 @import './components/footer.css';
+@import './components/disclaimer.css';
 @import './components/buttons.css';
 @import './components/forms.css';
 @import './components/video.css';
