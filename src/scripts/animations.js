@@ -850,7 +850,9 @@ function initLineAnimations(reducedMotion = false) {
       })
     } else {
       // Use ScrollTrigger for elements not yet in view
-      const anim = gsap.to(lineElements, {
+      // Declare anim first to avoid temporal dead zone error
+      let anim;
+      anim = gsap.to(lineElements, {
         y: '0%',
         opacity: 1,
         duration: 0.9,
