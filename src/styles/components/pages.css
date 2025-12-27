@@ -223,7 +223,7 @@
 }
 
 /* Reduce extra spacing for palo-verde headline specifically */
-.palo-verde-headline[js-line-animation] .line {
+.palo-verde .section--featured-image__headline[js-line-animation] .line {
   margin: 0;
   padding: 0;
 }
@@ -266,6 +266,158 @@
   }
 }
 
+/* ========================================
+   FEATURED IMAGE SECTION COMPONENT
+   Pattern: Simple stacked mobile, decorative desktop layout
+   Used by: About, Palo Verde
+   Mobile First: Matches content-section on mobile
+   ======================================== */
+
+.section--featured-image {
+  position: relative;
+  overflow: visible; /* Allow decorative elements to overflow */
+}
+
+/* Mobile First: Simple container with normal flow */
+.section--featured-image__container {
+  position: relative;
+  width: 100%;
+  max-width: 1512px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+  padding-bottom: var(--space-4xl);
+  overflow: visible;
+}
+
+/* Desktop: Minimum height for decorative layout */
+@media (min-width: 1024px) {
+  .section--featured-image__container {
+    padding: 0 var(--space-lg);
+    min-height: calc(617px + 500px + var(--space-4xl));
+  }
+}
+
+/* Featured image - Mobile: relative, normal flow, centered */
+.section--featured-image__image {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  aspect-ratio: 354 / 442;
+  margin: 0 auto var(--space-xl);
+  z-index: 1;
+}
+
+/* Desktop: Absolute positioned decoratively */
+@media (min-width: 1024px) {
+  .section--featured-image__image {
+    position: absolute;
+    width: 354px;
+    height: 442px;
+    margin: 0;
+  }
+  
+  /* Left modifier */
+  .section--featured-image--left .section--featured-image__image {
+    left: calc(37.5% + 12px);
+    top: 128px;
+  }
+  
+  /* Center modifier */
+  .section--featured-image--center .section--featured-image__image {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.section--featured-image__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Content area - Mobile: relative, normal flow like other sections */
+.section--featured-image__content {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: flex-start;
+  z-index: 3;
+}
+
+/* Desktop: Absolute positioning with centering */
+@media (min-width: 1024px) {
+  .section--featured-image__content {
+    position: absolute;
+    left: 50%;
+    top: 617px;
+    transform: translateX(-50%);
+    width: 724px;
+    align-items: center;
+  }
+}
+
+/* Headline - Mobile: left-aligned like other sections */
+.section--featured-image__headline {
+  font-family: var(--font-display);
+  font-size: var(--text-h2-size); /* Responsive: 40px mobile → 90px large desktop */
+  font-weight: 500;
+  line-height: var(--text-h2-line-height); /* Responsive line-height */
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--chuparosa-100);
+  text-align: left;
+  width: 100%;
+  margin: 0;
+}
+
+/* Desktop: Justified text */
+@media (min-width: 1024px) {
+  .section--featured-image__headline {
+    text-align: justify;
+    text-align-last: justify;
+  }
+}
+
+/* Body - Mobile: single column like other sections */
+.section--featured-image__body {
+  display: grid;
+  gap: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-p-large-size); /* Large body text for emphasis */
+  font-weight: 400;
+  line-height: var(--text-p-large-line-height); /* Large body text line-height */
+  color: var(--chuparosa-100);
+  width: 100%;
+}
+
+/* Tablet+: two columns */
+@media (min-width: 768px) {
+  .section--featured-image__body {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.section--featured-image__body p {
+  margin: 0;
+}
+
+.section--featured-image__body p:not(:last-child) {
+  margin-bottom: var(--space-md);
+}
+
+/* Ensure line animations work within featured image sections */
+.section--featured-image__content [js-line-animation] {
+  width: 100%;
+}
+
+/* ======================================== */
+
 /* About and Palo Verde sections inherit background from body for animated transitions */
 
 .about-container,
@@ -279,60 +431,35 @@
   overflow: visible; /* Allow decorative elements to overflow */
 }
 
-.about-container {
-  /* Ensure container expands: content starts at 617px, add space for content + padding */
-  min-height: calc(617px + 500px + var(--space-4xl));
-}
+/* Old about-portrait and palo-verde-tree styles removed - now using section--featured-image */
 
-/* Shared Image Container Styles */
-.about-portrait,
-.palo-verde-tree {
-  position: absolute;
-  width: 354px;
-  height: 442px;
-  z-index: 1;
-}
-
-.about-portrait {
-  left: calc(37.5% + 12px);
-  top: 128px;
-}
-
-.palo-verde-tree {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.about-portrait__image,
-.palo-verde-tree__image,
-.palo-verde-tree__placeholder {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.palo-verde-tree__placeholder {
-  background-color: var(--white-10);
-}
-
-/* Decorative Name Text (About only) */
+/* Decorative Name Text (About only) - Styled like large centered headline */
+/* Mobile: relative, left-aligned, normal flow */
 .about-name {
-  position: absolute;
-  left: calc(43.75% + 1.5px);
-  top: 376px;
-  transform: translateX(-50%);
+  position: relative;
   font-family: var(--font-body);
-  font-size: 12.375rem; /* 198px */
+  font-size: var(--text-h1-size); /* Responsive: 48px mobile → 144px XL desktop */
   font-weight: 400;
-  line-height: 0.9;
-  letter-spacing: -0.03em; /* -5.94px equivalent */
+  line-height: 0.85;
+  letter-spacing: -0.03em;
   color: var(--chuparosa-100);
   text-transform: capitalize;
-  text-align: center;
+  text-align: left;
   white-space: nowrap;
   z-index: 2;
-  margin: 0;
+  margin: 0 0 var(--space-lg) 0;
+}
+
+/* Desktop: absolute positioned decoratively */
+@media (min-width: 1024px) {
+  .about-name {
+    position: absolute;
+    left: calc(43.75% + 1.5px);
+    top: 376px;
+    transform: translateX(-50%);
+    text-align: center;
+    margin: 0;
+  }
 }
 
 /* Shared Decorative Flower Styles */
@@ -342,7 +469,9 @@
   z-index: 1;
 }
 
-.about-flower {
+/* Shared positioning for both flowers */
+.about-flower,
+.palo-verde-flower {
   right: -350px;
   top: 379px;
   width: 850px;
@@ -366,24 +495,7 @@ body.bg-palo-verde .palo-verde-flower__image {
   color: var(--desert-gold-500); /* Brighter gold */
 }
 
-/* Shared Headline Styles */
-.about-headline,
-.palo-verde-headline {
-  font-family: var(--font-display);
-  font-size: 5.653rem; /* 90.44px */
-  font-weight: 500;
-  line-height: 0.9;
-  letter-spacing: -0.03em; /* -2.7132px equivalent */
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.about-headline {
-  color: var(--chuparosa-100);
-  text-align: justify;
-  text-align-last: justify;
-  width: 100%;
-}
+/* Old about-headline styles removed - now using section--featured-image__headline */
 
 /* ========================================
    REUSABLE PATTERN: Animated Heading Layout
@@ -413,80 +525,27 @@ body.bg-palo-verde .palo-verde-flower__image {
   gap: var(--space-xl); /* Spacing between headline and content */
 }
 
-.palo-verde-headline {
-  position: relative; /* Changed from absolute to relative */
-  color: var(--chuparosa-100); /* Match about section headline before flip */
-  text-align: justify;
-  width: 724px;
-  margin: 0; /* Remove default margins */
-}
-
-/* When background flips to palo-verde, change headline color */
-body.bg-palo-verde .palo-verde-headline {
-  color: var(--palo-verde-50);
-}
-
-/* Shared Body Text Styles */
-.about-body,
-.palo-verde-body {
-  display: flex;
-  gap: var(--space-md);
-  font-family: var(--font-body);
-  font-size: 1rem; /* 16px */
-  font-weight: 400;
-  line-height: 1.4;
-}
-
-.about-body {
-  width: 100%;
-  padding-right: var(--space-4xl);
-}
-
-/* Palo Verde Content Wrapper */
-.palo-verde-content {
-  position: relative; /* Changed from absolute to relative */
-  width: 539px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg); /* 32px spacing between body and button */
-}
-
-.palo-verde-body {
-  display: flex;
-  gap: var(--space-sm);
-  width: 100%;
-}
-
-.about-body__column,
-.palo-verde-body__column {
-  flex: 1;
-}
-
-.about-body__column {
-  color: var(--chuparosa-100);
-}
-
-.palo-verde-body__column {
+/* Palo Verde section-specific color overrides */
+.palo-verde .section--featured-image__headline {
   color: var(--chuparosa-100); /* Match about section before flip */
 }
 
-/* When background flips to palo-verde, change text and flower colors */
-body.bg-palo-verde .palo-verde-body__column {
+/* When background flips to palo-verde, change headline color */
+body.bg-palo-verde .palo-verde .section--featured-image__headline {
+  color: var(--palo-verde-50);
+}
+
+/* Palo Verde section-specific color overrides */
+.palo-verde .section--featured-image__body {
+  color: var(--chuparosa-100); /* Match about section before flip */
+}
+
+/* When background flips to palo-verde, change body text color */
+body.bg-palo-verde .palo-verde .section--featured-image__body {
   color: var(--palo-verde-300);
 }
 
-.about-body__column p,
-.palo-verde-body__column p {
-  margin: 0;
-}
-
-.about-body__column p:not(:last-child) {
-  margin-bottom: var(--space-md);
-}
-
-.palo-verde-body__column p:not(:last-child) {
-  margin-bottom: var(--space-sm);
-}
+/* Old body column styles removed - now using section--featured-image__body grid */
 
 /* Main Content Container (About only) */
 /* About Content - follows reusable animated heading pattern */
@@ -510,20 +569,12 @@ body.bg-palo-verde .palo-verde-body__column {
   width: 100%; /* Full width within container */
 }
 
-/* Button styles now in components/buttons.css */
-
 /* Palo Verde Specific Container */
 .palo-verde-container {
   min-height: calc(560px + 200px + var(--space-4xl));
 }
 
-/* Palo Verde Flower Positioning */
-.palo-verde-flower {
-  left: calc(62.5% + 112px);
-  top: 155px;
-  width: 720px;
-  height: 720px;
-}
+/* Palo Verde Flower - now uses same positioning as About flower */
 
 /* Roster Section */
 /* .roster uses .section padding - var(--space-4xl) 0 on desktop, var(--space-2xl) 0 on mobile */
@@ -1169,33 +1220,7 @@ body.bg-palo-verde .palo-verde-body__column {
 /* Responsive */
 /* Tablet only (768px-1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .palo-verde {
-    min-height: auto;
-    /* Uses .section responsive padding */
-  }
-  
-  .palo-verde-container {
-    padding: var(--space-xl) var(--space-md);
-    padding-bottom: var(--space-4xl);
-  }
-  
-  .palo-verde-tree {
-    width: 280px;
-    height: 350px;
-  }
-  
-  .palo-verde-headline {
-    font-size: var(--text-h2-size);
-    width: 100%;
-    max-width: 600px;
-    left: var(--space-md);
-  }
-  
-  .palo-verde-body {
-    width: 100%;
-    max-width: 500px;
-    left: var(--space-md);
-  }
+  /* About and Palo Verde sections now use section--featured-image component */
   
   .palo-verde-flower {
     width: 500px;
@@ -1203,88 +1228,9 @@ body.bg-palo-verde .palo-verde-body__column {
     left: calc(60% + 50px);
   }
   
-  /* Shared responsive styles for about and palo-verde */
-  .about,
-  .palo-verde {
-    min-height: auto;
-    padding: var(--space-2xl) 0;
-  }
-  
-  .about-container,
-  .palo-verde-container {
-    min-height: auto;
-    padding: var(--space-xl) var(--space-md);
-    padding-bottom: var(--space-4xl);
-  }
-  
-  .about-portrait,
-  .palo-verde-tree {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    width: 100%;
-    max-width: 354px;
-    height: auto;
-    aspect-ratio: 354 / 442;
-    margin: 0 auto var(--space-xl);
-  }
-  
-  .about-headline,
-  .palo-verde-headline {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    font-size: var(--text-h2-size);
-    text-align: center;
-    text-align-last: center;
-    margin: 0 0 var(--space-lg) 0;
-  }
-  
-  .about-body,
-  .palo-verde-body {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    flex-direction: column;
-    gap: var(--space-md);
-    margin-bottom: var(--space-xl);
-  }
-  
-  .about-body__column,
-  .palo-verde-body__column {
-    width: 100%;
-  }
-  
   .about-flower,
   .palo-verde-flower {
     display: none; /* Hide decorative flower on mobile */
-  }
-  
-  .about-content,
-  .palo-verde-content {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    width: 100%;
-    padding: 0 var(--space-lg);
-  }
-  
-  .palo-verde-content .btn {
-    align-self: center;
-  }
-  
-  .about-button,
-  .palo-verde-button {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    align-self: center;
-    margin-top: var(--space-lg);
   }
   
   .philosophy-container {
@@ -1431,131 +1377,14 @@ body.bg-palo-verde .palo-verde-body__column {
     line-height: var(--text-p-large-line-height);
   }
   
-  /* Shared responsive styles for about and palo-verde */
-  .about,
-  .palo-verde {
-    min-height: auto;
-    padding: var(--space-2xl) 0;
-  }
-  
-  .about-container,
-  .palo-verde-container {
-    min-height: auto;
-    padding: var(--space-xl) var(--space-md);
-    padding-bottom: var(--space-4xl);
-  }
-  
-  .about-portrait,
-  .palo-verde-tree {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    width: 100%;
-    max-width: 354px;
-    height: auto;
-    aspect-ratio: 354 / 442;
-    margin: 0 auto var(--space-xl);
-  }
-  
-  .about-headline,
-  .palo-verde-headline {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    font-size: var(--text-h2-size);
-    text-align: center;
-    text-align-last: center;
-    margin: 0 0 var(--space-lg) 0;
-  }
-  
-  .about-body,
-  .palo-verde-body {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    flex-direction: column;
-    gap: var(--space-md);
-    margin-bottom: var(--space-xl);
-  }
-  
-  .about-body__column,
-  .palo-verde-body__column {
-    width: 100%;
-  }
+  /* About and Palo Verde sections now use section--featured-image component */
   
   .about-flower,
   .palo-verde-flower {
     display: none; /* Hide decorative flower on mobile */
   }
   
-  .about-button,
-  .palo-verde-button {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    align-self: center;
-    margin-top: var(--space-lg);
-  }
-  
-  .about-name {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    font-size: var(--text-h1-size);
-    margin: 0 auto var(--space-xl);
-    text-align: center;
-  }
-  
-  .about-flower {
-    display: none; /* Hide decorative flower on mobile */
-  }
-  
-  .about-content {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    width: 100%;
-    padding: 0 var(--space-lg);
-  }
-  
-  /* Palo Verde Text Wrapper - responsive */
-  .palo-verde-text-wrapper {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    padding: 0 var(--space-lg);
-  }
-  
-  .palo-verde-content {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    width: 100%;
-    padding: 0;
-  }
-  
-  .palo-verde-content .btn {
-    align-self: center;
-  }
-  
-  .about-headline {
-    font-size: var(--text-h2-size);
-    text-align: center;
-    text-align-last: center;
-  }
-  
-  .about-body {
-    flex-direction: column;
-    padding-right: 0;
-  }
+  /* about-name mobile styles now handled by base mobile-first styles */
   
   /* Ensure flower overflow works on large desktop */
   @media (min-width: 1536px) {
@@ -2330,10 +2159,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   min-height: 100vh;
 }
 
-/* Pinned modifier - triggers scroll pinning animation */
-.section--centered--pinned {
-  /* No styles needed - just a hook for JavaScript animation */
-}
+/* Pinned modifier - triggers scroll pinning animation via JavaScript */
 
 /* Large text modifier - uses body font as display copy for visual impact */
 .section--centered--large-text .section--centered__headline-text {
