@@ -92,6 +92,36 @@ function initLenis() {
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
+ * Helper function to manage body theme classes efficiently
+ * Removes all theme classes and adds the specified one
+ * @param {string} themeClass - Theme class to apply (e.g., 'bg-palo-verde', 'bg-bone', or '' for default)
+ */
+function setBodyTheme(themeClass) {
+  const allThemes = ['bg-palo-verde', 'bg-bone']
+  // Remove all themes in one operation
+  document.body.classList.remove(...allThemes)
+  // Add new theme if provided
+  if (themeClass) {
+    document.body.classList.add(themeClass)
+  }
+}
+
+/**
+ * Returns ScrollTrigger callbacks for theme switching
+ * Reusable helper to avoid repeating theme switching code
+ * @param {string} themeClass - Theme class to apply when entering section
+ * @returns {Object} ScrollTrigger callback object with onEnter, onLeave, onEnterBack, onLeaveBack
+ */
+function getThemeCallbacks(themeClass) {
+  return {
+    onEnter: () => setBodyTheme(themeClass),
+    onLeave: () => setBodyTheme(''),
+    onEnterBack: () => setBodyTheme(themeClass),
+    onLeaveBack: () => setBodyTheme(''),
+  }
+}
+
+/**
  * Pin centered sections during scroll
  * Creates a sticky effect for sections with .section--centered--pinned
  * Note: Use --pinned modifier separately from --full-height for more control
@@ -150,7 +180,8 @@ function initLoveLettersScroll(reducedMotion = false) {
           start: 'top bottom',
           end: 'bottom top',
           scrub: 1,
-          invalidateOnRefresh: true
+          invalidateOnRefresh: true,
+          ...getThemeCallbacks('bg-bone'),
         }
       })
       
@@ -197,7 +228,8 @@ function initLoveLettersScroll(reducedMotion = false) {
           end: '+=500%', // Pin for 5x viewport height - enough to scroll all cards through
           pin: true,
           scrub: 1,
-          invalidateOnRefresh: true
+          invalidateOnRefresh: true,
+          ...getThemeCallbacks('bg-bone'),
         }
       })
       
@@ -339,28 +371,34 @@ function initAnimations() {
   animateFlowerRotation('.about-flower', '.about')
   animateFlowerRotation('.palo-verde-flower', '.palo-verde')
   
+  // Section-based theme switching
+  // Palo Verde section - green background
   const paloVerdeSection = document.querySelector('.palo-verde')
-
-  // Palo Verde section background switching (CSS handles color transition)
   if (paloVerdeSection) {
     ScrollTrigger.create({
       trigger: paloVerdeSection,
       start: 'top center',
       end: 'bottom top',
-      onEnter: () => {
-        document.body.classList.add('bg-palo-verde')
-        document.body.classList.remove('bg-bone')
-      },
-      onLeave: () => {
-        document.body.classList.remove('bg-palo-verde')
-      },
-      onEnterBack: () => {
-        document.body.classList.add('bg-palo-verde')
-        document.body.classList.remove('bg-bone')
-      },
-      onLeaveBack: () => {
-        document.body.classList.remove('bg-palo-verde')
-      },
+      ...getThemeCallbacks('bg-palo-verde'),
+    })
+  }
+
+  // Philosophy section - bone background
+  // Theme switching is handled in initPhilosophyRedaction pinned ScrollTrigger (matches love-notes pattern)
+
+  // Love Letters section - bone background
+  // Note: Theme switching for love-notes is handled in initLoveLettersScroll
+  // because the section is pinned on desktop and needs to coordinate with the pin animation
+
+  // Final CTA section - return to default (chuparosa/red)
+  const finalSection = document.querySelector('.section--centered:last-of-type')
+  if (finalSection) {
+    ScrollTrigger.create({
+      trigger: finalSection,
+      start: 'top center',
+      end: 'bottom top',
+      onEnter: () => setBodyTheme(''),
+      onEnterBack: () => setBodyTheme(''),
     })
   }
 
@@ -436,6 +474,7 @@ function initHeroParallax(reducedMotion = false) {
 
 /**
  * Philosophy section redaction animation
+ * Mobile-first: Same redaction animation on all screen sizes
  * Redacts "Content" and "is king" text and fades in "ip is Queen" based on scroll progress
  * Fully responsive - calculates widths/heights dynamically based on actual text dimensions
  * @param {boolean} reducedMotion - If true, skip animation and show final state
@@ -452,238 +491,216 @@ function initPhilosophyRedaction(reducedMotion = false) {
 
   if (!redactionFirst || !redactionSecond || !queenText || !contentText || !kingText) return
 
-  // If reduced motion, show final state immediately
-  if (reducedMotion) {
-    gsap.set([contentText, kingText], { opacity: 1 })
-    gsap.set(queenText, { opacity: 1 })
-    // Set redaction boxes to full scale (final state)
-    const getSpacingValue = (variableName) => {
-      const value = getComputedStyle(document.documentElement)
-        .getPropertyValue(variableName).trim()
-      const remValue = parseFloat(value)
-      return Math.ceil(remValue * 16)
-    }
-    void contentText.offsetHeight
-    void kingText.offsetHeight
-    const contentRect = contentText.getBoundingClientRect()
-    const kingRect = kingText.getBoundingClientRect()
-    const strikethroughPadding = getSpacingValue('--space-xs')
-    const firstWidth = contentRect.width + (strikethroughPadding * 2)
-    const secondWidth = kingRect.width + (strikethroughPadding * 2)
-    gsap.set(redactionFirst, { width: firstWidth, scaleX: 1, transformOrigin: 'left center' })
-    gsap.set(redactionSecond, { width: secondWidth, scaleX: 1, transformOrigin: 'left center' })
-    return
-  }
-
-  // Mobile: fade in text elements sequentially on scroll
-  if (window.matchMedia('(max-width: 768px)').matches) {
-    // Set initial state - all text hidden
-    gsap.set([contentText, kingText, queenText], { opacity: 0 })
-    
-    // Create a simple scroll-triggered timeline for mobile
-    const mobileTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: philosophySection,
-        start: 'top 80%',
-        end: 'bottom 20%',
-        scrub: 1,
-      },
-    })
-    
-    // Fade in "Content" first
-    mobileTl.to(contentText, {
-      opacity: 1,
-      ease: 'power2.out',
-      duration: 1.2,
-    }, 0)
-    
-    // Fade in "is king" second (staggered)
-    mobileTl.to(kingText, {
-      opacity: 1,
-      ease: 'power2.out',
-      duration: 1.2,
-    }, 0.5)
-    
-    // Fade in "ip is Queen" last
-    mobileTl.to(queenText, {
-      opacity: 1,
-      ease: 'power2.out',
-      duration: 1.2,
-    }, 1.0)
-    
-    return
-  }
-
-  // Set CSS variables for animated layout (left-aligned, original grid positions)
-  philosophySection.style.setProperty('--philosophy-justify', 'start')
-  philosophySection.style.setProperty('--philosophy-item-justify', 'start')
-  philosophySection.style.setProperty('--philosophy-text-align', 'left')
-  philosophySection.style.setProperty('--philosophy-first-col', '1 / 4')
-  philosophySection.style.setProperty('--philosophy-second-col', '2 / 6')
-  philosophySection.style.setProperty('--philosophy-third-col', '2 / 6')
-  philosophySection.style.setProperty('--philosophy-first-justify', 'start')
-  philosophySection.style.setProperty('--philosophy-second-justify', 'start')
-  philosophySection.style.setProperty('--philosophy-third-justify', 'start')
-  philosophySection.style.setProperty('--philosophy-queen-opacity', '0')
-
-  // Get spacing values from CSS variables
+  // Helper: Get spacing values from CSS variables
   const getSpacingValue = (variableName) => {
     const value = getComputedStyle(document.documentElement)
       .getPropertyValue(variableName).trim()
-    // Convert rem to pixels (assuming 16px base)
-    const remValue = parseFloat(value)
-    return Math.ceil(remValue * 16) // Convert to pixels
+    return Math.ceil(parseFloat(value) * 16) // Convert rem to pixels
   }
 
-  // Measure actual text dimensions and calculate positioning
-  const getDimensions = () => {
-    // Force a reflow to ensure accurate measurements
-    void contentText.offsetHeight
-    void kingText.offsetHeight
+  // Helper: Calculate redaction box dimensions and positions
+  const calculateRedactionDimensions = (contentTextEl, kingTextEl) => {
+    void contentTextEl.offsetHeight
+    void kingTextEl.offsetHeight
     
-    const contentRect = contentText.getBoundingClientRect()
-    const kingRect = kingText.getBoundingClientRect()
-    const firstItem = contentText.closest('.philosophy-item')
-    const secondItem = kingText.closest('.philosophy-item')
+    const contentRect = contentTextEl.getBoundingClientRect()
+    const kingRect = kingTextEl.getBoundingClientRect()
+    const firstItem = contentTextEl.closest('.philosophy-item')
+    const secondItem = kingTextEl.closest('.philosophy-item')
     const firstItemRect = firstItem.getBoundingClientRect()
     const secondItemRect = secondItem.getBoundingClientRect()
     
     const strikethroughHeight = getSpacingValue('--space-lg')
-    const strikethroughPadding = getSpacingValue('--space-xs') // Small padding on left and right
+    const strikethroughPadding = getSpacingValue('--space-xs')
     
-    // Calculate left offset: text position relative to its container minus padding
-    // This positions the strikethrough to start before the text by the padding amount
     const firstLeft = (contentRect.left - firstItemRect.left) - strikethroughPadding
     const secondLeft = (kingRect.left - secondItemRect.left) - strikethroughPadding
-    
-    // Width = exact text width + padding on both sides (no rounding until final pixel value)
     const firstWidth = contentRect.width + (strikethroughPadding * 2)
     const secondWidth = kingRect.width + (strikethroughPadding * 2)
     
     return {
-      firstWidth: Math.round(firstWidth), // Round to nearest pixel for clean rendering
+      firstWidth: Math.round(firstWidth),
       firstHeight: strikethroughHeight,
-      firstLeft: Math.round(firstLeft), // Round to nearest pixel
-      secondWidth: Math.round(secondWidth), // Round to nearest pixel
+      firstLeft: Math.round(firstLeft),
+      secondWidth: Math.round(secondWidth),
       secondHeight: strikethroughHeight,
-      secondLeft: Math.round(secondLeft), // Round to nearest pixel
+      secondLeft: Math.round(secondLeft),
     }
   }
 
-  // Calculate dimensions - will be recalculated on resize
-  let dims = getDimensions()
+  // Helper: Set CSS variables for animated layout
+  const setPhilosophyLayoutVariables = () => {
+    philosophySection.style.setProperty('--philosophy-justify', 'start')
+    philosophySection.style.setProperty('--philosophy-item-justify', 'start')
+    philosophySection.style.setProperty('--philosophy-text-align', 'left')
+    philosophySection.style.setProperty('--philosophy-first-col', '1 / 4')
+    philosophySection.style.setProperty('--philosophy-second-col', '2 / 6')
+    philosophySection.style.setProperty('--philosophy-third-col', '2 / 6')
+    philosophySection.style.setProperty('--philosophy-first-justify', 'start')
+    philosophySection.style.setProperty('--philosophy-second-justify', 'start')
+    philosophySection.style.setProperty('--philosophy-third-justify', 'start')
+    philosophySection.style.setProperty('--philosophy-queen-opacity', '0')
+  }
+
+  // Helper: Initialize redaction boxes
+  const initializeRedactionBoxes = (dimensions) => {
+    // Ensure boxes are visible and positioned correctly
+    gsap.set(redactionFirst, { 
+      width: dimensions.firstWidth, 
+      scaleX: 0, 
+      transformOrigin: 'left center',
+      height: dimensions.firstHeight,
+      left: dimensions.firstLeft,
+      opacity: 1, // Ensure visible
+      visibility: 'visible' // Ensure visible
+    })
+    gsap.set(redactionSecond, { 
+      width: dimensions.secondWidth, 
+      scaleX: 0, 
+      transformOrigin: 'left center',
+      height: dimensions.secondHeight,
+      left: dimensions.secondLeft,
+      opacity: 1, // Ensure visible
+      visibility: 'visible' // Ensure visible
+    })
+    gsap.set(queenText, { opacity: 0 })
+  }
+
+  // If reduced motion, show final state immediately
+  if (reducedMotion) {
+    gsap.set([contentText, kingText], { opacity: 1 })
+    gsap.set(queenText, { opacity: 1 })
+    const dimensions = calculateRedactionDimensions(contentText, kingText)
+    gsap.set(redactionFirst, { 
+      width: dimensions.firstWidth, 
+      scaleX: 1, 
+      transformOrigin: 'left center' 
+    })
+    gsap.set(redactionSecond, { 
+      width: dimensions.secondWidth, 
+      scaleX: 1, 
+      transformOrigin: 'left center' 
+    })
+    return
+  }
+
+  // Set layout variables
+  setPhilosophyLayoutVariables()
+
+  // Calculate initial dimensions
+  let dimensions = calculateRedactionDimensions(contentText, kingText)
   
-  // Function to update dimensions (position and height only)
+  // Helper: Update dimensions on resize
   const updateDimensions = () => {
-    dims = getDimensions()
+    dimensions = calculateRedactionDimensions(contentText, kingText)
     gsap.set(redactionFirst, { 
-      height: dims.firstHeight,
-      left: dims.firstLeft
+      height: dimensions.firstHeight,
+      left: dimensions.firstLeft,
+      width: dimensions.firstWidth
     })
     gsap.set(redactionSecond, { 
-      height: dims.secondHeight,
-      left: dims.secondLeft
+      height: dimensions.secondHeight,
+      left: dimensions.secondLeft,
+      width: dimensions.secondWidth
     })
   }
 
-  // Set initial state - boxes start at 0 scale, positioned correctly, queen text hidden
-  updateDimensions()
-  gsap.set(redactionFirst, { width: dims.firstWidth, scaleX: 0, transformOrigin: 'left center' })
-  gsap.set(redactionSecond, { width: dims.secondWidth, scaleX: 0, transformOrigin: 'left center' })
-  gsap.set(queenText, { opacity: 0 })
+  // Initialize redaction boxes for desktop animation
+  initializeRedactionBoxes(dimensions)
 
-  // Responsive scroll duration based on viewport height
-  // Increased multiplier to give more time to view "ip is queen" after animation completes
-  const scrollMultiplier = Math.max(2.5, Math.min(5, window.innerHeight / 250))
+  // Helper: Create redaction animation timeline (desktop - full animation)
+  const createRedactionTimeline = (scrollTriggerConfig) => {
+    const timeline = gsap.timeline({ scrollTrigger: scrollTriggerConfig })
 
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: philosophySection,
-      start: 'top top',
-      end: `+=${scrollMultiplier * 100}%`,
-      scrub: 2.5,
-      pin: true,
-      pinSpacing: true,
-      anticipatePin: 1,
-      onRefresh: updateDimensions,
-      onEnter: () => {
-        document.body.classList.add('bg-bone')
-        document.body.classList.remove('bg-palo-verde')
-      },
-      onLeave: () => {
-        document.body.classList.remove('bg-bone')
-      },
-      onEnterBack: () => {
-        document.body.classList.add('bg-bone')
-        document.body.classList.remove('bg-palo-verde')
-      },
-      onLeaveBack: () => {
-        document.body.classList.remove('bg-bone')
-      },
+    // First redaction box - starts after delay to give time to read
+    timeline.to(redactionFirst, {
+      scaleX: 1,
+      ease: 'power2.inOut',
+      duration: 1,
+    }, 0.2)
+
+    // Second redaction box - starts slightly after first (staggered)
+    timeline.to(redactionSecond, {
+      scaleX: 1,
+      ease: 'power2.inOut',
+      duration: 1,
+    }, 0.35)
+
+    // Fade in "ip is Queen" after both redactions are completely done
+    timeline.to(queenText, {
+      opacity: 1,
+      ease: 'power2.out',
+      duration: 0.6,
+    }, 1.4)
+
+    // Add a pause/hold at the end to keep "ip is queen" visible longer
+    timeline.to({}, { duration: 1.2 })
+
+    return timeline
+  }
+
+  // Helper: Create mobile timeline (only fade in queen text, redaction lines stay hidden)
+  const createMobileTimeline = (scrollTriggerConfig) => {
+    // Hide redaction boxes on mobile - they don't animate
+    gsap.set(redactionFirst, { opacity: 0, visibility: 'hidden' })
+    gsap.set(redactionSecond, { opacity: 0, visibility: 'hidden' })
+    
+    const timeline = gsap.timeline({ scrollTrigger: scrollTriggerConfig })
+
+    // Fade in "ip is Queen"
+    timeline.to(queenText, {
+      opacity: 1,
+      ease: 'power2.out',
+      duration: 0.6,
+    }, 0.3)
+
+    // Add a pause/hold at the end
+    timeline.to({}, { duration: 1.2 })
+
+    return timeline
+  }
+
+  // Helper: Handle resize and maintain progress (desktop only)
+  const handleResize = () => {
+    updateDimensions()
+  }
+
+  // Mobile-first: Use matchMedia for responsive animations
+  ScrollTrigger.matchMedia({
+    // Mobile: Only fade in queen text
+    "(max-width: 768px)": function() {
+      const mobileScrollMultiplier = Math.max(2, Math.min(3.5, window.innerHeight / 300))
+      
+      createMobileTimeline({
+        trigger: philosophySection,
+        start: 'top top',
+        end: `+=${mobileScrollMultiplier * 100}%`,
+        scrub: 2,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        ...getThemeCallbacks('bg-bone'),
+      })
     },
+    
+    // Desktop: Full redaction animation
+    "(min-width: 769px)": function() {
+      const desktopScrollMultiplier = Math.max(2.5, Math.min(5, window.innerHeight / 250))
+      
+      createRedactionTimeline({
+        trigger: philosophySection,
+        start: 'top top',
+        end: `+=${desktopScrollMultiplier * 100}%`,
+        scrub: 2.5,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        onRefresh: handleResize,
+        invalidateOnRefresh: true,
+        ...getThemeCallbacks('bg-bone'),
+      })
+    }
   })
-
-  // First redaction box - starts after delay to give time to read
-  tl.to(redactionFirst, {
-    scaleX: 1,
-    ease: 'power2.inOut',
-    duration: 1,
-  }, 0.2)
-
-  // Second redaction box - starts slightly after first (staggered)
-  tl.to(redactionSecond, {
-    scaleX: 1,
-    ease: 'power2.inOut',
-    duration: 1,
-  }, 0.35)
-
-  // Fade in "ip is Queen" after both redactions are completely done
-  tl.to(queenText, {
-    opacity: 1,
-    ease: 'power2.out',
-    duration: 0.6,
-  }, 1.4)
-
-  // Add a pause/hold at the end to keep "ip is queen" visible longer
-  // This extends the timeline, giving more scroll distance before unpinning
-  tl.to({}, { duration: 1.2 }) // Add 1.2 more timeline duration (60% more viewing time)
-
-  // Function to update dimensions on resize
-  const updateDimensionsOnResize = () => {
-    dims = getDimensions() // Update the dims variable
-    
-    // Update position, dimensions, and maintain scale
-    const progress = tl.progress()
-    
-    gsap.set(redactionFirst, { 
-      height: dims.firstHeight,
-      left: dims.firstLeft,
-      width: dims.firstWidth
-    })
-    gsap.set(redactionSecond, { 
-      height: dims.secondHeight,
-      left: dims.secondLeft,
-      width: dims.secondWidth
-    })
-    
-    // Maintain current scale based on progress
-    if (progress >= 0.2) {
-      const firstProgress = Math.min(1, (progress - 0.2) / 0.8)
-      gsap.set(redactionFirst, { scaleX: firstProgress })
-    } else {
-      gsap.set(redactionFirst, { scaleX: 0 })
-    }
-    
-    if (progress >= 0.35) {
-      const secondProgress = Math.min(1, (progress - 0.35) / 0.65)
-      gsap.set(redactionSecond, { scaleX: secondProgress })
-    } else {
-      gsap.set(redactionSecond, { scaleX: 0 })
-    }
-  }
-
-  // Handle resize - recalculate dimensions and refresh ScrollTrigger
-  ScrollTrigger.addEventListener('refresh', updateDimensionsOnResize)
 }
 
 /**
