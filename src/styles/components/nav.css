@@ -213,8 +213,8 @@ body.bg-bone .hamburger-line {
   background-color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */
 }
 
-/* Mobile Styles */
-@media (max-width: 768px) {
+/* Mobile (< 768px) */
+@media (max-width: 767px) {
   .main-nav {
     padding: var(--space-sm) var(--space-md);
   }

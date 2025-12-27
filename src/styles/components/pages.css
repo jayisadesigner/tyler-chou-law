@@ -115,8 +115,8 @@
   margin: 0;
 }
 
-/* Desktop: Enhance to complex grid layout */
-@media (min-width: 769px) {
+/* Tablet+ (768px): Enhance to complex grid layout */
+@media (min-width: 768px) {
   .hero-content--inner-page {
     grid-template-columns: repeat(5, 1fr); /* All columns equal width */
     grid-template-rows: repeat(2, fit-content(100%));
@@ -260,7 +260,7 @@
   object-position: 75% center; /* Show right portion on mobile (subject is on right) */
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .background-image__img[src*="about"] {
     object-position: center; /* Center on desktop */
   }
@@ -540,7 +540,7 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 /* Desktop: horizontal layout */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .roster-header {
     flex-direction: row;
     align-items: flex-end;
@@ -715,7 +715,7 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 /* Desktop: Enhance to 8-column grid */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .philosophy-content {
     grid-template-columns: repeat(8, 1fr);
     justify-content: var(--philosophy-justify, center); /* CSS variable with centered fallback */
@@ -1018,7 +1018,8 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 /* Responsive adjustments for credentials section */
-@media (max-width: 1280px) {
+/* Large desktop and below (< 1280px) */
+@media (max-width: 1279px) {
   .credentials-container {
     padding: 0 var(--space-md);
     padding-left: var(--space-md);
@@ -1035,7 +1036,8 @@ body.bg-palo-verde .palo-verde-body__column {
   }
 }
 
-@media (max-width: 768px) {
+/* Mobile (< 768px) */
+@media (max-width: 767px) {
   .credentials-card-inner {
     padding: var(--space-xl) var(--space-lg);
   }
@@ -1077,7 +1079,7 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 /* Desktop: horizontal layout */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .services-header {
     flex-direction: row;
     align-items: flex-end;
@@ -1241,8 +1243,8 @@ body.bg-palo-verde .palo-verde-body__column {
 }
 
 /* Responsive */
-/* Tablet and smaller desktop */
-@media (max-width: 1024px) and (min-width: 769px) {
+/* Tablet only (768px-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
   .palo-verde {
     min-height: auto;
     /* Uses .section responsive padding */
@@ -1399,8 +1401,8 @@ body.bg-palo-verde .palo-verde-body__column {
 
 /* Tablet breakpoint overrides removed - typography handled by variables.css, layout handled by mobile-first base styles */
 
-/* Mobile */
-@media (max-width: 768px) {
+/* Mobile (< 768px) */
+@media (max-width: 767px) {
   .hero {
     min-height: 80vh;
   }
@@ -1967,7 +1969,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 }
 
 /* Desktop: Fixed left, scrollable right */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   /* Close Button - Desktop sizing */
   .creator-page-overlay__close {
     top: var(--space-md);
@@ -2110,7 +2112,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 }
 
 /* Desktop: Simple 50/50 layout */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .content-section__container {
     display: flex;
     align-items: stretch;
@@ -2294,7 +2296,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   margin-right: -50vw;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .content-section--stacked .content-section__container {
     display: flex;
     flex-direction: column;
@@ -2339,8 +2341,8 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   }
 }
 
-/* Mobile responsive adjustments */
-@media (max-width: 768px) {
+/* Mobile (< 768px) responsive adjustments */
+@media (max-width: 767px) {
   .content-section__container {
     padding: 0 var(--space-md);
   }
@@ -2480,7 +2482,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 /* Mousetrail modifier - placeholder for future JS functionality (no styles needed) */
 
 /* Desktop styles for centered section */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .section--centered__content {
     max-width: 960px;
   }
