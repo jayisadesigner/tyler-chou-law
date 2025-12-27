@@ -981,61 +981,6 @@ body.bg-palo-verde .palo-verde-body__column {
   object-fit: contain;
 }
 
-/* CTA Videos Section */
-.cta-videos {
-  position: relative;
-  background-color: var(--chuparosa-600);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding: 0 var(--space-md) 0;
-  /* !important justified: Override GSAP ScrollTrigger pinSpacing which adds unwanted margin */
-  margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
-  overflow: hidden;
-  z-index: 10; /* Above disclaimer */
-}
-
-.cta-videos-container {
-  position: relative;
-  width: 100%;
-  max-width: 1512px;
-  margin: 0 auto;
-  padding: 0 var(--space-lg);
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cta-videos-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-xl);
-  max-width: 1094px;
-  width: 100%;
-  z-index: 1;
-}
-
-.cta-videos-headline {
-  font-family: var(--font-body);
-  font-size: var(--text-h1-size);
-  font-weight: 400;
-  line-height: 0.85;
-  letter-spacing: -0.03em; /* -3.8364px */
-  color: var(--chuparosa-100);
-  text-align: center;
-  margin: 0;
-  transform-origin: center;
-}
-
-.cta-videos .site-footer {
-  width: 100%;
-  margin: 0;
-  padding: 0 var(--space-md) var(--space-md);
-}
-
 /* Disclaimer Section */
 .disclaimer {
   position: relative;
@@ -2442,6 +2387,17 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 /* Full height modifier */
 .section--centered--full-height {
   min-height: 100vh;
+}
+
+/* Large text modifier - uses body font as display copy for visual impact */
+.section--centered--large-text .section--centered__headline-text {
+  font-family: var(--font-body);
+  font-size: var(--text-h1-size);
+  font-weight: 400;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  color: var(--chuparosa-100);
+  text-transform: none;
 }
 
 /* Mousetrail modifier - placeholder for future JS functionality (no styles needed) */

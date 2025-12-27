@@ -102,7 +102,7 @@ function generateCTA(template, data) {
     .replace(/\{\{headline\}\}/g, data.headline || '')
     .replace(/\{\{buttonText\}\}/g, data.buttonText || '')
     .replace(/\{\{buttonLink\}\}/g, data.buttonLink || '#')
-    .replace(/\{\{variant-class\}\}/g, data.variant && data.variant !== 'default' ? ` cta-videos--${data.variant}` : '')
+    .replace(/\{\{variant-class\}\}/g, data.variant && data.variant !== 'default' ? ` section--centered--${data.variant}` : '')
   
   return html
 }
@@ -170,6 +170,18 @@ async function buildPage(pageName) {
     // Replace placeholders in HTML
     html = html.replace(/\{\{body-content\}\}/g, bodyHtml)
     html = html.replace(/\{\{cta-section\}\}/g, ctaHtml)
+    
+    // Replace existing CTA section (handle both old cta-videos and new section--centered classes)
+    if (ctaHtml) {
+      // Replace old cta-videos class with comment
+      html = html.replace(/<!-- CTA Section[^>]*-->[\s\S]*?<section class="cta-videos[^>]*>[\s\S]*?<\/section>/g, ctaHtml)
+      // Replace old cta-videos class without comment (fallback)
+      html = html.replace(/<section class="cta-videos[^>]*>[\s\S]*?<\/section>/g, ctaHtml)
+      // Replace new section--centered class with comment
+      html = html.replace(/<!-- CTA Section[^>]*-->[\s\S]*?<section class="section--centered[^>]*section--centered--large-text[^>]*>[\s\S]*?<\/section>/g, ctaHtml)
+      // Replace new section--centered class without comment (fallback)
+      html = html.replace(/<section class="section--centered[^>]*section--centered--large-text[^>]*>[\s\S]*?<\/section>/g, ctaHtml)
+    }
     
     // Write updated HTML back to file
     await writeFile(pagePath, html, 'utf-8')
