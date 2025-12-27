@@ -28,6 +28,13 @@ body {
   /* Fade transitions can be added per-page as needed */
 }
 
+/* Ensure first section (hero) starts at absolute top, extending behind notch */
+body > main {
+  position: relative;
+  margin-top: 0;
+  padding-top: 0;
+}
+
 /* Page-specific backgrounds with CSS variable for sections */
 body.page-creatorarq {
   background-color: var(--palo-verde-700);
