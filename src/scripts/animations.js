@@ -72,8 +72,8 @@ function initLenis() {
         return { 
           top: 0, 
           left: 0, 
-          width: window.innerWidth, 
-          height: window.innerHeight 
+          width: viewportWidth, 
+          height: viewportHeight 
         }
       },
       pinType: document.body.style.transform ? 'transform' : 'fixed'
@@ -90,6 +90,21 @@ function initLenis() {
 
 // Check for reduced motion preference
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+// Cache viewport dimensions (updated on resize)
+let viewportWidth = window.innerWidth
+let viewportHeight = window.innerHeight
+
+/**
+ * Get spacing value from CSS variable (converts rem to pixels)
+ * @param {string} variableName - CSS variable name (e.g., '--space-lg')
+ * @returns {number} Spacing value in pixels
+ */
+function getSpacingValue(variableName) {
+  const value = getComputedStyle(document.documentElement)
+    .getPropertyValue(variableName).trim()
+  return Math.ceil(parseFloat(value) * 16) // Convert rem to pixels
+}
 
 /**
  * Helper function to manage body theme classes efficiently
@@ -122,6 +137,65 @@ function getThemeCallbacks(themeClass) {
 }
 
 /**
+ * Calculate scroll multiplier based on viewport height
+ * Used for responsive pinned section durations
+ * @param {number} min - Minimum multiplier
+ * @param {number} max - Maximum multiplier
+ * @param {number} divisor - Divisor for viewport height calculation
+ * @returns {number} Calculated scroll multiplier
+ */
+function calculateScrollMultiplier(min, max, divisor) {
+  return Math.max(min, Math.min(max, viewportHeight / divisor))
+}
+
+/**
+ * Create a reusable pinned ScrollTrigger configuration
+ * @param {Object} options - Configuration options
+ * @param {Element|string} options.trigger - Trigger element or selector
+ * @param {string} options.start - Start position (e.g., 'top top')
+ * @param {string} options.end - End position (e.g., '+=200%')
+ * @param {number} options.scrub - Scrub value (default: 1)
+ * @param {Object} options.callbacks - Additional callbacks (onEnter, onLeave, etc.)
+ * @returns {Object} ScrollTrigger configuration object
+ */
+function createPinnedScrollConfig({ trigger, start, end, scrub = 1, callbacks = {} }) {
+  return {
+    trigger,
+    start,
+    end,
+    scrub,
+    pin: true,
+    pinSpacing: true,
+    anticipatePin: 1,
+    ...callbacks,
+  }
+}
+
+/**
+ * Create a simple theme switching ScrollTrigger
+ * @param {Element|string} trigger - Trigger element or selector
+ * @param {string} start - Start position (default: 'top center')
+ * @param {string} end - End position (default: 'bottom top')
+ * @param {string} themeClass - Theme class to apply (or '' for default)
+ */
+function createThemeScrollTrigger(trigger, start = 'top center', end = 'bottom top', themeClass = '') {
+  if (typeof trigger === 'string') {
+    trigger = document.querySelector(trigger)
+  }
+  if (!trigger) return
+
+  ScrollTrigger.create({
+    trigger,
+    start,
+    end,
+    ...(themeClass ? getThemeCallbacks(themeClass) : {
+      onEnter: () => setBodyTheme(''),
+      onEnterBack: () => setBodyTheme(''),
+    }),
+  })
+}
+
+/**
  * Pin centered sections during scroll
  * Creates a sticky effect for sections with .section--centered--pinned
  * Note: Use --pinned modifier separately from --full-height for more control
@@ -132,14 +206,13 @@ function initPinnedSections() {
   if (!pinnedSections.length || !ScrollTrigger) return
   
   pinnedSections.forEach(section => {
-    ScrollTrigger.create({
-      trigger: section,
-      start: 'top top',
-      end: '+=200%', // Pin for 2 viewport heights of scroll
-      pin: true,
-      pinSpacing: true,
-      anticipatePin: 1
-    })
+    ScrollTrigger.create(
+      createPinnedScrollConfig({
+        trigger: section,
+        start: 'top top',
+        end: '+=200%', // Pin for 2 viewport heights of scroll
+      })
+    )
   })
 }
 
@@ -182,7 +255,7 @@ function initLoveLettersScroll(reducedMotion = false) {
           scrub: 1,
           invalidateOnRefresh: true,
           ...getThemeCallbacks('bg-bone'),
-        }
+        },
       })
       
       // Top carousel - moves right
@@ -208,11 +281,13 @@ function initLoveLettersScroll(reducedMotion = false) {
     "(min-width: 1280px)": function() {
       if (!cards.length) return
       
-      // Set initial scale from CSS custom property for each card
-      cards.forEach(card => {
-        const computedStyle = window.getComputedStyle(card)
-        const scale = parseFloat(computedStyle.getPropertyValue('--scale').trim() || '1')
-        gsap.set(card, { x: 0, y: 0, scale: scale })
+      // Set initial scale from CSS custom property for each card (batch DOM reads)
+      const cardStyles = Array.from(cards).map(card => ({
+        card,
+        scale: parseFloat(getComputedStyle(card).getPropertyValue('--scale').trim() || '1')
+      }))
+      cardStyles.forEach(({ card, scale }) => {
+        gsap.set(card, { x: 0, y: 0, scale })
       })
       
       // Headline is centered in section via CSS, ensure it's visible
@@ -222,35 +297,32 @@ function initLoveLettersScroll(reducedMotion = false) {
       
       // Create a pinned scroll-through effect
       const desktopTl = gsap.timeline({
-        scrollTrigger: {
+        scrollTrigger: createPinnedScrollConfig({
           trigger: loveNotesSection,
           start: 'top top',
           end: '+=500%', // Pin for 5x viewport height - enough to scroll all cards through
-          pin: true,
           scrub: 1,
-          invalidateOnRefresh: true,
-          ...getThemeCallbacks('bg-bone'),
-        }
+          callbacks: {
+            invalidateOnRefresh: true,
+            ...getThemeCallbacks('bg-bone'),
+          },
+        }),
       })
       
-      // Cards move through viewport based on depth
-      cards.forEach((card) => {
-        // Get depth value from CSS (1 = back, 3 = front)
-        const computedStyle = window.getComputedStyle(card)
-        const depth = parseInt(computedStyle.getPropertyValue('--depth').trim() || '2')
+      // Cards move through viewport based on depth (batch DOM reads)
+      const cardDepths = Array.from(cards).map(card => ({
+        card,
+        depth: parseInt(getComputedStyle(card).getPropertyValue('--depth').trim() || '2')
+      }))
+      
+      cardDepths.forEach(({ card, depth }) => {
         
         // Movement distance based on depth - all cards scroll through and off screen
         // depth 1 (back) = slower movement (less distance)
         // depth 2 (mid) = normal movement
         // depth 3 (front) = faster movement (more distance)
-        let yMovement
-        if (depth === 1) {
-          yMovement = -window.innerHeight * 0.8 // 80vh upward
-        } else if (depth === 2) {
-          yMovement = -window.innerHeight * 1.2 // 120vh upward
-        } else {
-          yMovement = -window.innerHeight * 1.5 // 150vh upward
-        }
+        const depthMultipliers = { 1: 0.8, 2: 1.2, 3: 1.5 }
+        const yMovement = -viewportHeight * (depthMultipliers[depth] || 1.2)
         
         desktopTl.to(card, {
           y: yMovement,
@@ -306,7 +378,7 @@ function initAnimations() {
     
     
     // Set flowers to final rotation state
-    animateFlowerRotation('.about-flower', '.about')
+    animateFlowerRotation('.about-flower', '.section--featured-image--left')
     animateFlowerRotation('.palo-verde-flower', '.palo-verde')
     
     // Set background colors
@@ -368,20 +440,12 @@ function initAnimations() {
 
 
   // Flower rotation animations
-  animateFlowerRotation('.about-flower', '.about')
+  animateFlowerRotation('.about-flower', '.section--featured-image--left')
   animateFlowerRotation('.palo-verde-flower', '.palo-verde')
   
   // Section-based theme switching
   // Palo Verde section - green background
-  const paloVerdeSection = document.querySelector('.palo-verde')
-  if (paloVerdeSection) {
-    ScrollTrigger.create({
-      trigger: paloVerdeSection,
-      start: 'top center',
-      end: 'bottom top',
-      ...getThemeCallbacks('bg-palo-verde'),
-    })
-  }
+  createThemeScrollTrigger('.palo-verde', 'top center', 'bottom top', 'bg-palo-verde')
 
   // Philosophy section - bone background
   // Theme switching is handled in initPhilosophyRedaction pinned ScrollTrigger (matches love-notes pattern)
@@ -391,16 +455,7 @@ function initAnimations() {
   // because the section is pinned on desktop and needs to coordinate with the pin animation
 
   // Final CTA section - return to default (chuparosa/red)
-  const finalSection = document.querySelector('.section--centered:last-of-type')
-  if (finalSection) {
-    ScrollTrigger.create({
-      trigger: finalSection,
-      start: 'top center',
-      end: 'bottom top',
-      onEnter: () => setBodyTheme(''),
-      onEnterBack: () => setBodyTheme(''),
-    })
-  }
+  createThemeScrollTrigger('.section--centered:last-of-type', 'top center', 'bottom top', '')
 
   // Philosophy section redaction animation
   initPhilosophyRedaction(false)
@@ -420,12 +475,25 @@ function initAnimations() {
   // Love Letters section scroll animations
   initLoveLettersScroll(false)
   
-  // Consolidated resize handler (debounced)
+  // Consolidated resize handler (debounced with RAF for performance)
   let resizeTimeout
+  let resizeRAF = null
   window.addEventListener('resize', () => {
+    // Update cached viewport dimensions immediately
+    viewportWidth = window.innerWidth
+    viewportHeight = window.innerHeight
+    
+    // Debounce ScrollTrigger refresh
     clearTimeout(resizeTimeout)
+    if (resizeRAF) {
+      cancelAnimationFrame(resizeRAF)
+    }
+    
     resizeTimeout = setTimeout(() => {
-      ScrollTrigger.refresh()
+      resizeRAF = requestAnimationFrame(() => {
+        ScrollTrigger.refresh()
+        resizeRAF = null
+      })
     }, 150)
   })
 }
@@ -491,12 +559,7 @@ function initPhilosophyRedaction(reducedMotion = false) {
 
   if (!redactionFirst || !redactionSecond || !queenText || !contentText || !kingText) return
 
-  // Helper: Get spacing values from CSS variables
-  const getSpacingValue = (variableName) => {
-    const value = getComputedStyle(document.documentElement)
-      .getPropertyValue(variableName).trim()
-    return Math.ceil(parseFloat(value) * 16) // Convert rem to pixels
-  }
+  // Use shared getSpacingValue utility (defined at top of file)
 
   // Helper: Calculate redaction box dimensions and positions
   const calculateRedactionDimensions = (contentTextEl, kingTextEl) => {
@@ -641,9 +704,8 @@ function initPhilosophyRedaction(reducedMotion = false) {
 
   // Helper: Create mobile timeline (only fade in queen text, redaction lines stay hidden)
   const createMobileTimeline = (scrollTriggerConfig) => {
-    // Hide redaction boxes on mobile - they don't animate
-    gsap.set(redactionFirst, { opacity: 0, visibility: 'hidden' })
-    gsap.set(redactionSecond, { opacity: 0, visibility: 'hidden' })
+    // Hide redaction boxes on mobile - batch set calls
+    gsap.set([redactionFirst, redactionSecond], { opacity: 0, visibility: 'hidden' })
     
     const timeline = gsap.timeline({ scrollTrigger: scrollTriggerConfig })
 
@@ -669,36 +731,38 @@ function initPhilosophyRedaction(reducedMotion = false) {
   ScrollTrigger.matchMedia({
     // Mobile: Only fade in queen text
     "(max-width: 768px)": function() {
-      const mobileScrollMultiplier = Math.max(2, Math.min(3.5, window.innerHeight / 300))
+      const mobileScrollMultiplier = calculateScrollMultiplier(2, 3.5, 300)
       
-      createMobileTimeline({
-        trigger: philosophySection,
-        start: 'top top',
-        end: `+=${mobileScrollMultiplier * 100}%`,
-        scrub: 2,
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-        ...getThemeCallbacks('bg-bone'),
-      })
+      createMobileTimeline(
+        createPinnedScrollConfig({
+          trigger: philosophySection,
+          start: 'top top',
+          end: `+=${mobileScrollMultiplier * 100}%`,
+          scrub: 2,
+          callbacks: {
+            ...getThemeCallbacks('bg-bone'),
+          },
+        })
+      )
     },
     
     // Desktop: Full redaction animation
     "(min-width: 769px)": function() {
-      const desktopScrollMultiplier = Math.max(2.5, Math.min(5, window.innerHeight / 250))
+      const desktopScrollMultiplier = calculateScrollMultiplier(2.5, 5, 250)
       
-      createRedactionTimeline({
-        trigger: philosophySection,
-        start: 'top top',
-        end: `+=${desktopScrollMultiplier * 100}%`,
-        scrub: 2.5,
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-        onRefresh: handleResize,
-        invalidateOnRefresh: true,
-        ...getThemeCallbacks('bg-bone'),
-      })
+      createRedactionTimeline(
+        createPinnedScrollConfig({
+          trigger: philosophySection,
+          start: 'top top',
+          end: `+=${desktopScrollMultiplier * 100}%`,
+          scrub: 2.5,
+          callbacks: {
+            onRefresh: handleResize,
+            invalidateOnRefresh: true,
+            ...getThemeCallbacks('bg-bone'),
+          },
+        })
+      )
     }
   })
 }
@@ -762,15 +826,12 @@ function initCredentialsShadow(reducedMotion = false) {
 
     // Create timeline that pins the section while content scrolls
     const tl = gsap.timeline({
-      scrollTrigger: {
+      scrollTrigger: createPinnedScrollConfig({
         trigger: credentialsSection,
         start: 'top calc(100vh - var(--space-4xl))', // Pin when top is 4xl (128px) from top of viewport
         end: '+=250%', // Pin for 250% of viewport height
-        scrub: 2, // Smooth scrubbing
-        pin: true, // Pin the section during animation
-        pinSpacing: true, // Add spacing to prevent layout shift
-        anticipatePin: 1, // Smooth pinning
-      },
+        scrub: 2,
+      }),
     })
 
     // Animate the credentials list scrolling up
@@ -843,21 +904,11 @@ function initLineAnimations(reducedMotion = false) {
       return
     }
     
-    // Get element width for clone measurement - try multiple methods
-    let elementWidth = element.getBoundingClientRect().width
-    if (elementWidth === 0) {
-      elementWidth = element.offsetWidth
-    }
-    if (elementWidth === 0) {
-      // Try parent width
+    // Get element width for clone measurement - optimized fallback chain
+    let elementWidth = element.getBoundingClientRect().width || element.offsetWidth
+    if (elementWidth <= 0) {
       const parent = element.parentElement
-      if (parent) {
-        elementWidth = parent.getBoundingClientRect().width || parent.offsetWidth
-      }
-    }
-    if (elementWidth === 0) {
-      // Last resort: use window width
-      elementWidth = window.innerWidth
+      elementWidth = parent ? (parent.getBoundingClientRect().width || parent.offsetWidth) : viewportWidth
     }
     
     // Ensure we have a valid width
@@ -973,9 +1024,8 @@ function initLineAnimations(reducedMotion = false) {
       opacity: 0
     })
     
-    // Check if element is already in viewport
+    // Check if element is already in viewport (use cached viewport height)
     const rect = element.getBoundingClientRect()
-    const viewportHeight = window.innerHeight
     const isInView = rect.top < viewportHeight * 0.85 && rect.bottom > 0
     
     if (isInView) {
