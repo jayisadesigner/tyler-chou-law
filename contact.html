@@ -257,31 +257,56 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     <main id="main-content">
-      <section class="hero hero--inner-page section">
-  <!-- Background Image Component -->
-  
-  
-  <!-- Hero Content Grid -->
-  <div class="hero-content hero-content--inner-page container-wide">
-    <!-- Eyebrow (Column 1, Row 1) -->
-    <div class="hero-eyebrow">
-      <p class="hero-eyebrow__text">contact</p>
-    </div>
-    
-    <!-- Headline (Columns 2-4, Row 1) - Contains nested subheadline for mobile-first stacking -->
-    <div class="hero-headline-wrapper">
-      <h1 class="hero-headline hero-headline--inner-page">Let's Build Something.</h1>
-      <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--nested">For creators ready to protect and grow their empires.</p>
-    </div>
-    
-    <!-- Subheadline Wrapper (Columns 2-4, Row 2) - Desktop only, hidden on mobile -->
-    <div class="hero-subheadline-wrapper">
-      <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--desktop">For creators ready to protect and grow their empires.</p>
-    </div>
-  </div>
-</section>
 
 
 
@@ -310,8 +335,8 @@
 
       
       <!-- Body Content - replaced at build time -->
-      <!-- Content Section: Contact Intro -->
-      <section class="content-section section section-reveal">
+      <!-- Content Section: Contact Intro with Form -->
+      <section class="content-section content-section--form section section-reveal">
         <div class="content-section__container">
           <!-- Content Area (Left on desktop) -->
           <div class="content-section__content">
@@ -323,66 +348,43 @@
             </div>
             <div class="content-section__body">
               <p>Tyler Chou Law for Creators works with established YouTube creators, creator-founders building businesses, talent managers seeking high-level legal partnership, venture funds evaluating creator investments, and industry professionals who need serious representation for serious deals.</p>
-              <p>If you're here, something is at stake. Fill out the form below and the team will be in touch within 48 hours.</p>
+              <p>If you're here, something is at stake. Fill out the form and the team will be in touch within 48 hours.</p>
             </div>
           </div>
           
-          <!-- Media Area (Right on desktop) -->
-          <div class="content-section__media">
-            <div class="background-image">
-              <img src="src/assets/images/placeholder.jpg" alt="Contact Tyler Chou Law" class="background-image__img">
-              <div class="background-image__overlay background-image__overlay-gradient-1"></div>
-              <div class="background-image__overlay background-image__overlay-gradient-2"></div>
-              <div class="background-image__overlay background-image__overlay-dark"></div>
-              <div class="background-image__overlay background-image__overlay-opacity"></div>
-            </div>
+          <!-- Form Area (Right on desktop) -->
+          <div class="content-section__media content-section__media--form">
+            <form id="contact-form" class="contact-form" data-netlify="true" name="contact" method="POST" netlify-honeypot="bot-field">
+              <input type="hidden" name="form-name" value="contact" />
+              <p class="hidden">
+                <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+              </p>
+              
+              <div class="form-group">
+                <input type="text" id="name" name="name" placeholder="Name *" required />
+                <label for="name">Name *</label>
+              </div>
+              
+              <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Email *" required />
+                <label for="email">Email *</label>
+              </div>
+              
+              <div class="form-group">
+                <input type="text" id="company" name="company" placeholder="Company / Channel Name" />
+                <label for="company">Company / Channel Name</label>
+              </div>
+              
+              <div class="form-group">
+                <textarea id="message" name="message" rows="6" placeholder="Message *" required></textarea>
+                <label for="message">Message *</label>
+              </div>
+              
+              <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit</button>
+            </form>
           </div>
         </div>
       </section>
-
-      <!-- Contact Form -->
-      <section class="section section-reveal">
-        <div class="container">
-          <form id="contact-form" class="contact-form" data-netlify="true" name="contact" method="POST" netlify-honeypot="bot-field">
-            <input type="hidden" name="form-name" value="contact" />
-            <p class="hidden">
-              <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-            </p>
-            
-            <div class="form-group">
-              <label for="name">Name *</label>
-              <input type="text" id="name" name="name" required />
-            </div>
-            
-            <div class="form-group">
-              <label for="email">Email *</label>
-              <input type="email" id="email" name="email" required />
-            </div>
-            
-            <div class="form-group">
-              <label for="company">Company / Channel Name</label>
-              <input type="text" id="company" name="company" />
-            </div>
-            
-            <div class="form-group">
-              <label for="message">Message *</label>
-              <textarea id="message" name="message" rows="6" required></textarea>
-            </div>
-            
-            <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit</button>
-          </form>
-        </div>
-      </section>
-
-      
-      <section class="section--centered section--centered--full-height section--centered--large-text section">
-  <div class="section--centered__content">
-    <div class="section--centered__headline">
-      <h2 class="section--centered__headline-text">Start the Conversation</h2>
-    </div>
-    <a href="#contact-form" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit</a>
-  </div>
-</section>
 
 
 
@@ -394,6 +396,54 @@
     <p class="footer-item footer-item--right">made by sick design co.</p>
   </div>
 </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
