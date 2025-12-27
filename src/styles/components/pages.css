@@ -2183,14 +2183,43 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   }
 
   .content-section__media {
-    width: 50vw;
+    width: 50%;
     flex-shrink: 0;
     position: relative;
+    padding: var(--space-xl);
   }
 
   /* Media on left modifier */
   .content-section--media-left .content-section__container {
     flex-direction: row-reverse;
+  }
+
+  /* Media bleed modifier - full viewport width edge-to-edge */
+  .content-section--media-bleed .content-section__media {
+    width: 50vw;
+    padding: 0;
+  }
+
+  .content-section--media-bleed .content-section__media .background-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .content-section--media-bleed .content-section__media .background-image__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Parallax sections with bleed need extra room for animation */
+  .content-section--media-bleed.content-section--parallax .content-section__media .background-image__img {
+    top: -10%;
+    height: 120%;
   }
 
   /* Full height on desktop */
@@ -2273,30 +2302,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   margin-bottom: var(--space-md);
 }
 
-/* Media area - ensure background-image fills container */
-@media (min-width: 769px) {
-  .content-section__media .background-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .content-section__media .background-image__img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* Parallax sections need extra room for animation */
-  .content-section--parallax .content-section__media .background-image__img {
-    top: -10%;
-    height: 120%;
-  }
-}
+/* Media area - default contained behavior (styles moved to --media-bleed modifier above) */
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
