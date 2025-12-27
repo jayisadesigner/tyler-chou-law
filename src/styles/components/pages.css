@@ -549,17 +549,7 @@ body.bg-palo-verde .palo-verde-body__column {
   }
 }
 
-.roster-title {
-  font-family: var(--font-display);
-  font-size: 3.998rem; /* 63.96px */
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.02em; /* -1.2792px equivalent */
-  color: var(--chuparosa-100);
-  text-transform: uppercase;
-  white-space: nowrap;
-  margin: 0;
-}
+/* roster-title removed - now using content-section__headline-text */
 
 .roster-link {
   font-family: var(--font-display);
@@ -1174,56 +1164,7 @@ body.bg-palo-verde .palo-verde-body__column {
 /* Service card button now uses .button component */
 
 
-/* Videos Section */
-.videos {
-  position: relative;
-  padding: var(--space-4xl) 0;
-  /* Background inherits from body for animated transitions */
-  min-height: 616px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.videos-carousel {
-  display: flex;
-  gap: var(--space-sm);
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 100%;
-  position: relative;
-  z-index: 1;
-}
-
-.videos-carousel .video-wrapper {
-  width: 1095px;
-  height: 616px;
-  flex-shrink: 0;
-}
-
-.videos-overlay-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  max-width: 1094px;
-  z-index: 2;
-  pointer-events: none;
-  text-align: center;
-}
-
-.videos-headline {
-  font-family: var(--font-body);
-  font-size: 5.653rem; /* 90.44px */
-  font-weight: 400;
-  line-height: 0.9;
-  letter-spacing: -0.03em; /* -2.7132px equivalent */
-  color: var(--chuparosa-100);
-  text-align: center;
-  margin: 0;
-}
+/* Videos Section - Now uses background-image component + content-section system */
 
 /* Responsive */
 /* Tablet only (768px-1023px) */
@@ -2384,9 +2325,14 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   background-color: var(--chuparosa-600);
 }
 
-/* Full height modifier */
+/* Full height modifier - visual height only */
 .section--centered--full-height {
   min-height: 100vh;
+}
+
+/* Pinned modifier - triggers scroll pinning animation */
+.section--centered--pinned {
+  /* No styles needed - just a hook for JavaScript animation */
 }
 
 /* Large text modifier - uses body font as display copy for visual impact */

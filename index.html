@@ -186,6 +186,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     <main id="main-content">
       <section class="hero section">
@@ -244,65 +262,31 @@
 
 
       <!-- Videos Section -->
-      <section class="videos section section-reveal">
-        <div class="videos-carousel">
-          <!-- YouTube Video 1 -->
-          <div class="video-wrapper">
-            <div class="video">
-              <iframe 
-                class="video__embed"
-                src="https://www.youtube.com/embed/24zeFwMgAvE?autoplay=1&mute=1&loop=1&playlist=24zeFwMgAvE&controls=0&modestbranding=1&rel=0&enablejsapi=1"
-                allow="autoplay; encrypted-media; fullscreen"
-                loading="eager"
-                title="Video 1"
-              ></iframe>
-              <div class="video__overlay">
-                <div class="video__overlay-gradient-1"></div>
-                <div class="video__overlay-gradient-2"></div>
-                <div class="video__overlay-dark"></div>
-                <div class="video__overlay-opacity"></div>
-              </div>
-            </div>
-          </div>
-          <!-- YouTube Video 2 -->
-          <div class="video-wrapper">
-            <div class="video">
-              <iframe 
-                class="video__embed"
-                src="https://www.youtube.com/embed/8queRjX3Ifk?autoplay=1&mute=1&loop=1&playlist=8queRjX3Ifk&controls=0&modestbranding=1&rel=0&enablejsapi=1"
-                allow="autoplay; encrypted-media; fullscreen"
-                loading="eager"
-                title="Video 2"
-              ></iframe>
-              <div class="video__overlay">
-                <div class="video__overlay-gradient-1"></div>
-                <div class="video__overlay-gradient-2"></div>
-                <div class="video__overlay-dark"></div>
-                <div class="video__overlay-opacity"></div>
-              </div>
-            </div>
-          </div>
-          <!-- YouTube Video 3 -->
-          <div class="video-wrapper">
-            <div class="video">
-              <iframe 
-                class="video__embed"
-                src="https://www.youtube.com/embed/AOHc67knNW0?autoplay=1&mute=1&loop=1&playlist=AOHc67knNW0&controls=0&modestbranding=1&rel=0&enablejsapi=1"
-                allow="autoplay; encrypted-media; fullscreen"
-                loading="eager"
-                title="Video 3"
-              ></iframe>
-              <div class="video__overlay">
-                <div class="video__overlay-gradient-1"></div>
-                <div class="video__overlay-gradient-2"></div>
-                <div class="video__overlay-dark"></div>
-                <div class="video__overlay-opacity"></div>
-              </div>
-            </div>
-          </div>
+      <section class="section--centered section--centered--full-height section--centered--large-text section section-reveal">
+        <!-- Background Video Component -->
+        <div class="background-image" aria-hidden="true">
+          <iframe 
+            class="background-image__video"
+            src="https://www.youtube.com/embed/24zeFwMgAvE?autoplay=1&mute=1&loop=1&playlist=24zeFwMgAvE&controls=0&modestbranding=1&rel=0&enablejsapi=1"
+            allow="autoplay; encrypted-media; fullscreen"
+            loading="eager"
+            title="Tyler Chou Law Background Video"
+          ></iframe>
+          <!-- Overlay Layer 1: Crimson to Purple gradient with soft-light blend -->
+          <div class="background-image__overlay background-image__overlay-gradient-1"></div>
+          <!-- Overlay Layer 2: Dark brown to gold gradient with hue blend -->
+          <div class="background-image__overlay background-image__overlay-gradient-2"></div>
+          <!-- Overlay Layer 3: Dark overlay with difference blend -->
+          <div class="background-image__overlay background-image__overlay-dark"></div>
+          <!-- Overlay Layer 4: Final opacity overlay -->
+          <div class="background-image__overlay background-image__overlay-opacity"></div>
         </div>
-        <div class="videos-overlay-text">
-          <p class="videos-headline">Twenty years in Hollywood. Now fighting for you.</p>
+        
+        <!-- Content Overlay -->
+        <div class="section--centered__content">
+          <div class="section--centered__headline">
+            <h2 class="section--centered__headline-text">Twenty years in Hollywood. Now fighting for you.</h2>
+          </div>
         </div>
       </section>
 
@@ -341,8 +325,10 @@
       <!-- Roster Section -->
       <section id="roster" class="roster section section-reveal">
         <div class="container-wide">
-          <div class="roster-header">
-            <h2 class="roster-title" js-line-animation>who we work with</h2>
+          <div class="roster-header content-section__content">
+            <div class="content-section__headline">
+              <h2 class="content-section__headline-text" js-line-animation>who we work with</h2>
+            </div>
             <a href="/roster.html" class="roster-link">view roster</a>
           </div>
           <div class="roster-grid">
@@ -586,6 +572,24 @@
     <p class="footer-item footer-item--right">made by sick design co.</p>
   </div>
 </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
