@@ -11,7 +11,7 @@
  * - .credentials (with nested: .credentials-card, .credentials-list, 
  *   .credentials-header-section, .credentials-badge)
  * - [js-line-animation] (text line animations)
- * - .section--centered--full-height (pinned scroll sections)
+ * - .section--centered--pinned (pinned scroll sections)
  * 
  * Optional (page-specific):
  * - .about-flower (about page - flower rotation)
@@ -90,11 +90,12 @@ function initLenis() {
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
- * Pin full-height centered sections during scroll
- * Creates a sticky effect for sections with .section--centered--full-height
+ * Pin centered sections during scroll
+ * Creates a sticky effect for sections with .section--centered--pinned
+ * Note: Use --pinned modifier separately from --full-height for more control
  */
 function initPinnedSections() {
-  const pinnedSections = document.querySelectorAll('.section--centered--full-height')
+  const pinnedSections = document.querySelectorAll('.section--centered--pinned')
   
   if (!pinnedSections.length || !ScrollTrigger) return
   

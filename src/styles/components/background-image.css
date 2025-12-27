@@ -1,5 +1,5 @@
 /* Background Image Component - Reusable across site */
-/* Supports background images with overlay effects for hero sections */
+/* Supports background images and videos with overlay effects for hero sections */
 
 .background-image {
   position: absolute;
@@ -11,7 +11,8 @@
   z-index: 0;
 }
 
-.background-image__img {
+.background-image__img,
+.background-image__video {
   position: absolute;
   top: -10%; /* Offset to allow for parallax movement */
   left: 0;
@@ -21,6 +22,27 @@
   object-position: center;
   display: block;
   transform-origin: center center; /* Scale from center for parallax */
+}
+
+/* Video-specific styles */
+.background-image__video {
+  /* Ensure video/iframe fills entire container */
+  min-width: 100%;
+  min-height: 100%;
+  /* For iframe embeds (YouTube), use fixed positioning to ensure coverage */
+  border: 0;
+  /* Scale up slightly to ensure no gaps on any aspect ratio */
+  width: 100vw;
+  height: 56.25vw; /* 16:9 aspect ratio */
+  min-height: 100vh;
+  min-width: 177.77vh; /* 16:9 aspect ratio */
+  /* Center the video */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Block all interaction with iframe (prevents YouTube hover UI) */
+  pointer-events: none;
 }
 
 /* Overlay effects - applied to background images */
