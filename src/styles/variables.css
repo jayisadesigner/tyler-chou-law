@@ -144,6 +144,9 @@
   --space-2xl: 2.5rem;  /* 40px mobile */
   --space-3xl: 3rem;    /* 48px mobile */
   --space-4xl: 4rem;    /* 64px mobile */
+  
+  /* Hero spacing - Mobile first */
+  --hero-headline-subheadline-gap: var(--space-sm); /* 16px mobile */
 }
 
 /* Responsive Spacing - Section-level spacing scales up, component-level stays fixed */
@@ -152,6 +155,7 @@
   :root {
     --space-4xl: 6rem;    /* 96px tablet */
     --space-3xl: 4.5rem;  /* 72px tablet */
+    --hero-headline-subheadline-gap: var(--space-md); /* 24px tablet */
   }
 }
 
@@ -163,6 +167,7 @@
     --space-2xl: 4rem;    /* 64px desktop */
     --space-3xl: 6rem;    /* 96px desktop */
     --space-4xl: 8rem;    /* 128px desktop */
+    --hero-headline-subheadline-gap: var(--space-lg); /* 32px desktop */
   }
 }
 

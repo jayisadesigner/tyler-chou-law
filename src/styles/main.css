@@ -31,6 +31,35 @@ body {
 /* Page background changes when Palo Verde section is in view */
 body.bg-palo-verde {
   background-color: var(--palo-verde-700);
+  --page-bg-color: var(--palo-verde-700);
+}
+
+body.bg-bone {
+  background-color: var(--bone);
+  --page-bg-color: var(--bone);
+}
+
+/* Page-specific backgrounds with CSS variable for sections */
+body.page-creatorarq {
+  background-color: var(--palo-verde-700);
+  --page-bg-color: var(--palo-verde-700);
+}
+
+body.page-index,
+body.page-about,
+body.page-services,
+body.page-roster,
+body.page-love-letters,
+body.page-contact,
+body.page-creatorarq-apply,
+body.page-creator {
+  background-color: var(--chuparosa-600);
+  --page-bg-color: var(--chuparosa-600);
+}
+
+/* Default fallback */
+body {
+  --page-bg-color: var(--chuparosa-600);
 }
 
 /* Container Utilities - Mobile First */
