@@ -310,13 +310,12 @@ body.bg-bone .hamburger-line {
     max-width: none;
   }
   
-  /* Desktop menu - use CSS columns for simple two-column layout */
+  /* Desktop menu - single column on right */
   .nav-menu,
   .nav-menu.is-open {
-    display: block;
-    columns: 2;
-    column-gap: var(--space-xl);
-    column-fill: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
     margin-left: auto;
     position: static;
     width: auto;
@@ -330,15 +329,8 @@ body.bg-bone .hamburger-line {
   
   .nav-menu a,
   .nav-menu.is-open a {
-    width: 169px;
+    width: auto;
     display: block;
-    margin-bottom: var(--space-xs);
-    break-inside: avoid;
-  }
-  
-  .nav-menu a:last-child,
-  .nav-menu.is-open a:last-child {
-    margin-bottom: 0;
   }
   
   .nav-menu a,
