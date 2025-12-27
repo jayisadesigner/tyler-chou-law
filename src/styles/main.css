@@ -108,8 +108,8 @@ html.lenis {
   pointer-events: none;
 }
 
-/* Responsive Utilities */
-@media (max-width: 768px) {
+/* Mobile (< 768px) Responsive Utilities */
+@media (max-width: 767px) {
   .container,
   .container-narrow,
   .container-wide {
