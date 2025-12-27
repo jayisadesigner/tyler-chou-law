@@ -11,6 +11,7 @@
  * - .credentials (with nested: .credentials-card, .credentials-list, 
  *   .credentials-header-section, .credentials-badge)
  * - [js-line-animation] (text line animations)
+ * - .section--centered--full-height (pinned scroll sections)
  * 
  * Optional (page-specific):
  * - .about-flower (about page - flower rotation)
@@ -87,6 +88,27 @@ function initLenis() {
 
 // Check for reduced motion preference
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/**
+ * Pin full-height centered sections during scroll
+ * Creates a sticky effect for sections with .section--centered--full-height
+ */
+function initPinnedSections() {
+  const pinnedSections = document.querySelectorAll('.section--centered--full-height')
+  
+  if (!pinnedSections.length || !ScrollTrigger) return
+  
+  pinnedSections.forEach(section => {
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: '+=200%', // Pin for 2 viewport heights of scroll
+      pin: true,
+      pinSpacing: true,
+      anticipatePin: 1
+    })
+  })
+}
 
 /**
  * Animate flower rotation on scroll (reusable)
@@ -233,6 +255,9 @@ function initAnimations() {
 
   // Hero background parallax effect
   initHeroParallax(false)
+
+  // Pin full-height centered sections
+  initPinnedSections()
   
   // Consolidated resize handler (debounced)
   let resizeTimeout

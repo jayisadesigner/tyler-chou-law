@@ -2318,3 +2318,113 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   }
 }
 
+/* ===================================================================
+   Centered Section Component
+   ================================================================ */
+
+/* Base centered section - mobile-first */
+.section--centered {
+  position: relative;
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-4xl) var(--space-md);
+  overflow: hidden;
+}
+
+/* Content container */
+.section--centered__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  text-align: center;
+}
+
+/* Eyebrow */
+.section--centered__eyebrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: var(--space-xl);
+  width: 100%;
+}
+
+.section--centered__eyebrow-text {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-ui-nav);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--bone);
+  margin: 0;
+}
+
+/* Headline */
+.section--centered__headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: var(--space-xs);
+  width: 100%;
+}
+
+.section--centered__headline-text {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-h3-size);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Body */
+.section--centered__body {
+  font-family: var(--font-body);
+  font-size: var(--text-h6-size);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+  width: 100%;
+}
+
+.section--centered__body p {
+  margin: 0;
+}
+
+.section--centered__body p:not(:last-child) {
+  margin-bottom: var(--space-md);
+}
+
+/* Button spacing within centered sections */
+.section--centered__content .btn {
+  margin-top: var(--space-lg);
+}
+
+/* Background modifier - uses existing background-image component */
+.section--centered-has-bg {
+  background-color: var(--chuparosa-600);
+}
+
+/* Full height modifier */
+.section--centered--full-height {
+  min-height: 100vh;
+}
+
+/* Mousetrail modifier - placeholder for future JS functionality (no styles needed) */
+
+/* Desktop styles for centered section */
+@media (min-width: 769px) {
+  .section--centered__content {
+    max-width: 960px;
+  }
+}
+
