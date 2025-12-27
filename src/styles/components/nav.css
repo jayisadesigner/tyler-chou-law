@@ -88,8 +88,10 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 /* Mobile menu when open - full screen overlay */
 .nav-menu.is-open {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-xl);
   position: fixed;
   top: 0;
   left: 0;
@@ -101,16 +103,18 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   will-change: transform;
 }
 
-/* Nav links container - base styles */
-.nav-menu__items {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-xl);
+/* Line animation structure (matching headline animation) - applies to all */
+.nav-menu a .line {
+  display: block;
+  overflow: hidden;
 }
 
-/* Nav links - base mobile styling */
-.nav-menu__items a {
+.nav-menu a .line-inner {
+  display: block;
+}
+
+/* Mobile menu styles - only when overlay is open */
+.nav-menu.is-open a {
   font-family: var(--font-display);
   font-size: var(--text-h2-size);
   font-weight: 500;
@@ -122,34 +126,25 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   text-align: center;
   display: block;
   position: relative;
+  width: 100%;
+  max-width: 393px;
+  padding: 0 var(--space-md);
 }
 
-/* Line animation structure (matching headline animation) */
-.nav-menu__items a .line {
-  display: block;
-  overflow: hidden;
+/* Ensure spacing between items (gap should work, but adding margin as fallback) */
+.nav-menu.is-open a:not(:last-child) {
+  margin-bottom: var(--space-xl);
 }
 
-.nav-menu__items a .line-inner {
-  display: block;
-}
-
-/* Keyboard focus only - not on click/tap */
-.nav-menu__items a:focus-visible {
+/* Keyboard focus only - not on click/tap (mobile) */
+.nav-menu.is-open a:focus-visible {
   outline: 2px solid var(--bone);
   outline-offset: 4px;
   border-radius: 4px;
 }
 
-.nav-menu__items a:focus:not(:focus-visible) {
+.nav-menu.is-open a:focus:not(:focus-visible) {
   outline: none;
-}
-
-/* Nav links when menu is open */
-.nav-menu.is-open .nav-menu__items {
-  width: 100%;
-  max-width: 393px;
-  padding: 0 var(--space-md);
 }
 
 
@@ -235,7 +230,8 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 /* Navigation color adjustments for different backgrounds */
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
-body:not(.bg-palo-verde):not(.bg-bone) .logo-line {
+body:not(.bg-palo-verde):not(.bg-bone) .logo-line,
+body:not(.bg-palo-verde):not(.bg-bone) .nav-menu a {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
@@ -248,7 +244,8 @@ body:not(.bg-palo-verde):not(.bg-bone) .hamburger-line {
 }
 
 /* Palo Verde background: light text on dark green background */
-body.bg-palo-verde .logo-line {
+body.bg-palo-verde .logo-line,
+body.bg-palo-verde .nav-menu a {
   color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
 }
 
@@ -262,7 +259,8 @@ body.bg-palo-verde .hamburger-line {
 
 /* Bone background: dark text on light background */
 /* !important justified: Override dynamic background color changes during scroll animations to maintain nav visibility */
-body.bg-bone .logo-line {
+body.bg-bone .logo-line,
+body.bg-bone .nav-menu a {
   color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */
 }
 
@@ -293,10 +291,11 @@ body.bg-bone .hamburger-line {
   background-color: var(--bone) !important;
 }
 
-/* Tablet+ (768px): Desktop navigation */
+/* Tablet+ (768px): Desktop navigation - two-column grid layout */
 @media (min-width: 768px) {
   .main-nav {
     padding: var(--space-md) var(--space-md);
+    align-items: flex-start;
   }
   
   .logo-image {
@@ -312,24 +311,17 @@ body.bg-bone .hamburger-line {
   }
   
   .nav-menu {
-    display: flex; /* Show desktop menu */
-    gap: var(--space-xl);
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 169px);
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column; /* Items fill column-by-column, not row-by-row */
+    gap: var(--space-xs) var(--space-xl); /* row gap, column gap */
+    align-items: flex-start;
     margin-left: auto;
+    flex-shrink: 0;
   }
   
-  .nav-menu__items {
-    display: flex;
-    flex-direction: row;
-    gap: var(--space-xl);
-    position: static;
-    transform: none;
-    padding: 0;
-    width: auto;
-    max-width: none;
-  }
-  
-  .nav-menu__items a {
+  .nav-menu a {
     font-family: var(--font-display);
     font-size: var(--text-ui-nav);
     font-weight: 500;
@@ -338,31 +330,19 @@ body.bg-bone .hamburger-line {
     color: var(--chuparosa-100);
     text-transform: uppercase;
     text-decoration: none;
+    text-align: right;
+    width: 100%;
+    padding: 0;
+    max-width: none;
+    transition: opacity 0.2s ease, color 0.3s ease;
   }
   
-  .nav-menu__items a:hover {
+  .nav-menu a:hover {
     opacity: 0.7;
   }
   
   .mobile-menu-button {
     display: none; /* Hide mobile menu button */
-  }
-  
-  .hamburger-line {
-    background-color: var(--obsidian);
-  }
-  
-  /* Mobile hamburger color adjustments */
-  body:not(.bg-palo-verde):not(.bg-bone) .hamburger-line {
-    background-color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
-  }
-  
-  body.bg-palo-verde .hamburger-line {
-    background-color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
-  }
-  
-  body.bg-bone .hamburger-line {
-    background-color: var(--nav-text-on-bone, var(--obsidian));
   }
 }
 
