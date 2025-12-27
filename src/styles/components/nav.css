@@ -12,6 +12,8 @@
   min-height: 60px;
   will-change: transform; /* Optimize for transforms */
   transition: opacity 0.3s ease, visibility 0.3s ease;
+  /* Respect iOS safe area (notch) */
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
 /* Hide nav when creator overlay is open */
