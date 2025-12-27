@@ -850,7 +850,9 @@ function initLineAnimations(reducedMotion = false) {
       })
     } else {
       // Use ScrollTrigger for elements not yet in view
-      const anim = gsap.to(lineElements, {
+      // Declare anim first to avoid temporal dead zone error
+      let anim;
+      anim = gsap.to(lineElements, {
         y: '0%',
         opacity: 1,
         duration: 0.9,
@@ -861,12 +863,16 @@ function initLineAnimations(reducedMotion = false) {
           start: 'top 85%',
           toggleActions: 'play none none none',
           onEnter: () => {
-            // Ensure animation plays
-            anim.restart()
+            // Ensure animation plays - check if anim is defined first
+            if (anim) {
+              anim.restart()
+            }
           },
           onEnterBack: () => {
             // Ensure animation plays when scrolling back
-            anim.restart()
+            if (anim) {
+              anim.restart()
+            }
           }
         }
       })
