@@ -859,8 +859,8 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 
 /* ========================================
    Love Notes Section (Client Testimonials)
-   Mobile: Two stacked horizontal carousels
-   Desktop: Pinned section with falling cards animation
+   Mobile: Two stacked horizontal carousels with parallax
+   Desktop: Pinned viewport-height section with cards scrolling through, parallax by depth
    ======================================== */
 
 .love-notes {
@@ -873,9 +873,11 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 /* Full height modifier */
 .love-notes--full-height {
   min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
-/* Pinned modifier - triggers scroll pinning animation via JavaScript (Phase 2) */
+/* Full height modifier enables scroll pinning animation via JavaScript on desktop */
 
 .love-notes__container {
   width: 100%;
@@ -956,11 +958,23 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 
 /* Desktop: Grid-based scattered layout with depth */
 @media (min-width: 1280px) {
+  .love-notes--full-height {
+    height: 100vh; /* Viewport height frame */
+    min-height: auto;
+    position: relative;
+    overflow: hidden; /* Contain headline within section bounds */
+  }
+  
+  .love-notes__container {
+    height: 100%;
+    position: relative;
+  }
+  
   .love-notes__carousels {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(6, 1fr);
-    min-height: 100vh;
+    min-height: 100vh; /* Allow natural grid height */
     padding: var(--space-2xl) var(--space-xl);
     gap: var(--space-lg);
   }
@@ -978,10 +992,9 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   /* Cards positioned by grid with depth system */
   .roster-card--testimonial {
     width: 240px; /* Reduced from 280px to prevent overflow when scaled */
-    transform: scale(var(--scale));
-    z-index: var(--depth);
     justify-self: center;
     align-self: center;
+    /* Scale applied via GSAP to avoid transform conflicts */
   }
   
   /* Card 1 - Large, top left (red background woman in Figma) */
@@ -1048,18 +1061,40 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
     --depth: 2;
   }
   
-  /* Headline positioned absolutely in center - doesn't use grid */
+  /* Headline centered in section - stays only within section bounds */
   .love-notes__headline {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
+    z-index: 5; /* Back layer - only small cards behind, medium and large cards in front */
+    pointer-events: none; /* Don't block interaction with scrollable content */
     text-align: center;
     width: auto;
     max-width: 80%;
     font-size: var(--text-h1-size); /* 128px at 1280px+ */
     line-height: var(--text-h1-line-height); /* 0.85 at 1280px+ */
+  }
+  
+  /* Z-index layering based on card size/depth */
+  /* Small cards (scale 0.75-0.85) - behind headline */
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(3),
+  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(2) {
+    z-index: 1;
+  }
+  
+  /* Medium cards (scale 0.9-1.0) - in front of headline */
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(2),
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(4),
+  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(3),
+  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(4) {
+    z-index: 7;
+  }
+  
+  /* Large cards (scale 1.25) - in front of headline */
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(1),
+  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(1) {
+    z-index: 10;
   }
 }
 
