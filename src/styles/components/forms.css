@@ -1,94 +1,242 @@
-/* Form Styles */
+/* Form Styles - Tyler Chou Law */
+/* Floating Label Underline Design */
 
+/* Form Container */
 .contact-form {
   max-width: 600px;
   margin: 0 auto;
 }
 
+/* Form Group - Relative positioning for floating labels */
 .form-group {
-  margin-bottom: var(--space-lg);
+  position: relative;
+  margin-bottom: var(--space-2xl);
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: var(--space-xs);
-  font-family: var(--font-display);
-  font-size: var(--text-p-size);
-  color: var(--obsidian);
+.form-group:last-of-type {
+  margin-bottom: var(--space-3xl);
 }
 
+/* Input Fields - Underline Style */
 .form-group input,
 .form-group textarea,
 .form-group select {
   width: 100%;
-  padding: var(--space-sm);
-  border: 1px solid var(--obsidian-20);
-  border-radius: 4px;
+  padding: var(--space-md) 0;
+  border: none;
+  border-bottom: 2px solid var(--bone-10);
+  border-radius: 0;
   font-family: var(--font-body);
-  font-size: var(--text-p-size);
-  background-color: var(--bone);
-  color: var(--obsidian);
-  transition: border-color 0.2s ease;
+  font-size: var(--text-p-large-size);
+  line-height: var(--text-p-large-line-height);
+  background-color: transparent;
+  color: var(--bone);
+  transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Labels - Floating Animation */
+.form-group label {
+  position: absolute;
+  left: 0;
+  top: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-p-large-size);
+  font-weight: 400;
+  color: var(--bone);
+  pointer-events: none;
+  transition: top 0.2s ease, font-size 0.2s ease, font-weight 0.2s ease, transform 0.2s ease;
+  transform-origin: left top;
+}
+
+/* Float label when input has focus or content */
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:focus + label,
+.form-group textarea:not(:placeholder-shown) + label,
+.form-group select:focus + label,
+.form-group select:not(:placeholder-shown) + label {
+  top: -4px;
+  font-size: var(--text-p-size);
+  font-weight: 600;
+  color: var(--bone);
+  transform: translateY(-100%);
+}
+
+/* Placeholder - Hidden but accessible */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: transparent;
+  opacity: 0;
+}
+
+/* Textarea Specific */
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+  padding-top: var(--space-lg);
+}
+
+.form-group textarea + label {
+  top: var(--space-lg);
+}
+
+/* Hover State - Brighten underline */
+.form-group input:hover:not(:disabled),
+.form-group textarea:hover:not(:disabled),
+.form-group select:hover:not(:disabled) {
+  border-bottom-color: var(--bone);
+}
+
+/* Focus State - Accent underline with accessible color */
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
   outline: none;
-  border-color: var(--obsidian);
-  border-width: 2px;
+  border-bottom-color: var(--bone);
+  border-bottom-width: 2px;
 }
 
+/* Focus indicator line animation */
+.form-group input:focus::after,
+.form-group textarea:focus::after {
+  transform: scaleX(1);
+}
+
+/* Error State - Using bone text with chuparosa accent for accessibility */
 .form-group input.error,
 .form-group textarea.error,
 .form-group select.error {
-  border-color: var(--obsidian);
-  border-width: 2px;
+  border-bottom-color: var(--chuparosa-100);
+  border-bottom-width: 3px;
 }
 
+.form-group input.error:focus,
+.form-group textarea.error:focus,
+.form-group select.error:focus {
+  border-bottom-color: var(--bone);
+}
+
+.form-group input.error + label,
+.form-group textarea.error + label,
+.form-group select.error + label {
+  color: var(--bone);
+}
+
+/* Error Message - Accessible contrast with visual indicator */
 .error-message {
   display: block;
-  margin-top: var(--space-xs);
-  color: var(--obsidian);
+  margin-top: var(--space-sm);
+  padding-left: var(--space-sm);
+  color: var(--bone);
+  font-family: var(--font-display);
   font-size: var(--text-small-size);
+  font-weight: 500;
+  border-left: 3px solid var(--chuparosa-100);
 }
 
+/* Disabled State */
+.form-group input:disabled,
+.form-group textarea:disabled,
+.form-group select:disabled {
+  border-bottom-color: var(--obsidian-20);
+  color: var(--gray-400);
+  cursor: not-allowed;
+}
+
+.form-group input:disabled + label,
+.form-group textarea:disabled + label,
+.form-group select:disabled + label {
+  color: var(--gray-400);
+}
+
+/* Autofill Styles */
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--bone);
+  -webkit-box-shadow: 0 0 0 0 transparent inset;
+  border-bottom: 2px solid var(--bone-10);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Ensure autofilled inputs show floating label */
+.form-group input:-webkit-autofill + label {
+  top: -4px;
+  font-size: var(--text-small-size);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bone);
+  transform: translateY(-100%);
+}
+
+/* Honeypot Hidden Field */
 .hidden {
   position: absolute;
   left: -9999px;
+  width: 1px;
+  height: 1px;
   opacity: 0;
+  pointer-events: none;
 }
 
+/* Form Success State */
 .form-success {
   text-align: center;
-  padding: var(--space-2xl);
+  padding: var(--space-3xl) var(--space-xl);
+  border-bottom: 2px solid var(--palo-verde-500);
 }
 
 .form-success h3 {
   margin-bottom: var(--space-md);
+  color: var(--bone);
+  font-family: var(--font-display);
 }
 
-/* CTA button now uses .button component */
+.form-success p {
+  color: var(--bone);
+  font-family: var(--font-body);
+}
 
+/* Submit Button Spacing */
+.contact-form button[type="submit"] {
+  margin-top: var(--space-md);
+}
+
+/* CTA Links - Accessible with underline animation */
 .cta-link {
-  color: var(--obsidian);
+  color: var(--bone);
   font-family: var(--font-display);
-  transition: opacity 0.2s ease;
-  text-decoration: underline;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border-bottom: 2px solid var(--bone);
+  padding-bottom: 2px;
+  transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cta-link:hover {
-  opacity: 0.7;
+  opacity: 0.8;
+  border-bottom-color: var(--bone-10);
 }
 
 .cta-link:active {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .cta-link:focus,
 .cta-link:focus-visible {
-  outline: 2px solid var(--obsidian);
+  outline: 2px solid var(--focus-color);
   outline-offset: 4px;
-  border-radius: 2px;
+  opacity: 1;
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+  .form-group {
+    margin-bottom: var(--space-3xl);
+  }
 }
 
