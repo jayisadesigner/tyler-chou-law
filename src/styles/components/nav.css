@@ -310,18 +310,39 @@ body.bg-bone .hamburger-line {
     max-width: none;
   }
   
-  .nav-menu {
-    display: grid;
-    grid-template-columns: repeat(2, 169px);
-    grid-template-rows: repeat(3, auto);
-    grid-auto-flow: column; /* Items fill column-by-column, not row-by-row */
-    gap: var(--space-xs) var(--space-xl); /* row gap, column gap */
-    align-items: flex-start;
+  /* Desktop menu - use CSS columns for simple two-column layout */
+  .nav-menu,
+  .nav-menu.is-open {
+    display: block;
+    columns: 2;
+    column-gap: var(--space-xl);
+    column-fill: auto;
     margin-left: auto;
-    flex-shrink: 0;
+    position: static;
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    padding: 0;
+    z-index: auto;
+    opacity: 1;
+    visibility: visible;
   }
   
-  .nav-menu a {
+  .nav-menu a,
+  .nav-menu.is-open a {
+    width: 169px;
+    display: block;
+    margin-bottom: var(--space-xs);
+    break-inside: avoid;
+  }
+  
+  .nav-menu a:last-child,
+  .nav-menu.is-open a:last-child {
+    margin-bottom: 0;
+  }
+  
+  .nav-menu a,
+  .nav-menu.is-open a {
     font-family: var(--font-display);
     font-size: var(--text-ui-nav);
     font-weight: 500;
@@ -334,10 +355,22 @@ body.bg-bone .hamburger-line {
     width: 100%;
     padding: 0;
     max-width: none;
+    margin-bottom: 0;
+    opacity: 1;
+    position: static;
+    display: block;
     transition: opacity 0.2s ease, color 0.3s ease;
   }
   
-  .nav-menu a:hover {
+  /* Reset line animation positioning on desktop */
+  .nav-menu a .line-inner,
+  .nav-menu.is-open a .line-inner {
+    transform: none;
+    opacity: 1;
+  }
+  
+  .nav-menu a:hover,
+  .nav-menu.is-open a:hover {
     opacity: 0.7;
   }
   

@@ -12,6 +12,9 @@ export function initNavigation() {
   
   if (!menu || !button) return
   
+  // Check if mobile (button visible)
+  const isMobile = () => window.innerWidth < 768
+  
   // Wrap each menu item text in line animation structure (like headlines)
   menuItems.forEach((item) => {
     const text = item.textContent.trim()
@@ -20,14 +23,24 @@ export function initNavigation() {
   
   const lineInners = document.querySelectorAll('.nav-menu a .line-inner')
   
-  // Set initial state - menu off-screen at bottom, line-inner elements below
-  gsap.set(menu, { yPercent: 100 })
-  gsap.set(lineInners, { y: '100%', opacity: 0 })
-  gsap.set(menuItems, { scale: 0.95 })
+  // Set initial state only on mobile
+  if (isMobile()) {
+    gsap.set(menu, { yPercent: 100 })
+    gsap.set(lineInners, { y: '100%', opacity: 0 })
+    gsap.set(menuItems, { scale: 0.95 })
+  } else {
+    // Ensure visible on desktop
+    gsap.set(menu, { yPercent: 0, clearProps: 'transform' })
+    gsap.set(lineInners, { y: '0%', opacity: 1, clearProps: 'transform' })
+    gsap.set(menuItems, { scale: 1, clearProps: 'transform' })
+  }
   
   let isOpen = false
   
   button.addEventListener('click', () => {
+    // Only handle clicks on mobile
+    if (!isMobile()) return
+    
     isOpen = !isOpen
     
     if (isOpen) {
@@ -80,6 +93,31 @@ export function initNavigation() {
           menu.classList.remove('is-open')
         }
       })
+    }
+  })
+  
+  // Handle resize - reset animations if switching between mobile/desktop
+  let wasMobile = isMobile()
+  window.addEventListener('resize', () => {
+    const nowMobile = isMobile()
+    if (wasMobile !== nowMobile) {
+      if (nowMobile) {
+        // Switched to mobile - set initial animation state
+        gsap.set(menu, { yPercent: 100 })
+        gsap.set(lineInners, { y: '100%', opacity: 0 })
+        gsap.set(menuItems, { scale: 0.95 })
+        isOpen = false
+        document.body.style.overflow = ''
+      } else {
+        // Switched to desktop - clear animations
+        gsap.set(menu, { yPercent: 0, clearProps: 'transform' })
+        gsap.set(lineInners, { y: '0%', opacity: 1, clearProps: 'transform' })
+        gsap.set(menuItems, { scale: 1, clearProps: 'transform' })
+        menu.classList.remove('is-open')
+        isOpen = false
+        document.body.style.overflow = ''
+      }
+      wasMobile = nowMobile
     }
   })
 }
