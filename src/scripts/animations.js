@@ -1386,16 +1386,60 @@ function initIntro() {
 }
 
 
-// Initialize Lenis first, then intro, then animations
+/**
+ * Page Load Curtain
+ * Simple split reveal for all pages except homepage
+ * Pulls background color from --page-bg CSS variable
+ */
+function initCurtain() {
+  const curtain = document.querySelector('.curtain')
+  const leftPanel = document.querySelector('.curtain__panel--left')
+  const rightPanel = document.querySelector('.curtain__panel--right')
+  const isHomepage = document.body.classList.contains('page-index')
+  
+  // Skip on homepage (has its own intro) or if no curtain element
+  if (!curtain || !leftPanel || !rightPanel || isHomepage || prefersReducedMotion) {
+    curtain?.classList.add('is-complete')
+    return
+  }
+
+  // Set initial state — panels cover screen
+  gsap.set([leftPanel, rightPanel], { xPercent: 0 })
+
+  // Create timeline
+  const tl = gsap.timeline({
+    onComplete: () => {
+      curtain.classList.add('is-complete')
+    }
+  })
+
+  // Curtains split open
+  tl.to(leftPanel, {
+    xPercent: -100,
+    duration: 0.7,
+    ease: 'power3.inOut'
+  }, 0)
+
+  tl.to(rightPanel, {
+    xPercent: 100,
+    duration: 0.7,
+    ease: 'power3.inOut'
+  }, 0)
+}
+
+
+// Initialize Lenis first, then curtain/intro, then animations
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     initLenis()
-    initIntro() // Run intro first
+    initCurtain() // Simple curtain for non-homepage
+    initIntro()   // Video intro for homepage only
     initAnimations()
   })
 } else {
   initLenis()
-  initIntro() // Run intro first
+  initCurtain() // Simple curtain for non-homepage
+  initIntro()   // Video intro for homepage only
   initAnimations()
 }
 
