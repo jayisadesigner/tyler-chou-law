@@ -257,6 +257,7 @@ function initLoveLettersScroll(reducedMotion = false) {
         trigger: loveNotesSection,
         start: 'top center',
         end: 'bottom center',
+        id: 'love-notes-mobile-theme',
         ...getThemeCallbacks('bg-bone')
       })
     },
@@ -275,6 +276,7 @@ function initLoveLettersScroll(reducedMotion = false) {
           start: 'top bottom',
           end: 'bottom top',
           scrub: 1,
+          id: 'love-notes-tablet',
           invalidateOnRefresh: true,
           ...getThemeCallbacks('bg-bone'),
         },
@@ -325,6 +327,7 @@ function initLoveLettersScroll(reducedMotion = false) {
           end: '+=500%', // Pin for 5x viewport height - enough to scroll all cards through
           scrub: 1,
           callbacks: {
+            id: 'love-notes-desktop',
             invalidateOnRefresh: true,
             ...getThemeCallbacks('bg-bone'),
           },
@@ -523,21 +526,28 @@ function initAnimations() {
   if (!ScrollTrigger) return
 
   // Section reveal animations
+  // These are independent from any matchMedia contexts and work on all viewport sizes
   document.querySelectorAll('.section-reveal').forEach((section) => {
-      gsap.fromTo(section, 
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          },
-        }
-      )
+    // Create ScrollTrigger with explicit ID for debugging and isolation
+    const sectionId = section.id || section.className.split(' ')[1] || 'section'
+    
+    gsap.fromTo(section, 
+      { opacity: 0, y: 60 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+          id: `section-reveal-${sectionId}`,
+          // Ensure this ScrollTrigger is not affected by other contexts
+          refreshPriority: -1, // Lower priority, processed after pinned sections
+        },
+      }
+    )
   })
 
 
@@ -942,8 +952,8 @@ function initCredentialsShadow(reducedMotion = false) {
     gsap.set(credentialsBadge, { clearProps: 'transform', rotation: 0 })
   }
 
-  // Use ScrollTrigger's refresh to ensure proper calculations
-  ScrollTrigger.refresh()
+  // NOTE: Removed ScrollTrigger.refresh() here - it was causing issues with other 
+  // section animations. The calculateScroll function handles layout timing internally.
 
   // Calculate scroll distance after a brief delay to ensure layout is ready
   const calculateScroll = () => {
