@@ -788,14 +788,16 @@ function initPhilosophyRedaction(reducedMotion = false) {
   // Helper: Initialize redaction boxes
   const initializeRedactionBoxes = (dimensions) => {
     // Ensure boxes are visible and positioned correctly
+    // Override CSS display: none on mobile
     gsap.set(redactionFirst, { 
       width: dimensions.firstWidth, 
       scaleX: 0, 
       transformOrigin: 'left center',
       height: dimensions.firstHeight,
       left: dimensions.firstLeft,
-      opacity: 1, // Ensure visible
-      visibility: 'visible' // Ensure visible
+      opacity: 1,
+      visibility: 'visible',
+      display: 'block' // Override CSS display: none on mobile
     })
     gsap.set(redactionSecond, { 
       width: dimensions.secondWidth, 
@@ -803,8 +805,9 @@ function initPhilosophyRedaction(reducedMotion = false) {
       transformOrigin: 'left center',
       height: dimensions.secondHeight,
       left: dimensions.secondLeft,
-      opacity: 1, // Ensure visible
-      visibility: 'visible' // Ensure visible
+      opacity: 1,
+      visibility: 'visible',
+      display: 'block' // Override CSS display: none on mobile
     })
     gsap.set(queenText, { opacity: 0 })
   }
@@ -911,6 +914,10 @@ function initPhilosophyRedaction(reducedMotion = false) {
   ScrollTrigger.matchMedia({
     // Mobile: Show strikethroughs and fade in queen text — NO PIN
     "(max-width: 767px)": function() {
+      // Override CSS display: none on mobile - set inline style first
+      redactionFirst.style.display = 'block'
+      redactionSecond.style.display = 'block'
+      
       // Initialize redaction boxes for mobile (show them, don't hide)
       initializeRedactionBoxes(dimensions)
       
@@ -968,10 +975,13 @@ function initPhilosophyRedaction(reducedMotion = false) {
           setBodyTheme('bg-bone')
         },
         onLeaveBack: () => {
-          // Reset when scrolling back up
+          // Reset when scrolling back up (but keep display: block)
           gsap.set([redactionFirst, redactionSecond], { scaleX: 0 })
           gsap.to(queenText, { opacity: 0, duration: 0.3 })
           setBodyTheme('')
+          // Ensure boxes stay visible (override CSS display: none)
+          redactionFirst.style.display = 'block'
+          redactionSecond.style.display = 'block'
         }
       })
     },
