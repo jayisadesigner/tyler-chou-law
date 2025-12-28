@@ -1211,13 +1211,13 @@ function initLineAnimations(reducedMotion = false) {
  * 2. Center video shrinks (600ms)
  * 3. Pause with center video (600ms)
  * 4. Side videos slide out (1800ms, staggered)
- * 5. Name character reveal - "TYLER CHOU" (1200ms, slower stagger)
+ * 5. Name character reveal - "TYLER CHOU" (1300ms, heavy deceleration)
  * 6. Name lingers on screen (~800ms)
  * 7. Videos pop out sequentially right→left (instant, 200ms apart)
  * 8. Name stays alone (~500ms)
- * 9. Name fades out (600ms)
+ * 9. Characters slide out in reverse order (600ms)
  * 10. Hero fades in (800ms)
- * Total duration: ~7.1 seconds
+ * Total duration: ~7 seconds
  */
 function initIntro() {
   const intro = document.querySelector('.intro')
@@ -1319,7 +1319,7 @@ function initIntro() {
     ease: 'power3.out'
   }, 1.6)
 
-  // Step 4: Name reveal (2800ms–4000ms) - massive character animation, slower and elegant
+  // Step 4: Name reveal (2800ms–4600ms) - massive character animation with extended dramatic deceleration
   if (nameElement && charElements.length > 0) {
     // Fade in name container
     tl.to(nameElement, {
@@ -1328,59 +1328,61 @@ function initIntro() {
       ease: 'power2.out'
     }, 2.8)
     
-    // Animate characters sliding in from left to right - slower stagger
+    // Animate characters sliding in with extended heavy deceleration for suspense
     tl.to(charElements, {
       x: '0%',
       opacity: 1,
-      duration: 1.0,
+      duration: 1.7, // Extended from 1.2s to build more suspense
       stagger: 0.05,
-      ease: 'power3.out'
+      ease: 'power4.out' // Heavier deceleration creates dramatic slow-down
     }, 2.9)
   }
 
-  // Step 5: Sequential pop out - videos disappear right to left, then name fades, hero reveals
+  // Step 5: Sequential pop out - videos disappear right to left, immediate exit
   
-  // Videos pop out sequentially (4800ms–5200ms) - instant opacity changes
+  // Videos pop out sequentially (4700ms–5100ms) - instant opacity changes
   tl.to(rightVideo, {
     opacity: 0,
     duration: 0,
     ease: 'none'
-  }, 4.8)
+  }, 4.7)
   
   tl.to(centerVideo, {
     opacity: 0,
     duration: 0,
     ease: 'none'
-  }, 5.0)
+  }, 4.9)
   
   tl.to(leftVideo, {
     opacity: 0,
     duration: 0,
     ease: 'none'
-  }, 5.2)
+  }, 5.1)
   
-  // Name stays alone, then fades out (5700ms–6300ms)
-  if (nameElement) {
-    tl.to(nameElement, {
+  // Name stays alone briefly, then characters slide out in reverse (5300ms–5900ms)
+  if (nameElement && charElements.length > 0) {
+    tl.to(charElements, {
+      x: '-100%', // Exit to the left
       opacity: 0,
       duration: 0.6,
-      ease: 'power2.out'
-    }, 5.7)
+      stagger: -0.03, // Negative stagger = reverse order (right to left)
+      ease: 'power3.in'
+    }, 5.3)
   }
   
-  // Intro container fades (cleanup)
+  // Intro container fades (cleanup) - starts immediately after name exits
   tl.to(intro, {
     opacity: 0,
     duration: 0.4,
     ease: 'power2.out'
-  }, 6.0)
+  }, 5.9)
   
-  // Hero fades in (6300ms–7100ms)
+  // Hero fades in (5900ms–6700ms)
   tl.to(heroContent, {
     opacity: 1,
     duration: 0.8,
     ease: 'power2.out'
-  }, 6.3)
+  }, 5.9)
 }
 
 
