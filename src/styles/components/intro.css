@@ -74,6 +74,60 @@ body.intro-active {
   clip-path: inset(0 0 0 100%); /* Hidden — clipped from left */
 }
 
+/* Name reveal - massive display text, vertically centered */
+.intro__name {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 18vw, 20rem); /* Scales with viewport, caps at 20rem */
+  font-weight: 400;
+  color: var(--bone);
+  text-transform: uppercase;
+  letter-spacing: -0.04em; /* Tighter tracking for massive text */
+  line-height: 0.9;
+  white-space: nowrap;
+  z-index: 10;
+  width: 110vw; /* Wider than screen for dramatic overflow */
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Character containers for animation */
+.intro__name .char {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0 0.02em; /* Small padding to prevent clipping */
+}
+
+.intro__name .char-inner {
+  display: inline-block;
+  padding-right: 0.05em; /* Extra space for wide characters like Y */
+}
+
+/* Subtle edge fade for dramatic effect */
+.intro__name::before,
+.intro__name::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8vw;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.intro__name::before {
+  left: -4vw;
+  background: linear-gradient(to right, var(--chuparosa) 0%, transparent 100%);
+}
+
+.intro__name::after {
+  right: -4vw;
+  background: linear-gradient(to left, var(--chuparosa) 0%, transparent 100%);
+}
+
 /* Hide intro entirely if reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .intro {
