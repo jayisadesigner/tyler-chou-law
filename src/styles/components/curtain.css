@@ -17,7 +17,7 @@
 
 .curtain__panel {
   flex: 1;
-  background-color: var(--page-bg-color, var(--chuparosa));
+  background-color: var(--chuparosa-700); /* Always use chuparosa-700 for curtains */
 }
 
 .curtain__panel--left {
