@@ -1413,7 +1413,7 @@ function initCurtain() {
     }
   })
 
-  // Curtains split open - with a slight delay for dramatic effect
+  // Curtains split open - staggered for dynamic effect
   tl.to(leftPanel, {
     xPercent: -100,
     duration: 2.0,
@@ -1424,7 +1424,7 @@ function initCurtain() {
     xPercent: 100,
     duration: 2.0,
     ease: 'power3.inOut'
-  }, 0.7)
+  }, 0.8) // Slight 100ms stagger after left panel
 }
 
 
