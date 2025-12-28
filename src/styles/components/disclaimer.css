@@ -19,7 +19,7 @@
   font-family: var(--font-body);
   font-size: var(--text-small-size);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: var(--text-small-line-height);
   letter-spacing: 0;
   color: var(--chuparosa-100);
   margin: 0;

@@ -99,7 +99,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--text-h1-size);
-  line-height: 0.85;
+  line-height: var(--text-h1-line-height);
   letter-spacing: -0.03em; /* -3.8364px equivalent */
   color: var(--chuparosa-100);
   text-transform: uppercase;
@@ -130,7 +130,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--text-h2-size);
-  line-height: 0.9;
+  line-height: var(--text-h2-line-height);
   letter-spacing: -0.03em; /* -2.7132px equivalent */
   color: var(--bone);
   text-transform: uppercase;
@@ -230,7 +230,7 @@
 .hero-subheadline--inner-page {
   font-family: var(--font-body);
   font-size: var(--text-h3-size);
-  line-height: 1;
+  line-height: var(--text-h3-line-height);
   letter-spacing: -0.02em; /* -1.2792px equivalent */
   color: var(--bone);
   text-align: left;
@@ -484,7 +484,7 @@
   font-family: var(--font-body);
   font-size: var(--text-h1-size); /* Responsive: 48px mobile → 144px XL desktop */
   font-weight: 400;
-  line-height: 0.85;
+  line-height: var(--text-h1-line-height);
   letter-spacing: -0.03em;
   color: var(--chuparosa-100);
   text-transform: capitalize;
@@ -655,7 +655,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 /* Link styling */
 .section-grid__link {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: var(--text-ui-nav);
   font-weight: 600;
   line-height: 1;
   color: var(--chuparosa-100);
@@ -833,12 +833,12 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 
   .roster-card__handle {
     position: absolute;
-    bottom: 16px;
-    left: 16px;
+    bottom: var(--space-sm);
+    left: var(--space-sm);
     font-family: var(--font-display);
     font-size: var(--text-h6-size); /* 1.414rem / 22.62px */
     font-weight: 500;
-    line-height: 1.2;
+    line-height: var(--text-h6-line-height);
     color: var(--chuparosa-100);
     text-transform: uppercase;
     margin: 0;
@@ -879,14 +879,14 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 .roster-card__content {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Figma spec */
+  gap: var(--space-xs); /* 8px - closest to Figma spec 10px */
 }
 
 .roster-card__name {
   font-family: var(--font-display);
   font-size: var(--text-h6-size); /* 1.414rem / 22.62px - matches Figma */
   font-weight: 500;
-  line-height: 1.2;
+  line-height: var(--text-h6-line-height);
   color: var(--obsidian);
   text-transform: uppercase;
   margin: 0;
@@ -896,7 +896,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   font-family: var(--font-body);
   font-size: var(--text-p-size); /* 1rem / 16px - matches Figma */
   font-weight: 400;
-  line-height: 1.4;
+  line-height: var(--text-p-line-height);
   color: var(--obsidian);
   margin: 0;
 }
@@ -1206,7 +1206,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 .philosophy-text {
   font-family: var(--font-display);
   font-weight: 500;
-  line-height: 0.85;
+  line-height: var(--text-h1-line-height);
   text-transform: uppercase;
   white-space: nowrap; /* Prevent line breaks - keep text on one line */
   margin: 0;
@@ -1371,7 +1371,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   flex-direction: column;
   gap: var(--space-xs);
   font-family: var(--font-body);
-  font-size: 1.413rem; /* 22.6px */
+  font-size: var(--text-h6-size); /* 1.414rem / ~23px */
   line-height: 1.2;
   color: var(--obsidian);
 }
@@ -1402,7 +1402,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   font-family: var(--font-display);
   font-size: var(--text-h3-size); /* Mobile first */
   font-weight: 500;
-  line-height: 1;
+  line-height: var(--text-h3-line-height);
   letter-spacing: -0.02em; /* -1.2792px */
   color: var(--obsidian);
   text-transform: uppercase;
@@ -1426,7 +1426,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 .credentials-item {
   font-family: var(--font-body);
   font-size: var(--text-h4-size); /* Mobile first */
-  line-height: 1;
+  line-height: var(--text-h4-line-height);
   letter-spacing: -0.02em; /* -0.904px */
   color: var(--obsidian);
   text-transform: capitalize;
@@ -1436,8 +1436,8 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 
 .credentials-badge {
   position: absolute;
-  bottom: 10px; /* Mobile first */
-  right: 10px; /* Mobile first */
+  bottom: var(--space-sm); /* 16px - Mobile first */
+  right: var(--space-sm); /* 16px - Mobile first */
   width: 200px; /* Mobile first */
   height: 200px; /* Mobile first */
   display: flex;
@@ -1547,9 +1547,9 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 
 .service-card__title {
   font-family: var(--font-display);
-  font-size: 1.999rem; /* 31.99px */
+  font-size: var(--text-h5-size); /* 1.999rem / ~32px */
   font-weight: 500;
-  line-height: 1.2;
+  line-height: var(--text-h5-line-height);
   color: var(--chuparosa-100);
   text-transform: uppercase;
   margin: 0;
@@ -1557,7 +1557,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 
 .service-card__description {
   font-family: var(--font-body);
-  font-size: 1.414rem; /* 22.62px */
+  font-size: var(--text-p-large-size); /* 1.414rem / ~23px */
   font-weight: 400;
   line-height: 1.2;
   color: var(--chuparosa-100);
@@ -2143,7 +2143,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   width: 100%;
   max-width: 1512px;
   margin: 0 auto;
-  padding: 0 var(--space-md); /* Mobile: md left/right padding */
+  padding: 0; /* Mobile: no padding - content handles its own padding to extend to edges */
 }
 
 /* Mobile: Stacked layout (content first, then media) */
@@ -2360,7 +2360,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--text-h3-size);
-  line-height: 1;
+  line-height: var(--text-h3-line-height);
   letter-spacing: -0.02em;
   color: var(--bone);
   text-transform: uppercase;
@@ -2546,7 +2546,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   font-family: var(--font-body);
   font-size: var(--text-h1-size);
   font-weight: 400;
-  line-height: 0.85;
+  line-height: var(--text-h1-line-height);
   letter-spacing: -0.03em;
   color: var(--chuparosa-100);
   text-transform: none;
