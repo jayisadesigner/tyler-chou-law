@@ -45,8 +45,32 @@ async function buildPage(pageName) {
     const footerTemplate = await loadComponentTemplate('footer')
     const disclaimerTemplate = await loadComponentTemplate('disclaimer')
     
+    // Extract curtain from header template (everything before <header> tag)
+    const curtainMatch = headerTemplate.match(/^([\s\S]*?)(<header)/)
+    const curtainHtml = curtainMatch ? curtainMatch[1].trim() : ''
+    const headerOnly = headerTemplate.replace(/^[\s\S]*?(<header)/, '$1')
+    
+    // Remove any existing curtain divs
+    html = html.replace(/<div[^>]*class="[^"]*curtain[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
+    html = html.replace(/<!--\s*Page Load Curtain[^>]*-->[\s\S]*?<\/div>/gi, '')
+    
+    // Insert curtain before header (or before body content if no header)
+    if (curtainHtml) {
+      const headerIndex = html.indexOf('<header')
+      if (headerIndex !== -1) {
+        html = html.substring(0, headerIndex) + curtainHtml + '\n' + html.substring(headerIndex)
+      } else {
+        // Fallback: insert after <body> tag
+        const bodyIndex = html.indexOf('<body')
+        if (bodyIndex !== -1) {
+          const bodyTagEnd = html.indexOf('>', bodyIndex) + 1
+          html = html.substring(0, bodyTagEnd) + '\n' + curtainHtml + html.substring(bodyTagEnd)
+        }
+      }
+    }
+    
     // Replace header (match any header tag with or without content)
-    html = html.replace(/<header[^>]*>[\s\S]*?<\/header>/g, headerTemplate)
+    html = html.replace(/<header[^>]*>[\s\S]*?<\/header>/g, headerOnly)
     
     // Replace footer (match any footer tag with or without content)
     // Prefer footer after </main> if found

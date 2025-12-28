@@ -1550,96 +1550,26 @@ function initIntro() {
 
 /**
  * Page Load Curtain
- * Simple split reveal for all pages except homepage
- * Pulls background color from --page-bg CSS variable
+ * CSS-only animation - no JS needed for curtain itself
+ * Only handles homepage skip and reduced motion check
+ * Animation is handled entirely by CSS for better performance
  */
 function initCurtain() {
-  // Wait for curtain to exist in DOM (handles dynamic header loading)
-  const checkCurtain = () => {
+  // Check URL pathname instead of body class (body class is unreliable on Netlify)
+  const pathname = window.location.pathname
+  const isHomepage = pathname === '/' || pathname === '/index.html' || pathname.endsWith('/index.html')
+  
+  // Skip on homepage (has its own intro) or if reduced motion
+  if (isHomepage || prefersReducedMotion) {
     const curtain = document.querySelector('.curtain')
-    const leftPanel = document.querySelector('.curtain__panel--left')
-    const rightPanel = document.querySelector('.curtain__panel--right')
-    const nav = document.querySelector('.site-header')
-    // Check URL pathname instead of body class (body class is unreliable on Netlify)
-    const pathname = window.location.pathname
-    const isHomepage = pathname === '/' || pathname === '/index.html' || pathname.endsWith('/index.html')
-    
-    // If curtain doesn't exist yet, wait and try again
-    if (!curtain) {
-      requestAnimationFrame(checkCurtain)
-      return
-    }
-    
-    // Skip on homepage (has its own intro) or if panels missing or reduced motion
-    if (!leftPanel || !rightPanel || isHomepage || prefersReducedMotion) {
+    if (curtain) {
       curtain.classList.add('is-complete')
-      return
     }
-
-    // Add body class to control nav visibility via CSS
-    document.body.classList.add('curtain-active')
-
-    // Set initial state — panels cover screen, nav hidden
-    // Clear any existing transforms first
-    gsap.set([leftPanel, rightPanel], { clearProps: 'all' })
-    gsap.set([leftPanel, rightPanel], { xPercent: 0, immediateRender: true })
-    if (nav) {
-      gsap.set(nav, { opacity: 0, y: 20, immediateRender: true })
-    }
-
-    // Create timeline with timeout fallback
-    const tl = gsap.timeline({
-      onComplete: () => {
-        curtain.classList.add('is-complete')
-        document.body.classList.remove('curtain-active')
-        // Clear all GSAP inline styles so CSS can take over
-        gsap.set(curtain, { clearProps: 'all' })
-        gsap.set([leftPanel, rightPanel], { clearProps: 'all' })
-        if (nav) {
-          gsap.set(nav, { clearProps: 'opacity,transform' })
-        }
-      }
-    })
-
-    // Nav fades in and slides up first
-    if (nav) {
-      tl.to(nav, {
-        opacity: 1,
-        y: 0,
-        duration: 1.6,
-        ease: 'power2.out',
-        overwrite: true
-      }, 0.2)
-    }
-
-    // Curtains split open - staggered for dynamic effect
-    tl.to(leftPanel, {
-      xPercent: -100,
-      duration: 2.0,
-      ease: 'power3.inOut'
-    }, 0.7)
-
-    tl.to(rightPanel, {
-      xPercent: 100,
-      duration: 2.0,
-      ease: 'power3.inOut'
-    }, 0.8)
-
-    // Fallback: hide curtain after 5 seconds if animation doesn't complete
-    setTimeout(() => {
-      if (!curtain.classList.contains('is-complete')) {
-        console.warn('Curtain animation timeout, hiding curtain')
-        curtain.classList.add('is-complete')
-        document.body.classList.remove('curtain-active')
-        if (nav) {
-          gsap.set(nav, { clearProps: 'opacity,transform' })
-        }
-      }
-    }, 5000)
+    return
   }
-
-  // Start checking for curtain
-  checkCurtain()
+  
+  // CSS handles the animation - no JS needed
+  // Curtain will automatically hide after animation completes via CSS
 }
 
 
