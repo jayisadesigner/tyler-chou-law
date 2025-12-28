@@ -909,27 +909,67 @@ function initPhilosophyRedaction(reducedMotion = false) {
 
   // Mobile-first: Use matchMedia for responsive animations
   ScrollTrigger.matchMedia({
-    // Mobile: Simple fade, NO PIN — iOS Safari has issues with pinned ScrollTrigger
+    // Mobile: Show strikethroughs and fade in queen text — NO PIN
     "(max-width: 767px)": function() {
-      // Hide redaction boxes on mobile
-      gsap.set([redactionFirst, redactionSecond], { opacity: 0, visibility: 'hidden' })
+      // Initialize redaction boxes for mobile (show them, don't hide)
+      initializeRedactionBoxes(dimensions)
       
-      // Simple scroll-triggered fade for queen text — NO PIN
+      // Simple scroll-triggered animation — NO PIN
       ScrollTrigger.create({
         trigger: philosophySection,
         start: 'top 60%',
         end: 'bottom 40%',
         onEnter: () => {
-          gsap.to(queenText, {
+          // Create timeline for redaction animation
+          const mobileTl = gsap.timeline()
+          
+          // First redaction box - strikethrough "Content"
+          mobileTl.to(redactionFirst, {
+            scaleX: 1,
+            ease: 'power2.inOut',
+            duration: 1,
+          }, 0.2)
+          
+          // Second redaction box - strikethrough "is king"
+          mobileTl.to(redactionSecond, {
+            scaleX: 1,
+            ease: 'power2.inOut',
+            duration: 1,
+          }, 0.35)
+          
+          // Fade in "ip is Queen" after both redactions
+          mobileTl.to(queenText, {
             opacity: 1,
+            ease: 'power2.out',
             duration: 0.6,
-            ease: 'power2.out'
-          })
+          }, 1.4)
+          
           setBodyTheme('bg-bone')
         },
         onLeave: () => setBodyTheme(''),
-        onEnterBack: () => setBodyTheme('bg-bone'),
+        onEnterBack: () => {
+          // Re-trigger animation when scrolling back into view
+          const mobileTl = gsap.timeline()
+          mobileTl.to(redactionFirst, {
+            scaleX: 1,
+            ease: 'power2.inOut',
+            duration: 1,
+          }, 0.2)
+          mobileTl.to(redactionSecond, {
+            scaleX: 1,
+            ease: 'power2.inOut',
+            duration: 1,
+          }, 0.35)
+          mobileTl.to(queenText, {
+            opacity: 1,
+            ease: 'power2.out',
+            duration: 0.6,
+          }, 1.4)
+          setBodyTheme('bg-bone')
+        },
         onLeaveBack: () => {
+          // Reset when scrolling back up
+          gsap.set([redactionFirst, redactionSecond], { scaleX: 0 })
           gsap.to(queenText, { opacity: 0, duration: 0.3 })
           setBodyTheme('')
         }
