@@ -1413,18 +1413,18 @@ function initCurtain() {
     }
   })
 
-  // Curtains split open
+  // Curtains split open - with a slight delay for dramatic effect
   tl.to(leftPanel, {
     xPercent: -100,
-    duration: 1.2,
+    duration: 2.0,
     ease: 'power3.inOut'
-  }, 0)
+  }, 0.4)
 
   tl.to(rightPanel, {
     xPercent: 100,
-    duration: 1.2,
+    duration: 2.0,
     ease: 'power3.inOut'
-  }, 0)
+  }, 0.4)
 }
 
 
