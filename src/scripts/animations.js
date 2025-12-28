@@ -1418,13 +1418,13 @@ function initCurtain() {
     xPercent: -100,
     duration: 2.0,
     ease: 'power3.inOut'
-  }, 0.4)
+  }, 0.3)
 
   tl.to(rightPanel, {
     xPercent: 100,
     duration: 2.0,
     ease: 'power3.inOut'
-  }, 0.4)
+  }, 0.3)
 }
 
 
