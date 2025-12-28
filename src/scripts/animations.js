@@ -405,6 +405,61 @@ export function animateLineElements(elements, options = {}) {
   return gsap.to(elements, config)
 }
 
+/**
+ * Animate Character Elements (reusable utility)
+ * Similar to animateLineElements but for character-level animations
+ * @param {NodeList|Array} elements - Character elements to animate
+ * @param {Object} options - GSAP animation options
+ * @returns {gsap.core.Tween} GSAP animation instance
+ */
+export function animateCharElements(elements, options = {}) {
+  const defaults = {
+    x: '0%',
+    opacity: 1,
+    duration: 0.8,
+    stagger: 0.03,
+    ease: 'power3.out',
+    delay: 0
+  }
+  
+  const config = { ...defaults, ...options }
+  
+  return gsap.to(elements, config)
+}
+
+/**
+ * Split text into characters and prepare for animation
+ * @param {HTMLElement} element - Element containing text to split
+ * @returns {NodeList} Character inner elements ready for animation
+ */
+export function splitTextIntoChars(element) {
+  if (!element) return []
+  
+  const originalText = element.textContent.trim()
+  const chars = originalText.split('')
+  
+  // Clear and rebuild with character structure
+  element.innerHTML = ''
+  element.style.overflow = 'hidden'
+  
+  chars.forEach((char) => {
+    const charSpan = document.createElement('span')
+    charSpan.className = 'char'
+    charSpan.style.display = 'inline-block'
+    charSpan.style.overflow = 'hidden'
+    
+    const charInner = document.createElement('span')
+    charInner.className = 'char-inner'
+    charInner.style.display = 'inline-block'
+    charInner.textContent = char === ' ' ? '\u00A0' : char // Non-breaking space
+    
+    charSpan.appendChild(charInner)
+    element.appendChild(charSpan)
+  })
+  
+  return element.querySelectorAll('.char-inner')
+}
+
 // Initialize animations when DOM is ready
 function initAnimations() {
   // If user prefers reduced motion, set all elements to final state and skip animations
@@ -1155,9 +1210,14 @@ function initLineAnimations(reducedMotion = false) {
  * 1. Nav fades in (500ms)
  * 2. Center video shrinks (600ms)
  * 3. Pause with center video (600ms)
- * 4. Side videos slide out (1500ms)
- * 5. Entire intro fades out, hero fades in (800ms)
- * Total duration: ~4.2 seconds
+ * 4. Side videos slide out (1800ms, staggered)
+ * 5. Name character reveal - "TYLER CHOU" (1200ms, slower stagger)
+ * 6. Name lingers on screen (~800ms)
+ * 7. Videos pop out sequentially right→left (instant, 200ms apart)
+ * 8. Name stays alone (~500ms)
+ * 9. Name fades out (600ms)
+ * 10. Hero fades in (800ms)
+ * Total duration: ~7.1 seconds
  */
 function initIntro() {
   const intro = document.querySelector('.intro')
@@ -1166,6 +1226,7 @@ function initIntro() {
   const rightVideo = document.querySelector('.intro__video--right') // wrapper
   const nav = document.querySelector('.site-header')
   const heroContent = document.querySelector('.hero-content')
+  const nameElement = document.querySelector('.intro__name[js-char-animation]')
 
   // Skip if no intro element or reduced motion
   if (!intro || prefersReducedMotion) {
@@ -1203,6 +1264,17 @@ function initIntro() {
     opacity: 0,
     clipPath: 'inset(0 0 0 100%)'
   })
+  
+  // Split name into characters and set initial states
+  let charElements = []
+  if (nameElement) {
+    charElements = splitTextIntoChars(nameElement)
+    gsap.set(nameElement, { opacity: 0 })
+    gsap.set(charElements, {
+      x: '-100%',
+      opacity: 0
+    })
+  }
 
   // Create timeline
   const tl = gsap.timeline({
@@ -1247,18 +1319,68 @@ function initIntro() {
     ease: 'power3.out'
   }, 1.6)
 
-  // Step 4: Intro fades out, hero fades in (3600ms–4400ms)
+  // Step 4: Name reveal (2800ms–4000ms) - massive character animation, slower and elegant
+  if (nameElement && charElements.length > 0) {
+    // Fade in name container
+    tl.to(nameElement, {
+      opacity: 1,
+      duration: 0.4,
+      ease: 'power2.out'
+    }, 2.8)
+    
+    // Animate characters sliding in from left to right - slower stagger
+    tl.to(charElements, {
+      x: '0%',
+      opacity: 1,
+      duration: 1.0,
+      stagger: 0.05,
+      ease: 'power3.out'
+    }, 2.9)
+  }
+
+  // Step 5: Sequential pop out - videos disappear right to left, then name fades, hero reveals
+  
+  // Videos pop out sequentially (4800ms–5200ms) - instant opacity changes
+  tl.to(rightVideo, {
+    opacity: 0,
+    duration: 0,
+    ease: 'none'
+  }, 4.8)
+  
+  tl.to(centerVideo, {
+    opacity: 0,
+    duration: 0,
+    ease: 'none'
+  }, 5.0)
+  
+  tl.to(leftVideo, {
+    opacity: 0,
+    duration: 0,
+    ease: 'none'
+  }, 5.2)
+  
+  // Name stays alone, then fades out (5700ms–6300ms)
+  if (nameElement) {
+    tl.to(nameElement, {
+      opacity: 0,
+      duration: 0.6,
+      ease: 'power2.out'
+    }, 5.7)
+  }
+  
+  // Intro container fades (cleanup)
   tl.to(intro, {
     opacity: 0,
-    duration: 0.8,
+    duration: 0.4,
     ease: 'power2.out'
-  }, 3.6)
-
+  }, 6.0)
+  
+  // Hero fades in (6300ms–7100ms)
   tl.to(heroContent, {
     opacity: 1,
     duration: 0.8,
     ease: 'power2.out'
-  }, 3.7)
+  }, 6.3)
 }
 
 
