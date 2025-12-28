@@ -14,12 +14,33 @@
   transition: opacity 0.3s ease, visibility 0.3s ease;
   /* Respect iOS safe area (notch) */
   padding-top: env(safe-area-inset-top, 0px);
+  /* Nav fade-in animation on page load (non-homepage only) */
+  animation: navFadeIn 1.6s ease-out 0.2s forwards;
 }
 
-/* Hide nav initially when curtain is animating (non-homepage pages) */
-body.curtain-active:not(.page-index) .site-header {
+/* Skip nav animation on homepage (has intro animation) */
+body.page-index .site-header {
+  animation: none;
+}
+
+/* Hide nav initially during homepage intro animation */
+body.curtain-active:not(.page-index) .site-header,
+body.intro-active .site-header {
   opacity: 0;
-  transition: none; /* Disable transition during curtain animation */
+  transition: none; /* Disable transition during animation */
+  animation: none; /* Disable CSS animation when JS animation is active */
+}
+
+/* Nav fade-in keyframe */
+@keyframes navFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Hide nav when creator overlay is open */

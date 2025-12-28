@@ -1,6 +1,7 @@
 /* Page Load Curtain
- * Simple split reveal animation
- * Color inherits from page background
+ * CSS-only split reveal animation
+ * Industry standard: inline HTML, CSS animations, no JS polling
+ * Matches GSAP timing: nav at 0.2s, left panel at 0.7s, right panel at 0.8s
  */
 
 .curtain {
@@ -9,6 +10,8 @@
   z-index: 9999;
   display: flex;
   pointer-events: none;
+  /* Animation: hide after reveal completes (2.8s = 0.8s delay + 2s duration) */
+  animation: curtainHide 0.1s ease-in-out 2.8s forwards;
 }
 
 .curtain.is-complete {
@@ -22,16 +25,52 @@
 
 .curtain__panel--left {
   transform-origin: left center;
+  animation: panelSlideLeft 2s cubic-bezier(0.65, 0, 0.35, 1) 0.7s forwards;
 }
 
 .curtain__panel--right {
   transform-origin: right center;
+  animation: panelSlideRight 2s cubic-bezier(0.65, 0, 0.35, 1) 0.8s forwards;
+}
+
+/* Keyframe animations - matches GSAP power3.inOut easing */
+@keyframes panelSlideLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes panelSlideRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes curtainHide {
+  to {
+    display: none;
+  }
+}
+
+/* Skip curtain on homepage (has intro animation) */
+body.page-index .curtain {
+  display: none;
 }
 
 /* Reduced motion: no curtain */
 @media (prefers-reduced-motion: reduce) {
   .curtain {
     display: none;
+  }
+  
+  .site-header {
+    animation: none;
   }
 }
 
