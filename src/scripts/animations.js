@@ -1554,8 +1554,6 @@ function initIntro() {
  * Pulls background color from --page-bg CSS variable
  */
 function initCurtain() {
-  console.log('[CURTAIN] initCurtain called')
-  
   // Wait for curtain to exist in DOM (handles dynamic header loading)
   const checkCurtain = () => {
     const curtain = document.querySelector('.curtain')
@@ -1566,36 +1564,17 @@ function initCurtain() {
     const pathname = window.location.pathname
     const isHomepage = pathname === '/' || pathname === '/index.html' || pathname.endsWith('/index.html')
     
-    console.log('[CURTAIN] checkCurtain running', {
-      curtain: !!curtain,
-      leftPanel: !!leftPanel,
-      rightPanel: !!rightPanel,
-      nav: !!nav,
-      isHomepage,
-      prefersReducedMotion,
-      bodyClasses: document.body.className
-    })
-    
     // If curtain doesn't exist yet, wait and try again
     if (!curtain) {
-      console.log('[CURTAIN] No curtain found, retrying...')
       requestAnimationFrame(checkCurtain)
       return
     }
     
     // Skip on homepage (has its own intro) or if panels missing or reduced motion
     if (!leftPanel || !rightPanel || isHomepage || prefersReducedMotion) {
-      console.log('[CURTAIN] Skipping animation - REASON:')
-      console.log('  - No leftPanel:', !leftPanel)
-      console.log('  - No rightPanel:', !rightPanel)
-      console.log('  - Is homepage:', isHomepage)
-      console.log('  - Prefers reduced motion:', prefersReducedMotion)
-      console.log('  - Body classes:', document.body.className)
       curtain.classList.add('is-complete')
       return
     }
-    
-    console.log('[CURTAIN] Starting animation')
 
     // Add body class to control nav visibility via CSS
     document.body.classList.add('curtain-active')
@@ -1604,7 +1583,6 @@ function initCurtain() {
     // Clear any existing transforms first
     gsap.set([leftPanel, rightPanel], { clearProps: 'all' })
     gsap.set([leftPanel, rightPanel], { xPercent: 0, immediateRender: true })
-    console.log('[CURTAIN] Initial state set, leftPanel xPercent:', gsap.getProperty(leftPanel, 'xPercent'), 'rightPanel xPercent:', gsap.getProperty(rightPanel, 'xPercent'))
     if (nav) {
       gsap.set(nav, { opacity: 0, y: 20, immediateRender: true })
     }
@@ -1612,17 +1590,11 @@ function initCurtain() {
     // Create timeline with timeout fallback
     const tl = gsap.timeline({
       onComplete: () => {
-        console.log('[CURTAIN] Animation complete')
         curtain.classList.add('is-complete')
-        console.log('[CURTAIN] is-complete class added, classes:', curtain.className)
-        console.log('[CURTAIN] Curtain computed display:', window.getComputedStyle(curtain).display)
-        console.log('[CURTAIN] Curtain inline styles:', curtain.style.cssText)
         document.body.classList.remove('curtain-active')
         // Clear all GSAP inline styles so CSS can take over
         gsap.set(curtain, { clearProps: 'all' })
         gsap.set([leftPanel, rightPanel], { clearProps: 'all' })
-        console.log('[CURTAIN] After clearProps, inline styles:', curtain.style.cssText)
-        console.log('[CURTAIN] After clearProps, computed display:', window.getComputedStyle(curtain).display)
         if (nav) {
           gsap.set(nav, { clearProps: 'opacity,transform' })
         }
