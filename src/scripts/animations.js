@@ -983,12 +983,16 @@ function initPhilosophyRedaction(reducedMotion = false) {
       })
     },
     
-    // Tablet: Pinned but simplified animation
+    // Tablet: Pinned with strikethroughs animation
     "(min-width: 768px) and (max-width: 1279px)": function() {
+      // Initialize redaction boxes for tablet (show them, don't hide)
+      initializeRedactionBoxes(dimensions)
+      
       const tabletScrollMultiplier = calculateScrollMultiplier(2, 3.5, 300)
       
-      createMobileTimeline(
-        createPinnedScrollConfig({
+      // Create timeline with strikethroughs (similar to desktop but simpler)
+      const tabletTl = gsap.timeline({
+        scrollTrigger: createPinnedScrollConfig({
           trigger: philosophySection,
           start: 'top top',
           end: `+=${tabletScrollMultiplier * 100}%`,
@@ -997,7 +1001,31 @@ function initPhilosophyRedaction(reducedMotion = false) {
             ...getThemeCallbacks('bg-bone'),
           },
         })
-      )
+      })
+      
+      // First redaction box - strikethrough "Content"
+      tabletTl.to(redactionFirst, {
+        scaleX: 1,
+        ease: 'power2.inOut',
+        duration: 1,
+      }, 0.2)
+      
+      // Second redaction box - strikethrough "is king"
+      tabletTl.to(redactionSecond, {
+        scaleX: 1,
+        ease: 'power2.inOut',
+        duration: 1,
+      }, 0.35)
+      
+      // Fade in "ip is Queen" after both redactions
+      tabletTl.to(queenText, {
+        opacity: 1,
+        ease: 'power2.out',
+        duration: 0.6,
+      }, 1.4)
+      
+      // Add a pause/hold at the end
+      tabletTl.to({}, { duration: 1.2 })
     },
     
     // Desktop: Full redaction animation
