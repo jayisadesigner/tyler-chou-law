@@ -246,18 +246,44 @@ function initLoveLettersScroll(reducedMotion = false) {
   
   // Use matchMedia for responsive animations that update on resize
   ScrollTrigger.matchMedia({
-    // Mobile: Static cards, just handle theme — NO PIN, no parallax
-    // iOS Safari has issues with pinned ScrollTrigger and scrub animations
+    // Mobile: Horizontal parallax (subtle opposite direction scrolling)
+    // Top row moves right, bottom row moves left on scroll
     "(max-width: 767px)": function() {
-      // Reset cards to visible, no animation
+      const topCards = loveNotesSection.querySelectorAll('.love-notes__carousel--top .roster-card--testimonial')
+      const bottomCards = loveNotesSection.querySelectorAll('.love-notes__carousel--bottom .roster-card--testimonial')
+      
+      // Reset cards to base state
       gsap.set(cards, { x: 0, y: 0, scale: 1, opacity: 1 })
       
-      // Simple theme switch on scroll — NO PIN, no parallax
-      ScrollTrigger.create({
-        trigger: loveNotesSection,
-        start: 'top center',
-        end: 'bottom center',
-        ...getThemeCallbacks('bg-bone')
+      // Create timeline with scrub for smooth scroll-linked animation
+      const mobileTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: loveNotesSection,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+          id: 'love-notes-mobile',
+          invalidateOnRefresh: true,
+          ...getThemeCallbacks('bg-bone'),
+        },
+      })
+      
+      // Top carousel - moves right on scroll
+      topCards.forEach((card, index) => {
+        const speed = 0.6 + (index * 0.15)
+        mobileTl.to(card, {
+          x: 60 * speed,
+          ease: 'none',
+        }, 0)
+      })
+      
+      // Bottom carousel - moves left on scroll
+      bottomCards.forEach((card, index) => {
+        const speed = 0.6 + (index * 0.15)
+        mobileTl.to(card, {
+          x: -60 * speed,
+          ease: 'none',
+        }, 0)
       })
     },
     
@@ -275,6 +301,7 @@ function initLoveLettersScroll(reducedMotion = false) {
           start: 'top bottom',
           end: 'bottom top',
           scrub: 1,
+          id: 'love-notes-tablet',
           invalidateOnRefresh: true,
           ...getThemeCallbacks('bg-bone'),
         },
@@ -325,6 +352,7 @@ function initLoveLettersScroll(reducedMotion = false) {
           end: '+=500%', // Pin for 5x viewport height - enough to scroll all cards through
           scrub: 1,
           callbacks: {
+            id: 'love-notes-desktop',
             invalidateOnRefresh: true,
             ...getThemeCallbacks('bg-bone'),
           },
@@ -523,21 +551,67 @@ function initAnimations() {
   if (!ScrollTrigger) return
 
   // Section reveal animations
+  // Use ScrollTrigger.create() pattern (proven to work on mobile) instead of gsap.to with scrollTrigger
+  // This matches the working pattern used in philosophy section and love-notes
   document.querySelectorAll('.section-reveal').forEach((section) => {
-      gsap.fromTo(section, 
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          },
+    const sectionId = section.id || section.className.split(' ')[1] || 'section'
+    
+    // Set initial state - use inline style to override CSS opacity: 1
+    // This ensures sections start hidden regardless of CSS
+    section.style.opacity = '0'
+    gsap.set(section, { 
+      y: 60,
+      immediateRender: true,
+    })
+    
+    // Track if section has been animated (prevent re-animation on scroll back)
+    let hasAnimated = false
+    
+    // Check if section is already in viewport on load
+    const rect = section.getBoundingClientRect()
+    const isInView = rect.top < viewportHeight * 0.8 && rect.bottom > 0
+    
+    if (isInView) {
+      // Section already visible on load - animate immediately
+      hasAnimated = true
+      gsap.to(section, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        onComplete: () => {
+          // Clean up inline style after animation
+          section.style.opacity = ''
         }
-      )
+      })
+    } else {
+      // Use ScrollTrigger.create() pattern (works reliably on mobile)
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 80%',
+        id: `section-reveal-${sectionId}`,
+        onEnter: () => {
+          // Only animate if not already animated
+          if (!hasAnimated) {
+            hasAnimated = true
+            gsap.to(section, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+              onComplete: () => {
+                // Clean up inline style after animation
+                section.style.opacity = ''
+              }
+            })
+          }
+        },
+        // Keep section visible when scrolling back up
+        onLeaveBack: () => {
+          // Section stays visible - no action needed
+        }
+      })
+    }
   })
 
 
@@ -679,13 +753,17 @@ function initPhilosophyRedaction(reducedMotion = false) {
     const firstItemRect = firstItem.getBoundingClientRect()
     const secondItemRect = secondItem.getBoundingClientRect()
     
-    const strikethroughHeight = getSpacingValue('--space-lg')
-    const strikethroughPadding = getSpacingValue('--space-xs')
+    // Use font size for realistic overhang (0.15em is typographic standard)
+    // Use first text's font size for consistency
+    const fontSize = parseFloat(getComputedStyle(contentTextEl).fontSize)
+    const overhang = fontSize * 0.15
     
-    const firstLeft = (contentRect.left - firstItemRect.left) - strikethroughPadding
-    const secondLeft = (kingRect.left - secondItemRect.left) - strikethroughPadding
-    const firstWidth = contentRect.width + (strikethroughPadding * 2)
-    const secondWidth = kingRect.width + (strikethroughPadding * 2)
+    const strikethroughHeight = getSpacingValue('--space-lg')
+    
+    const firstLeft = (contentRect.left - firstItemRect.left) - overhang
+    const secondLeft = (kingRect.left - secondItemRect.left) - overhang
+    const firstWidth = contentRect.width + (overhang * 2)
+    const secondWidth = kingRect.width + (overhang * 2)
     
     return {
       firstWidth: Math.round(firstWidth),
@@ -714,14 +792,16 @@ function initPhilosophyRedaction(reducedMotion = false) {
   // Helper: Initialize redaction boxes
   const initializeRedactionBoxes = (dimensions) => {
     // Ensure boxes are visible and positioned correctly
+    // Override CSS display: none on mobile using GSAP (sets inline styles)
     gsap.set(redactionFirst, { 
       width: dimensions.firstWidth, 
       scaleX: 0, 
       transformOrigin: 'left center',
       height: dimensions.firstHeight,
       left: dimensions.firstLeft,
-      opacity: 1, // Ensure visible
-      visibility: 'visible' // Ensure visible
+      opacity: 1,
+      visibility: 'visible',
+      display: 'block' // Override CSS display: none - GSAP sets this as inline style
     })
     gsap.set(redactionSecond, { 
       width: dimensions.secondWidth, 
@@ -729,8 +809,9 @@ function initPhilosophyRedaction(reducedMotion = false) {
       transformOrigin: 'left center',
       height: dimensions.secondHeight,
       left: dimensions.secondLeft,
-      opacity: 1, // Ensure visible
-      visibility: 'visible' // Ensure visible
+      opacity: 1,
+      visibility: 'visible',
+      display: 'block' // Override CSS display: none - GSAP sets this as inline style
     })
     gsap.set(queenText, { opacity: 0 })
   }
@@ -835,48 +916,124 @@ function initPhilosophyRedaction(reducedMotion = false) {
 
   // Mobile-first: Use matchMedia for responsive animations
   ScrollTrigger.matchMedia({
-    // Mobile: Simple fade, NO PIN — iOS Safari has issues with pinned ScrollTrigger
+    // Mobile: Show strikethroughs and fade in queen text — NO PIN
     "(max-width: 767px)": function() {
-      // Hide redaction boxes on mobile
-      gsap.set([redactionFirst, redactionSecond], { opacity: 0, visibility: 'hidden' })
+      // Initialize redaction boxes for mobile (show them, don't hide)
+      // GSAP will set display: block as inline style to override CSS
+      initializeRedactionBoxes(dimensions)
       
-      // Simple scroll-triggered fade for queen text — NO PIN
+      // Simple scroll-triggered animation — NO PIN
       ScrollTrigger.create({
         trigger: philosophySection,
         start: 'top 60%',
         end: 'bottom 40%',
+        onRefresh: () => updateDimensions(),
+        invalidateOnRefresh: true,
         onEnter: () => {
-          gsap.to(queenText, {
+          // Create timeline for redaction animation
+          const mobileTl = gsap.timeline()
+          
+          // First redaction box - strikethrough "Content"
+          mobileTl.to(redactionFirst, {
+            scaleX: 1,
+            ease: 'power2.inOut',
+            duration: 1,
+          }, 0.2)
+          
+          // Second redaction box - strikethrough "is king"
+          mobileTl.to(redactionSecond, {
+            scaleX: 1,
+            ease: 'power2.inOut',
+            duration: 1,
+          }, 0.35)
+          
+          // Fade in "ip is Queen" after both redactions
+          mobileTl.to(queenText, {
             opacity: 1,
+            ease: 'power2.out',
             duration: 0.6,
-            ease: 'power2.out'
-          })
+          }, 1.4)
+          
           setBodyTheme('bg-bone')
         },
         onLeave: () => setBodyTheme(''),
-        onEnterBack: () => setBodyTheme('bg-bone'),
+        onEnterBack: () => {
+          // Re-trigger animation when scrolling back into view
+          const mobileTl = gsap.timeline()
+          mobileTl.to(redactionFirst, {
+            scaleX: 1,
+            ease: 'power2.inOut',
+            duration: 1,
+          }, 0.2)
+          mobileTl.to(redactionSecond, {
+            scaleX: 1,
+            ease: 'power2.inOut',
+            duration: 1,
+          }, 0.35)
+          mobileTl.to(queenText, {
+            opacity: 1,
+            ease: 'power2.out',
+            duration: 0.6,
+          }, 1.4)
+          setBodyTheme('bg-bone')
+        },
         onLeaveBack: () => {
+          // Reset when scrolling back up (but keep display: block)
+          gsap.set([redactionFirst, redactionSecond], { 
+            scaleX: 0,
+            display: 'block' // Maintain visibility - GSAP sets as inline style
+          })
           gsap.to(queenText, { opacity: 0, duration: 0.3 })
           setBodyTheme('')
         }
       })
     },
     
-    // Tablet: Pinned but simplified animation
+    // Tablet: Pinned with strikethroughs animation
     "(min-width: 768px) and (max-width: 1279px)": function() {
+      // Initialize redaction boxes for tablet (show them, don't hide)
+      initializeRedactionBoxes(dimensions)
+      
       const tabletScrollMultiplier = calculateScrollMultiplier(2, 3.5, 300)
       
-      createMobileTimeline(
-        createPinnedScrollConfig({
+      // Create timeline with strikethroughs (similar to desktop but simpler)
+      const tabletTl = gsap.timeline({
+        scrollTrigger: createPinnedScrollConfig({
           trigger: philosophySection,
           start: 'top top',
           end: `+=${tabletScrollMultiplier * 100}%`,
           scrub: 2,
           callbacks: {
+            onRefresh: () => updateDimensions(),
+            invalidateOnRefresh: true,
             ...getThemeCallbacks('bg-bone'),
           },
         })
-      )
+      })
+      
+      // First redaction box - strikethrough "Content"
+      tabletTl.to(redactionFirst, {
+        scaleX: 1,
+        ease: 'power2.inOut',
+        duration: 1,
+      }, 0.2)
+      
+      // Second redaction box - strikethrough "is king"
+      tabletTl.to(redactionSecond, {
+        scaleX: 1,
+        ease: 'power2.inOut',
+        duration: 1,
+      }, 0.35)
+      
+      // Fade in "ip is Queen" after both redactions
+      tabletTl.to(queenText, {
+        opacity: 1,
+        ease: 'power2.out',
+        duration: 0.6,
+      }, 1.4)
+      
+      // Add a pause/hold at the end
+      tabletTl.to({}, { duration: 1.2 })
     },
     
     // Desktop: Full redaction animation
@@ -942,8 +1099,8 @@ function initCredentialsShadow(reducedMotion = false) {
     gsap.set(credentialsBadge, { clearProps: 'transform', rotation: 0 })
   }
 
-  // Use ScrollTrigger's refresh to ensure proper calculations
-  ScrollTrigger.refresh()
+  // NOTE: Removed ScrollTrigger.refresh() here - it was causing issues with other 
+  // section animations. The calculateScroll function handles layout timing internally.
 
   // Calculate scroll distance after a brief delay to ensure layout is ready
   const calculateScroll = () => {
@@ -1242,8 +1399,11 @@ function initIntro() {
   window.scrollTo(0, 0)
   document.body.classList.add('intro-active')
 
+  // Add body class to control nav visibility via CSS (same as curtain)
+  document.body.classList.add('curtain-active')
+
   // Set initial states
-  gsap.set(nav, { opacity: 0 })
+  gsap.set(nav, { opacity: 0, y: 20, immediateRender: true })
   gsap.set(heroContent, { opacity: 0 })
   gsap.set([leftVideo, centerVideo, rightVideo], {
     transformOrigin: 'center center'
@@ -1281,17 +1441,19 @@ function initIntro() {
     onComplete: () => {
       intro.classList.add('is-complete')
       document.body.classList.remove('intro-active')
+      document.body.classList.remove('curtain-active')
       // Clean up — let existing CSS/animations take over
-      gsap.set(nav, { clearProps: 'opacity' })
+      gsap.set(nav, { clearProps: 'opacity,transform' })
     }
   })
 
-  // Step 1: Nav fades in (0–500ms)
+  // Step 1: Nav fades in and slides up (0.2s delay, 1.6s duration, completes by 1.8s)
   tl.to(nav, {
     opacity: 1,
-    duration: 0.5,
+    y: 0,
+    duration: 1.6,
     ease: 'power2.out'
-  }, 0)
+  }, 0.2) // Small delay before fade-in starts
 
   // Step 2: Center video shrinks vertically (700ms–1300ms) - longer pause before scaling
   tl.to(centerVideo, {
@@ -1395,6 +1557,7 @@ function initCurtain() {
   const curtain = document.querySelector('.curtain')
   const leftPanel = document.querySelector('.curtain__panel--left')
   const rightPanel = document.querySelector('.curtain__panel--right')
+  const nav = document.querySelector('.site-header')
   const isHomepage = document.body.classList.contains('page-index')
   
   // Skip on homepage (has its own intro) or if no curtain element
@@ -1403,15 +1566,38 @@ function initCurtain() {
     return
   }
 
-  // Set initial state — panels cover screen
+  // Add body class to control nav visibility via CSS
+  document.body.classList.add('curtain-active')
+
+  // Set initial state — panels cover screen, nav hidden
   gsap.set([leftPanel, rightPanel], { xPercent: 0 })
+  if (nav) {
+    // Set initial opacity 0 and position below - CSS class handles the initial state
+    gsap.set(nav, { opacity: 0, y: 20, immediateRender: true })
+  }
 
   // Create timeline
   const tl = gsap.timeline({
     onComplete: () => {
       curtain.classList.add('is-complete')
+      document.body.classList.remove('curtain-active')
+      // Clean up nav styles after animation
+      if (nav) {
+        gsap.set(nav, { clearProps: 'opacity,transform' })
+      }
     }
   })
+
+  // Nav fades in and slides up first, before curtain animation (starts at 0.2s delay, completes by 1.8s)
+  if (nav) {
+    tl.to(nav, {
+      opacity: 1,
+      y: 0,
+      duration: 1.6,
+      ease: 'power2.out',
+      overwrite: true
+    }, 0.2) // Small delay before fade-in starts
+  }
 
   // Curtains split open - staggered for dynamic effect
   tl.to(leftPanel, {
