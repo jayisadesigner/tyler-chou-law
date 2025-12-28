@@ -7,7 +7,7 @@
   left: 0;
   background: var(--obsidian);
   color: var(--bone);
-  padding: 8px;
+  padding: var(--space-xs);
   text-decoration: none;
   z-index: 100;
 }
