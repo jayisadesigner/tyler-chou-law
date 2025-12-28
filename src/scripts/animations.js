@@ -1416,13 +1416,13 @@ function initCurtain() {
   // Curtains split open
   tl.to(leftPanel, {
     xPercent: -100,
-    duration: 0.7,
+    duration: 1.2,
     ease: 'power3.inOut'
   }, 0)
 
   tl.to(rightPanel, {
     xPercent: 100,
-    duration: 0.7,
+    duration: 1.2,
     ease: 'power3.inOut'
   }, 0)
 }
