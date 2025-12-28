@@ -1583,12 +1583,12 @@ function initCurtain() {
     
     // Skip on homepage (has its own intro) or if panels missing or reduced motion
     if (!leftPanel || !rightPanel || isHomepage || prefersReducedMotion) {
-      console.log('[CURTAIN] Skipping animation:', {
-        noLeftPanel: !leftPanel,
-        noRightPanel: !rightPanel,
-        isHomepage,
-        prefersReducedMotion
-      })
+      console.log('[CURTAIN] Skipping animation - REASON:')
+      console.log('  - No leftPanel:', !leftPanel)
+      console.log('  - No rightPanel:', !rightPanel)
+      console.log('  - Is homepage:', isHomepage)
+      console.log('  - Prefers reduced motion:', prefersReducedMotion)
+      console.log('  - Body classes:', document.body.className)
       curtain.classList.add('is-complete')
       return
     }
