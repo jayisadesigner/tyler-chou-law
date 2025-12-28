@@ -16,6 +16,12 @@
   padding-top: env(safe-area-inset-top, 0px);
 }
 
+/* Hide nav initially when curtain is animating (non-homepage pages) */
+body.curtain-active:not(.page-index) .site-header {
+  opacity: 0;
+  transition: none; /* Disable transition during curtain animation */
+}
+
 /* Hide nav when creator overlay is open */
 body.creator-overlay-open .site-header,
 body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
