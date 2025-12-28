@@ -2387,6 +2387,12 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   margin-bottom: var(--space-md);
 }
 
+/* Buttons in content sections - add top margin for spacing */
+.content-section__body .btn,
+.content-section__content .btn {
+  margin-top: var(--space-md);
+}
+
 /* Media area - default contained behavior (styles moved to --media-bleed modifier above) */
 
 /* Stacked modifier - keeps vertical layout on desktop instead of 50/50 */
