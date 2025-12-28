@@ -788,7 +788,7 @@ function initPhilosophyRedaction(reducedMotion = false) {
   // Helper: Initialize redaction boxes
   const initializeRedactionBoxes = (dimensions) => {
     // Ensure boxes are visible and positioned correctly
-    // Override CSS display: none on mobile
+    // Override CSS display: none on mobile using GSAP (sets inline styles)
     gsap.set(redactionFirst, { 
       width: dimensions.firstWidth, 
       scaleX: 0, 
@@ -797,7 +797,7 @@ function initPhilosophyRedaction(reducedMotion = false) {
       left: dimensions.firstLeft,
       opacity: 1,
       visibility: 'visible',
-      display: 'block' // Override CSS display: none on mobile
+      display: 'block' // Override CSS display: none - GSAP sets this as inline style
     })
     gsap.set(redactionSecond, { 
       width: dimensions.secondWidth, 
@@ -807,7 +807,7 @@ function initPhilosophyRedaction(reducedMotion = false) {
       left: dimensions.secondLeft,
       opacity: 1,
       visibility: 'visible',
-      display: 'block' // Override CSS display: none on mobile
+      display: 'block' // Override CSS display: none - GSAP sets this as inline style
     })
     gsap.set(queenText, { opacity: 0 })
   }
@@ -914,11 +914,8 @@ function initPhilosophyRedaction(reducedMotion = false) {
   ScrollTrigger.matchMedia({
     // Mobile: Show strikethroughs and fade in queen text — NO PIN
     "(max-width: 767px)": function() {
-      // Override CSS display: none on mobile - set inline style first
-      redactionFirst.style.display = 'block'
-      redactionSecond.style.display = 'block'
-      
       // Initialize redaction boxes for mobile (show them, don't hide)
+      // GSAP will set display: block as inline style to override CSS
       initializeRedactionBoxes(dimensions)
       
       // Simple scroll-triggered animation — NO PIN
@@ -976,12 +973,12 @@ function initPhilosophyRedaction(reducedMotion = false) {
         },
         onLeaveBack: () => {
           // Reset when scrolling back up (but keep display: block)
-          gsap.set([redactionFirst, redactionSecond], { scaleX: 0 })
+          gsap.set([redactionFirst, redactionSecond], { 
+            scaleX: 0,
+            display: 'block' // Maintain visibility - GSAP sets as inline style
+          })
           gsap.to(queenText, { opacity: 0, duration: 0.3 })
           setBodyTheme('')
-          // Ensure boxes stay visible (override CSS display: none)
-          redactionFirst.style.display = 'block'
-          redactionSecond.style.display = 'block'
         }
       })
     },
