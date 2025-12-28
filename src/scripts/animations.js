@@ -1562,7 +1562,9 @@ function initCurtain() {
     const leftPanel = document.querySelector('.curtain__panel--left')
     const rightPanel = document.querySelector('.curtain__panel--right')
     const nav = document.querySelector('.site-header')
-    const isHomepage = document.body.classList.contains('page-index')
+    // Check URL pathname instead of body class (body class is unreliable on Netlify)
+    const pathname = window.location.pathname
+    const isHomepage = pathname === '/' || pathname === '/index.html' || pathname.endsWith('/index.html')
     
     console.log('[CURTAIN] checkCurtain running', {
       curtain: !!curtain,
