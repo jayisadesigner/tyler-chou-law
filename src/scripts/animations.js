@@ -1554,63 +1554,85 @@ function initIntro() {
  * Pulls background color from --page-bg CSS variable
  */
 function initCurtain() {
-  const curtain = document.querySelector('.curtain')
-  const leftPanel = document.querySelector('.curtain__panel--left')
-  const rightPanel = document.querySelector('.curtain__panel--right')
-  const nav = document.querySelector('.site-header')
-  const isHomepage = document.body.classList.contains('page-index')
-  
-  // Skip on homepage (has its own intro) or if no curtain element
-  if (!curtain || !leftPanel || !rightPanel || isHomepage || prefersReducedMotion) {
-    curtain?.classList.add('is-complete')
-    return
-  }
-
-  // Add body class to control nav visibility via CSS
-  document.body.classList.add('curtain-active')
-
-  // Set initial state — panels cover screen, nav hidden
-  gsap.set([leftPanel, rightPanel], { xPercent: 0 })
-  if (nav) {
-    // Set initial opacity 0 and position below - CSS class handles the initial state
-    gsap.set(nav, { opacity: 0, y: 20, immediateRender: true })
-  }
-
-  // Create timeline
-  const tl = gsap.timeline({
-    onComplete: () => {
-      curtain.classList.add('is-complete')
-      document.body.classList.remove('curtain-active')
-      // Clean up nav styles after animation
-      if (nav) {
-        gsap.set(nav, { clearProps: 'opacity,transform' })
-      }
+  // Wait for curtain to exist in DOM (handles dynamic header loading)
+  const checkCurtain = () => {
+    const curtain = document.querySelector('.curtain')
+    const leftPanel = document.querySelector('.curtain__panel--left')
+    const rightPanel = document.querySelector('.curtain__panel--right')
+    const nav = document.querySelector('.site-header')
+    const isHomepage = document.body.classList.contains('page-index')
+    
+    // If curtain doesn't exist yet, wait and try again
+    if (!curtain) {
+      requestAnimationFrame(checkCurtain)
+      return
     }
-  })
+    
+    // Skip on homepage (has its own intro) or if panels missing or reduced motion
+    if (!leftPanel || !rightPanel || isHomepage || prefersReducedMotion) {
+      curtain.classList.add('is-complete')
+      return
+    }
 
-  // Nav fades in and slides up first, before curtain animation (starts at 0.2s delay, completes by 1.8s)
-  if (nav) {
-    tl.to(nav, {
-      opacity: 1,
-      y: 0,
-      duration: 1.6,
-      ease: 'power2.out',
-      overwrite: true
-    }, 0.2) // Small delay before fade-in starts
+    // Add body class to control nav visibility via CSS
+    document.body.classList.add('curtain-active')
+
+    // Set initial state — panels cover screen, nav hidden
+    gsap.set([leftPanel, rightPanel], { xPercent: 0 })
+    if (nav) {
+      gsap.set(nav, { opacity: 0, y: 20, immediateRender: true })
+    }
+
+    // Create timeline with timeout fallback
+    const tl = gsap.timeline({
+      onComplete: () => {
+        curtain.classList.add('is-complete')
+        document.body.classList.remove('curtain-active')
+        if (nav) {
+          gsap.set(nav, { clearProps: 'opacity,transform' })
+        }
+      }
+    })
+
+    // Nav fades in and slides up first
+    if (nav) {
+      tl.to(nav, {
+        opacity: 1,
+        y: 0,
+        duration: 1.6,
+        ease: 'power2.out',
+        overwrite: true
+      }, 0.2)
+    }
+
+    // Curtains split open - staggered for dynamic effect
+    tl.to(leftPanel, {
+      xPercent: -100,
+      duration: 2.0,
+      ease: 'power3.inOut'
+    }, 0.7)
+
+    tl.to(rightPanel, {
+      xPercent: 100,
+      duration: 2.0,
+      ease: 'power3.inOut'
+    }, 0.8)
+
+    // Fallback: hide curtain after 5 seconds if animation doesn't complete
+    setTimeout(() => {
+      if (!curtain.classList.contains('is-complete')) {
+        console.warn('Curtain animation timeout, hiding curtain')
+        curtain.classList.add('is-complete')
+        document.body.classList.remove('curtain-active')
+        if (nav) {
+          gsap.set(nav, { clearProps: 'opacity,transform' })
+        }
+      }
+    }, 5000)
   }
 
-  // Curtains split open - staggered for dynamic effect
-  tl.to(leftPanel, {
-    xPercent: -100,
-    duration: 2.0,
-    ease: 'power3.inOut'
-  }, 0.7)
-
-  tl.to(rightPanel, {
-    xPercent: 100,
-    duration: 2.0,
-    ease: 'power3.inOut'
-  }, 0.8) // Slight 100ms stagger after left panel
+  // Start checking for curtain
+  checkCurtain()
 }
 
 
