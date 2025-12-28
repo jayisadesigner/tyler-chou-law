@@ -526,56 +526,68 @@ function initAnimations() {
   if (!ScrollTrigger) return
 
   // Section reveal animations
-  // These are independent from any matchMedia contexts and work on all viewport sizes
+  // Use ScrollTrigger.create() pattern (proven to work on mobile) instead of gsap.to with scrollTrigger
+  // This matches the working pattern used in philosophy section and love-notes
   document.querySelectorAll('.section-reveal').forEach((section) => {
-    // Create ScrollTrigger with explicit ID for debugging and isolation
     const sectionId = section.id || section.className.split(' ')[1] || 'section'
     
-    // Set initial state to ensure sections start hidden (force override CSS opacity: 1)
-    // Use immediateRender: true to ensure it applies before ScrollTrigger checks
+    // Set initial state - use inline style to override CSS opacity: 1
+    // This ensures sections start hidden regardless of CSS
+    section.style.opacity = '0'
     gsap.set(section, { 
-      opacity: 0, 
       y: 60,
       immediateRender: true,
-      force3D: true // Force GPU acceleration for reliable override
     })
     
-    // Check if section is already in viewport - if so, animate immediately
+    // Track if section has been animated (prevent re-animation on scroll back)
+    let hasAnimated = false
+    
+    // Check if section is already in viewport on load
     const rect = section.getBoundingClientRect()
     const isInView = rect.top < viewportHeight * 0.8 && rect.bottom > 0
     
     if (isInView) {
-      // Section is already in view, animate immediately
+      // Section already visible on load - animate immediately
+      hasAnimated = true
       gsap.to(section, {
         opacity: 1,
         y: 0,
         duration: 0.8,
         ease: 'power2.out',
+        onComplete: () => {
+          // Clean up inline style after animation
+          section.style.opacity = ''
+        }
       })
     } else {
-      // Section not yet in view, use ScrollTrigger
-      gsap.to(section, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 80%',
-          toggleActions: 'play none none none',
-          id: `section-reveal-${sectionId}`,
-          // Ensure this ScrollTrigger is not affected by other contexts
-          refreshPriority: -1, // Lower priority, processed after pinned sections
-          // Explicitly use the default scroller (works with Lenis proxy if active)
-          scroller: lenis ? document.body : window,
+      // Use ScrollTrigger.create() pattern (works reliably on mobile)
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 80%',
+        id: `section-reveal-${sectionId}`,
+        onEnter: () => {
+          // Only animate if not already animated
+          if (!hasAnimated) {
+            hasAnimated = true
+            gsap.to(section, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+              onComplete: () => {
+                // Clean up inline style after animation
+                section.style.opacity = ''
+              }
+            })
+          }
         },
+        // Keep section visible when scrolling back up
+        onLeaveBack: () => {
+          // Section stays visible - no action needed
+        }
       })
     }
   })
-  
-  // Refresh ScrollTrigger after all section-reveal animations are created
-  // This ensures they're properly registered, especially when Lenis is active
-  ScrollTrigger.refresh()
 
 
   // Flower rotation animations
