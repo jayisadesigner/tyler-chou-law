@@ -1242,8 +1242,11 @@ function initIntro() {
   window.scrollTo(0, 0)
   document.body.classList.add('intro-active')
 
+  // Add body class to control nav visibility via CSS (same as curtain)
+  document.body.classList.add('curtain-active')
+
   // Set initial states
-  gsap.set(nav, { opacity: 0 })
+  gsap.set(nav, { opacity: 0, y: 20, immediateRender: true })
   gsap.set(heroContent, { opacity: 0 })
   gsap.set([leftVideo, centerVideo, rightVideo], {
     transformOrigin: 'center center'
@@ -1281,17 +1284,19 @@ function initIntro() {
     onComplete: () => {
       intro.classList.add('is-complete')
       document.body.classList.remove('intro-active')
+      document.body.classList.remove('curtain-active')
       // Clean up — let existing CSS/animations take over
-      gsap.set(nav, { clearProps: 'opacity' })
+      gsap.set(nav, { clearProps: 'opacity,transform' })
     }
   })
 
-  // Step 1: Nav fades in (0–500ms)
+  // Step 1: Nav fades in and slides up (0.2s delay, 1.6s duration, completes by 1.8s)
   tl.to(nav, {
     opacity: 1,
-    duration: 0.5,
+    y: 0,
+    duration: 1.6,
     ease: 'power2.out'
-  }, 0)
+  }, 0.2) // Small delay before fade-in starts
 
   // Step 2: Center video shrinks vertically (700ms–1300ms) - longer pause before scaling
   tl.to(centerVideo, {
@@ -1395,6 +1400,7 @@ function initCurtain() {
   const curtain = document.querySelector('.curtain')
   const leftPanel = document.querySelector('.curtain__panel--left')
   const rightPanel = document.querySelector('.curtain__panel--right')
+  const nav = document.querySelector('.site-header')
   const isHomepage = document.body.classList.contains('page-index')
   
   // Skip on homepage (has its own intro) or if no curtain element
@@ -1403,15 +1409,38 @@ function initCurtain() {
     return
   }
 
-  // Set initial state — panels cover screen
+  // Add body class to control nav visibility via CSS
+  document.body.classList.add('curtain-active')
+
+  // Set initial state — panels cover screen, nav hidden
   gsap.set([leftPanel, rightPanel], { xPercent: 0 })
+  if (nav) {
+    // Set initial opacity 0 and position below - CSS class handles the initial state
+    gsap.set(nav, { opacity: 0, y: 20, immediateRender: true })
+  }
 
   // Create timeline
   const tl = gsap.timeline({
     onComplete: () => {
       curtain.classList.add('is-complete')
+      document.body.classList.remove('curtain-active')
+      // Clean up nav styles after animation
+      if (nav) {
+        gsap.set(nav, { clearProps: 'opacity,transform' })
+      }
     }
   })
+
+  // Nav fades in and slides up first, before curtain animation (starts at 0.2s delay, completes by 1.8s)
+  if (nav) {
+    tl.to(nav, {
+      opacity: 1,
+      y: 0,
+      duration: 1.6,
+      ease: 'power2.out',
+      overwrite: true
+    }, 0.2) // Small delay before fade-in starts
+  }
 
   // Curtains split open - staggered for dynamic effect
   tl.to(leftPanel, {
