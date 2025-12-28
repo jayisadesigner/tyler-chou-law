@@ -246,19 +246,44 @@ function initLoveLettersScroll(reducedMotion = false) {
   
   // Use matchMedia for responsive animations that update on resize
   ScrollTrigger.matchMedia({
-    // Mobile: Static cards, just handle theme — NO PIN, no parallax
-    // iOS Safari has issues with pinned ScrollTrigger and scrub animations
+    // Mobile: Horizontal parallax (subtle opposite direction scrolling)
+    // Top row moves right, bottom row moves left on scroll
     "(max-width: 767px)": function() {
-      // Reset cards to visible, no animation
+      const topCards = loveNotesSection.querySelectorAll('.love-notes__carousel--top .roster-card--testimonial')
+      const bottomCards = loveNotesSection.querySelectorAll('.love-notes__carousel--bottom .roster-card--testimonial')
+      
+      // Reset cards to base state
       gsap.set(cards, { x: 0, y: 0, scale: 1, opacity: 1 })
       
-      // Simple theme switch on scroll — NO PIN, no parallax
-      ScrollTrigger.create({
-        trigger: loveNotesSection,
-        start: 'top center',
-        end: 'bottom center',
-        id: 'love-notes-mobile-theme',
-        ...getThemeCallbacks('bg-bone')
+      // Create timeline with scrub for smooth scroll-linked animation
+      const mobileTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: loveNotesSection,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+          id: 'love-notes-mobile',
+          invalidateOnRefresh: true,
+          ...getThemeCallbacks('bg-bone'),
+        },
+      })
+      
+      // Top carousel - moves right on scroll
+      topCards.forEach((card, index) => {
+        const speed = 0.6 + (index * 0.15)
+        mobileTl.to(card, {
+          x: 60 * speed,
+          ease: 'none',
+        }, 0)
+      })
+      
+      // Bottom carousel - moves left on scroll
+      bottomCards.forEach((card, index) => {
+        const speed = 0.6 + (index * 0.15)
+        mobileTl.to(card, {
+          x: -60 * speed,
+          ease: 'none',
+        }, 0)
       })
     },
     
