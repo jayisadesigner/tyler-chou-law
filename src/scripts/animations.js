@@ -531,9 +531,30 @@ function initAnimations() {
     // Create ScrollTrigger with explicit ID for debugging and isolation
     const sectionId = section.id || section.className.split(' ')[1] || 'section'
     
-    gsap.fromTo(section, 
-      { opacity: 0, y: 60 },
-      {
+    // Set initial state to ensure sections start hidden (force override CSS opacity: 1)
+    // Use immediateRender: true to ensure it applies before ScrollTrigger checks
+    gsap.set(section, { 
+      opacity: 0, 
+      y: 60,
+      immediateRender: true,
+      force3D: true // Force GPU acceleration for reliable override
+    })
+    
+    // Check if section is already in viewport - if so, animate immediately
+    const rect = section.getBoundingClientRect()
+    const isInView = rect.top < viewportHeight * 0.8 && rect.bottom > 0
+    
+    if (isInView) {
+      // Section is already in view, animate immediately
+      gsap.to(section, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+      })
+    } else {
+      // Section not yet in view, use ScrollTrigger
+      gsap.to(section, {
         opacity: 1,
         y: 0,
         duration: 0.8,
@@ -545,10 +566,16 @@ function initAnimations() {
           id: `section-reveal-${sectionId}`,
           // Ensure this ScrollTrigger is not affected by other contexts
           refreshPriority: -1, // Lower priority, processed after pinned sections
+          // Explicitly use the default scroller (works with Lenis proxy if active)
+          scroller: lenis ? document.body : window,
         },
-      }
-    )
+      })
+    }
   })
+  
+  // Refresh ScrollTrigger after all section-reveal animations are created
+  // This ensures they're properly registered, especially when Lenis is active
+  ScrollTrigger.refresh()
 
 
   // Flower rotation animations
