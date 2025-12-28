@@ -56,7 +56,8 @@ Blog posts are pre-rendered at build time:
 Decap CMS is available at:
 - Local: `http://localhost:3000/admin`
 - Production: `https://[your-site].netlify.app/admin`
-- Requires Netlify Identity to be enabled
+- Uses GitHub OAuth for authentication (requires GitHub account)
+- Users need write access to the repository
 
 ## Troubleshooting
 
