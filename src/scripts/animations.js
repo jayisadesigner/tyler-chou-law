@@ -1601,7 +1601,10 @@ function initCurtain() {
     document.body.classList.add('curtain-active')
 
     // Set initial state — panels cover screen, nav hidden
-    gsap.set([leftPanel, rightPanel], { xPercent: 0 })
+    // Clear any existing transforms first
+    gsap.set([leftPanel, rightPanel], { clearProps: 'all' })
+    gsap.set([leftPanel, rightPanel], { xPercent: 0, immediateRender: true })
+    console.log('[CURTAIN] Initial state set, leftPanel xPercent:', gsap.getProperty(leftPanel, 'xPercent'), 'rightPanel xPercent:', gsap.getProperty(rightPanel, 'xPercent'))
     if (nav) {
       gsap.set(nav, { opacity: 0, y: 20, immediateRender: true })
     }
