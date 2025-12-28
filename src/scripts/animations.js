@@ -753,13 +753,17 @@ function initPhilosophyRedaction(reducedMotion = false) {
     const firstItemRect = firstItem.getBoundingClientRect()
     const secondItemRect = secondItem.getBoundingClientRect()
     
-    const strikethroughHeight = getSpacingValue('--space-lg')
-    const strikethroughPadding = getSpacingValue('--space-xs')
+    // Use font size for realistic overhang (0.15em is typographic standard)
+    // Use first text's font size for consistency
+    const fontSize = parseFloat(getComputedStyle(contentTextEl).fontSize)
+    const overhang = fontSize * 0.15
     
-    const firstLeft = (contentRect.left - firstItemRect.left) - strikethroughPadding
-    const secondLeft = (kingRect.left - secondItemRect.left) - strikethroughPadding
-    const firstWidth = contentRect.width + (strikethroughPadding * 2)
-    const secondWidth = kingRect.width + (strikethroughPadding * 2)
+    const strikethroughHeight = getSpacingValue('--space-lg')
+    
+    const firstLeft = (contentRect.left - firstItemRect.left) - overhang
+    const secondLeft = (kingRect.left - secondItemRect.left) - overhang
+    const firstWidth = contentRect.width + (overhang * 2)
+    const secondWidth = kingRect.width + (overhang * 2)
     
     return {
       firstWidth: Math.round(firstWidth),
@@ -923,6 +927,8 @@ function initPhilosophyRedaction(reducedMotion = false) {
         trigger: philosophySection,
         start: 'top 60%',
         end: 'bottom 40%',
+        onRefresh: () => updateDimensions(),
+        invalidateOnRefresh: true,
         onEnter: () => {
           // Create timeline for redaction animation
           const mobileTl = gsap.timeline()
@@ -998,6 +1004,8 @@ function initPhilosophyRedaction(reducedMotion = false) {
           end: `+=${tabletScrollMultiplier * 100}%`,
           scrub: 2,
           callbacks: {
+            onRefresh: () => updateDimensions(),
+            invalidateOnRefresh: true,
             ...getThemeCallbacks('bg-bone'),
           },
         })
