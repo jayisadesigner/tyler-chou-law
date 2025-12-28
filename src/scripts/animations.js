@@ -1611,6 +1611,7 @@ function initCurtain() {
       onComplete: () => {
         console.log('[CURTAIN] Animation complete')
         curtain.classList.add('is-complete')
+        console.log('[CURTAIN] is-complete class added, classes:', curtain.className)
         document.body.classList.remove('curtain-active')
         // Clear all GSAP inline styles so CSS can take over
         gsap.set(curtain, { clearProps: 'all' })
@@ -1618,7 +1619,10 @@ function initCurtain() {
         if (nav) {
           gsap.set(nav, { clearProps: 'opacity,transform' })
         }
-        console.log('[CURTAIN] Styles cleared, curtain should be hidden')
+        console.log('[CURTAIN] Styles cleared')
+        console.log('[CURTAIN] Curtain element:', curtain)
+        console.log('[CURTAIN] Computed display:', window.getComputedStyle(curtain).display)
+        console.log('[CURTAIN] Has is-complete:', curtain.classList.contains('is-complete'))
       }
     })
 
