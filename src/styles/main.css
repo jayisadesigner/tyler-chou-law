@@ -30,11 +30,10 @@ body {
   /* Fade transitions can be added per-page as needed */
 }
 
-/* Page-specific backgrounds with CSS variable for sections */
+/* Page-specific backgrounds with CSS variable for sections and curtain */
 body.page-creatorarq {
   background-color: var(--palo-verde-700);
   --page-bg-color: var(--palo-verde-700);
-  --page-bg: var(--palo-verde-700); /* For curtain animation */
 }
 
 body.page-index,
@@ -47,13 +46,11 @@ body.page-creatorarq-apply,
 body.page-creator {
   background-color: var(--chuparosa-600);
   --page-bg-color: var(--chuparosa-600);
-  --page-bg: var(--chuparosa-600); /* For curtain animation */
 }
 
 /* Default fallback */
 body {
   --page-bg-color: var(--chuparosa-600);
-  --page-bg: var(--chuparosa-600); /* For curtain animation */
 }
 
 /* Page background changes when Palo Verde section is in view */
