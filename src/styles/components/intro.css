@@ -85,7 +85,7 @@ body.intro-active {
   font-weight: 500; /* Match h1/hero headlines */
   color: var(--bone);
   text-transform: uppercase;
-  letter-spacing: -0.03em; /* Match h1/hero headlines */
+  letter-spacing: -0.01em; /* Looser tracking for better readability at massive sizes */
   line-height: var(--text-h1-line-height); /* Use responsive variable (0.9 mobile, 0.85 desktop) */
   white-space: nowrap;
   z-index: 10;
