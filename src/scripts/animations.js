@@ -349,7 +349,7 @@ function initLoveLettersScroll(reducedMotion = false) {
         scrollTrigger: createPinnedScrollConfig({
           trigger: loveNotesSection,
           start: 'top top',
-          end: '+=500%', // Pin for 5x viewport height - enough to scroll all cards through
+          end: '+=1200%', // Pin for 12x viewport height - ensures all cards fully scroll through
           scrub: 1,
           callbacks: {
             id: 'love-notes-desktop',
@@ -371,8 +371,9 @@ function initLoveLettersScroll(reducedMotion = false) {
         // depth 1 (back) = slower movement (less distance)
         // depth 2 (mid) = normal movement
         // depth 3 (front) = faster movement (more distance)
-        const depthMultipliers = { 1: 0.8, 2: 1.2, 3: 1.5 }
-        const yMovement = -viewportHeight * (depthMultipliers[depth] || 1.2)
+        // Increased multipliers to ensure all cards fully scroll through viewport
+        const depthMultipliers = { 1: 1.5, 2: 2.0, 3: 2.5 }
+        const yMovement = -viewportHeight * (depthMultipliers[depth] || 2.0)
         
         desktopTl.to(card, {
           y: yMovement,
@@ -1381,7 +1382,6 @@ function initIntro() {
   const centerVideo = document.querySelector('.intro__video--center') // wrapper
   const leftVideo = document.querySelector('.intro__video--left') // wrapper
   const rightVideo = document.querySelector('.intro__video--right') // wrapper
-  const nav = document.querySelector('.site-header')
   const heroContent = document.querySelector('.hero-content')
   const nameElement = document.querySelector('.intro__name[js-char-animation]')
 
@@ -1403,7 +1403,6 @@ function initIntro() {
   document.body.classList.add('curtain-active')
 
   // Set initial states
-  gsap.set(nav, { opacity: 0, y: 20, immediateRender: true })
   gsap.set(heroContent, { opacity: 0 })
   gsap.set([leftVideo, centerVideo, rightVideo], {
     transformOrigin: 'center center'
@@ -1442,18 +1441,9 @@ function initIntro() {
       intro.classList.add('is-complete')
       document.body.classList.remove('intro-active')
       document.body.classList.remove('curtain-active')
-      // Clean up — let existing CSS/animations take over
-      gsap.set(nav, { clearProps: 'opacity,transform' })
+      // CSS handles nav animation - no cleanup needed
     }
   })
-
-  // Step 1: Nav fades in and slides up (0.2s delay, 1.6s duration, completes by 1.8s)
-  tl.to(nav, {
-    opacity: 1,
-    y: 0,
-    duration: 1.6,
-    ease: 'power2.out'
-  }, 0.2) // Small delay before fade-in starts
 
   // Step 2: Center video shrinks vertically (700ms–1300ms) - longer pause before scaling
   tl.to(centerVideo, {

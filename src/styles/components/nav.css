@@ -14,21 +14,32 @@
   transition: opacity 0.3s ease, visibility 0.3s ease;
   /* Respect iOS safe area (notch) */
   padding-top: env(safe-area-inset-top, 0px);
-  /* Nav fade-in animation on page load (non-homepage only) */
-  animation: navFadeIn 1.6s ease-out 0.2s forwards;
-}
-
-/* Skip nav animation on homepage (has intro animation) */
-body.page-index .site-header {
-  animation: none;
-}
-
-/* Hide nav initially during homepage intro animation */
-body.curtain-active:not(.page-index) .site-header,
-body.intro-active .site-header {
+  /* Initial hidden state - specific rules handle animation */
   opacity: 0;
-  transition: none; /* Disable transition during animation */
-  animation: none; /* Disable CSS animation when JS animation is active */
+  transform: translateY(20px);
+  /* Prevent flash by disabling transition during initial state */
+  animation-fill-mode: backwards;
+}
+
+/* Homepage nav: fades in during intro (CSS-only, faster timing) */
+body.page-index .site-header {
+  /* Nav fades in at 0.3s delay, 0.8s duration (faster, more responsive) */
+  /* animation-fill-mode: backwards keeps initial state during delay */
+  animation: navFadeIn 0.8s ease-out 0.3s both;
+}
+
+/* Non-homepage pages: nav fades in on page load */
+body:not(.page-index) .site-header {
+  /* Nav fade-in animation on page load (faster, more responsive) */
+  /* animation-fill-mode: backwards keeps initial state during delay */
+  animation: navFadeIn 0.8s ease-out 0.3s both;
+}
+
+/* Hide nav initially during curtain animation (non-homepage) */
+body.curtain-active:not(.page-index) .site-header {
+  opacity: 0;
+  transition: none;
+  animation: none; /* Disable CSS animation when curtain is active */
 }
 
 /* Nav fade-in keyframe */
