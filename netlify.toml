@@ -2,13 +2,6 @@
   command = "npm run build"
   publish = "dist"
 
-# Redirect all requests to index.html for SPA routing
-# Netlify automatically serves static files (assets) before applying redirects
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 # Ensure assets and components are served correctly
 [[redirects]]
   from = "/assets/*"
@@ -21,6 +14,21 @@
   to = "/components/:splat"
   status = 200
   force = true
+
+# Exclude admin folder from catch-all redirect
+# This allows config.yml and other admin files to be served directly
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/:splat"
+  status = 200
+  force = true
+
+# Redirect all other requests to index.html for SPA routing
+# This must come AFTER specific rules
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 # Cache assets for better performance
 [[headers]]

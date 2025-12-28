@@ -1,6 +1,8 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: jayisadesigner/tyler-chou-law
   branch: main
+  auth_type: pkce
 
 media_folder: "src/assets/images/blog"
 public_folder: "/assets/images/blog"
