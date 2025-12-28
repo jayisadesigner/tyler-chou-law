@@ -35,6 +35,13 @@ if (typeof gsap !== 'undefined') {
 let lenis = null
 
 function initLenis() {
+  // Skip Lenis on mobile — causes issues with ScrollTrigger pins on iOS Safari
+  // The scroller proxy and smooth scroll conflict with position:fixed pinning
+  if (window.innerWidth < 768) {
+    window.lenis = null
+    return null
+  }
+
   lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -239,15 +246,30 @@ function initLoveLettersScroll(reducedMotion = false) {
   
   // Use matchMedia for responsive animations that update on resize
   ScrollTrigger.matchMedia({
-    // Mobile: Horizontal parallax
-    "(max-width: 1279px)": function() {
+    // Mobile: Static cards, just handle theme — NO PIN, no parallax
+    // iOS Safari has issues with pinned ScrollTrigger and scrub animations
+    "(max-width: 767px)": function() {
+      // Reset cards to visible, no animation
+      gsap.set(cards, { x: 0, y: 0, scale: 1, opacity: 1 })
+      
+      // Simple theme switch on scroll — NO PIN, no parallax
+      ScrollTrigger.create({
+        trigger: loveNotesSection,
+        start: 'top center',
+        end: 'bottom center',
+        ...getThemeCallbacks('bg-bone')
+      })
+    },
+    
+    // Tablet: Horizontal parallax (safe scrub without pin)
+    "(min-width: 768px) and (max-width: 1279px)": function() {
       const topCards = loveNotesSection.querySelectorAll('.love-notes__carousel--top .roster-card--testimonial')
       const bottomCards = loveNotesSection.querySelectorAll('.love-notes__carousel--bottom .roster-card--testimonial')
       
-      // Reset cards to base state for mobile (no scale on mobile)
+      // Reset cards to base state for tablet (no scale)
       gsap.set(cards, { x: 0, y: 0, scale: 1 })
       
-      const mobileTl = gsap.timeline({
+      const tabletTl = gsap.timeline({
         scrollTrigger: {
           trigger: loveNotesSection,
           start: 'top bottom',
@@ -261,7 +283,7 @@ function initLoveLettersScroll(reducedMotion = false) {
       // Top carousel - moves right
       topCards.forEach((card, index) => {
         const speed = 0.6 + (index * 0.15)
-        mobileTl.to(card, {
+        tabletTl.to(card, {
           x: 60 * speed,
           ease: 'none',
         }, 0)
@@ -270,7 +292,7 @@ function initLoveLettersScroll(reducedMotion = false) {
       // Bottom carousel - moves left
       bottomCards.forEach((card, index) => {
         const speed = 0.6 + (index * 0.15)
-        mobileTl.to(card, {
+        tabletTl.to(card, {
           x: -60 * speed,
           ease: 'none',
         }, 0)
@@ -423,19 +445,22 @@ function initAnimations() {
     return // Skip all animations
   }
 
-  // Hero content reveal animation
-  const heroSection = document.querySelector('.hero')
-  if (heroSection) {
-    const heroContent = heroSection.querySelector('.hero-content')
-    
-    if (heroContent) {
-      gsap.from(heroContent, {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: 'power3.out',
-        delay: 0.3,
-      })
+  // Hero content reveal animation — skip if intro handled it
+  const introRan = document.querySelector('.intro.is-complete')
+  if (!introRan) {
+    const heroSection = document.querySelector('.hero')
+    if (heroSection) {
+      const heroContent = heroSection.querySelector('.hero-content')
+      
+      if (heroContent) {
+        gsap.from(heroContent, {
+          opacity: 0,
+          y: 50,
+          duration: 1,
+          ease: 'power3.out',
+          delay: 0.3,
+        })
+      }
     }
   }
 
@@ -504,6 +529,10 @@ function initAnimations() {
     // Update cached viewport dimensions immediately
     viewportWidth = window.innerWidth
     viewportHeight = window.innerHeight
+    
+    // Skip ScrollTrigger refresh on mobile to avoid issues with iOS Safari
+    // Mobile animations are simple and don't need refresh
+    if (viewportWidth < 768) return
     
     // Debounce ScrollTrigger refresh
     clearTimeout(resizeTimeout)
@@ -751,15 +780,42 @@ function initPhilosophyRedaction(reducedMotion = false) {
 
   // Mobile-first: Use matchMedia for responsive animations
   ScrollTrigger.matchMedia({
-    // Mobile: Only fade in queen text
-    "(max-width: 768px)": function() {
-      const mobileScrollMultiplier = calculateScrollMultiplier(2, 3.5, 300)
+    // Mobile: Simple fade, NO PIN — iOS Safari has issues with pinned ScrollTrigger
+    "(max-width: 767px)": function() {
+      // Hide redaction boxes on mobile
+      gsap.set([redactionFirst, redactionSecond], { opacity: 0, visibility: 'hidden' })
+      
+      // Simple scroll-triggered fade for queen text — NO PIN
+      ScrollTrigger.create({
+        trigger: philosophySection,
+        start: 'top 60%',
+        end: 'bottom 40%',
+        onEnter: () => {
+          gsap.to(queenText, {
+            opacity: 1,
+            duration: 0.6,
+            ease: 'power2.out'
+          })
+          setBodyTheme('bg-bone')
+        },
+        onLeave: () => setBodyTheme(''),
+        onEnterBack: () => setBodyTheme('bg-bone'),
+        onLeaveBack: () => {
+          gsap.to(queenText, { opacity: 0, duration: 0.3 })
+          setBodyTheme('')
+        }
+      })
+    },
+    
+    // Tablet: Pinned but simplified animation
+    "(min-width: 768px) and (max-width: 1279px)": function() {
+      const tabletScrollMultiplier = calculateScrollMultiplier(2, 3.5, 300)
       
       createMobileTimeline(
         createPinnedScrollConfig({
           trigger: philosophySection,
           start: 'top top',
-          end: `+=${mobileScrollMultiplier * 100}%`,
+          end: `+=${tabletScrollMultiplier * 100}%`,
           scrub: 2,
           callbacks: {
             ...getThemeCallbacks('bg-bone'),
@@ -769,7 +825,7 @@ function initPhilosophyRedaction(reducedMotion = false) {
     },
     
     // Desktop: Full redaction animation
-    "(min-width: 769px)": function() {
+    "(min-width: 1280px)": function() {
       const desktopScrollMultiplier = calculateScrollMultiplier(2.5, 5, 250)
       
       createRedactionTimeline(
@@ -1091,15 +1147,108 @@ function initLineAnimations(reducedMotion = false) {
   })
 }
 
+/**
+ * Intro Animation
+ * Video reveal sequence that plays on load, then fades out to reveal existing hero
+ * 
+ * Sequence:
+ * 1. Nav fades in (500ms)
+ * 2. Center video shrinks (600ms)
+ * 3. Pause with center video (600ms)
+ * 4. Side videos slide out (1500ms)
+ * 5. Entire intro fades out, hero fades in (800ms)
+ * Total duration: ~4.2 seconds
+ */
+function initIntro() {
+  const intro = document.querySelector('.intro')
+  const centerVideo = document.querySelector('.intro__video--center')
+  const leftVideo = document.querySelector('.intro__video--left')
+  const rightVideo = document.querySelector('.intro__video--right')
+  const nav = document.querySelector('.site-header')
+  const heroContent = document.querySelector('.hero-content')
 
-// Initialize Lenis first, then animations
+  // Skip if no intro element or reduced motion
+  if (!intro || prefersReducedMotion) {
+    intro?.classList.add('is-complete')
+    return
+  }
+
+  // Set initial states
+  gsap.set(nav, { opacity: 0 })
+  gsap.set(heroContent, { opacity: 0 })
+  gsap.set([leftVideo, centerVideo, rightVideo], {
+    transformOrigin: 'center center'
+  })
+  gsap.set(leftVideo, { 
+    height: '80vh',
+    clipPath: 'inset(0 100% 0 0)'
+  })
+  gsap.set(rightVideo, { 
+    height: '80vh',
+    clipPath: 'inset(0 0 0 100%)'
+  })
+
+  // Create timeline
+  const tl = gsap.timeline({
+    onComplete: () => {
+      intro.classList.add('is-complete')
+      // Clean up — let existing CSS/animations take over
+      gsap.set(nav, { clearProps: 'opacity' })
+    }
+  })
+
+  // Step 1: Nav fades in (0–500ms)
+  tl.to(nav, {
+    opacity: 1,
+    duration: 0.5,
+    ease: 'power2.out'
+  }, 0)
+
+  // Step 2: Center video shrinks vertically (300ms–900ms)
+  tl.to(centerVideo, {
+    height: '80vh',
+    duration: 0.6,
+    ease: 'power2.out'
+  }, 0.3)
+
+  // Step 3: Side videos slide out (1500ms–3000ms) - longer pause before revealing
+  tl.to(leftVideo, {
+    clipPath: 'inset(0 0% 0 0)',
+    duration: 1.5,
+    ease: 'back.out(1.4)'
+  }, 1.5)
+
+  tl.to(rightVideo, {
+    clipPath: 'inset(0 0 0 0%)',
+    duration: 1.5,
+    ease: 'back.out(1.4)'
+  }, 1.5)
+
+  // Step 4: Intro fades out, hero fades in (3300ms–4100ms)
+  tl.to(intro, {
+    opacity: 0,
+    duration: 0.8,
+    ease: 'power2.out'
+  }, 3.3)
+
+  tl.to(heroContent, {
+    opacity: 1,
+    duration: 0.8,
+    ease: 'power2.out'
+  }, 3.4)
+}
+
+
+// Initialize Lenis first, then intro, then animations
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     initLenis()
+    initIntro() // Run intro first
     initAnimations()
   })
 } else {
   initLenis()
+  initIntro() // Run intro first
   initAnimations()
 }
 
