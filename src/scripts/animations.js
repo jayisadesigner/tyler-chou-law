@@ -1554,6 +1554,8 @@ function initIntro() {
  * Pulls background color from --page-bg CSS variable
  */
 function initCurtain() {
+  console.log('[CURTAIN] initCurtain called')
+  
   // Wait for curtain to exist in DOM (handles dynamic header loading)
   const checkCurtain = () => {
     const curtain = document.querySelector('.curtain')
@@ -1562,17 +1564,36 @@ function initCurtain() {
     const nav = document.querySelector('.site-header')
     const isHomepage = document.body.classList.contains('page-index')
     
+    console.log('[CURTAIN] checkCurtain running', {
+      curtain: !!curtain,
+      leftPanel: !!leftPanel,
+      rightPanel: !!rightPanel,
+      nav: !!nav,
+      isHomepage,
+      prefersReducedMotion,
+      bodyClasses: document.body.className
+    })
+    
     // If curtain doesn't exist yet, wait and try again
     if (!curtain) {
+      console.log('[CURTAIN] No curtain found, retrying...')
       requestAnimationFrame(checkCurtain)
       return
     }
     
     // Skip on homepage (has its own intro) or if panels missing or reduced motion
     if (!leftPanel || !rightPanel || isHomepage || prefersReducedMotion) {
+      console.log('[CURTAIN] Skipping animation:', {
+        noLeftPanel: !leftPanel,
+        noRightPanel: !rightPanel,
+        isHomepage,
+        prefersReducedMotion
+      })
       curtain.classList.add('is-complete')
       return
     }
+    
+    console.log('[CURTAIN] Starting animation')
 
     // Add body class to control nav visibility via CSS
     document.body.classList.add('curtain-active')
@@ -1586,6 +1607,7 @@ function initCurtain() {
     // Create timeline with timeout fallback
     const tl = gsap.timeline({
       onComplete: () => {
+        console.log('[CURTAIN] Animation complete')
         curtain.classList.add('is-complete')
         document.body.classList.remove('curtain-active')
         if (nav) {
