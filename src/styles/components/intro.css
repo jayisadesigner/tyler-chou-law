@@ -128,6 +128,44 @@ body.intro-active {
   background: linear-gradient(to left, var(--chuparosa) 0%, transparent 100%);
 }
 
+/* Responsive breakpoints for name text */
+/* Mobile - smaller screens need more aggressive scaling */
+@media (max-width: 639px) {
+  .intro__name {
+    font-size: clamp(3.5rem, 16vw, 8rem); /* Smaller range for mobile */
+    letter-spacing: -0.02em; /* Slightly looser for readability */
+    width: 100vw; /* Use full width on mobile */
+  }
+  
+  /* Remove edge fades on mobile - need all screen space */
+  .intro__name::before,
+  .intro__name::after {
+    display: none;
+  }
+}
+
+/* Small tablets/landscape phones */
+@media (min-width: 640px) and (max-width: 767px) {
+  .intro__name {
+    font-size: clamp(5rem, 16vw, 12rem);
+    width: 105vw;
+  }
+}
+
+/* Tablets */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .intro__name {
+    font-size: clamp(6rem, 17vw, 16rem);
+  }
+}
+
+/* Desktop - keep existing large size */
+@media (min-width: 1024px) {
+  .intro__name {
+    font-size: clamp(8rem, 18vw, 20rem);
+  }
+}
+
 /* Hide intro entirely if reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .intro {
