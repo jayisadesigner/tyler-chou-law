@@ -1161,17 +1161,25 @@ function initLineAnimations(reducedMotion = false) {
  */
 function initIntro() {
   const intro = document.querySelector('.intro')
-  const centerVideo = document.querySelector('.intro__video--center')
-  const leftVideo = document.querySelector('.intro__video--left')
-  const rightVideo = document.querySelector('.intro__video--right')
+  const centerVideo = document.querySelector('.intro__video--center') // wrapper
+  const leftVideo = document.querySelector('.intro__video--left') // wrapper
+  const rightVideo = document.querySelector('.intro__video--right') // wrapper
   const nav = document.querySelector('.site-header')
   const heroContent = document.querySelector('.hero-content')
 
   // Skip if no intro element or reduced motion
   if (!intro || prefersReducedMotion) {
     intro?.classList.add('is-complete')
+    document.body.classList.remove('intro-active')
     return
   }
+
+  // Prevent scroll restoration and lock scroll
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual'
+  }
+  window.scrollTo(0, 0)
+  document.body.classList.add('intro-active')
 
   // Set initial states
   gsap.set(nav, { opacity: 0 })
@@ -1180,11 +1188,19 @@ function initIntro() {
     transformOrigin: 'center center'
   })
   gsap.set(leftVideo, { 
+    x: 0,
+    xPercent: -50,
+    yPercent: -50,
     height: '80vh',
+    opacity: 0,
     clipPath: 'inset(0 100% 0 0)'
   })
   gsap.set(rightVideo, { 
+    x: 0,
+    xPercent: -50,
+    yPercent: -50,
     height: '80vh',
+    opacity: 0,
     clipPath: 'inset(0 0 0 100%)'
   })
 
@@ -1192,6 +1208,7 @@ function initIntro() {
   const tl = gsap.timeline({
     onComplete: () => {
       intro.classList.add('is-complete')
+      document.body.classList.remove('intro-active')
       // Clean up — let existing CSS/animations take over
       gsap.set(nav, { clearProps: 'opacity' })
     }
@@ -1204,38 +1221,44 @@ function initIntro() {
     ease: 'power2.out'
   }, 0)
 
-  // Step 2: Center video shrinks vertically (300ms–900ms)
+  // Step 2: Center video shrinks vertically (700ms–1300ms) - longer pause before scaling
   tl.to(centerVideo, {
     height: '80vh',
     duration: 0.6,
     ease: 'power2.out'
-  }, 0.3)
+  }, 0.7)
 
-  // Step 3: Side videos slide out (1500ms–3000ms) - longer pause before revealing
+  // Step 3: Side videos slide out (1500ms–3400ms) - staggered for elegance
+  const slideDistance = (viewportWidth * 0.33) + 16 // video width + gap
+  
   tl.to(leftVideo, {
+    x: -slideDistance,
+    opacity: 1,
     clipPath: 'inset(0 0% 0 0)',
-    duration: 1.5,
-    ease: 'back.out(1.4)'
+    duration: 1.8,
+    ease: 'power3.out'
   }, 1.5)
 
   tl.to(rightVideo, {
+    x: slideDistance,
+    opacity: 1,
     clipPath: 'inset(0 0 0 0%)',
-    duration: 1.5,
-    ease: 'back.out(1.4)'
-  }, 1.5)
+    duration: 1.8,
+    ease: 'power3.out'
+  }, 1.6)
 
-  // Step 4: Intro fades out, hero fades in (3300ms–4100ms)
+  // Step 4: Intro fades out, hero fades in (3600ms–4400ms)
   tl.to(intro, {
     opacity: 0,
     duration: 0.8,
     ease: 'power2.out'
-  }, 3.3)
+  }, 3.6)
 
   tl.to(heroContent, {
     opacity: 1,
     duration: 0.8,
     ease: 'power2.out'
-  }, 3.4)
+  }, 3.7)
 }
 
 
