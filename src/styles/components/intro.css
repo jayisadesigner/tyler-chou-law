@@ -82,11 +82,11 @@ body.intro-active {
   transform: translate(-50%, -50%);
   font-family: var(--font-display);
   font-size: clamp(8rem, 18vw, 20rem); /* Scales with viewport, caps at 20rem */
-  font-weight: 400;
+  font-weight: 500; /* Match h1/hero headlines */
   color: var(--bone);
   text-transform: uppercase;
-  letter-spacing: -0.04em; /* Tighter tracking for massive text */
-  line-height: 0.9;
+  letter-spacing: -0.03em; /* Match h1/hero headlines */
+  line-height: var(--text-h1-line-height); /* Use responsive variable (0.9 mobile, 0.85 desktop) */
   white-space: nowrap;
   z-index: 10;
   width: 110vw; /* Wider than screen for dramatic overflow */
