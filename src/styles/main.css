@@ -13,6 +13,7 @@
 @import './components/background-image.css';
 @import './components/pages.css';
 @import './components/accessibility.css';
+@import './components/intro.css';
 
 /* Base Layout */
 html {

@@ -1,0 +1,83 @@
+/* Intro Animation Overlay
+ * Temporary layer that plays on load then fades out
+ * Reveals existing hero underneath
+ */
+
+/* Lock scroll when intro is active */
+body.intro-active {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+}
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background-color: var(--chuparosa);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.intro.is-complete {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro__videos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Wrapper for each video + overlay */
+.intro__video-wrapper {
+  position: relative;
+  height: 100%;
+  width: 33vw;
+  overflow: hidden;
+}
+
+.intro__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Center video wrapper — visible */
+.intro__video--center {
+  position: relative;
+  z-index: 2;
+}
+
+/* Side video wrappers — hidden behind center initially */
+.intro__video--left,
+.intro__video--right {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+}
+
+.intro__video--left {
+  clip-path: inset(0 100% 0 0); /* Hidden — clipped from right */
+}
+
+.intro__video--right {
+  clip-path: inset(0 0 0 100%); /* Hidden — clipped from left */
+}
+
+/* Hide intro entirely if reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    display: none;
+  }
+}
+
