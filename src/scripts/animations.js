@@ -1226,8 +1226,7 @@ function initIntro() {
   const rightVideo = document.querySelector('.intro__video--right') // wrapper
   const nav = document.querySelector('.site-header')
   const heroContent = document.querySelector('.hero-content')
-  const nameContainer = document.querySelector('.intro__name')
-  const nameWords = document.querySelectorAll('.intro__name-word[js-char-animation]')
+  const nameElement = document.querySelector('.intro__name[js-char-animation]')
 
   // Skip if no intro element or reduced motion
   if (!intro || prefersReducedMotion) {
@@ -1266,14 +1265,11 @@ function initIntro() {
     clipPath: 'inset(0 0 0 100%)'
   })
   
-  // Split all name words into characters and collect them
+  // Split name into characters and set initial states
   let charElements = []
-  if (nameWords.length > 0) {
-    nameWords.forEach(word => {
-      const chars = splitTextIntoChars(word)
-      charElements.push(...chars)
-    })
-    gsap.set(nameContainer, { opacity: 0 })
+  if (nameElement) {
+    charElements = splitTextIntoChars(nameElement)
+    gsap.set(nameElement, { opacity: 0 })
     gsap.set(charElements, {
       x: '-100%',
       opacity: 0
@@ -1324,9 +1320,9 @@ function initIntro() {
   }, 1.6)
 
   // Step 4: Name reveal (2800ms–4600ms) - massive character animation with extended dramatic deceleration
-  if (charElements.length > 0) {
+  if (nameElement && charElements.length > 0) {
     // Fade in name container
-    tl.to(nameContainer, {
+    tl.to(nameElement, {
       opacity: 1,
       duration: 0.4,
       ease: 'power2.out'
@@ -1364,7 +1360,7 @@ function initIntro() {
   }, 5.1)
   
   // Name stays alone briefly, then characters slide out in reverse (5300ms–5900ms)
-  if (charElements.length > 0) {
+  if (nameElement && charElements.length > 0) {
     tl.to(charElements, {
       x: '-100%', // Exit to the left
       opacity: 0,

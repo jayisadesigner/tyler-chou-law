@@ -81,7 +81,7 @@ body.intro-active {
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: var(--font-display);
-  font-size: clamp(8rem, 18vw, 20rem); /* Scales with viewport, caps at 20rem */
+  font-size: clamp(3rem, 15vw, 20rem); /* Aggressive scaling - allows slight cutoff on smallest screens */
   font-weight: 500; /* Match h1/hero headlines */
   color: var(--bone);
   text-transform: uppercase;
@@ -91,12 +91,7 @@ body.intro-active {
   z-index: 10;
   width: 110vw; /* Wider than screen for dramatic overflow */
   text-align: center;
-  overflow: hidden;
-}
-
-/* Word containers for splitting first/last name */
-.intro__name-word {
-  display: inline-block;
+  overflow: visible; /* Allow slight cutoff for dramatic effect */
 }
 
 /* Character containers for animation */
@@ -133,67 +128,12 @@ body.intro-active {
   background: linear-gradient(to left, var(--chuparosa) 0%, transparent 100%);
 }
 
-/* Responsive breakpoints for name text */
-/* Mobile - stack name vertically */
+/* Responsive breakpoints for name text - simplified */
 @media (max-width: 639px) {
-  .intro__name {
-    font-size: clamp(3.5rem, 16vw, 8rem); /* Smaller range for mobile */
-    letter-spacing: -0.02em; /* Slightly looser for readability */
-    width: 100vw; /* Use full width on mobile */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem; /* Small gap between first/last name */
-  }
-  
-  .intro__name-word {
-    display: block; /* Stack words vertically */
-    white-space: nowrap; /* Prevent individual word wrapping */
-  }
-  
   /* Remove edge fades on mobile - need all screen space */
   .intro__name::before,
   .intro__name::after {
     display: none;
-  }
-}
-
-/* Small tablets/landscape phones - keep stacked */
-@media (min-width: 640px) and (max-width: 767px) {
-  .intro__name {
-    font-size: clamp(5rem, 16vw, 12rem);
-    width: 105vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .intro__name-word {
-    display: block;
-    white-space: nowrap;
-  }
-}
-
-/* Tablets - horizontal layout */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .intro__name {
-    font-size: clamp(6rem, 17vw, 16rem);
-  }
-  
-  .intro__name-word {
-    display: inline-block; /* Side by side */
-  }
-}
-
-/* Desktop - keep existing large size and horizontal layout */
-@media (min-width: 1024px) {
-  .intro__name {
-    font-size: clamp(8rem, 18vw, 20rem);
-  }
-  
-  .intro__name-word {
-    display: inline-block; /* Side by side */
   }
 }
 
