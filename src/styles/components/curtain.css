@@ -12,7 +12,7 @@
 }
 
 .curtain.is-complete {
-  visibility: hidden;
+  display: none;
 }
 
 .curtain__panel {
