@@ -312,6 +312,19 @@ body.bg-bone .hamburger-line {
   background-color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */
 }
 
+/* Love Letters page: use darkest chuparosa when over blog listing */
+body.page-love-letters.nav-over-blog .logo-line,
+body.page-love-letters.nav-over-blog .nav-menu a {
+  color: var(--chuparosa-950);
+}
+
+body.page-love-letters.nav-over-blog .logo-image {
+  color: var(--chuparosa-950);
+}
+
+body.page-love-letters.nav-over-blog .hamburger-line {
+  background-color: var(--chuparosa-950);
+}
 
 /* Logo and button stay in same position when menu open - just change colors */
 .main-nav:has(.nav-menu.is-open) .logo {

@@ -4,7 +4,7 @@
 
 .blog-listing {
   padding: var(--space-2xl) 0;
-  background-color: var(--chuparosa-800);
+  background-color: var(--bone);
 }
 
 .blog-listing__posts {
@@ -18,7 +18,7 @@
 .blog-card {
   position: relative;
   width: 100%;
-  background-color: var(--bone);
+  background-color: var(--desert-gold-100);
   overflow: hidden;
   display: flex;
   flex-direction: column;

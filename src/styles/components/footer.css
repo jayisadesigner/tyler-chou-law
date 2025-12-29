@@ -96,12 +96,12 @@ body.bg-bone .footer-item {
   }
 }
 
-/* Love Letters page: use chuparosa-800 background */
+/* Love Letters page: use bone background */
 body.page-love-letters .site-footer {
-  background-color: var(--chuparosa-800);
+  background-color: var(--bone);
 }
 
 body.page-love-letters .footer-item {
-  color: var(--nav-text-on-chuparosa-800, var(--chuparosa-100));
+  color: var(--nav-text-on-bone, var(--obsidian));
 }
 
