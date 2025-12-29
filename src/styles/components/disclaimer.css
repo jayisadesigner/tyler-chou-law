@@ -38,6 +38,19 @@
   }
 }
 
+/* Desktop (1024px+): 50% width, centered, center-aligned text */
+@media (min-width: 1024px) {
+  .disclaimer-container {
+    width: 50%;
+    margin: 0 auto; /* Center the container */
+    padding: 0 var(--space-md);
+  }
+  
+  .disclaimer-container .disclaimer-text {
+    text-align: center; /* Center align disclaimer text on desktop */
+  }
+}
+
 /* Disclaimer color adjustments for different backgrounds */
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
