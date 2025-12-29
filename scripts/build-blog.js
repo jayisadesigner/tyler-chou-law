@@ -279,6 +279,9 @@ async function buildPost(filePath, fileName) {
     // Escape content for JSON schema
     const articleBody = escapeJSON(body.substring(0, 5000)) // Limit for schema
     
+    // Get Vite-generated asset paths first (needed for template replacements)
+    const viteAssets = await getViteAssets()
+    
     // Replace template variables
     template = template
       .replace(/\{\{title\}\}/g, metadata.title || 'Untitled')
@@ -297,6 +300,7 @@ async function buildPost(filePath, fileName) {
       .replace(/\{\{twitterImage\}\}/g, imageMeta.twitterImage)
       .replace(/\{\{featuredImageSchema\}\}/g, imageMeta.schemaImage)
       .replace(/\{\{articleBody\}\}/g, articleBody)
+      .replace(/\{\{mainCss\}\}/g, viteAssets.mainCss || '')
     
     // Replace header and footer placeholders
     template = template.replace(/<header[^>]*>[\s\S]*?<\/header>/g, headerTemplate)
@@ -320,17 +324,9 @@ async function buildPost(filePath, fileName) {
       }
     }
     
-    // Get Vite-generated asset paths and replace /src/ paths
-    const viteAssets = await getViteAssets()
-    
     // Replace /src/scripts/main.js with actual Vite-generated JS path
     if (viteAssets.mainJs) {
       template = template.replace(/src="\/src\/scripts\/main\.js"/g, `src="${viteAssets.mainJs}"`)
-    }
-    
-    // Replace /src/styles/main.css with actual Vite-generated CSS path (if present)
-    if (viteAssets.mainCss) {
-      template = template.replace(/href="\/src\/styles\/main\.css"/g, `href="${viteAssets.mainCss}"`)
     }
     
     // Create output directory
