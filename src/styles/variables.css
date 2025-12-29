@@ -48,7 +48,7 @@
 
 /* Chuparosa (Red) - Power, protection, intensity */
 :root {
-  --chuparosa-50: #F9F6F6;
+  --chuparosa-50: #FFF5F5;
   --chuparosa-100: #FCE3E5;
   --chuparosa-200: #F9CDCF;
   --chuparosa-300: #F49FA3;
@@ -63,7 +63,7 @@
 
 /* Lupine (Purple) - Creativity, wisdom, premium */
 :root {
-  --lupine-50: #F7F6F9;
+  --lupine-50: #F9F5FF;
   --lupine-100: #F0E3FC;
   --lupine-200: #E3CDF9;
   --lupine-300: #C99FF4;
@@ -93,7 +93,7 @@
 
 /* Desert Gold (Yellow/Gold) - Achievement, value, legacy */
 :root {
-  --desert-gold-50: #F9F8F6;
+  --desert-gold-50: #FFFEF5;
   --desert-gold-100: #FCF6E3;
   --desert-gold-200: #F9EECD;
   --desert-gold-300: #F4DF9F;

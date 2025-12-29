@@ -129,6 +129,21 @@ function setBodyTheme(themeClass) {
 }
 
 /**
+ * Helper function to manage nav color classes efficiently
+ * Removes all nav color classes and adds the specified one
+ * @param {string} navClass - Nav class to apply (e.g., 'nav-over-blog', or '' for default)
+ */
+function setNavColor(navClass) {
+  const allNavClasses = ['nav-over-blog']
+  // Remove all nav classes in one operation
+  document.body.classList.remove(...allNavClasses)
+  // Add new nav class if provided
+  if (navClass) {
+    document.body.classList.add(navClass)
+  }
+}
+
+/**
  * Returns ScrollTrigger callbacks for theme switching
  * Reusable helper to avoid repeating theme switching code
  * @param {string} themeClass - Theme class to apply when entering section
@@ -630,6 +645,22 @@ function initAnimations() {
   // Love Letters section - bone background
   // Note: Theme switching for love-notes is handled in initLoveLettersScroll
   // because the section is pinned on desktop and needs to coordinate with the pin animation
+
+  // Blog listing section on love-letters page - nav turns dark chuparosa
+  if (document.body.classList.contains('page-love-letters')) {
+    const blogListing = document.querySelector('.blog-listing')
+    if (blogListing) {
+      ScrollTrigger.create({
+        trigger: blogListing,
+        start: 'top center',
+        end: 'bottom top',
+        onEnter: () => setNavColor('nav-over-blog'),
+        onLeave: () => setNavColor(''),
+        onEnterBack: () => setNavColor('nav-over-blog'),
+        onLeaveBack: () => setNavColor(''),
+      })
+    }
+  }
 
   // Final CTA section - return to default (chuparosa/red)
   createThemeScrollTrigger('.content-section--centered:last-of-type', 'top center', 'bottom top', '')
