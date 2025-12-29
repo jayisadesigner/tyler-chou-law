@@ -4,38 +4,48 @@
    Only creator-specific content styles here
    ======================================== */
 
-/* Media matches other sections (982px), content sizes to content */
+
+/* Media viewport height, sticky, content starts below nav */
 @media (min-width: 768px) {
+  .page-creator .content-section__container {
+    min-height: 100vh;
+  }
+
+  .page-creator .content-section__media {
+    height: 100vh;
+    position: sticky;
+    top: 0; /* Stick at top, media starts at top */
+    padding: 0; /* Remove default padding for full bleed */
+  }
+
   .page-creator .content-section__content {
     align-self: flex-start; /* Don't stretch, size to content */
+    padding-top: calc(60px + var(--space-4xl)); /* Start content below nav */
+    padding-left: var(--space-2xl); /* Bump up from xl to 2xl */
+    padding-right: var(--space-2xl); /* Bump up from xl to 2xl */
   }
 }
 
-/* Creator name - positioned over image */
+/* Creator name - positioned over image at bottom */
 .creator-name {
-  position: relative;
-  margin-top: var(--space-md);
+  position: absolute;
+  bottom: var(--space-xl);
+  left: var(--space-xl);
   font-family: var(--font-display);
   font-size: var(--text-h3-size);
   font-weight: 500;
   line-height: var(--text-h3-line-height);
   letter-spacing: -0.03em;
-  color: var(--obsidian);
+  color: var(--bone);
   text-transform: uppercase;
-  margin: var(--space-md) 0 0 0;
+  margin: 0;
   z-index: 2;
 }
 
 @media (min-width: 768px) {
   .creator-name {
-    position: absolute;
-    bottom: var(--space-xl);
-    left: var(--space-xl);
-    color: var(--bone);
     font-size: var(--text-h2-size);
     line-height: var(--text-h2-line-height);
-    margin: 0;
-    z-index: 2;
   }
 }
 
@@ -100,6 +110,8 @@
 .creator-description p {
   margin: 0;
   width: 100%;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 @media (min-width: 768px) {
@@ -107,6 +119,11 @@
     flex-direction: row;
     font-size: var(--text-p-large-size);
     line-height: var(--text-p-large-line-height);
+  }
+  
+  .creator-description p {
+    font-size: inherit;
+    line-height: inherit;
   }
 }
 
