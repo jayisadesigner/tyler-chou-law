@@ -23,13 +23,6 @@
   status = 200
   force = true
 
-# Redirect all other requests to index.html for SPA routing
-# This must come AFTER specific rules
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 # Cache assets for better performance
 [[headers]]
   for = "/assets/*"
