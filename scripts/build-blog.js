@@ -328,8 +328,9 @@ async function generateListingPage(posts) {
     const disclaimerTemplate = await loadComponentTemplate('disclaimer')
     
     // Generate blog post cards HTML
-    const postsHTML = posts.map(post => {
+    const postsHTML = posts.map((post, index) => {
       const dateDisplay = formatDate(post.date)
+      const loveLetterNumber = posts.length - index
       const featuredImageHTML = post.featuredImage 
         ? `<img src="${post.featuredImage.replace('https://tylerchoulaw.com', '')}" alt="${post.title}" class="blog-card__image" loading="lazy" />`
         : ''
@@ -342,6 +343,7 @@ async function generateListingPage(posts) {
               <h3 class="blog-card__title">${post.title}</h3>
               <p class="blog-card__excerpt">${post.excerpt || ''}</p>
               <div class="blog-card__meta">
+                <span class="blog-card__love-letter-number">Love Letter #${loveLetterNumber}</span>
                 <time datetime="${post.dateISO}">${dateDisplay}</time>
                 <span class="blog-card__reading-time">${post.readingTime} min read</span>
               </div>
@@ -377,6 +379,8 @@ async function generateListingPage(posts) {
     
     // Find the placeholder content section and replace with blog listing
     const contentSectionRegex = /<!--\s*Body Content[^>]*-->[\s\S]*?<!--\s*Content Section: Love Letters Intro[^>]*-->/
+    // Also try to replace existing blog listing section if placeholder doesn't exist
+    const existingListingRegex = /<!--\s*Blog Listing Section[^>]*-->[\s\S]*?<section class="blog-listing[^>]*>[\s\S]*?<\/section>/
     const listingSection = `
       <!-- Blog Listing Section -->
       <section class="blog-listing section section-reveal">
@@ -387,7 +391,12 @@ async function generateListingPage(posts) {
         </div>
       </section>`
     
-    listingHTML = listingHTML.replace(contentSectionRegex, listingSection)
+    // Try placeholder first, then existing section
+    if (contentSectionRegex.test(listingHTML)) {
+      listingHTML = listingHTML.replace(contentSectionRegex, listingSection)
+    } else if (existingListingRegex.test(listingHTML)) {
+      listingHTML = listingHTML.replace(existingListingRegex, listingSection)
+    }
     
     // Update Blog schema in head
     const existingSchemaRegex = /<script type="application\/ld\+json">[\s\S]*?<\/script>/
