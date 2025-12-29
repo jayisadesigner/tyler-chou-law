@@ -23,6 +23,8 @@
 @import './components/pages/roster-card.css';
 @import './components/pages/section-grid.css';
 @import './components/pages/services.css';
+@import './components/pages/blog-listing.css';
+@import './components/pages/blog-post.css';
 @import './components/accessibility.css';
 @import './components/intro.css';
 @import './components/curtain.css';
@@ -54,7 +56,8 @@ body.page-roster,
 body.page-love-letters,
 body.page-contact,
 body.page-creatorarq-apply,
-body.page-creator {
+body.page-creator,
+body.page-blog-post {
   background-color: var(--chuparosa-600);
   --page-bg-color: var(--chuparosa-600);
 }
