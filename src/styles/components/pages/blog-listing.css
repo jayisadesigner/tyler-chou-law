@@ -3,8 +3,21 @@
    ======================================== */
 
 .blog-listing {
-  padding: var(--space-2xl) 0;
+  padding: var(--space-2xl) 0 150px 0; /* Extra bottom padding for shadow */
   background-color: var(--bone);
+  overflow: visible;
+  position: relative;
+  z-index: 3; /* Higher than footer (z-index: 2) to prevent clipping */
+}
+
+/* Ensure section doesn't clip shadows */
+.blog-listing.section {
+  overflow: visible;
+}
+
+/* Ensure container doesn't clip shadows */
+.blog-listing .container {
+  overflow: visible;
 }
 
 .blog-listing__posts {
@@ -12,6 +25,7 @@
   grid-template-columns: 1fr;
   gap: var(--space-xl);
   width: 100%;
+  overflow: visible;
 }
 
 /* Blog Card */
@@ -19,9 +33,14 @@
   position: relative;
   width: 100%;
   background-color: var(--desert-gold-100);
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
+  box-shadow: none;
+  transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s;
+  will-change: box-shadow, transform;
+  margin-bottom: 50px; /* Space for shadow on hover */
+  z-index: 1; /* Base z-index for stacking */
 }
 
 .blog-card__link {
@@ -111,7 +130,19 @@
   color: var(--obsidian);
 }
 
-/* Hover effects - Desktop only */
+/* Hover effects */
+.blog-card:hover {
+  transform: translateY(-4px);
+  z-index: 20; /* Higher than footer (z-index: 2) */
+  box-shadow: 
+    0px 499px 140px 0px var(--shadow-color-00),
+    0px 319px 128px 0px var(--shadow-color-01),
+    0px 180px 108px 0px var(--shadow-color-04),
+    0px 80px 80px 0px var(--shadow-color-08),
+    0px 20px 44px 0px var(--shadow-color-09);
+}
+
+/* Desktop only - text color changes on hover */
 @media (min-width: 1024px) {
   .blog-card:hover .blog-card__title {
     color: var(--obsidian);
@@ -135,7 +166,7 @@
 /* Tablet (768px+) */
 @media (min-width: 768px) {
   .blog-listing {
-    padding: var(--space-4xl) 0;
+    padding: var(--space-4xl) 0 150px 0; /* Extra bottom padding for shadow */
   }
 
   .blog-listing__posts {
