@@ -7,43 +7,52 @@ tags: "MCN, Contracts, Legal Advice"
 slug: "5-red-flags-mcn-contracts"
 ---
 
-MCN contracts are complex. They're designed to protect the network, not you. Here are five red flags every creator should watch for before signing.
+This is a paragraph of body text using the large paragraph size. It demonstrates the default paragraph styling with desert gold 800 color. This text should be readable and comfortable to read in longer form content.
 
-## 1. Overly Broad IP Assignment
+## Heading 2 Style
 
-If the contract says the MCN owns "all content" or "all intellectual property" you create, run. You should retain ownership of your content. The MCN should only get a license to distribute and monetize, not full ownership.
+This is a paragraph that follows an h2 heading. The h2 uses the h4 size (bumped down 2 notches) with desert gold 950 color. This paragraph continues to show the body text styling.
 
-**What to look for:** Language like "all right, title, and interest" or "work made for hire" clauses.
+### Heading 3 Style
 
-## 2. Indefinite Exclusivity
+This paragraph follows an h3 heading. The h3 uses the h5 size (bumped down 2 notches) with desert gold 950 color. Notice how the hierarchy works with the different heading levels.
 
-Some MCN contracts lock you in forever. Or they have auto-renewal clauses that are nearly impossible to escape. You need an exit strategy.
+#### Heading 4 Style
 
-**What to look for:** Terms longer than 2-3 years, or contracts that automatically renew unless you give notice within a narrow window.
+This paragraph follows an h4 heading. The h4 uses the h6 size (bumped down 2 notches) with desert gold 950 color. This is the smallest heading level in the blog post styles.
 
-## 3. Revenue Share That Doesn't Make Sense
+**This is bold text using the strong tag.** It uses desert gold 950 color and font-weight 600. Bold text helps emphasize important points in your content.
 
-If you're bringing 100% of the audience and the MCN is taking 30-40% just for "management," that's a red flag. Especially if they're not providing real value—legal support, brand deals, production resources.
+This paragraph contains an [inline link to demonstrate link styling](/contact.html). Links use chuparosa 800 color with an underline, and change to chuparosa 600 on hover. The underline color matches the text color.
 
-**What to look for:** Revenue splits that don't reflect the value the MCN actually provides.
+Here's an unordered list to show list styling:
 
-## 4. Non-Compete Clauses That Go Too Far
+- First list item with large paragraph size
+- Second list item demonstrating the spacing
+- Third list item showing the desert gold 800 color
+- Fourth list item with proper line height
 
-Non-compete clauses that prevent you from working with other brands, platforms, or even creating content outside the MCN are problematic. They limit your ability to grow your business.
+Here's an ordered list:
 
-**What to look for:** Language that restricts your ability to work with competitors or create content independently.
+1. First numbered item
+2. Second numbered item
+3. Third numbered item with **bold text inside**
+4. Fourth item with an [inline link](/contact.html)
 
-## 5. Termination Clauses That Favor the MCN
+> This is a blockquote. It uses italic styling with a chuparosa 400 left border and obsidian 10 background. The text color is chuparosa 100. Blockquotes are great for highlighting important quotes or callouts.
 
-If you can only terminate for "material breach" but the MCN can terminate for any reason, that's a power imbalance. You need mutual termination rights.
+This paragraph contains `inline code` to demonstrate code styling. Inline code uses Courier New font with obsidian 20 background and chuparosa 100 text color.
 
-**What to look for:** One-sided termination clauses, or termination fees that are punitive.
+Here's a code block:
 
-## Bottom Line
+```
+function exampleCode() {
+  const variable = "This is a code block";
+  return variable;
+}
+```
 
-Bad contracts cost you millions. Before you sign an MCN contract, have a lawyer review it. We've seen creators lose ownership of their content, get locked into bad deals, and give up revenue they should have kept.
+Code blocks use obsidian background with chuparosa 100 text. They have proper padding and border radius for readability.
 
-**Content is king. IP is queen. Protect both.**
-
-Ready to protect your empire? [Get in touch](/contact.html).
+This final paragraph wraps up the style showcase. All text styles should work harmoniously together with the desert gold 50 background, creating a cohesive reading experience.
 

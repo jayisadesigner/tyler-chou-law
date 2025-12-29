@@ -662,6 +662,22 @@ function initAnimations() {
     }
   }
 
+  // Blog post content section - nav turns obsidian
+  if (document.body.classList.contains('page-blog-post')) {
+    const blogPostContent = document.querySelector('.blog-post-content')
+    if (blogPostContent) {
+      ScrollTrigger.create({
+        trigger: blogPostContent,
+        start: 'top center',
+        end: 'bottom top',
+        onEnter: () => setNavColor('nav-over-blog'),
+        onLeave: () => setNavColor(''),
+        onEnterBack: () => setNavColor('nav-over-blog'),
+        onLeaveBack: () => setNavColor(''),
+      })
+    }
+  }
+
   // Final CTA section - return to default (chuparosa/red)
   createThemeScrollTrigger('.content-section--centered:last-of-type', 'top center', 'bottom top', '')
 

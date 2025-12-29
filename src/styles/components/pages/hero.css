@@ -240,9 +240,9 @@
   text-align: center;
 }
 
-/* Blog Post Hero - Shorter height, simpler layout */
+/* Blog Post Hero - 80vh height */
 .hero--blog-post {
-  min-height: auto; /* Not full viewport */
+  min-height: 80vh; /* 80vh on all screen sizes */
   padding: var(--space-4xl) 0 var(--space-2xl) 0;
   background-color: var(--chuparosa-600);
   margin-top: 0; /* No negative margin for blog posts */
@@ -263,8 +263,8 @@
 .hero-headline--blog-post {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: var(--text-h1-size);
-  line-height: var(--text-h1-line-height);
+  font-size: var(--text-h3-size); /* Bumped down 2 notches from h1 */
+  line-height: var(--text-h3-line-height);
   letter-spacing: -0.03em;
   color: var(--chuparosa-100);
   text-transform: none; /* Blog titles not uppercase */
@@ -278,6 +278,7 @@
 /* Tablet+ (768px) */
 @media (min-width: 768px) {
   .hero--blog-post {
+    min-height: 80vh; /* Maintain 80vh on tablet */
     padding: var(--space-4xl) 0 var(--space-3xl) 0;
   }
   
@@ -289,6 +290,7 @@
 /* Desktop (1024px+) */
 @media (min-width: 1024px) {
   .hero--blog-post {
+    min-height: 80vh; /* Maintain 80vh on desktop */
     padding: var(--space-4xl) 0 var(--space-4xl) 0;
   }
 }
