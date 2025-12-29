@@ -14,8 +14,8 @@ const __dirname = dirname(__filename)
 const projectRoot = join(__dirname, '..')
 
 const contentDir = join(projectRoot, 'content', 'blog')
-// Generate to source directory - Vite will process and output to dist/
-const outputDir = join(projectRoot, 'love-letters')
+// Generate to dist directory after Vite build
+const outputDir = join(projectRoot, 'dist', 'love-letters')
 const listingPagePath = join(projectRoot, 'love-letters.html')
 const templatePath = join(projectRoot, 'src', 'templates', 'blog-post.html')
 const componentsDir = join(projectRoot, 'src', 'components')
@@ -39,6 +39,35 @@ function slugify(text) {
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
     .trim()
+}
+
+/**
+ * Get Vite-generated asset filenames
+ */
+async function getViteAssets() {
+  try {
+    const assetsDir = join(projectRoot, 'dist', 'assets')
+    
+    // Check if dist/assets directory exists
+    try {
+      await stat(assetsDir)
+    } catch {
+      throw new Error('dist/assets directory not found. Run vite build first.')
+    }
+    
+    const files = await readdir(assetsDir)
+    
+    const mainJs = files.find(f => f.startsWith('main-') && f.endsWith('.js'))
+    const mainCss = files.find(f => f.startsWith('main-') && f.endsWith('.css'))
+    
+    return {
+      mainJs: mainJs ? `/assets/${mainJs}` : null,
+      mainCss: mainCss ? `/assets/${mainCss}` : null
+    }
+  } catch (error) {
+    console.error('Error getting Vite assets:', error)
+    throw error
+  }
 }
 
 /**
@@ -291,10 +320,23 @@ async function buildPost(filePath, fileName) {
       }
     }
     
-    // Create output directory - Vite will process and handle asset paths automatically
+    // Get Vite-generated asset paths and replace /src/ paths
+    const viteAssets = await getViteAssets()
+    
+    // Replace /src/scripts/main.js with actual Vite-generated JS path
+    if (viteAssets.mainJs) {
+      template = template.replace(/src="\/src\/scripts\/main\.js"/g, `src="${viteAssets.mainJs}"`)
+    }
+    
+    // Replace /src/styles/main.css with actual Vite-generated CSS path (if present)
+    if (viteAssets.mainCss) {
+      template = template.replace(/href="\/src\/styles\/main\.css"/g, `href="${viteAssets.mainCss}"`)
+    }
+    
+    // Create output directory
     await mkdir(outputDir, { recursive: true })
     
-    // Write HTML file (Vite will process /src/ paths automatically)
+    // Write HTML file with correct Vite-generated asset paths
     await writeFile(join(outputDir, `${slug}.html`), template)
     
     return {
