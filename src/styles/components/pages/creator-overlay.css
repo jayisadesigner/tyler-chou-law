@@ -3,8 +3,14 @@
    ======================================== */
 
 /* Hide SEO content - overlay provides the UX */
+/* Note: Creator pages now use regular pages, not overlays */
 .creator-page-content {
   display: none;
+}
+
+/* Show content on creator pages (no overlay) */
+.page-creator .creator-page-content {
+  display: block;
 }
 
 /* Base Overlay - Mobile-first: Scrolls naturally */

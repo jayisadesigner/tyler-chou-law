@@ -55,20 +55,10 @@ function setCredentialsDate() {
   }
 }
 
-// Initialize forms and creator transitions
+// Initialize forms
 async function initializeApp() {
   initForms()
   setCredentialsDate()
-  
-  // Initialize creator transitions with error handling
-  try {
-    const { initCreatorTransitions } = await import('./creator-transition-simple.js')
-    if (typeof initCreatorTransitions === 'function') {
-      initCreatorTransitions()
-    }
-  } catch (error) {
-    console.warn('Creator transitions not available:', error)
-  }
 }
 
 // Wait for DOM to be ready
