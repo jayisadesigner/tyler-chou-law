@@ -522,7 +522,7 @@ function initAnimations() {
     
     // Set flowers to final rotation state
     animateFlowerRotation('.about-flower', '.section--featured-image--left')
-    animateFlowerRotation('.palo-verde-flower', '.palo-verde')
+    animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment')
     
     // Set background colors
     const defaultColor = getComputedStyle(document.documentElement)
@@ -633,7 +633,7 @@ function initAnimations() {
 
   // Flower rotation animations
   animateFlowerRotation('.about-flower', '.section--featured-image--left')
-  animateFlowerRotation('.palo-verde-flower', '.palo-verde')
+  animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment')
   
   // Section-based theme switching
   // Palo Verde section - green background

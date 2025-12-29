@@ -187,6 +187,12 @@
   height: 850px;
 }
 
+/* CreatorArq flower positioning - centered section */
+#creatorarq-investment .palo-verde-flower {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .about-flower__image,
 .palo-verde-flower__image {
   width: 100%;
@@ -200,7 +206,8 @@
 }
 
 /* When background flips to palo-verde, change flower to desert gold */
-body.bg-palo-verde .palo-verde-flower__image {
+body.bg-palo-verde .palo-verde-flower__image,
+body.page-creatorarq .palo-verde-flower__image {
   color: var(--desert-gold-500); /* Brighter gold */
 }
 
