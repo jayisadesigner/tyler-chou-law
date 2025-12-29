@@ -43,12 +43,12 @@
 /* Footer color adjustments for different backgrounds */
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
-body:not(.bg-palo-verde):not(.bg-bone) .site-footer {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters) .site-footer {
   background-color: var(--page-bg-color);
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body:not(.bg-palo-verde):not(.bg-bone) .footer-item {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters) .footer-item {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
@@ -94,5 +94,14 @@ body.bg-bone .footer-item {
   .footer-item--right {
     text-align: right;
   }
+}
+
+/* Love Letters page: use chuparosa-800 background */
+body.page-love-letters .site-footer {
+  background-color: var(--chuparosa-800);
+}
+
+body.page-love-letters .footer-item {
+  color: var(--nav-text-on-chuparosa-800, var(--chuparosa-100));
 }
 

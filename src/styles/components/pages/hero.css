@@ -67,7 +67,7 @@
 .hero-eyebrow__text {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: var(--text-ui-nav);
+  font-size: var(--text-p-size);
   line-height: 1;
   text-transform: uppercase;
   color: var(--bone);
