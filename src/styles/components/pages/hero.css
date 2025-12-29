@@ -1,0 +1,242 @@
+/* Hero Section - Mobile First */
+.hero {
+  position: relative;
+  min-height: 100vh; /* Full viewport height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  /* Extend to absolute top edge, behind notch */
+  margin-top: calc(-1 * env(safe-area-inset-top, 0px));
+  padding-top: env(safe-area-inset-top, 0px);
+  /* Background inherits from body for animated transitions */
+}
+
+/* Inner Page Hero - with background image and grid layout */
+.hero--inner-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4xl) var(--space-md);
+  overflow: hidden;
+  /* Extend to absolute top edge, behind notch */
+  margin-top: calc(-1 * env(safe-area-inset-top, 0px));
+  padding-top: calc(var(--space-4xl) + env(safe-area-inset-top, 0px));
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1094px;
+  padding: 0 var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Inner Page Hero Content - Grid Layout */
+/* Mobile-first: Start with simple single column, enhance to complex grid on desktop */
+.hero-content--inner-page {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1512px;
+  padding: var(--space-2xl) var(--space-md);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  gap: var(--space-md);
+  overflow: clip;
+}
+
+/* Hero Eyebrow - Mobile: Row 1 */
+.hero-eyebrow {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: start; /* Align to top of grid cell */
+  padding-top: 0;
+  width: 100%;
+}
+
+.hero-eyebrow__text {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-ui-nav);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--bone);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Hero Headline Wrapper - Mobile: Row 2, contains nested subheadline */
+.hero-headline-wrapper {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 0;
+  width: 100%;
+  gap: var(--hero-headline-subheadline-gap); /* Responsive spacing between headline and subheadline */
+}
+
+/* CreatorArq page: center hero content */
+.page-creatorarq .hero-headline-wrapper {
+  align-items: center;
+  text-align: center;
+}
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line-height);
+  letter-spacing: -0.03em; /* -3.8364px equivalent */
+  color: var(--chuparosa-100);
+  text-transform: uppercase;
+  text-align: justify;
+  text-align-last: justify;
+  width: 100%;
+  margin: 0;
+  text-wrap: balance; /* Balance lines to avoid widows */
+}
+
+/* Hero Logo - replaces headline with image */
+.hero-logo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  margin: 0;
+}
+
+.hero-logo--horizontal {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Inner Page Hero Headline */
+.hero-headline-wrapper .hero-headline--inner-page,
+.hero-headline--inner-page {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-line-height);
+  letter-spacing: -0.03em; /* -2.7132px equivalent */
+  color: var(--bone);
+  text-transform: uppercase;
+  text-align: left;
+  text-align-last: left;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+/* Tablet+ (768px): Enhance to complex grid layout */
+@media (min-width: 768px) {
+  .hero-content--inner-page {
+    grid-template-columns: repeat(5, 1fr); /* All columns equal width */
+    grid-template-rows: repeat(2, fit-content(100%));
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    padding: var(--space-4xl) var(--space-md);
+  }
+  
+  .hero-eyebrow {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start; /* Align to top of grid cell */
+    padding-top: var(--space-xl);
+  }
+  
+  .hero-headline-wrapper {
+    grid-column: 2 / span 3;
+    grid-row: 1;
+    padding-top: var(--space-xl);
+    margin-bottom: var(--hero-headline-subheadline-gap); /* Responsive spacing between headline and subheadline */
+  }
+  
+  /* CreatorArq page: center hero content on desktop */
+  .page-creatorarq .hero-headline-wrapper {
+    align-items: center;
+    text-align: center;
+    gap: 0; /* Remove gap on desktop - subheadline is in separate row */
+  }
+  
+  /* Hide nested subheadline on desktop */
+  .hero-subheadline--nested {
+    display: none;
+  }
+  
+  /* Show desktop subheadline wrapper on desktop */
+  .hero-subheadline-wrapper {
+    display: block;
+    grid-column: 2 / span 3;
+    grid-row: 2;
+    margin-top: 0;
+  }
+  
+  /* CreatorArq page: center subheadline wrapper */
+  .page-creatorarq .hero-subheadline-wrapper {
+    text-align: center;
+  }
+  
+  /* Show desktop subheadline on desktop */
+  .hero-subheadline--desktop {
+    display: block;
+  }
+  
+  .hero-headline-wrapper .hero-headline--inner-page,
+  .hero-headline--inner-page {
+    max-width: 872px;
+  }
+}
+
+/* Hero Subheadline Wrapper - Mobile: Hidden (subheadline is nested in headline wrapper) */
+.hero-subheadline-wrapper {
+  display: none; /* Hide on mobile - subheadline is nested in headline wrapper */
+  text-align: center;
+}
+
+/* Nested subheadline - visible on mobile */
+.hero-subheadline--nested {
+  display: block;
+}
+
+/* Desktop subheadline - hidden on mobile */
+.hero-subheadline--desktop {
+  display: none;
+}
+
+.hero-subheadline {
+  font-family: var(--font-body);
+  font-size: var(--text-h5-size);
+  line-height: var(--text-h5-line-height);
+  color: var(--chuparosa-100);
+  text-align: center;
+  margin-top: var(--space-lg);
+  margin-bottom: 0;
+}
+
+/* Inner Page Hero Subheadline */
+.hero-subheadline--inner-page {
+  font-family: var(--font-body);
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line-height);
+  letter-spacing: -0.02em; /* -1.2792px equivalent */
+  color: var(--bone);
+  text-align: left;
+  margin: 0;
+}
+
+/* CreatorArq page: center subheadline */
+.page-creatorarq .hero-subheadline--inner-page {
+  text-align: center;
+}
+

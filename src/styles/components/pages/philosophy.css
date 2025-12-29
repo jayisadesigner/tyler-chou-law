@@ -1,0 +1,138 @@
+/* Philosophy Section */
+.philosophy {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  background-color: var(--bone);
+}
+
+.philosophy-container {
+  position: relative;
+  width: 100%;
+  max-width: 1512px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.philosophy-content {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile-first: single column */
+  grid-auto-rows: min-content;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 var(--space-md);
+  gap: var(--space-md);
+  overflow: visible;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* Desktop: Enhance to 8-column grid */
+@media (min-width: 768px) {
+  .philosophy-content {
+    grid-template-columns: repeat(8, 1fr);
+    justify-content: var(--philosophy-justify, center); /* CSS variable with centered fallback */
+    padding: 0 var(--space-md);
+    gap: var(--space-sm) var(--space-md);
+  }
+}
+
+.philosophy-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: var(--philosophy-item-justify, center); /* CSS variable with centered fallback */
+  min-width: 0; /* Allow grid items to shrink below content size */
+  height: fit-content;
+  overflow: visible;
+}
+
+/* Philosophy Text Elements - Grid Layout */
+.philosophy-text {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: var(--text-h1-line-height);
+  text-transform: uppercase;
+  white-space: nowrap; /* Prevent line breaks - keep text on one line */
+  margin: 0;
+  overflow: visible;
+  text-align: var(--philosophy-text-align, center); /* CSS variable with centered fallback */
+  /* No max-width constraint - allow text to display fully */
+}
+
+.philosophy-item:first-child {
+  grid-column: var(--philosophy-first-col, 2 / 7); /* CSS variable with centered fallback */
+  justify-self: var(--philosophy-first-justify, center);
+}
+
+.philosophy-item:nth-child(2) {
+  grid-column: var(--philosophy-second-col, 2 / 7); /* CSS variable with centered fallback */
+  justify-self: var(--philosophy-second-justify, center);
+}
+
+.philosophy-item:nth-child(3) {
+  grid-column: var(--philosophy-third-col, 2 / 7); /* CSS variable with centered fallback */
+  justify-self: var(--philosophy-third-justify, center);
+}
+
+.philosophy-text--content {
+  font-size: clamp(4rem, 8vw, 153.541px); /* Responsive from 4rem to 153.541px */
+  letter-spacing: -0.03em;
+  color: var(--chuparosa-600); /* WCAG accessible red on bone background */
+}
+
+.philosophy-text--king {
+  font-size: clamp(5rem, 10vw, 212.351px); /* Responsive from 5rem to 212.351px */
+  letter-spacing: -0.03em;
+  color: var(--chuparosa-600); /* WCAG accessible red on bone background */
+}
+
+.philosophy-text--queen {
+  font-size: clamp(6rem, 12vw, 239.141px); /* Responsive from 6rem to 239.141px */
+  letter-spacing: -0.03em;
+  color: var(--obsidian);
+  opacity: var(--philosophy-queen-opacity, 1); /* CSS variable with visible fallback */
+  visibility: visible; /* Keep element in layout flow to maintain grid height */
+}
+
+/* Philosophy Redaction Boxes - Hidden by default (fallback) */
+.philosophy-redaction {
+  position: absolute;
+  background-color: var(--chuparosa-600); /* Red strikethrough color matching text */
+  z-index: 2;
+  width: var(--philosophy-redaction-width, 0); /* CSS variable with hidden fallback */
+  height: var(--philosophy-redaction-height, 0); /* CSS variable with hidden fallback */
+  transform-origin: left;
+  overflow: hidden;
+  opacity: 1;
+  visibility: visible;
+  display: block;
+}
+
+.philosophy-redaction--first {
+  position: absolute;
+  /* left position set dynamically via JS to align with text */
+  top: 50%;
+  transform: translateY(-50%);
+  /* width and height set dynamically via JS */
+}
+
+.philosophy-redaction--second {
+  position: absolute;
+  /* left position set dynamically via JS to align with text */
+  top: 50%;
+  transform: translateY(-50%);
+  /* width and height set dynamically via JS */
+}
+

@@ -1,0 +1,258 @@
+/* Shared Layout Styles for About and Palo Verde Sections */
+.about,
+.palo-verde {
+  position: relative;
+  /* Uses .section padding - var(--space-4xl) 0 on desktop, var(--space-2xl) 0 on mobile */
+  overflow: visible; /* Allow decorative elements to overflow on large screens */
+}
+
+/* About page: adjust hero image position on mobile to show subject */
+/* Target via image src attribute since about page doesn't have .about class */
+.background-image__img[src*="about"] {
+  object-position: 75% center; /* Show right portion on mobile (subject is on right) */
+}
+
+@media (min-width: 768px) {
+  .background-image__img[src*="about"] {
+    object-position: center; /* Center on desktop */
+  }
+}
+
+/* ========================================
+   FEATURED IMAGE SECTION COMPONENT
+   Pattern: Simple stacked mobile, decorative desktop layout
+   Used by: About, Palo Verde
+   Mobile First: Matches content-section on mobile
+   ======================================== */
+
+.section--featured-image {
+  position: relative;
+  overflow: visible; /* Allow decorative elements to overflow */
+}
+
+/* Mobile First: Simple container with normal flow */
+.section--featured-image__container {
+  position: relative;
+  width: 100%;
+  max-width: 1512px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+  padding-bottom: var(--space-4xl);
+  overflow: visible;
+}
+
+/* Desktop: Minimum height for decorative layout */
+@media (min-width: 1024px) {
+  .section--featured-image__container {
+    padding: 0 var(--space-lg);
+    min-height: calc(617px + 500px + var(--space-4xl));
+  }
+}
+
+/* Featured image - Mobile: relative, normal flow, centered */
+.section--featured-image__image {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  aspect-ratio: 354 / 442;
+  margin: 0 auto var(--space-xl);
+  z-index: 1;
+}
+
+/* Desktop: Absolute positioned decoratively - unified positioning for all sections */
+@media (min-width: 1024px) {
+  .section--featured-image__image {
+    position: absolute;
+    width: 354px;
+    height: 442px;
+    margin: 0;
+    left: 50%;
+    top: var(--space-4xl); /* 128px on desktop - uses spacing variable */
+    transform: translateX(-50%); /* Center horizontally without calc */
+  }
+}
+
+.section--featured-image__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Content area - Mobile: relative, normal flow like other sections */
+.section--featured-image__content {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: flex-start;
+  z-index: 3;
+}
+
+/* Desktop: Absolute positioning with centering */
+@media (min-width: 1024px) {
+  .section--featured-image__content {
+    position: absolute;
+    left: 50%;
+    top: 50%; /* Use percentage for vertical centering */
+    transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+    width: 724px;
+    align-items: center;
+  }
+}
+
+/* Headline - Mobile: left-aligned like other sections */
+.section--featured-image__headline {
+  font-family: var(--font-display);
+  font-size: var(--text-h2-size); /* Responsive: 40px mobile → 90px large desktop */
+  font-weight: 500;
+  line-height: var(--text-h2-line-height); /* Responsive line-height */
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--chuparosa-100);
+  text-align: left;
+  width: 100%;
+  margin: 0;
+}
+
+/* Desktop: Justified text */
+@media (min-width: 1024px) {
+  .section--featured-image__headline {
+    text-align: justify;
+    text-align-last: justify;
+  }
+}
+
+/* Body - Mobile: single column like other sections */
+.section--featured-image__body {
+  display: grid;
+  gap: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-p-large-size); /* Large body text for emphasis */
+  font-weight: 400;
+  line-height: var(--text-p-large-line-height); /* Large body text line-height */
+  color: var(--chuparosa-100);
+  width: 100%;
+}
+
+/* Tablet+: two columns */
+@media (min-width: 768px) {
+  .section--featured-image__body {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.section--featured-image__body p {
+  margin: 0;
+}
+
+/* Ensure line animations work within featured image sections */
+.section--featured-image__content [js-line-animation] {
+  width: 100%;
+}
+
+/* ======================================== */
+
+/* About and Palo Verde sections inherit background from body for animated transitions */
+
+.about-container,
+.palo-verde-container {
+  position: relative;
+  width: 100%;
+  max-width: 1512px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+  padding-bottom: var(--space-4xl);
+  overflow: visible; /* Allow decorative elements to overflow */
+}
+
+/* Old about-portrait and palo-verde-tree styles removed - now using section--featured-image */
+
+/* Shared Decorative Flower Styles */
+.about-flower,
+.palo-verde-flower {
+  position: absolute;
+  z-index: 1;
+}
+
+/* Shared positioning for both flowers */
+.about-flower,
+.palo-verde-flower {
+  right: -350px;
+  top: 379px;
+  width: 850px;
+  height: 850px;
+}
+
+.about-flower__image,
+.palo-verde-flower__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Palo Verde flower - matches about section flower before flip */
+.palo-verde-flower__image {
+  color: var(--chuparosa-700); /* Start as chuparosa-700 before flip */
+}
+
+/* When background flips to palo-verde, change flower to desert gold */
+body.bg-palo-verde .palo-verde-flower__image {
+  color: var(--desert-gold-500); /* Brighter gold */
+}
+
+/* Old about-headline styles removed - now using section--featured-image__headline */
+
+/* ========================================
+   REUSABLE PATTERN: Animated Heading Layout
+   
+   For sections with absolutely positioned content that contains
+   animated headings (js-line-animation), use this pattern:
+   
+   HTML: Create a wrapper div that contains both headline and content.
+   The wrapper should be absolutely positioned.
+   Headline and content inside should be relatively positioned.
+   
+   CSS: Wrapper uses position absolute, display flex column, gap for spacing.
+   Headline and content inside use position relative (NOT absolute).
+   
+   This ensures the container adjusts to heading height automatically.
+   See .palo-verde-text-wrapper and .about-content for examples.
+   ======================================== */
+
+/* Palo Verde Text Wrapper - contains headline and content */
+.palo-verde-text-wrapper {
+  position: absolute;
+  left: var(--space-md);
+  top: 366px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl); /* Spacing between headline and content */
+}
+
+/* Palo Verde section-specific color overrides */
+.palo-verde .section--featured-image__headline {
+  color: var(--chuparosa-100); /* Match about section before flip */
+}
+
+/* When background flips to palo-verde, change headline color */
+body.bg-palo-verde .palo-verde .section--featured-image__headline {
+  color: var(--palo-verde-50);
+}
+
+/* Palo Verde section-specific color overrides */
+.palo-verde .section--featured-image__body {
+  color: var(--chuparosa-100); /* Match about section before flip */
+}
+
+/* When background flips to palo-verde, change body text color */
+body.bg-palo-verde .palo-verde .section--featured-image__body {
+  color: var(--palo-verde-300);
+}
+
+/* Old body column styles removed - now using section--featured-image__body grid */
+

@@ -1,0 +1,198 @@
+/* Roster Grid */
+/* Mobile-first: single column, then auto-fit at 640px+ */
+.roster-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: var(--space-2xl) 0;
+}
+
+/* Small tablet and up: auto-fit columns */
+@media (min-width: 640px) {
+  .roster-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0;
+  }
+}
+
+/* ========================================
+   Section Grid Component
+   Mobile-first grid sections with consistent container behavior
+   Used by: Roster, Services, future grid-based sections
+   Follows container-wide pattern (max-width: 1512px)
+   ======================================== */
+
+/* Base section - uses container-wide pattern */
+.section-grid {
+  position: relative;
+  width: 100%;
+}
+
+.section-grid__container {
+  width: 100%;
+  max-width: 1512px; /* Matches container-wide */
+  margin: 0 auto;
+  padding: 0 var(--space-md); /* Mobile first */
+}
+
+/* Desktop padding adjustments */
+@media (min-width: 768px) {
+  .section-grid__container {
+    padding: 0 var(--space-lg); /* Match other sections at desktop */
+  }
+}
+
+/* Section header - headline + link layout */
+.section-grid__header {
+  display: flex;
+  flex-direction: column; /* Mobile first: stack */
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl); /* Increased spacing between header and grid */
+  width: 100%;
+}
+
+/* Desktop: horizontal layout */
+@media (min-width: 768px) {
+  .section-grid__header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-md); /* Minimum gap between headline and link */
+  }
+}
+
+/* Headline wrapper - reuses content-section pattern */
+.section-grid__headline {
+  /* Inherits from content-section__headline structure */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Remove max-width constraint when used in section-grid */
+.section-grid__headline.content-section__headline {
+  max-width: none;
+}
+
+/* Link styling */
+.section-grid__link {
+  font-family: var(--font-display);
+  font-size: var(--text-ui-nav);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--chuparosa-100);
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap; /* Prevent text wrapping */
+  flex-shrink: 0; /* Never shrink below natural width */
+  transition: opacity 0.2s ease;
+  /* Ensure minimum 32px tap area using spacing variables */
+  padding: var(--space-sm) 0; /* 16px top/bottom = 32px+ total height with text */
+  min-height: var(--space-xl); /* 32px minimum tap area */
+  display: inline-flex;
+  align-items: center;
+}
+
+.section-grid__link:hover {
+  opacity: 0.7;
+}
+
+.section-grid__link:active {
+  opacity: 0.5;
+}
+
+.section-grid__link:focus-visible {
+  outline: 2px solid var(--chuparosa-100);
+  outline-offset: var(--space-xs); /* 8px - using spacing variable */
+  border-radius: 2px;
+}
+
+/* Grid container - mobile first */
+.section-grid__grid {
+  display: grid;
+  width: 100%;
+  gap: 0;
+}
+
+/* ========================================
+   Roster Modifier
+   ======================================== */
+
+.section-grid--roster .section-grid__grid {
+  grid-template-columns: 1fr; /* Mobile: single column */
+}
+
+/* Small tablet: 2 columns */
+@media (min-width: 640px) {
+  .section-grid--roster .section-grid__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: 3 columns */
+@media (min-width: 1024px) {
+  .section-grid--roster .section-grid__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Extra large desktop: 4 columns */
+@media (min-width: 1536px) {
+  .section-grid--roster .section-grid__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ========================================
+   Services Modifier
+   ======================================== */
+
+.section-grid--services .section-grid__grid {
+  grid-template-columns: 1fr; /* Mobile: single column */
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 768px) {
+  .section-grid--services .section-grid__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: 3 columns */
+@media (min-width: 1024px) {
+  .section-grid--services .section-grid__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Main Content Container (About only) */
+/* About Content - follows reusable animated heading pattern */
+.about-content {
+  position: absolute;
+  left: 50%;
+  top: 617px;
+  transform: translateX(-50%);
+  width: 724px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg); /* Spacing between headline, body, and button */
+  align-items: center;
+  z-index: 3;
+  padding-bottom: var(--space-2xl);
+}
+
+/* Ensure animated headings inside adjust container height */
+.about-content [js-line-animation],
+.palo-verde-text-wrapper [js-line-animation] {
+  width: 100%; /* Full width within container */
+}
+
+/* Palo Verde Specific Container */
+.palo-verde-container {
+  min-height: calc(560px + 200px + var(--space-4xl));
+}
+
+/* Palo Verde Flower - now uses same positioning as About flower */
+
