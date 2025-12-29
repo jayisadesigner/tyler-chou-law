@@ -118,9 +118,17 @@
 
     
     <main id="main-content">
-      <article class="content-section content-section--media-left content-section--media-bleed content-section--parallax">
+      <article class="content-section content-section--media-bleed content-section--parallax">
         <div class="content-section__container">
-          <!-- Content (right side on desktop, left with --media-left modifier) -->
+          <!-- Media (first on mobile, left side on desktop with --media-left modifier) -->
+          <div class="content-section__media">
+            <div class="background-image">
+              <img src="/src/assets/images/roster/samandcolby.webp" alt="@samandcolby" class="background-image__img">
+            </div>
+            <h1 class="creator-name">@samandcolby</h1>
+          </div>
+
+          <!-- Content (second on mobile, right side on desktop, left with --media-left modifier) -->
           <div class="content-section__content">
             <!-- Stats -->
             <div class="creator-stats">
@@ -192,14 +200,6 @@
               </div>
             </div>
           </div>
-          </div>
-
-          <!-- Media (left side on desktop with --media-left modifier) -->
-          <div class="content-section__media">
-            <div class="background-image">
-              <img src="/src/assets/images/roster/samandcolby.webp" alt="@samandcolby" class="background-image__img">
-            </div>
-            <h1 class="creator-name">@samandcolby</h1>
           </div>
         </div>
       </article>
