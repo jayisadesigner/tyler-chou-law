@@ -36,22 +36,7 @@
   color: var(--chuparosa-100);
 }
 
-/* Blog Post Header */
-.blog-post-header {
-  padding: var(--space-4xl) 0 var(--space-2xl) 0;
-  background-color: var(--chuparosa-600);
-}
-
-.blog-post-title {
-  font-family: var(--font-display);
-  font-size: var(--text-h1-size);
-  font-weight: 500;
-  line-height: var(--text-h1-line-height);
-  color: var(--chuparosa-100);
-  margin: 0 0 var(--space-lg) 0;
-  text-wrap: balance;
-}
-
+/* Blog Post Meta - used in hero */
 .blog-post-meta {
   display: flex;
   flex-wrap: wrap;
@@ -100,7 +85,26 @@
   letter-spacing: 0.5px;
 }
 
-/* Featured Image Hero */
+/* Featured Image Hero - works as background in hero */
+.hero--blog-post .blog-post-hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin: 0;
+  background-color: var(--obsidian);
+}
+
+.hero--blog-post .blog-post-hero-image__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  max-height: none;
+}
+
+/* Featured image when not in hero (fallback) */
 .blog-post-hero-image {
   width: 100%;
   margin: 0 0 var(--space-4xl) 0;
@@ -235,14 +239,6 @@
 
 /* Tablet (768px+) */
 @media (min-width: 768px) {
-  .blog-post-header {
-    padding: var(--space-4xl) 0 var(--space-3xl) 0;
-  }
-
-  .blog-post-title {
-    font-size: var(--text-h1-size);
-  }
-
   .blog-post-content {
     padding: var(--space-3xl) 0;
   }
@@ -250,10 +246,6 @@
 
 /* Desktop (1024px+) */
 @media (min-width: 1024px) {
-  .blog-post-header {
-    padding: var(--space-4xl) 0 var(--space-4xl) 0;
-  }
-
   .blog-post-content :deep(h2) {
     margin-top: var(--space-4xl);
   }

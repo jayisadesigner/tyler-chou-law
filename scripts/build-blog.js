@@ -14,8 +14,9 @@ const __dirname = dirname(__filename)
 const projectRoot = join(__dirname, '..')
 
 const contentDir = join(projectRoot, 'content', 'blog')
-// Generate to dist/love-letters/ for final output
+// Generate to both dist/love-letters/ (for production) and love-letters/ (for dev server)
 const outputDir = join(projectRoot, 'dist', 'love-letters')
+const devOutputDir = join(projectRoot, 'love-letters')
 const listingPagePath = join(projectRoot, 'love-letters.html')
 const templatePath = join(projectRoot, 'src', 'templates', 'blog-post.html')
 const componentsDir = join(projectRoot, 'src', 'components')
@@ -291,11 +292,13 @@ async function buildPost(filePath, fileName) {
       }
     }
     
-    // Create output directory
+    // Create output directories (both dist and root for dev server)
     await mkdir(outputDir, { recursive: true })
+    await mkdir(devOutputDir, { recursive: true })
     
-    // Write HTML file (as [slug].html, not [slug]/index.html)
+    // Write HTML file to both locations (as [slug].html, not [slug]/index.html)
     await writeFile(join(outputDir, `${slug}.html`), template)
+    await writeFile(join(devOutputDir, `${slug}.html`), template)
     
     return {
       slug,
