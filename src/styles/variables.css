@@ -35,15 +35,32 @@
   --chuparosa-950-30: rgba(43, 3, 5, 0.30);
   --chuparosa-950-34: rgba(43, 3, 5, 0.34);
   
-  /* Lupine opacity variants (for gradients) */
+  /* Lupine opacity variants (for gradients and shadows) */
   --lupine-rgba-25: rgba(125, 25, 225, 0.25);
+  --lupine-950-01: rgba(23, 3, 43, 0.005);
+  --lupine-950-05: rgba(23, 3, 43, 0.02);
+  --lupine-950-18: rgba(23, 3, 43, 0.08);
+  --lupine-950-30: rgba(23, 3, 43, 0.15);
+  --lupine-950-34: rgba(23, 3, 43, 0.18);
   
-  /* Desert gold opacity variants (for gradients) */
+  /* Desert gold opacity variants (for gradients and shadows) */
   --desert-gold-rgba-20: rgba(225, 175, 25, 0.2);
+  --desert-gold-950-01: rgba(43, 33, 3, 0.005);
+  --desert-gold-950-05: rgba(43, 33, 3, 0.02);
+  --desert-gold-950-18: rgba(43, 33, 3, 0.08);
+  --desert-gold-950-30: rgba(43, 33, 3, 0.15);
+  --desert-gold-950-34: rgba(43, 33, 3, 0.18);
   
   /* Obsidian dark variant (for video overlays) */
   --obsidian-dark-20: rgba(13, 8, 9, 0.2);
   --obsidian-dark-50: rgba(13, 8, 9, 0.5);
+  
+  /* Shadow color from Figma (rgba(26,32,51)) */
+  --shadow-color-00: rgba(26, 32, 51, 0);
+  --shadow-color-01: rgba(26, 32, 51, 0.01);
+  --shadow-color-04: rgba(26, 32, 51, 0.04);
+  --shadow-color-08: rgba(26, 32, 51, 0.08);
+  --shadow-color-09: rgba(26, 32, 51, 0.09);
 }
 
 /* Chuparosa (Red) - Power, protection, intensity */
