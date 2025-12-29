@@ -30,7 +30,7 @@
     <meta name="twitter:description" content="Portland-based educational creator turning complex science into binge-worthy content. His signature style (deadpan delivery meets absurdist scenarios) makes ..." />
     <meta name="twitter:image" content="https://tylerchoulaw.com/src/assets/images/roster/@jadroppingscience.png" />
     
-    <!-- JSON-LD Schema -->
+    <!-- JSON-LD Schema: Person -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -39,6 +39,34 @@
       "description": "Portland-based educational creator turning complex science into binge-worthy content. His signature style (deadpan delivery meets absurdist scenarios) makes ...",
       "url": "https://tylerchoulaw.com/roster/jadroppingscience.html",
       "sameAs": ["https://youtube.com/@jadroppingscience"]
+    }
+    </script>
+    
+    <!-- JSON-LD Schema: BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://tylerchoulaw.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Roster",
+          "item": "https://tylerchoulaw.com/roster.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "@jadroppingscience",
+          "item": "https://tylerchoulaw.com/roster/jadroppingscience.html"
+        }
+      ]
     }
     </script>
   </head>
@@ -90,39 +118,38 @@
 
     
     <main id="main-content">
-      <!-- Pre-rendered Content (SEO) -->
-      <article class="creator-page-content section">
-        <div class="container-wide">
-          <h1>@jadroppingscience</h1>
-          
-          <!-- Stats -->
-          <div class="creator-stats">
-            <div class="creator-stat">
-              <p class="creator-stat-value">2.17M</p>
-              <p class="creator-stat-label">subscribers</p>
+      <article class="content-section content-section--media-left content-section--media-bleed content-section--parallax">
+        <div class="content-section__container">
+          <!-- Content (right side on desktop, left with --media-left modifier) -->
+          <div class="content-section__content">
+            <!-- Stats -->
+            <div class="creator-stats">
+              <div class="creator-stat">
+                <p class="creator-stat-value">2.17M</p>
+                <p class="creator-stat-label">subscribers</p>
+              </div>
+              <div class="creator-stat">
+                <p class="creator-stat-value">1.6B+</p>
+                <p class="creator-stat-label">total views</p>
+              </div>
+              <div class="creator-stat">
+                <p class="creator-stat-value">18-34</p>
+                <p class="creator-stat-label">core demo</p>
+              </div>
+              <div class="creator-stat">
+                <p class="creator-stat-value">US</p>
+                <p class="creator-stat-label">top region</p>
+              </div>
             </div>
-            <div class="creator-stat">
-              <p class="creator-stat-value">1.6B+</p>
-              <p class="creator-stat-label">total views</p>
-            </div>
-            <div class="creator-stat">
-              <p class="creator-stat-value">18-34</p>
-              <p class="creator-stat-label">core demo</p>
-            </div>
-            <div class="creator-stat">
-              <p class="creator-stat-value">US</p>
-              <p class="creator-stat-label">top region</p>
-            </div>
-          </div>
-          
-          <!-- Description -->
-          <div class="creator-description">
-            <p>Portland-based educational creator turning complex science into binge-worthy content. His signature style (deadpan delivery meets absurdist scenarios) makes learning feel like entertainment.</p>
+            
+            <!-- Description -->
+            <div class="creator-description">
+              <p>Portland-based educational creator turning complex science into binge-worthy content. His signature style (deadpan delivery meets absurdist scenarios) makes learning feel like entertainment.</p>
             <p>Breakout hit "How to deal with getting impaled" racked up 33M+ views and established his lane: morbid curiosity meets genuine utility. He's building the next generation of science communicators, one unhinged hypothetical at a time.</p>
-          </div>
-          
-          <!-- Videos -->
-          
+            </div>
+            
+            <!-- Videos -->
+            
           <div class="creator-videos">
             <h2>Sample Videos</h2>
             <div class="creator-videos-grid">
@@ -165,83 +192,17 @@
               </div>
             </div>
           </div>
+          </div>
+
+          <!-- Media (left side on desktop with --media-left modifier) -->
+          <div class="content-section__media">
+            <div class="background-image">
+              <img src="/src/assets/images/roster/@jadroppingscience.webp" alt="@jadroppingscience" class="background-image__img">
+            </div>
+            <h1 class="creator-name">@jadroppingscience</h1>
+          </div>
         </div>
       </article>
-      
-      <!-- Creator Page Overlay (Enhanced UX) -->
-      <div class="creator-page-overlay" id="creator-page-overlay" aria-hidden="true" role="dialog" aria-modal="true">
-        <!-- Close Button -->
-        <button class="creator-page-overlay__close" aria-label="Close creator page">
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 5L32 32L59 59" stroke="var(--lupine-100)" stroke-width="6"/>
-            <path d="M59 5L32 32L5 59" stroke="var(--lupine-100)" stroke-width="6"/>
-          </svg>
-        </button>
-
-        <!-- Breadcrumbs -->
-        <nav class="creator-page-overlay__breadcrumbs" aria-label="Breadcrumb">
-          <a href="/">tyler chou law for creators</a>
-          <span>/</span>
-          <a href="/roster.html">roster</a>
-          <span>/</span>
-          <span class="creator-page-overlay__breadcrumb-name">james andrews</span>
-        </nav>
-
-        <!-- Header (fades out in middle state) -->
-        <div class="creator-page-overlay__header">
-          <h2 class="creator-page-overlay__header-title">who we work with</h2>
-          <a href="/roster.html" class="creator-page-overlay__header-link">view roster</a>
-        </div>
-
-        <!-- Main Content Container -->
-        <div class="creator-page-overlay__container">
-          <!-- Media Kit Stats (Row 1, Full Width) -->
-          <div class="creator-page-overlay__stats">
-            <div class="creator-page-overlay__stat">
-              <p class="creator-page-overlay__stat-value"></p>
-              <p class="creator-page-overlay__stat-label"></p>
-            </div>
-            <div class="creator-page-overlay__stat">
-              <p class="creator-page-overlay__stat-value"></p>
-              <p class="creator-page-overlay__stat-label"></p>
-            </div>
-            <div class="creator-page-overlay__stat">
-              <p class="creator-page-overlay__stat-value"></p>
-              <p class="creator-page-overlay__stat-label"></p>
-            </div>
-            <div class="creator-page-overlay__stat">
-              <p class="creator-page-overlay__stat-value"></p>
-              <p class="creator-page-overlay__stat-label"></p>
-            </div>
-          </div>
-
-          <!-- Left: Creator Image Card (transitions from grid card) -->
-          <div class="creator-page-overlay__image-card">
-            <div class="creator-page-overlay__image-wrapper">
-              <img src="" alt="" class="creator-page-overlay__image">
-              <div class="creator-page-overlay__image-overlay"></div>
-              <div class="creator-page-overlay__image-scrim"></div>
-            </div>
-            <p class="creator-page-overlay__handle" id="creator-overlay-handle"></p>
-          </div>
-
-          <!-- Right: Content Area (appears in middle/end states) -->
-          <div class="creator-page-overlay__content-wrapper">
-            <div class="creator-page-overlay__content">
-              <!-- Description -->
-              <div class="creator-page-overlay__description">
-                <p class="creator-page-overlay__description-text"></p>
-                <p class="creator-page-overlay__description-text"></p>
-              </div>
-            </div>
-
-            <!-- Sample Videos (Row 3, Right Side) -->
-            <div class="creator-page-overlay__videos">
-              <!-- Videos will be populated dynamically -->
-            </div>
-          </div>
-        </div>
-      </div>
     </main>
     
     <footer class="site-footer">

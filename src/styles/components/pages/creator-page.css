@@ -1,0 +1,164 @@
+/* ========================================
+   Creator Page - Simple Regular Page
+   Uses content-section layout system
+   Only creator-specific content styles here
+   ======================================== */
+
+/* Media matches other sections (982px), content sizes to content */
+@media (min-width: 768px) {
+  .page-creator .content-section__content {
+    align-self: flex-start; /* Don't stretch, size to content */
+  }
+}
+
+/* Creator name - positioned over image */
+.creator-name {
+  position: relative;
+  margin-top: var(--space-md);
+  font-family: var(--font-display);
+  font-size: var(--text-h3-size);
+  font-weight: 500;
+  line-height: var(--text-h3-line-height);
+  letter-spacing: -0.03em;
+  color: var(--obsidian);
+  text-transform: uppercase;
+  margin: var(--space-md) 0 0 0;
+  z-index: 2;
+}
+
+@media (min-width: 768px) {
+  .creator-name {
+    position: absolute;
+    bottom: var(--space-xl);
+    left: var(--space-xl);
+    color: var(--bone);
+    font-size: var(--text-h2-size);
+    line-height: var(--text-h2-line-height);
+    margin: 0;
+    z-index: 2;
+  }
+}
+
+/* Stats grid - simple 2x2 */
+.creator-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+  width: 100%;
+}
+
+.creator-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.creator-stat-value {
+  font-family: var(--font-display);
+  font-size: var(--text-h4-size);
+  font-weight: 500;
+  line-height: var(--text-h4-line-height);
+  letter-spacing: -0.03em;
+  color: var(--bone);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.creator-stat-label {
+  font-family: var(--font-display);
+  font-size: var(--text-h6-size);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--bone);
+  text-transform: uppercase;
+  margin: 0;
+  line-height: var(--text-h6-line-height);
+}
+
+@media (min-width: 768px) {
+  .creator-stat-value {
+    font-size: var(--text-h2-size);
+    line-height: var(--text-h2-line-height);
+  }
+}
+
+/* Description */
+.creator-description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-p-size);
+  line-height: var(--text-p-line-height);
+  color: var(--bone);
+  margin-bottom: var(--space-2xl);
+  width: 100%;
+}
+
+.creator-description p {
+  margin: 0;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .creator-description {
+    flex-direction: row;
+    font-size: var(--text-p-large-size);
+    line-height: var(--text-p-large-line-height);
+  }
+}
+
+/* Videos */
+.creator-videos {
+  margin-top: var(--space-2xl);
+  width: 100%;
+}
+
+.creator-videos h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h4-size);
+  font-weight: 500;
+  line-height: var(--text-h4-line-height);
+  letter-spacing: -0.03em;
+  color: var(--bone);
+  text-transform: uppercase;
+  margin: 0 0 var(--space-lg) 0;
+  width: 100%;
+}
+
+.creator-videos-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .creator-videos-grid {
+    gap: var(--space-sm);
+  }
+}
+
+/* Video wrapper - reuses existing .video component */
+.creator-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 602 / 339;
+  flex-shrink: 0;
+}
+
+.creator-video .video {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.creator-video .video__embed {
+  width: 100%;
+  height: 100%;
+}
+
+

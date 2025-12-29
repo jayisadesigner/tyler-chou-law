@@ -155,6 +155,27 @@ function generateYouTubeUrl(creatorId) {
 }
 
 /**
+ * Generate image source path for template
+ */
+function generateImageSrc(creatorId) {
+  // Map creator IDs to their actual image file names and extensions
+  const imageMap = {
+    'jesser': '@jesser.webp',
+    'sticks': '@sticks.jpg',
+    'jacksfilms': '@jacksfilms.webp',
+    'jennyhoyos': 'jennyhoyos.webp',
+    'samandcolby': 'samandcolby.webp',
+    'calebhammer': '@calebhammer.webp',
+    'jadroppingscience': '@jadroppingscience.webp',
+    'cassandrabankson': '@cassandraBankson.webp'
+  }
+  
+  const imageFile = imageMap[creatorId] || `${creatorId}.png`
+  return `/src/assets/images/roster/${imageFile}`
+}
+
+
+/**
  * Load component template
  */
 async function loadComponentTemplate(name) {
@@ -213,6 +234,7 @@ async function buildCreatorPage(creatorId, data) {
     const ogImage = generateOGImage(creatorId)
     const twitterImage = generateTwitterImage(creatorId)
     const youtubeUrl = generateYouTubeUrl(creatorId)
+    const imageSrc = generateImageSrc(creatorId)
     
     // Get stats
     const stats = data.stats || []
@@ -245,6 +267,9 @@ async function buildCreatorPage(creatorId, data) {
       .replace(/\{\{ogImage\}\}/g, ogImage)
       .replace(/\{\{twitterImage\}\}/g, twitterImage)
       .replace(/\{\{youtubeUrl\}\}/g, youtubeUrl)
+      .replace(/\{\{imageSrc\}\}/g, imageSrc)
+      // BreadcrumbList schema placeholders are already in template, just replace them
+      // The schema structure is already correct in the template
     
     // Create output directory
     await mkdir(outputDir, { recursive: true })
