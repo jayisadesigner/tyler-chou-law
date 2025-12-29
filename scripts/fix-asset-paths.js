@@ -44,7 +44,7 @@ async function findViteAssets() {
 /**
  * Fix asset paths in a single HTML file
  */
-async function fixAssetPaths(filePath, assets) {
+async function fixAssetPathsInFile(filePath, assets) {
   try {
     let html = await readFile(filePath, 'utf-8')
     let modified = false
@@ -95,7 +95,7 @@ async function fixCreatorPages(assets) {
     let fixed = 0
     for (const file of htmlFiles) {
       const filePath = join(rosterDir, file)
-      if (await fixAssetPaths(filePath, assets)) {
+      if (await fixAssetPathsInFile(filePath, assets)) {
         fixed++
       }
     }
@@ -128,7 +128,7 @@ async function fixBlogPosts(assets) {
     let fixed = 0
     for (const file of htmlFiles) {
       const filePath = join(blogDir, file)
-      if (await fixAssetPaths(filePath, assets)) {
+      if (await fixAssetPathsInFile(filePath, assets)) {
         fixed++
       }
     }
