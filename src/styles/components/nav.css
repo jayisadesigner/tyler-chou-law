@@ -326,6 +326,20 @@ body.page-love-letters.nav-over-blog .hamburger-line {
   background-color: var(--chuparosa-950);
 }
 
+/* Blog Post page: use obsidian when over blog-post-content */
+body.page-blog-post.nav-over-blog .logo-line,
+body.page-blog-post.nav-over-blog .nav-menu a {
+  color: var(--obsidian);
+}
+
+body.page-blog-post.nav-over-blog .logo-image {
+  color: var(--obsidian);
+}
+
+body.page-blog-post.nav-over-blog .hamburger-line {
+  background-color: var(--obsidian);
+}
+
 /* Logo and button stay in same position when menu open - just change colors */
 .main-nav:has(.nav-menu.is-open) .logo {
   z-index: 1001;

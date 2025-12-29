@@ -97,17 +97,6 @@
     </header>
     
     <main id="main-content">
-      <!-- Breadcrumb Navigation -->
-      <nav class="blog-post-breadcrumb" aria-label="Breadcrumb">
-        <div class="container">
-          <a href="/">Home</a>
-          <span class="blog-post-breadcrumb__separator">/</span>
-          <a href="/love-letters.html">Love Letters</a>
-          <span class="blog-post-breadcrumb__separator">/</span>
-          <span class="blog-post-breadcrumb__current">{{title}}</span>
-        </div>
-      </nav>
-      
       <article class="blog-post">
         <section class="hero hero--blog-post">
           {{featuredImageHero}}
@@ -122,15 +111,11 @@
           </div>
         </section>
         
-        <div class="blog-post-content container-narrow">
-          {{content}}
-        </div>
-        
-        <footer class="blog-post-footer">
+        <div class="blog-post-content">
           <div class="container-narrow">
-            <a href="/contact.html" class="btn btn--primary btn--on-dark">Get in Touch</a>
+            {{content}}
           </div>
-        </footer>
+        </div>
       </article>
     </main>
     

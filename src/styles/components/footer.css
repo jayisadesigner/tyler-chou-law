@@ -43,12 +43,12 @@
 /* Footer color adjustments for different backgrounds */
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters) .site-footer {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post) .site-footer {
   background-color: var(--page-bg-color);
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters) .footer-item {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post) .footer-item {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
@@ -103,5 +103,14 @@ body.page-love-letters .site-footer {
 
 body.page-love-letters .footer-item {
   color: var(--nav-text-on-bone, var(--obsidian));
+}
+
+/* Blog Post page: use desert gold 50 background with desert gold 950 text */
+body.page-blog-post .site-footer {
+  background-color: var(--desert-gold-50);
+}
+
+body.page-blog-post .footer-item {
+  color: var(--desert-gold-950);
 }
 
