@@ -1,0 +1,191 @@
+/* Responsive */
+/* Tablet only (768px-1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* About and Palo Verde sections now use section--featured-image component */
+  
+  .palo-verde-flower {
+    width: 500px;
+    height: 500px;
+    left: calc(60% + 50px);
+  }
+  
+  .about-flower,
+  .palo-verde-flower {
+    display: none; /* Hide decorative flower on mobile */
+  }
+  
+  .philosophy-container {
+    padding: 0 var(--space-md);
+    min-height: auto;
+  }
+  
+  .philosophy-item {
+    width: 100%;
+    overflow: visible; /* Allow text to overflow if needed */
+    min-width: 0; /* Allow grid items to shrink */
+  }
+  
+  .philosophy-text {
+    /* Base clamp() handles responsive sizing - no override needed */
+    /* Keep white-space: nowrap to prevent line breaks */
+    max-width: none; /* Remove max-width constraint to prevent cutoff */
+  }
+  
+  .philosophy-redaction--first,
+  .philosophy-redaction--second {
+    width: 100%;
+    max-width: 724px;
+  }
+  
+  .service-card {
+    width: 100%;
+    max-width: 477px;
+    height: auto;
+    min-height: 380px;
+  }
+  
+  .hero--inner-page {
+    padding: var(--space-2xl) var(--space-md);
+    min-height: auto;
+  }
+}
+
+/* Tablet breakpoint overrides removed - typography handled by variables.css, layout handled by mobile-first base styles */
+
+/* Tablet+ (768px): Enhanced hero height */
+@media (min-width: 768px) {
+  .hero {
+    min-height: 100vh;
+  }
+}
+
+/* Mobile (< 768px): Complex layout adjustments */
+@media (max-width: 767px) {
+  .philosophy {
+    padding: var(--space-2xl) 0;
+    min-height: auto;
+  }
+  
+  .philosophy-container {
+    padding: 0 var(--space-md);
+    min-height: auto;
+  }
+  
+  .philosophy-content {
+    grid-template-columns: 1fr;
+    justify-content: center;
+    align-content: center;
+    padding: 0 var(--space-md);
+    gap: var(--space-md);
+    overflow-x: visible; /* Allow text to overflow if needed */
+  }
+  
+  .philosophy-item {
+    width: 100%;
+    /* !important justified: Force full width on mobile to override desktop grid positioning */
+    grid-column: 1 / -1 !important; /* Full width on mobile */
+    justify-self: center;
+    text-align: center;
+    overflow: visible; /* Allow text to overflow if needed */
+  }
+  
+  .philosophy-text {
+    position: relative;
+    transform: none;
+    /* !important justified: Reset absolute positioning on mobile to prevent layout issues */
+    left: auto !important;
+    top: auto !important;
+    font-size: clamp(3rem, 12vw, 153.541px);
+    word-break: break-word;
+    white-space: normal;
+    max-width: none; /* Remove max-width constraint on mobile */
+    text-align: center;
+  }
+  
+  .philosophy-text--content {
+    font-size: clamp(3rem, 12vw, 153.541px);
+  }
+  
+  .philosophy-text--king {
+    font-size: clamp(4rem, 15vw, 212.351px);
+  }
+  
+  .philosophy-text--queen {
+    font-size: clamp(4.5rem, 17vw, 239.141px);
+    /* Opacity controlled by JavaScript animation on mobile */
+  }
+  
+  .philosophy-redaction {
+    display: none; /* Hide redaction boxes on mobile */
+  }
+  
+  /* .services uses .section responsive padding */
+  
+  /* services-container uses .container-wide responsive padding */
+  
+  .services-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+    padding: 0;
+    margin-bottom: var(--space-xl);
+  }
+  
+  .services-title {
+    font-size: var(--text-h3-size);
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    padding: 0;
+  }
+  
+  .service-card {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: auto;
+    padding: var(--space-lg) var(--space-md);
+  }
+  
+  .service-card__title {
+    font-size: var(--text-h5-size);
+  }
+  
+  .service-card__description {
+    font-size: var(--text-p-large-size);
+    line-height: var(--text-p-large-line-height);
+  }
+  
+  /* About and Palo Verde sections now use section--featured-image component */
+  
+  .about-flower,
+  .palo-verde-flower {
+    display: none; /* Hide decorative flower on mobile */
+  }
+  
+  /* about-name mobile styles now handled by base mobile-first styles */
+  
+  /* Ensure flower overflow works on large desktop */
+  @media (min-width: 1536px) {
+    .about {
+      overflow: visible;
+    }
+    
+    .about-container {
+      overflow: visible;
+    }
+  }
+  
+  .services-grid,
+  .roster-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Hero Subheadline */
+  .hero-subheadline {
+    font-size: var(--text-h5-size);
+  }
+}
+

@@ -31,6 +31,79 @@ Use a layered approach with clear separation of concerns.
 
 ---
 
+## Pages Component Organization
+
+### Directory Structure
+```
+src/styles/components/
+  ├── pages/              # Page-specific components
+  │   ├── hero.css
+  │   ├── animations.css
+  │   ├── featured-image.css
+  │   └── ...
+  └── [other components]
+```
+
+### When to Create New Component Files
+
+- **Create new file when:**
+  - Component exceeds 500 lines
+  - Component is logically distinct and reusable
+  - Component has multiple modifiers/variants
+  - Component is used across multiple pages
+
+- **Add to existing file when:**
+  - Related component (same BEM block)
+  - Small addition (< 50 lines)
+  - Tightly coupled functionality
+
+### File Size Guidelines
+- **Target:** 300-500 lines per file
+- **Acceptable:** 500-1000 lines if well-organized
+- **Split when:** Exceeds 1000 lines or becomes hard to navigate
+
+### Import Order (main.css)
+```css
+/* Base */
+@import './variables.css';
+@import './reset.css';
+@import './typography.css';
+
+/* Global Components */
+@import './components/nav.css';
+@import './components/footer.css';
+/* ... */
+
+/* Pages Components (alphabetical) */
+@import './components/pages/animations.css';
+@import './components/pages/content-section.css';
+@import './components/pages/credentials.css';
+/* ... */
+
+/* Utilities */
+@import './components/accessibility.css';
+```
+
+### Component File Structure
+Each component file should follow this structure:
+```css
+/* Component Name - Brief Description */
+
+/* Base Component */
+.component-name { }
+
+/* Elements */
+.component-name__element { }
+
+/* Modifiers */
+.component-name--modifier { }
+
+/* Responsive Breakpoints */
+@media (min-width: 768px) { }
+```
+
+---
+
 ## Naming Conventions
 
 Use **BEM methodology** for component classes:

@@ -1,0 +1,30 @@
+/* Section Reveal */
+.section-reveal {
+  opacity: 1; /* Always visible - GSAP will enhance with animation if available */
+}
+
+.fade-in {
+  opacity: 1; /* Always visible - GSAP will enhance with animation if available */
+}
+
+/* Line Animation Styles */
+[js-line-animation] {
+  overflow: hidden;
+}
+
+[js-line-animation] .line {
+  display: block;
+  overflow: hidden;
+  line-height: inherit; /* Preserve original line-height */
+}
+
+[js-line-animation] .line-inner {
+  display: block;
+}
+
+/* Reduce extra spacing for palo-verde headline specifically */
+.palo-verde .section--featured-image__headline[js-line-animation] .line {
+  margin: 0;
+  padding: 0;
+}
+
