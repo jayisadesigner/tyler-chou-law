@@ -352,26 +352,16 @@
   z-index: 1;
 }
 
-/* Desktop: Absolute positioned decoratively */
+/* Desktop: Absolute positioned decoratively - unified positioning for all sections */
 @media (min-width: 1024px) {
   .section--featured-image__image {
     position: absolute;
     width: 354px;
     height: 442px;
     margin: 0;
-  }
-  
-  /* Left modifier */
-  .section--featured-image--left .section--featured-image__image {
-    left: calc(37.5% + 12px);
-    top: 128px;
-  }
-  
-  /* Center modifier */
-  .section--featured-image--center .section--featured-image__image {
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    top: var(--space-4xl); /* 128px on desktop - uses spacing variable */
+    transform: translateX(-50%); /* Center horizontally without calc */
   }
 }
 
@@ -399,8 +389,8 @@
   .section--featured-image__content {
     position: absolute;
     left: 50%;
-    top: 617px;
-    transform: translateX(-50%);
+    top: 50%; /* Use percentage for vertical centering */
+    transform: translate(-50%, -50%); /* Center both horizontally and vertically */
     width: 724px;
     align-items: center;
   }
@@ -476,35 +466,6 @@
 }
 
 /* Old about-portrait and palo-verde-tree styles removed - now using section--featured-image */
-
-/* Decorative Name Text (About only) - Styled like large centered headline */
-/* Mobile: relative, left-aligned, normal flow */
-.about-name {
-  position: relative;
-  font-family: var(--font-body);
-  font-size: var(--text-h1-size); /* Responsive: 48px mobile → 144px XL desktop */
-  font-weight: 400;
-  line-height: var(--text-h1-line-height);
-  letter-spacing: -0.03em;
-  color: var(--chuparosa-100);
-  text-transform: capitalize;
-  text-align: left;
-  white-space: nowrap;
-  z-index: 2;
-  margin: 0 0 var(--space-lg) 0;
-}
-
-/* Desktop: absolute positioned decoratively */
-@media (min-width: 1024px) {
-  .about-name {
-    position: absolute;
-    left: calc(43.75% + 1.5px);
-    top: 376px;
-    transform: translateX(-50%);
-    text-align: center;
-    margin: 0;
-  }
-}
 
 /* Shared Decorative Flower Styles */
 .about-flower,
@@ -624,7 +585,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   flex-direction: column; /* Mobile first: stack */
   align-items: flex-start;
   gap: var(--space-md);
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-xl); /* Increased spacing between header and grid */
   width: 100%;
 }
 
@@ -664,6 +625,11 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   white-space: nowrap; /* Prevent text wrapping */
   flex-shrink: 0; /* Never shrink below natural width */
   transition: opacity 0.2s ease;
+  /* Ensure minimum 32px tap area using spacing variables */
+  padding: var(--space-sm) 0; /* 16px top/bottom = 32px+ total height with text */
+  min-height: var(--space-xl); /* 32px minimum tap area */
+  display: inline-flex;
+  align-items: center;
 }
 
 .section-grid__link:hover {
@@ -676,7 +642,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 
 .section-grid__link:focus-visible {
   outline: 2px solid var(--chuparosa-100);
-  outline-offset: 4px;
+  outline-offset: var(--space-xs); /* 8px - using spacing variable */
   border-radius: 2px;
 }
 
@@ -1512,11 +1478,14 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   width: 100%;
   max-width: 477px;
   justify-self: center;
-  height: 420px;
+  /* Height handled by CSS Grid - all cards in row match tallest card */
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  padding: var(--space-xl) var(--space-lg);
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-3xl); /* Increased bottom padding by one step */
+  padding-left: var(--space-lg);
+  padding-right: var(--space-lg);
   background-color: transparent; /* Inherits from body, allows background animation */
   border: none;
   border-radius: 0;
@@ -1526,6 +1495,17 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   box-shadow: none;
   transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: box-shadow, transform;
+  /* Center text on mobile */
+  text-align: center;
+  align-items: center;
+}
+
+/* Tablet and up: left-align text */
+@media (min-width: 768px) {
+  .service-card {
+    text-align: left;
+    align-items: flex-start;
+  }
 }
 
 /* Large screens - limit to 3 columns max (since cards are wider: 477px) */
@@ -1547,9 +1527,9 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
 
 .service-card__title {
   font-family: var(--font-display);
-  font-size: var(--text-h5-size); /* 1.999rem / ~32px */
+  font-size: var(--text-h4-size); /* Responsive: 1.5rem mobile → 2.5rem desktop → 2.827rem large */
   font-weight: 500;
-  line-height: var(--text-h5-line-height);
+  line-height: var(--text-h4-line-height);
   color: var(--chuparosa-100);
   text-transform: uppercase;
   margin: 0;
@@ -1562,7 +1542,7 @@ body.bg-palo-verde .palo-verde .section--featured-image__body {
   line-height: 1.2;
   color: var(--chuparosa-100);
   margin: 0;
-  flex: 1;
+  /* Let description take only space it needs - CSS Grid handles equal card heights */
 }
 
 /* Service card button now uses .button component */
