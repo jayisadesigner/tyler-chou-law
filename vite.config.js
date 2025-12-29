@@ -16,6 +16,15 @@ export default defineConfig({
         'love-letters': resolve(__dirname, 'love-letters.html'),
         contact: resolve(__dirname, 'contact.html'),
         admin: resolve(__dirname, 'admin/index.html'),
+        // Roster pages - static HTML files processed by Vite
+        'roster/calebhammer': resolve(__dirname, 'roster/calebhammer.html'),
+        'roster/cassandrabankson': resolve(__dirname, 'roster/cassandrabankson.html'),
+        'roster/jacksfilms': resolve(__dirname, 'roster/jacksfilms.html'),
+        'roster/jadroppingscience': resolve(__dirname, 'roster/jadroppingscience.html'),
+        'roster/jennyhoyos': resolve(__dirname, 'roster/jennyhoyos.html'),
+        'roster/jesser': resolve(__dirname, 'roster/jesser.html'),
+        'roster/samandcolby': resolve(__dirname, 'roster/samandcolby.html'),
+        'roster/sticks': resolve(__dirname, 'roster/sticks.html'),
         // Blog posts are generated to love-letters/ directory by build:blog
         // Vite will process them automatically if they're in the root
         // They'll be copied to dist/love-letters/ during build

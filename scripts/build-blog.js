@@ -14,9 +14,8 @@ const __dirname = dirname(__filename)
 const projectRoot = join(__dirname, '..')
 
 const contentDir = join(projectRoot, 'content', 'blog')
-// Generate to both dist/love-letters/ (for production) and love-letters/ (for dev server)
+// Generate to dist directory after Vite build
 const outputDir = join(projectRoot, 'dist', 'love-letters')
-const devOutputDir = join(projectRoot, 'love-letters')
 const listingPagePath = join(projectRoot, 'love-letters.html')
 const templatePath = join(projectRoot, 'src', 'templates', 'blog-post.html')
 const componentsDir = join(projectRoot, 'src', 'components')
@@ -40,6 +39,35 @@ function slugify(text) {
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
     .trim()
+}
+
+/**
+ * Get Vite-generated asset filenames
+ */
+async function getViteAssets() {
+  try {
+    const assetsDir = join(projectRoot, 'dist', 'assets')
+    
+    // Check if dist/assets directory exists
+    try {
+      await stat(assetsDir)
+    } catch {
+      throw new Error('dist/assets directory not found. Run vite build first.')
+    }
+    
+    const files = await readdir(assetsDir)
+    
+    const mainJs = files.find(f => f.startsWith('main-') && f.endsWith('.js'))
+    const mainCss = files.find(f => f.startsWith('main-') && f.endsWith('.css'))
+    
+    return {
+      mainJs: mainJs ? `/assets/${mainJs}` : null,
+      mainCss: mainCss ? `/assets/${mainCss}` : null
+    }
+  } catch (error) {
+    console.error('Error getting Vite assets:', error)
+    throw error
+  }
 }
 
 /**
@@ -251,6 +279,9 @@ async function buildPost(filePath, fileName) {
     // Escape content for JSON schema
     const articleBody = escapeJSON(body.substring(0, 5000)) // Limit for schema
     
+    // Get Vite-generated asset paths first (needed for template replacements)
+    const viteAssets = await getViteAssets()
+    
     // Replace template variables
     template = template
       .replace(/\{\{title\}\}/g, metadata.title || 'Untitled')
@@ -269,6 +300,7 @@ async function buildPost(filePath, fileName) {
       .replace(/\{\{twitterImage\}\}/g, imageMeta.twitterImage)
       .replace(/\{\{featuredImageSchema\}\}/g, imageMeta.schemaImage)
       .replace(/\{\{articleBody\}\}/g, articleBody)
+      .replace(/\{\{mainCss\}\}/g, viteAssets.mainCss || '')
     
     // Replace header and footer placeholders
     template = template.replace(/<header[^>]*>[\s\S]*?<\/header>/g, headerTemplate)
@@ -292,13 +324,16 @@ async function buildPost(filePath, fileName) {
       }
     }
     
-    // Create output directories (both dist and root for dev server)
-    await mkdir(outputDir, { recursive: true })
-    await mkdir(devOutputDir, { recursive: true })
+    // Replace /src/scripts/main.js with actual Vite-generated JS path
+    if (viteAssets.mainJs) {
+      template = template.replace(/src="\/src\/scripts\/main\.js"/g, `src="${viteAssets.mainJs}"`)
+    }
     
-    // Write HTML file to both locations (as [slug].html, not [slug]/index.html)
+    // Create output directory
+    await mkdir(outputDir, { recursive: true })
+    
+    // Write HTML file with correct Vite-generated asset paths
     await writeFile(join(outputDir, `${slug}.html`), template)
-    await writeFile(join(devOutputDir, `${slug}.html`), template)
     
     return {
       slug,
