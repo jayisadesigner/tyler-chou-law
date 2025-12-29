@@ -14,9 +14,8 @@ const __dirname = dirname(__filename)
 const projectRoot = join(__dirname, '..')
 
 const contentDir = join(projectRoot, 'content', 'blog')
-// Generate to both dist/love-letters/ (for production) and love-letters/ (for dev server)
-const outputDir = join(projectRoot, 'dist', 'love-letters')
-const devOutputDir = join(projectRoot, 'love-letters')
+// Generate to source directory - Vite will process and output to dist/
+const outputDir = join(projectRoot, 'love-letters')
 const listingPagePath = join(projectRoot, 'love-letters.html')
 const templatePath = join(projectRoot, 'src', 'templates', 'blog-post.html')
 const componentsDir = join(projectRoot, 'src', 'components')
@@ -292,18 +291,11 @@ async function buildPost(filePath, fileName) {
       }
     }
     
-    // Replace /src/ paths with /assets/ paths for production
-    template = template.replace(/\/src\/assets\//g, '/assets/')
-    template = template.replace(/\/src\/scripts\//g, '/assets/')
-    template = template.replace(/\/src\/styles\//g, '/assets/')
-    
-    // Create output directories (both dist and root for dev server)
+    // Create output directory - Vite will process and handle asset paths automatically
     await mkdir(outputDir, { recursive: true })
-    await mkdir(devOutputDir, { recursive: true })
     
-    // Write HTML file to both locations (as [slug].html, not [slug]/index.html)
+    // Write HTML file (Vite will process /src/ paths automatically)
     await writeFile(join(outputDir, `${slug}.html`), template)
-    await writeFile(join(devOutputDir, `${slug}.html`), template)
     
     return {
       slug,

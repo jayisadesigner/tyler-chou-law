@@ -11,7 +11,7 @@
     "build:rss": "node scripts/build-rss.js",
     "build:pages": "node scripts/build-pages.js",
     "enhance-schema": "node scripts/enhance-schema.js",
-    "build": "vite build && npm run build:blog && node scripts/fix-asset-paths.js && npm run build:sitemap && npm run build:rss",
+    "build": "npm run build:blog && vite build && npm run build:sitemap && npm run build:rss",
     "preview": "vite preview",
     "colors": "node scripts/generate-colors.js"
   },
