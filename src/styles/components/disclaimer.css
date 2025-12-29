@@ -24,7 +24,7 @@
   color: var(--chuparosa-100);
   margin: 0;
   padding: 0;
-  text-align: center;
+  text-align: left; /* Left align disclaimer text */
   width: 100%;
   transition: color 0.3s ease;
   box-sizing: border-box;
