@@ -292,6 +292,11 @@ async function buildPost(filePath, fileName) {
       }
     }
     
+    // Replace /src/ paths with /assets/ paths for production
+    template = template.replace(/\/src\/assets\//g, '/assets/')
+    template = template.replace(/\/src\/scripts\//g, '/assets/')
+    template = template.replace(/\/src\/styles\//g, '/assets/')
+    
     // Create output directories (both dist and root for dev server)
     await mkdir(outputDir, { recursive: true })
     await mkdir(devOutputDir, { recursive: true })
