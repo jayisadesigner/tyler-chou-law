@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const projectRoot = join(__dirname, '..')
 
-const outputDir = join(projectRoot, 'roster')
+const outputDir = join(projectRoot, 'dist', 'roster')
 const templatePath = join(projectRoot, 'src', 'templates', 'creator-page.html')
 const creatorDataPath = join(projectRoot, 'src', 'scripts', 'creator-transition-simple.js')
 const componentsDir = join(projectRoot, 'src', 'components')
