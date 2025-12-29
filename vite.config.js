@@ -16,6 +16,9 @@ export default defineConfig({
         'love-letters': resolve(__dirname, 'love-letters.html'),
         contact: resolve(__dirname, 'contact.html'),
         admin: resolve(__dirname, 'admin/index.html'),
+        // Blog posts are generated to love-letters/ directory by build:blog
+        // Vite will process them automatically if they're in the root
+        // They'll be copied to dist/love-letters/ during build
       },
       output: {
         // Optimize chunk splitting
@@ -26,6 +29,8 @@ export default defineConfig({
     minify: 'esbuild', // Fast and effective minification
     // Generate source maps only in dev
     sourcemap: false,
+    // Copy static assets including generated blog posts
+    copyPublicDir: true,
   },
   server: {
     port: 3000,
