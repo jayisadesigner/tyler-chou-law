@@ -109,9 +109,10 @@
       </nav>
       
       <article class="blog-post">
-        <header class="blog-post-header">
-          <div class="container-narrow">
-            <h1 class="blog-post-title">{{title}}</h1>
+        <section class="hero hero--blog-post">
+          {{featuredImageHero}}
+          <div class="hero-content hero-content--blog-post container-narrow">
+            <h1 class="hero-headline hero-headline--blog-post">{{title}}</h1>
             <div class="blog-post-meta">
               <span class="blog-post-meta__author">By <span class="blog-post-meta__author-name">{{author}}</span></span>
               <time class="blog-post-meta__date" datetime="{{dateISO}}">{{date}}</time>
@@ -119,9 +120,7 @@
             </div>
             {{tagsHTML}}
           </div>
-        </header>
-        
-        {{featuredImageHero}}
+        </section>
         
         <div class="blog-post-content container-narrow">
           {{content}}
