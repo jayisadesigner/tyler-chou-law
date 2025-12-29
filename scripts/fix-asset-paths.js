@@ -1,7 +1,8 @@
 /**
  * Fix Asset Paths Script
- * Post-processes generated pages (creator pages and blog posts) after Vite build
+ * Post-processes generated blog posts after Vite build
  * to replace /src/ paths with actual Vite-generated asset paths
+ * Note: Roster pages are handled by Vite directly as static entry points
  */
 
 import { readdir, readFile, writeFile, stat } from 'fs/promises'
@@ -49,14 +50,27 @@ async function fixAssetPathsInFile(filePath, assets) {
     let html = await readFile(filePath, 'utf-8')
     let modified = false
     
-    // Replace /src/scripts/main.js with actual Vite path
-    // Handles: <script type="module" src="/src/scripts/main.js"></script>
+    // Replace /assets/main.js with actual Vite-generated path
+    // Handles: <script type="module" src="/assets/main.js"></script>
+    // (build-blog.js already converts /src/scripts/main.js to /assets/main.js)
+    if (assets.mainJs && html.includes('/assets/main.js')) {
+      html = html.replace(/src="\/assets\/main\.js"/g, `src="${assets.mainJs}"`)
+      modified = true
+    }
+    
+    // Also handle legacy /src/ paths if any remain
     if (assets.mainJs && html.includes('/src/scripts/main.js')) {
       html = html.replace(/src="\/src\/scripts\/main\.js"/g, `src="${assets.mainJs}"`)
       modified = true
     }
     
-    // Replace /src/styles/main.css if it exists (though Vite injects this automatically)
+    // Replace /assets/main.css with actual Vite-generated path (if needed)
+    if (assets.mainCss && html.includes('/assets/main.css')) {
+      html = html.replace(/href="\/assets\/main\.css"/g, `href="${assets.mainCss}"`)
+      modified = true
+    }
+    
+    // Also handle legacy /src/styles/main.css if any remain
     if (assets.mainCss && html.includes('/src/styles/main.css')) {
       html = html.replace(/href="\/src\/styles\/main\.css"/g, `href="${assets.mainCss}"`)
       modified = true
@@ -71,39 +85,6 @@ async function fixAssetPathsInFile(filePath, assets) {
   } catch (error) {
     console.error(`Error fixing paths in ${filePath}:`, error)
     return false
-  }
-}
-
-/**
- * Fix creator pages
- */
-async function fixCreatorPages(assets) {
-  try {
-    const rosterDir = join(distDir, 'roster')
-    
-    // Check if roster directory exists
-    try {
-      await stat(rosterDir)
-    } catch {
-      console.log('No roster directory in dist, skipping creator pages')
-      return 0
-    }
-    
-    const files = await readdir(rosterDir)
-    const htmlFiles = files.filter(f => f.endsWith('.html'))
-    
-    let fixed = 0
-    for (const file of htmlFiles) {
-      const filePath = join(rosterDir, file)
-      if (await fixAssetPathsInFile(filePath, assets)) {
-        fixed++
-      }
-    }
-    
-    return fixed
-  } catch (error) {
-    console.error('Error fixing creator pages:', error)
-    return 0
   }
 }
 
@@ -172,13 +153,9 @@ async function fixAssetPaths() {
       console.log(`Found main.js: ${assets.mainJs}`)
     }
     
-    // Fix creator pages
-    const creatorPagesFixed = await fixCreatorPages(assets)
-    
-    // Fix blog posts
+    // Fix blog posts (roster pages are handled by Vite directly)
     const blogPostsFixed = await fixBlogPosts(assets)
     
-    console.log(`✓ Fixed ${creatorPagesFixed} creator page(s)`)
     console.log(`✓ Fixed ${blogPostsFixed} blog post(s)`)
     console.log('\n✓ Asset paths fixed')
   } catch (error) {
