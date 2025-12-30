@@ -69,6 +69,11 @@
   margin: 0;
 }
 
+/* Services page: bone text on obsidian background */
+body.page-services .service-card__title {
+  color: var(--bone);
+}
+
 .service-card__description {
   font-family: var(--font-body);
   font-size: var(--text-p-large-size); /* 1.414rem / ~23px */
@@ -77,6 +82,11 @@
   color: var(--chuparosa-100);
   margin: 0;
   /* Let description take only space it needs - CSS Grid handles equal card heights */
+}
+
+/* Services page: bone text on obsidian background */
+body.page-services .service-card__description {
+  color: var(--bone);
 }
 
 /* Service card button now uses .button component */

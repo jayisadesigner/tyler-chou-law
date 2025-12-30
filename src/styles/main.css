@@ -51,7 +51,6 @@ body.page-creatorarq {
 
 body.page-index,
 body.page-about,
-body.page-services,
 body.page-roster,
 body.page-love-letters,
 body.page-contact,
@@ -60,6 +59,11 @@ body.page-creator,
 body.page-blog-post {
   background-color: var(--chuparosa-600);
   --page-bg-color: var(--chuparosa-600);
+}
+
+body.page-services {
+  background-color: var(--obsidian);
+  --page-bg-color: var(--obsidian);
 }
 
 /* Default fallback */
