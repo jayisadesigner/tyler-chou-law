@@ -270,16 +270,16 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 /* Navigation color adjustments for different backgrounds */
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about) .logo-line,
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about) .nav-menu a {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about):not(.page-love-letters) .logo-line,
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about):not(.page-love-letters) .nav-menu a {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about) .logo-image {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about):not(.page-love-letters) .logo-image {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about) .hamburger-line {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about):not(.page-love-letters) .hamburger-line {
   background-color: var(--nav-text-on-chuparosa-600, var(--obsidian));
 }
 
@@ -330,18 +330,18 @@ body.bg-bone .hamburger-line {
   background-color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */
 }
 
-/* Love Letters page: obsidian text on bone background */
+/* Love Letters page: obsidian text on bone/desert gold background */
 body.page-love-letters .logo-line,
 body.page-love-letters .nav-menu a {
-  color: var(--obsidian);
+  color: var(--obsidian) !important;
 }
 
 body.page-love-letters .logo-image {
-  color: var(--obsidian);
+  color: var(--obsidian) !important;
 }
 
 body.page-love-letters .hamburger-line {
-  background-color: var(--obsidian);
+  background-color: var(--obsidian) !important;
 }
 
 /* Love Letters page: use darkest chuparosa when over blog listing (override above) */
