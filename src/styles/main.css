@@ -50,7 +50,6 @@ body.page-creatorarq {
 }
 
 body.page-index,
-body.page-roster,
 body.page-contact,
 body.page-creatorarq-apply,
 body.page-creator,
@@ -65,7 +64,8 @@ body.page-love-letters {
 }
 
 body.page-services,
-body.page-about {
+body.page-about,
+body.page-roster {
   background-color: var(--obsidian);
   --page-bg-color: var(--obsidian);
 }
