@@ -43,13 +43,23 @@
 /* Footer color adjustments for different backgrounds */
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post) .site-footer {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services) .site-footer {
   background-color: var(--page-bg-color);
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post) .footer-item {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services) .footer-item {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
+}
+
+/* Services page: bone text on obsidian background */
+body.page-services .site-footer {
+  background-color: var(--obsidian);
+  color: var(--bone);
+}
+
+body.page-services .footer-item {
+  color: var(--bone);
 }
 
 /* Palo Verde background: light text on dark green background */

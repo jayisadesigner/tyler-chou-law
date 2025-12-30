@@ -270,17 +270,31 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 /* Navigation color adjustments for different backgrounds */
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
-body:not(.bg-palo-verde):not(.bg-bone) .logo-line,
-body:not(.bg-palo-verde):not(.bg-bone) .nav-menu a {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-services) .logo-line,
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-services) .nav-menu a {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body:not(.bg-palo-verde):not(.bg-bone) .logo-image {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-services) .logo-image {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body:not(.bg-palo-verde):not(.bg-bone) .hamburger-line {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-services) .hamburger-line {
   background-color: var(--nav-text-on-chuparosa-600, var(--obsidian));
+}
+
+/* Services page: bone text on obsidian background */
+body.page-services .logo-line,
+body.page-services .nav-menu a {
+  color: var(--bone);
+}
+
+body.page-services .logo-image {
+  color: var(--bone);
+}
+
+body.page-services .hamburger-line {
+  background-color: var(--bone);
 }
 
 /* Palo Verde background: light text on dark green background */
