@@ -76,6 +76,11 @@
     z-index: 1;
   }
 
+/* Roster page: bone text on obsidian background */
+body.page-roster .roster-card__handle {
+  color: var(--bone);
+}
+
 /* Testimonial Modifier - adds content area below image instead of overlaid handle */
 .roster-card--testimonial {
   width: 280px; /* Fixed width from Figma */
