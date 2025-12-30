@@ -26,6 +26,11 @@
   padding-top: calc(var(--space-4xl) + env(safe-area-inset-top, 0px));
 }
 
+/* Love Letters page: desert gold 100 background */
+body.page-love-letters .hero--inner-page {
+  background-color: var(--desert-gold-100);
+}
+
 .hero-content {
   position: relative;
   z-index: 2;
