@@ -75,6 +75,11 @@
   white-space: nowrap;
 }
 
+/* Love Letters page: obsidian text on bone background */
+body.page-love-letters .hero-eyebrow__text {
+  color: var(--obsidian);
+}
+
 /* Hero Headline Wrapper - Mobile: Row 2, contains nested subheadline */
 .hero-headline-wrapper {
   grid-column: 1;
@@ -137,6 +142,11 @@
   width: 100%;
   max-width: 100%;
   margin: 0;
+}
+
+/* Love Letters page: obsidian text on bone background */
+body.page-love-letters .hero-headline--inner-page {
+  color: var(--obsidian);
 }
 
 /* Tablet+ (768px): Enhance to complex grid layout */
@@ -233,6 +243,11 @@
   color: var(--bone);
   text-align: left;
   margin: 0;
+}
+
+/* Love Letters page: obsidian text on bone background */
+body.page-love-letters .hero-subheadline--inner-page {
+  color: var(--obsidian);
 }
 
 /* CreatorArq page: center subheadline */
