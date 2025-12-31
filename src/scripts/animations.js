@@ -129,17 +129,24 @@ function setBodyTheme(themeClass) {
 }
 
 /**
- * Helper function to manage nav color classes efficiently
- * Removes all nav color classes and adds the specified one
- * @param {string} navClass - Nav class to apply (e.g., 'nav-over-blog', or '' for default)
+ * Helper function to manage nav colors via CSS custom properties
+ * @param {string} textColor - CSS variable or color value for nav text (e.g., 'var(--obsidian)' or 'var(--chuparosa-950)')
+ * @param {string} hamburgerColor - CSS variable or color value for hamburger icon (optional, defaults to textColor)
  */
-function setNavColor(navClass) {
-  const allNavClasses = ['nav-over-blog']
-  // Remove all nav classes in one operation
-  document.body.classList.remove(...allNavClasses)
-  // Add new nav class if provided
-  if (navClass) {
-    document.body.classList.add(navClass)
+function setNavColor(textColor, hamburgerColor = null) {
+  // Set on body for page-specific overrides (blog-post, love-letters), fallback to root for others
+  const target = document.body.classList.contains('page-blog-post') || 
+                 document.body.classList.contains('page-love-letters')
+    ? document.body 
+    : document.documentElement
+    
+  if (textColor) {
+    target.style.setProperty('--nav-text-color', textColor)
+    target.style.setProperty('--nav-hamburger-color', hamburgerColor || textColor)
+  } else {
+    // Reset to default by removing custom properties
+    target.style.removeProperty('--nav-text-color')
+    target.style.removeProperty('--nav-hamburger-color')
   }
 }
 
@@ -654,9 +661,9 @@ function initAnimations() {
         trigger: blogListing,
         start: 'top center',
         end: 'bottom top',
-        onEnter: () => setNavColor('nav-over-blog'),
+        onEnter: () => setNavColor('var(--chuparosa-950)'),
         onLeave: () => setNavColor(''),
-        onEnterBack: () => setNavColor('nav-over-blog'),
+        onEnterBack: () => setNavColor('var(--chuparosa-950)'),
         onLeaveBack: () => setNavColor(''),
       })
     }
@@ -670,9 +677,9 @@ function initAnimations() {
         trigger: blogPostContent,
         start: 'top center',
         end: 'bottom top',
-        onEnter: () => setNavColor('nav-over-blog'),
+        onEnter: () => setNavColor('var(--obsidian)'),
         onLeave: () => setNavColor(''),
-        onEnterBack: () => setNavColor('nav-over-blog'),
+        onEnterBack: () => setNavColor('var(--obsidian)'),
         onLeaveBack: () => setNavColor(''),
       })
     }

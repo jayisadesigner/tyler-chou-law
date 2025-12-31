@@ -95,7 +95,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   max-height: 40px; /* Mobile first */
   flex-shrink: 0;
   transition: color 0.3s ease;
-  color: var(--chuparosa-100); /* Default color - SVG uses currentColor */
+  color: var(--nav-text-color, var(--chuparosa-100)); /* Uses CSS custom property - SVG uses currentColor */
 }
 
 .logo-text {
@@ -110,7 +110,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   font-weight: 500;
   line-height: 0.93;
   letter-spacing: -0.02em; /* -0.38px equivalent */
-  color: var(--chuparosa-100);
+  color: var(--nav-text-color, var(--chuparosa-100));
   text-transform: uppercase;
   display: block;
   transition: color 0.3s ease;
@@ -207,7 +207,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 .hamburger-line {
   width: 40px;
   height: 2px;
-  background-color: var(--chuparosa-100);
+  background-color: var(--nav-hamburger-color, var(--chuparosa-100));
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -268,112 +268,130 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 }
 
 /* Navigation color adjustments for different backgrounds */
-/* Uses automatically generated WCAG AA compliant colors */
+/* Uses CSS custom properties that can be updated via JavaScript */
 /* Default: light text on dark chuparosa background */
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about):not(.page-love-letters):not(.page-roster):not(.page-blog-post) {
+  --nav-text-color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
+  --nav-hamburger-color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
+}
+
 body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about):not(.page-love-letters):not(.page-roster) .logo-line,
 body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about):not(.page-love-letters):not(.page-roster) .nav-menu a {
-  color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
+  color: var(--nav-text-color, var(--nav-text-on-chuparosa-600, var(--chuparosa-100)));
 }
 
 body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about):not(.page-love-letters):not(.page-roster) .logo-image {
-  color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
+  color: var(--nav-text-color, var(--nav-text-on-chuparosa-600, var(--chuparosa-100)));
 }
 
 body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about):not(.page-love-letters):not(.page-roster) .hamburger-line {
-  background-color: var(--nav-text-on-chuparosa-600, var(--obsidian));
+  background-color: var(--nav-hamburger-color, var(--nav-text-on-chuparosa-600, var(--chuparosa-100)));
 }
 
 /* Services, About, and Roster pages: bone text on obsidian background */
+body.page-services,
+body.page-about,
+body.page-roster {
+  --nav-text-color: var(--bone);
+  --nav-hamburger-color: var(--bone);
+}
+
 body.page-services .logo-line,
 body.page-services .nav-menu a,
 body.page-about .logo-line,
 body.page-about .nav-menu a,
 body.page-roster .logo-line,
 body.page-roster .nav-menu a {
-  color: var(--bone);
+  color: var(--nav-text-color, var(--bone));
 }
 
 body.page-services .logo-image,
 body.page-about .logo-image,
 body.page-roster .logo-image {
-  color: var(--bone);
+  color: var(--nav-text-color, var(--bone));
 }
 
 body.page-services .hamburger-line,
 body.page-about .hamburger-line,
 body.page-roster .hamburger-line {
-  background-color: var(--bone);
+  background-color: var(--nav-hamburger-color, var(--bone));
 }
 
 /* Palo Verde background: light text on dark green background */
+body.bg-palo-verde {
+  --nav-text-color: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
+  --nav-hamburger-color: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
+}
+
 body.bg-palo-verde .logo-line,
 body.bg-palo-verde .nav-menu a {
-  color: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
+  color: var(--nav-text-color, var(--nav-text-on-palo-verde-600, var(--palo-verde-50)));
 }
 
 body.bg-palo-verde .logo-image {
-  color: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
+  color: var(--nav-text-color, var(--nav-text-on-palo-verde-600, var(--palo-verde-50)));
 }
 
 body.bg-palo-verde .hamburger-line {
-  background-color: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
+  background-color: var(--nav-hamburger-color, var(--nav-text-on-palo-verde-600, var(--palo-verde-50)));
 }
 
 /* Bone background: dark text on light background */
 /* !important justified: Override dynamic background color changes during scroll animations to maintain nav visibility */
+body.bg-bone {
+  --nav-text-color: var(--nav-text-on-bone, var(--obsidian)) !important;
+  --nav-hamburger-color: var(--nav-text-on-bone, var(--obsidian)) !important;
+}
+
 body.bg-bone .logo-line,
 body.bg-bone .nav-menu a {
-  color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */
+  color: var(--nav-text-color, var(--nav-text-on-bone, var(--obsidian))) !important; /* Ensure color persists during scroll */
 }
 
 body.bg-bone .logo-image {
-  color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */
+  color: var(--nav-text-color, var(--nav-text-on-bone, var(--obsidian))) !important; /* Ensure color persists during scroll */
 }
 
 body.bg-bone .hamburger-line {
-  background-color: var(--nav-text-on-bone, var(--obsidian)) !important; /* Ensure color persists during scroll */
+  background-color: var(--nav-hamburger-color, var(--nav-text-on-bone, var(--obsidian))) !important; /* Ensure color persists during scroll */
 }
 
 /* Love Letters page: obsidian text on bone/desert gold background */
+body.page-love-letters {
+  --nav-text-color: var(--obsidian) !important;
+  --nav-hamburger-color: var(--obsidian) !important;
+}
+
 body.page-love-letters .logo-line,
 body.page-love-letters .nav-menu a {
-  color: var(--obsidian) !important;
+  color: var(--nav-text-color, var(--obsidian)) !important;
 }
 
 body.page-love-letters .logo-image {
-  color: var(--obsidian) !important;
+  color: var(--nav-text-color, var(--obsidian)) !important;
 }
 
 body.page-love-letters .hamburger-line {
-  background-color: var(--obsidian) !important;
+  background-color: var(--nav-hamburger-color, var(--obsidian)) !important;
 }
 
-/* Love Letters page: use darkest chuparosa when over blog listing (override above) */
-body.page-love-letters.nav-over-blog .logo-line,
-body.page-love-letters.nav-over-blog .nav-menu a {
-  color: var(--chuparosa-950);
+/* Blog Post page: default to light text on dark background */
+body.page-blog-post {
+  --nav-text-color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
+  --nav-hamburger-color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body.page-love-letters.nav-over-blog .logo-image {
-  color: var(--chuparosa-950);
+body.page-blog-post .logo-line,
+body.page-blog-post .nav-menu a {
+  color: var(--nav-text-color, var(--nav-text-on-chuparosa-600, var(--chuparosa-100)));
 }
 
-body.page-love-letters.nav-over-blog .hamburger-line {
-  background-color: var(--chuparosa-950);
+body.page-blog-post .logo-image {
+  color: var(--nav-text-color, var(--nav-text-on-chuparosa-600, var(--chuparosa-100)));
 }
 
-/* Blog Post page: use obsidian when over blog-post-content */
-body.page-blog-post.nav-over-blog .logo-line,
-body.page-blog-post.nav-over-blog .nav-menu a {
-  color: var(--obsidian);
-}
-
-body.page-blog-post.nav-over-blog .logo-image {
-  color: var(--obsidian);
-}
-
-body.page-blog-post.nav-over-blog .hamburger-line {
-  background-color: var(--obsidian);
+body.page-blog-post .hamburger-line {
+  background-color: var(--nav-hamburger-color, var(--nav-text-on-chuparosa-600, var(--chuparosa-100)));
 }
 
 /* Logo and button stay in same position when menu open - just change colors */
