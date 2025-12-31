@@ -24,6 +24,14 @@ fieldset.form-group {
   min-height: 0;
 }
 
+/* Prevent border changes on mouse click focus - only keyboard navigation */
+fieldset.form-group:has(input:focus:not(:focus-visible)),
+fieldset.form-group:has(textarea:focus:not(:focus-visible)),
+fieldset.form-group:has(select:focus:not(:focus-visible)) {
+  border-width: 1px;
+  background-color: var(--page-bg-color);
+}
+
 /* Checkbox group container - no border */
 .form-group--checkboxes {
   border: none;
@@ -35,15 +43,20 @@ fieldset.form-group:last-of-type {
   margin-bottom: var(--space-md);
 }
 
-/* Hover State - Slightly darker background */
-fieldset.form-group:hover:not(:has(input:focus)):not(:has(textarea:focus)):not(:has(select:focus)) {
-  background-color: var(--chuparosa-700);
+/* Hover State - Works with any background color using obsidian overlay */
+fieldset.form-group:hover:not(:has(input:focus-visible)):not(:has(textarea:focus-visible)):not(:has(select:focus-visible))::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--obsidian-10); /* 10% dark overlay - darkens any background */
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* Focus State - Enhanced border, same background as page */
-fieldset.form-group:has(input:focus),
-fieldset.form-group:has(textarea:focus),
-fieldset.form-group:has(select:focus) {
+/* Focus State - Enhanced border, same background as page (keyboard navigation only) */
+fieldset.form-group:has(input:focus-visible),
+fieldset.form-group:has(textarea:focus-visible),
+fieldset.form-group:has(select:focus-visible) {
   border-width: 2px;
   background-color: var(--page-bg-color);
 }
@@ -84,13 +97,13 @@ fieldset.form-group .form-legend {
   margin-bottom: var(--space-md);
 }
 
-/* Show and float legend when input has focus or content */
-fieldset.form-group:has(input:focus) .form-legend,
+/* Show and float legend when input has focus-visible (keyboard) or content */
+fieldset.form-group:has(input:focus-visible) .form-legend,
 fieldset.form-group:has(input:not(:placeholder-shown)) .form-legend,
 fieldset.form-group:has(input:-webkit-autofill) .form-legend,
-fieldset.form-group:has(textarea:focus) .form-legend,
+fieldset.form-group:has(textarea:focus-visible) .form-legend,
 fieldset.form-group:has(textarea:not(:placeholder-shown)) .form-legend,
-fieldset.form-group:has(select:focus) .form-legend,
+fieldset.form-group:has(select:focus-visible) .form-legend,
 fieldset.form-group:has(select:not([value=""])) .form-legend {
   opacity: 1;
   left: var(--space-xs); /* Smallest space value for indentation */
@@ -129,6 +142,8 @@ fieldset.form-group select {
   /* Remove any default margins */
   margin: 0;
   display: block;
+  /* Remove all default outlines - will add back only for keyboard navigation */
+  outline: none;
 }
 
 /* Input height based on text size and line-height, not fixed */
@@ -213,25 +228,24 @@ fieldset.form-group textarea::placeholder {
   transition: opacity 0.2s ease;
 }
 
-/* Hide placeholder when legend is floated (focused or has content) */
+/* Hide placeholder when legend is floated (focus-visible/keyboard or has content) */
 /* This prevents duplication - legend is always accessible to screen readers */
-fieldset.form-group:has(input:focus) input::placeholder,
+fieldset.form-group:has(input:focus-visible) input::placeholder,
 fieldset.form-group:has(input:not(:placeholder-shown)) input::placeholder,
 fieldset.form-group:has(input:-webkit-autofill) input::placeholder,
-fieldset.form-group:has(textarea:focus) textarea::placeholder,
+fieldset.form-group:has(textarea:focus-visible) textarea::placeholder,
 fieldset.form-group:has(textarea:not(:placeholder-shown)) textarea::placeholder {
   opacity: 0;
 }
 
-
-/* Focus State - Remove default outline, rely on fieldset border */
+/* Suppress ALL focus outlines first - will add back only for keyboard */
 fieldset.form-group input:focus,
 fieldset.form-group textarea:focus,
 fieldset.form-group select:focus {
   outline: none;
 }
 
-/* Focus-visible for keyboard navigation */
+/* Focus-visible for keyboard navigation only - add outline back */
 fieldset.form-group input:focus-visible,
 fieldset.form-group textarea:focus-visible,
 fieldset.form-group select:focus-visible {
@@ -245,9 +259,9 @@ fieldset.form-group:has(.error) {
   border-width: 2px;
 }
 
-fieldset.form-group:has(.error):has(input:focus),
-fieldset.form-group:has(.error):has(textarea:focus),
-fieldset.form-group:has(.error):has(select:focus) {
+fieldset.form-group:has(.error):has(input:focus-visible),
+fieldset.form-group:has(.error):has(textarea:focus-visible),
+fieldset.form-group:has(.error):has(select:focus-visible) {
   border-color: var(--chuparosa-100);
 }
 

@@ -66,7 +66,6 @@ async function buildSitemap() {
       { path: 'about.html', url: '/about.html', changefreq: 'monthly', priority: '0.8' },
       { path: 'roster.html', url: '/roster.html', changefreq: 'monthly', priority: '0.8' },
       { path: 'creatorarq.html', url: '/creatorarq.html', changefreq: 'monthly', priority: '0.9' },
-      { path: 'creatorarq-apply.html', url: '/creatorarq-apply.html', changefreq: 'monthly', priority: '0.7' },
       { path: 'services.html', url: '/services.html', changefreq: 'monthly', priority: '0.9' },
       { path: 'love-letters.html', url: '/love-letters.html', changefreq: 'weekly', priority: '0.8' },
       { path: 'contact.html', url: '/contact.html', changefreq: 'monthly', priority: '0.7' },

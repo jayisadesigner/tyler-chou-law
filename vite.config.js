@@ -11,7 +11,6 @@ export default defineConfig({
         about: resolve(__dirname, 'about.html'),
         roster: resolve(__dirname, 'roster.html'),
         creatorarq: resolve(__dirname, 'creatorarq.html'),
-        'creatorarq-apply': resolve(__dirname, 'creatorarq-apply.html'),
         services: resolve(__dirname, 'services.html'),
         'love-letters': resolve(__dirname, 'love-letters.html'),
         contact: resolve(__dirname, 'contact.html'),
