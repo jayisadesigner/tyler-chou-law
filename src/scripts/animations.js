@@ -134,8 +134,11 @@ function setBodyTheme(themeClass) {
  * @param {string} hamburgerColor - CSS variable or color value for hamburger icon (optional, defaults to textColor)
  */
 function setNavColor(textColor, hamburgerColor = null) {
-  // Set on body for page-specific overrides (blog-post, love-letters), fallback to root for others
-  const target = document.body.classList.contains('page-blog-post') || 
+  // Set on body when bg-bone class is present (for philosophy/love-notes sections)
+  // or for page-specific overrides (blog-post, love-letters), fallback to root for others
+  const hasBgBone = document.body.classList.contains('bg-bone')
+  const target = hasBgBone || 
+                 document.body.classList.contains('page-blog-post') || 
                  document.body.classList.contains('page-love-letters')
     ? document.body 
     : document.documentElement
