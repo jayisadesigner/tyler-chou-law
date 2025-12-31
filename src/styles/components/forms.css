@@ -512,15 +512,69 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
   gap: var(--space-sm);
 }
 
+/* Custom Checkbox Styling - Matches form field style */
 .form-checkbox input[type="checkbox"] {
-  width: auto;
+  /* Hide default checkbox */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  /* Size using space variables */
+  width: var(--space-md); /* 24px */
+  height: var(--space-md); /* 24px */
+  min-width: var(--space-md);
+  min-height: var(--space-md);
+  
   margin: 0;
   padding: 0;
-  border: none;
-  border-bottom: none;
-  appearance: checkbox;
-  -webkit-appearance: checkbox;
+  border: 1px solid var(--bone);
+  border-radius: 0; /* Match form field style */
+  background-color: var(--page-bg-color);
   cursor: pointer;
+  position: relative;
+  
+  /* Match form field transitions */
+  transition: 
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* Hover state - match form field hover */
+.form-checkbox input[type="checkbox"]:hover {
+  background-color: var(--chuparosa-700);
+}
+
+/* Focus state - match form field focus */
+.form-checkbox input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+/* Checked state - show checkmark */
+.form-checkbox input[type="checkbox"]:checked {
+  background-color: var(--bone);
+  border-color: var(--bone);
+}
+
+/* Checkmark using pseudo-element */
+.form-checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -60%) rotate(45deg);
+  width: calc(var(--space-xs) * 0.75); /* 6px */
+  height: calc(var(--space-sm) * 0.75); /* 12px */
+  border-right: 2px solid var(--obsidian);
+  border-bottom: 2px solid var(--obsidian);
+}
+
+/* Disabled state */
+.form-checkbox input[type="checkbox"]:disabled {
+  border-color: var(--obsidian-20);
+  background-color: var(--obsidian-10);
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .form-checkbox label {
