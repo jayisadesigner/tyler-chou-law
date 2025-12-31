@@ -1,137 +1,357 @@
 /* Form Styles - Tyler Chou Law */
-/* Floating Label Underline Design */
+/* Material Design Outlined Text Field */
 
 /* Form Container */
 .contact-form {
-  max-width: 600px;
+  max-width: 37.5rem; /* 600px */
   margin: 0 auto;
 }
 
-/* Form Group - Relative positioning for floating labels */
-.form-group {
+/* Form Group (Fieldset) - Container for outlined inputs */
+fieldset.form-group {
   position: relative;
-  margin-bottom: var(--space-2xl);
+  margin: 0 0 var(--space-md) 0;
+  padding: 0;
+  border: 1px solid var(--bone);
+  border-radius: 0;
+  background-color: var(--page-bg-color);
+  transition: 
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+  /* Hug the input height - no extra padding or spacing */
+  display: flex;
+  align-items: stretch;
+  min-height: 0;
 }
 
-.form-group:last-of-type {
-  margin-bottom: var(--space-3xl);
+/* Prevent border changes on mouse click focus - only keyboard navigation */
+fieldset.form-group:has(input:focus:not(:focus-visible)),
+fieldset.form-group:has(textarea:focus:not(:focus-visible)),
+fieldset.form-group:has(select:focus:not(:focus-visible)) {
+  border-width: 1px;
+  background-color: var(--page-bg-color);
 }
 
-/* Input Fields - Underline Style */
-.form-group input,
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: var(--space-md) 0;
+/* Checkbox group container - no border */
+.form-group--checkboxes {
   border: none;
-  border-bottom: 2px solid var(--bone-10);
+  background-color: transparent;
+  margin-bottom: var(--space-md);
+}
+
+fieldset.form-group:last-of-type {
+  margin-bottom: var(--space-md);
+}
+
+/* Hover State - Works with any background color using obsidian overlay */
+fieldset.form-group:hover:not(:has(input:focus-visible)):not(:has(textarea:focus-visible)):not(:has(select:focus-visible))::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--obsidian-10); /* 10% dark overlay - darkens any background */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Focus State - Enhanced border, same background as page (keyboard navigation only) */
+fieldset.form-group:has(input:focus-visible),
+fieldset.form-group:has(textarea:focus-visible),
+fieldset.form-group:has(select:focus-visible) {
+  border-width: 2px;
+  background-color: var(--page-bg-color);
+}
+
+/* Legend - Floating label that intersects border */
+fieldset.form-group .form-legend {
+  position: absolute;
+  left: var(--space-lg);
+  top: var(--space-md);
+  padding: 0 var(--space-xs);
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-p-large-size);
+  font-weight: 400;
+  color: var(--bone);
+  pointer-events: none;
+  background-color: var(--page-bg-color);
+  transition: 
+    top 0.2s ease,
+    font-size 0.2s ease,
+    font-weight 0.2s ease,
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+  z-index: 1;
+  /* Ensure legend doesn't affect fieldset height */
+  line-height: 1;
+  /* Hide legend when field is empty and not focused (placeholder shows instead) */
+  opacity: 0;
+}
+
+/* Static label for checkbox groups */
+.form-group--checkboxes .form-group__label-static {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-p-large-size);
+  font-weight: 400;
+  color: var(--bone);
+  margin-bottom: var(--space-md);
+}
+
+/* Show and float legend when input has focus-visible (keyboard) or content */
+fieldset.form-group:has(input:focus-visible) .form-legend,
+fieldset.form-group:has(input:not(:placeholder-shown)) .form-legend,
+fieldset.form-group:has(input:-webkit-autofill) .form-legend,
+fieldset.form-group:has(textarea:focus-visible) .form-legend,
+fieldset.form-group:has(textarea:not(:placeholder-shown)) .form-legend,
+fieldset.form-group:has(select:focus-visible) .form-legend,
+fieldset.form-group:has(select:not([value=""])) .form-legend {
+  opacity: 1;
+  left: var(--space-xs); /* Smallest space value for indentation */
+  top: -0.5em;
+  font-size: var(--text-p-size);
+  font-weight: 600;
+  background-color: var(--page-bg-color);
+}
+
+/* Select - Always show and float legend if not default option */
+fieldset.form-group:has(select option:checked:not([value=""])) .form-legend {
+  opacity: 1;
+  left: var(--space-xs); /* Smallest space value for indentation */
+  top: -0.5em;
+  font-size: var(--text-p-size);
+  font-weight: 600;
+  background-color: var(--page-bg-color);
+}
+
+/* Input Fields - Outlined Rectangle Style */
+fieldset.form-group input,
+fieldset.form-group textarea,
+fieldset.form-group select {
+  width: 100%;
+  padding: var(--space-lg) var(--space-md);
+  border: none;
   border-radius: 0;
   font-family: var(--font-body);
   font-size: var(--text-p-large-size);
   line-height: var(--text-p-large-line-height);
   background-color: transparent;
   color: var(--bone);
-  transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+  /* Remove any default margins */
+  margin: 0;
+  display: block;
+  /* Remove all default outlines - will add back only for keyboard navigation */
+  outline: none;
 }
 
-/* Labels - Floating Animation */
-.form-group label {
+/* Input height based on text size and line-height, not fixed */
+fieldset.form-group input[type="text"],
+fieldset.form-group input[type="email"],
+fieldset.form-group input[type="tel"],
+fieldset.form-group input[type="url"],
+fieldset.form-group input:not([type]),
+fieldset.form-group select {
+  /* Height determined by: padding-top + line-height content + padding-bottom */
+  box-sizing: border-box;
+  /* Use typography line-height so placeholder and text occupy same space */
+  line-height: var(--text-p-large-line-height);
+  /* Remove any browser default styling that might affect height */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Fieldsets hug the natural height of their inputs + border */
+fieldset.form-group:has(input[type="text"]),
+fieldset.form-group:has(input[type="email"]),
+fieldset.form-group:has(input[type="tel"]),
+fieldset.form-group:has(input[type="url"]),
+fieldset.form-group:has(input:not([type])),
+fieldset.form-group:has(select) {
+  /* Height determined naturally by input height + border (1px top + 1px bottom) */
+  box-sizing: border-box;
+  /* No fixed height - let it hug the input */
+}
+
+/* Select specific - extra padding for dropdown arrow, allow full text visibility */
+fieldset.form-group select {
+  padding-right: 3.5rem; /* Space for dropdown arrow */
+  overflow: visible; /* Allow full text to be visible */
+  white-space: normal; /* Allow text to wrap if needed */
+}
+
+/* Dropdown caret - matches hamburger/close icon style (2px thickness) */
+/* Position caret using a pseudo-element on the fieldset */
+/* Note: fieldset.form-group already has position: relative, so this is just for clarity */
+
+fieldset.form-group:has(select)::after {
+  content: '';
   position: absolute;
-  left: 0;
-  top: var(--space-md);
+  right: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background-image: url('/src/assets/icons/caret-down.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
+  color: var(--bone); /* SVG uses currentColor */
+}
+
+/* Textarea Specific - Resizable but same base styling */
+fieldset.form-group textarea {
+  resize: vertical;
+  min-height: 7.5rem; /* 120px */
+  box-sizing: border-box;
+  /* Match input/select styling */
+  line-height: var(--text-p-large-line-height);
+  /* Remove any browser default styling */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Placeholder - Styled to match input text */
+/* Show placeholder only when field is empty and not focused */
+fieldset.form-group input::placeholder,
+fieldset.form-group textarea::placeholder {
+  color: var(--bone);
+  opacity: 0.6; /* Slightly lighter than actual text for distinction */
   font-family: var(--font-body);
   font-size: var(--text-p-large-size);
-  font-weight: 400;
-  color: var(--bone);
-  pointer-events: none;
-  transition: top 0.2s ease, font-size 0.2s ease, font-weight 0.2s ease, transform 0.2s ease;
-  transform-origin: left top;
+  line-height: var(--text-p-large-line-height);
+  transition: opacity 0.2s ease;
 }
 
-/* Float label when input has focus or content */
-.form-group input:focus + label,
-.form-group input:not(:placeholder-shown) + label,
-.form-group textarea:focus + label,
-.form-group textarea:not(:placeholder-shown) + label,
-.form-group select:focus + label,
-.form-group select:not(:placeholder-shown) + label {
-  top: -4px;
-  font-size: var(--text-p-size);
-  font-weight: 600;
-  color: var(--bone);
-  transform: translateY(-100%);
-}
-
-/* Placeholder - Hidden but accessible */
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: transparent;
+/* Hide placeholder when legend is floated (focus-visible/keyboard or has content) */
+/* This prevents duplication - legend is always accessible to screen readers */
+fieldset.form-group:has(input:focus-visible) input::placeholder,
+fieldset.form-group:has(input:not(:placeholder-shown)) input::placeholder,
+fieldset.form-group:has(input:-webkit-autofill) input::placeholder,
+fieldset.form-group:has(textarea:focus-visible) textarea::placeholder,
+fieldset.form-group:has(textarea:not(:placeholder-shown)) textarea::placeholder {
   opacity: 0;
 }
 
-/* Textarea Specific */
-.form-group textarea {
-  resize: vertical;
-  min-height: 120px;
-  padding-top: var(--space-lg);
-}
-
-.form-group textarea + label {
-  top: var(--space-lg);
-}
-
-/* Hover State - Brighten underline */
-.form-group input:hover:not(:disabled),
-.form-group textarea:hover:not(:disabled),
-.form-group select:hover:not(:disabled) {
-  border-bottom-color: var(--bone);
-}
-
-/* Focus State - Accent underline with accessible color */
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
+/* Suppress ALL focus outlines first - will add back only for keyboard */
+fieldset.form-group input:focus,
+fieldset.form-group textarea:focus,
+fieldset.form-group select:focus {
   outline: none;
-  border-bottom-color: var(--bone);
-  border-bottom-width: 2px;
 }
 
-/* Focus indicator line animation */
-.form-group input:focus::after,
-.form-group textarea:focus::after {
-  transform: scaleX(1);
+/* Focus-visible for keyboard navigation only - add outline back */
+fieldset.form-group input:focus-visible,
+fieldset.form-group textarea:focus-visible,
+fieldset.form-group select:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
 }
 
-/* Error State - Using bone text with chuparosa accent for accessibility */
-.form-group input.error,
-.form-group textarea.error,
-.form-group select.error {
-  border-bottom-color: var(--chuparosa-100);
-  border-bottom-width: 3px;
+/* Error State */
+fieldset.form-group:has(.error) {
+  border-color: var(--chuparosa-100);
+  border-width: 2px;
 }
 
-.form-group input.error:focus,
-.form-group textarea.error:focus,
-.form-group select.error:focus {
-  border-bottom-color: var(--bone);
+fieldset.form-group:has(.error):has(input:focus-visible),
+fieldset.form-group:has(.error):has(textarea:focus-visible),
+fieldset.form-group:has(.error):has(select:focus-visible) {
+  border-color: var(--chuparosa-100);
 }
 
-.form-group input.error + label,
-.form-group textarea.error + label,
-.form-group select.error + label {
-  color: var(--bone);
+/* Disabled State */
+fieldset.form-group:has(input:disabled),
+fieldset.form-group:has(textarea:disabled),
+fieldset.form-group:has(select:disabled) {
+  border-color: var(--obsidian-20);
+  background-color: var(--obsidian-10);
+}
+
+fieldset.form-group input:disabled,
+fieldset.form-group textarea:disabled,
+fieldset.form-group select:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+}
+
+fieldset.form-group:has(input:disabled) .form-legend,
+fieldset.form-group:has(textarea:disabled) .form-legend,
+fieldset.form-group:has(select:disabled) .form-legend {
+  color: var(--gray-400);
 }
 
 /* Error Message - Accessible contrast with visual indicator */
-.error-message {
+/* Always reserve space to prevent layout shift */
+.form-group-wrapper .error-message,
+fieldset.form-group .error-message {
   display: block;
+  width: 100%;
+  min-height: 1.5em; /* Reserve space for one line of text */
   margin-top: var(--space-sm);
-  padding-left: var(--space-sm);
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  padding: 0;
   color: var(--bone);
   font-family: var(--font-display);
   font-size: var(--text-small-size);
   font-weight: 500;
-  border-left: 3px solid var(--chuparosa-100);
+  transition: opacity 0.2s ease;
+}
+
+/* Error messages and instructions in form-field-wrapper - identical styling, same position */
+.form-field-wrapper .error-message,
+.form-field-wrapper .form-instruction {
+  display: block;
+  width: 100%;
+  min-height: 1.5em; /* Reserve space for one line of text */
+  margin: var(--space-sm) 0 0 0; /* Explicitly reset all margins, then set top */
+  padding: 0;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-size: var(--text-small-size);
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+/* Hide error message when empty - don't reserve space when instruction is showing */
+.form-field-wrapper .error-message:empty,
+.form-field-wrapper .error-message[aria-hidden="true"] {
+  display: none; /* Don't reserve space when hidden - instruction text is visible */
+}
+
+/* For error messages outside form-field-wrapper, still reserve space */
+.form-group-wrapper .error-message:empty,
+.form-group-wrapper .error-message[aria-hidden="true"],
+fieldset.form-group .error-message:empty,
+fieldset.form-group .error-message[aria-hidden="true"] {
+  visibility: hidden;
+  opacity: 0;
+  min-height: 1.5em; /* Still reserve space */
+  margin-top: var(--space-sm); /* Keep margin to maintain spacing */
+}
+
+.error-message:not(:empty):not([aria-hidden="true"]) {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Error messages in other contexts (not in fieldsets) */
+.error-message:not(fieldset .error-message) {
+  display: block;
+  margin-top: var(--space-sm);
+  margin-left: 0;
+  padding: 0;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-size: var(--text-small-size);
+  font-weight: 500;
 }
 
 /* Disabled State */
@@ -150,25 +370,22 @@
 }
 
 /* Autofill Styles */
-.form-group input:-webkit-autofill,
-.form-group input:-webkit-autofill:hover,
-.form-group input:-webkit-autofill:focus {
+fieldset.form-group input:-webkit-autofill,
+fieldset.form-group input:-webkit-autofill:hover,
+fieldset.form-group input:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--bone);
   -webkit-box-shadow: 0 0 0 0 transparent inset;
-  border-bottom: 2px solid var(--bone-10);
   transition: background-color 5000s ease-in-out 0s;
 }
 
-/* Ensure autofilled inputs show floating label */
-.form-group input:-webkit-autofill + label {
-  top: -4px;
-  font-size: var(--text-small-size);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--bone);
-  transform: translateY(-100%);
+fieldset.form-group:has(input:-webkit-autofill) {
+  background-color: var(--page-bg-color) !important;
 }
+
+fieldset.form-group:has(input:-webkit-autofill) .form-legend {
+  background-color: var(--page-bg-color);
+}
+
 
 /* Honeypot Hidden Field */
 .hidden {
@@ -233,10 +450,220 @@
   opacity: 1;
 }
 
+/* Inline Legend - For fields within a form-row (smaller) */
+.form-legend--inline {
+  font-size: var(--text-p-size);
+}
+
+/* Form Row - For side-by-side fields (First Name / Last Name) */
+/* Mobile-first: stack vertically */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Tablet and up: side-by-side */
+@media (min-width: 768px) {
+  .form-row {
+    flex-direction: row;
+    gap: var(--space-md);
+  }
+  
+  /* Each field wrapper takes up equal width, gap handles spacing */
+  .form-row .form-field-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Form Field Wrapper - Groups fieldset with its error message */
+.form-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  /* Ensure consistent spacing with other form fields */
+  margin-bottom: 0;
+  position: relative; /* For positioning error/instruction in same spot */
+}
+
+/* Wrapper to reserve space for error/instruction messages */
+.form-message-wrapper {
+  position: relative;
+  min-height: calc(1.5em + var(--space-sm)); /* Reserve space for message + margin */
+  margin-top: var(--space-sm);
+}
+
+/* Remove margin-bottom from fieldsets inside form-field-wrapper 
+   so error message margin-top controls the spacing */
+.form-field-wrapper fieldset.form-group {
+  margin-bottom: 0;
+}
+
+/* Inline Form Group - For fields within a form-row */
+.form-group--inline {
+  margin-bottom: 0;
+  /* Ensure consistent height - hug the input */
+  height: fit-content;
+  min-height: 0;
+}
+
+.form-group--name {
+  margin-bottom: var(--space-2xl);
+}
+
+/* Form Checkboxes - Group layout */
+.form-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Custom Checkbox Styling - Matches form field style */
+.form-checkbox input[type="checkbox"] {
+  /* Hide default checkbox */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  /* Size using space variables */
+  width: var(--space-md); /* 24px */
+  height: var(--space-md); /* 24px */
+  min-width: var(--space-md);
+  min-height: var(--space-md);
+  
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--bone);
+  border-radius: 0; /* Match form field style */
+  background-color: var(--page-bg-color);
+  cursor: pointer;
+  position: relative;
+  
+  /* Match form field transitions */
+  transition: 
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* Hover state - match form field hover */
+.form-checkbox input[type="checkbox"]:hover {
+  background-color: var(--chuparosa-700);
+}
+
+/* Focus state - match form field focus */
+.form-checkbox input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+/* Checked state - show checkmark */
+.form-checkbox input[type="checkbox"]:checked {
+  background-color: var(--bone);
+  border-color: var(--bone);
+}
+
+/* Checkmark using pseudo-element */
+.form-checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -60%) rotate(45deg);
+  width: calc(var(--space-xs) * 0.75); /* 6px */
+  height: calc(var(--space-sm) * 0.75); /* 12px */
+  border-right: 2px solid var(--obsidian);
+  border-bottom: 2px solid var(--obsidian);
+}
+
+/* Disabled state */
+.form-checkbox input[type="checkbox"]:disabled {
+  border-color: var(--obsidian-20);
+  background-color: var(--obsidian-10);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.form-checkbox label {
+  position: static;
+  transform: none;
+  font-size: var(--text-p-large-size);
+  font-weight: 400;
+  color: var(--bone);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Form Instruction Text - Base styles (overridden by more specific selectors below) */
+.form-instruction {
+  display: block;
+  min-height: 1.5em; /* Reserve space for one line of text */
+  margin: var(--space-sm) 0 0 0; /* Explicitly reset all margins, then set top */
+  padding: 0;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-size: var(--text-small-size);
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+/* Form Group Wrapper - For fields with instruction text outside or grouped fields */
+.form-group-wrapper {
+  margin-bottom: var(--space-md);
+}
+
+.form-group-wrapper:last-of-type {
+  margin-bottom: var(--space-md);
+}
+
+/* Static label for grouped fields */
+.form-label-static {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-p-large-size);
+  font-weight: 400;
+  color: var(--bone);
+  margin-bottom: var(--space-md);
+}
+
+
+/* Instruction in form-group-wrapper (for checkbox groups) */
+.form-group-wrapper .form-instruction {
+  display: block;
+  min-height: 1.5em;
+  margin-top: var(--space-sm);
+  margin-left: 0;
+  padding: 0;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-size: var(--text-small-size);
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+/* Toggle visibility: error and instruction share same space */
+/* When error is visible, hide instruction with display: none */
+.form-field-wrapper:has(.error-message:not([aria-hidden="true"]):not(:empty)) .form-instruction,
+.form-group-wrapper:has(.error-message:not([aria-hidden="true"]):not(:empty)) .form-instruction {
+  display: none; /* Don't reserve space when error is visible */
+}
+
 /* Responsive Adjustments */
 @media (min-width: 768px) {
   .form-group {
-    margin-bottom: var(--space-3xl);
+    margin-bottom: var(--space-md);
+  }
+  
+  .form-checkboxes {
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 }
 

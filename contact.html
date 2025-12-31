@@ -472,24 +472,93 @@
                 <label>Don't fill this out if you're human: <input name="bot-field" /></label>
               </p>
               
-              <div class="form-group">
-                <input type="text" id="name" name="name" placeholder="Name *" required />
-                <label for="name">Name *</label>
+              <div class="form-group-wrapper form-group-wrapper--name">
+                <span class="form-label-static">Name</span>
+                <div class="form-row">
+                  <div class="form-field-wrapper">
+                    <fieldset class="form-group form-group--inline">
+                      <legend class="form-legend form-legend--inline">First Name <span>(required)</span></legend>
+                      <input type="text" id="first-name" name="first-name" placeholder="John" required />
+                    </fieldset>
+                    <span class="error-message" aria-live="polite" aria-hidden="true" data-field="first-name"></span>
+                  </div>
+                  <div class="form-field-wrapper">
+                    <fieldset class="form-group form-group--inline">
+                      <legend class="form-legend form-legend--inline">Last Name <span>(required)</span></legend>
+                      <input type="text" id="last-name" name="last-name" placeholder="Doe" required />
+                    </fieldset>
+                    <span class="error-message" aria-live="polite" aria-hidden="true" data-field="last-name"></span>
+                  </div>
+                </div>
               </div>
               
-              <div class="form-group">
-                <input type="email" id="email" name="email" placeholder="Email *" required />
-                <label for="email">Email *</label>
+              <div class="form-group-wrapper">
+                <div class="form-field-wrapper">
+                  <fieldset class="form-group">
+                    <legend class="form-legend">Email <span>(required)</span></legend>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required />
+                  </fieldset>
+                  <span class="error-message" aria-live="polite" aria-hidden="true" data-field="email"></span>
+                </div>
               </div>
               
-              <div class="form-group">
-                <input type="text" id="company" name="company" placeholder="Company / Channel Name" />
-                <label for="company">Company / Channel Name</label>
+              <div class="form-group form-group--checkboxes">
+                <span class="form-group__label-static">Creator Platforms <span>(required)</span></span>
+                <div class="form-checkboxes" data-required-group="creator-platforms">
+                  <div class="form-checkbox">
+                    <input type="checkbox" id="platform-youtube" name="creator-platforms" value="youtube" />
+                    <label for="platform-youtube">YouTube</label>
+                  </div>
+                  <div class="form-checkbox">
+                    <input type="checkbox" id="platform-tiktok" name="creator-platforms" value="tiktok" />
+                    <label for="platform-tiktok">TikTok</label>
+                  </div>
+                  <div class="form-checkbox">
+                    <input type="checkbox" id="platform-instagram" name="creator-platforms" value="instagram" />
+                    <label for="platform-instagram">Instagram</label>
+                  </div>
+                  <div class="form-checkbox">
+                    <input type="checkbox" id="platform-media-company" name="creator-platforms" value="media-company" />
+                    <label for="platform-media-company">Media Company</label>
+                  </div>
+                </div>
+                <span class="error-message" aria-live="polite" aria-hidden="true" data-field="creator-platforms"></span>
               </div>
               
-              <div class="form-group">
-                <textarea id="message" name="message" rows="6" placeholder="Message *" required></textarea>
-                <label for="message">Message *</label>
+              <div class="form-group-wrapper">
+                <div class="form-field-wrapper">
+                  <fieldset class="form-group">
+                    <legend class="form-legend">Category <span>(required)</span></legend>
+                    <select id="category" name="category" required>
+                      <option value="">Select an option</option>
+                      <option value="legal-services">Legal Services</option>
+                      <option value="strategic-advisory">Strategic Advisory</option>
+                      <option value="general-inquiry">General Inquiry</option>
+                    </select>
+                  </fieldset>
+                  <span class="error-message" aria-live="polite" aria-hidden="true" data-field="category"></span>
+                </div>
+              </div>
+              
+              <div class="form-group-wrapper">
+                <div class="form-field-wrapper">
+                  <fieldset class="form-group">
+                    <legend class="form-legend">Reason <span>(required)</span></legend>
+                    <textarea id="reason" name="reason" rows="6" placeholder="I'm interested in learning more about..." required></textarea>
+                  </fieldset>
+                  <span class="error-message" aria-live="polite" aria-hidden="true" data-field="reason"></span>
+                </div>
+              </div>
+              
+              <div class="form-group-wrapper">
+                <div class="form-field-wrapper">
+                  <fieldset class="form-group">
+                    <legend class="form-legend">Social Media <span>(required)</span></legend>
+                    <textarea id="social-media" name="social-media" rows="6" placeholder="https://youtube.com/@yourchannel" required></textarea>
+                  </fieldset>
+                  <span class="error-message" aria-live="polite" aria-hidden="true" data-field="social-media"></span>
+                  <p class="form-instruction">Please include hyperlinks to your social accounts.</p>
+                </div>
               </div>
               
               <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit</button>
