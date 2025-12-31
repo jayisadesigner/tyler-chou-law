@@ -26,9 +26,9 @@
   padding-top: calc(var(--space-4xl) + env(safe-area-inset-top, 0px));
 }
 
-/* Love Letters page: desert gold 100 background */
+/* Love Letters page: desert gold 50 background */
 body.page-love-letters .hero--inner-page {
-  background-color: var(--desert-gold-100);
+  background-color: var(--desert-gold-50);
 }
 
 .hero-content {
@@ -295,7 +295,7 @@ body.page-love-letters .hero-subheadline--inner-page {
   font-size: var(--text-h3-size); /* Bumped down 2 notches from h1 */
   line-height: var(--text-h3-line-height);
   letter-spacing: -0.03em;
-  color: var(--chuparosa-100);
+  color: var(--text-headline-on-chuparosa-600); /* Use text color mapping system */
   text-transform: none; /* Blog titles not uppercase */
   text-align: left;
   text-align-last: left;
