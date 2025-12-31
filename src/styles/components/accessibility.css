@@ -16,7 +16,16 @@
   top: 0;
 }
 
-/* Focus states */
+/* Suppress focus styles for mouse clicks - remove by default */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible),
+select:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Focus states - keyboard navigation only */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,

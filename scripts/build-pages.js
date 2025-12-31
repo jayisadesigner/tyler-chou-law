@@ -14,7 +14,7 @@ const projectRoot = join(__dirname, '..')
 
 // Paths
 const componentsDir = join(projectRoot, 'src', 'components')
-const pagesToBuild = ['index', 'about', 'services', 'contact', 'creatorarq', 'creatorarq-apply', 'love-letters', 'roster']
+const pagesToBuild = ['index', 'about', 'services', 'contact', 'creatorarq', 'love-letters', 'roster']
 
 /**
  * Load component template
