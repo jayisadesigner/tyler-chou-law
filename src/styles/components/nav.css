@@ -337,42 +337,42 @@ body.bg-palo-verde .hamburger-line {
 }
 
 /* Bone background: dark text on light background */
-/* !important justified: Override dynamic background color changes during scroll animations to maintain nav visibility */
+/* Inline styles (JavaScript) will override these CSS rules when needed */
 body.bg-bone {
-  --nav-text-color: var(--nav-text-on-bone, var(--obsidian)) !important;
-  --nav-hamburger-color: var(--nav-text-on-bone, var(--obsidian)) !important;
+  --nav-text-color: var(--nav-text-on-bone, var(--obsidian));
+  --nav-hamburger-color: var(--nav-text-on-bone, var(--obsidian));
 }
 
 body.bg-bone .logo-line,
 body.bg-bone .nav-menu a {
-  color: var(--nav-text-color, var(--nav-text-on-bone, var(--obsidian))) !important; /* Ensure color persists during scroll */
+  color: var(--nav-text-color, var(--nav-text-on-bone, var(--obsidian)));
 }
 
 body.bg-bone .logo-image {
-  color: var(--nav-text-color, var(--nav-text-on-bone, var(--obsidian))) !important; /* Ensure color persists during scroll */
+  color: var(--nav-text-color, var(--nav-text-on-bone, var(--obsidian)));
 }
 
 body.bg-bone .hamburger-line {
-  background-color: var(--nav-hamburger-color, var(--nav-text-on-bone, var(--obsidian))) !important; /* Ensure color persists during scroll */
+  background-color: var(--nav-hamburger-color, var(--nav-text-on-bone, var(--obsidian)));
 }
 
 /* Love Letters page: obsidian text on bone/desert gold background */
 body.page-love-letters {
-  --nav-text-color: var(--obsidian) !important;
-  --nav-hamburger-color: var(--obsidian) !important;
+  --nav-text-color: var(--obsidian);
+  --nav-hamburger-color: var(--obsidian);
 }
 
 body.page-love-letters .logo-line,
 body.page-love-letters .nav-menu a {
-  color: var(--nav-text-color, var(--obsidian)) !important;
+  color: var(--nav-text-color, var(--obsidian));
 }
 
 body.page-love-letters .logo-image {
-  color: var(--nav-text-color, var(--obsidian)) !important;
+  color: var(--nav-text-color, var(--obsidian));
 }
 
 body.page-love-letters .hamburger-line {
-  background-color: var(--nav-hamburger-color, var(--obsidian)) !important;
+  background-color: var(--nav-hamburger-color, var(--obsidian));
 }
 
 /* Blog Post page: default to light text on dark background */
