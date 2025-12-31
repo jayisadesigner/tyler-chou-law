@@ -15,6 +15,29 @@ export function initForms() {
       input.addEventListener('blur', validateField)
       input.addEventListener('input', clearFieldError)
     })
+    
+    // Clear checkbox group errors when any checkbox is checked
+    const checkboxGroups = form.querySelectorAll('[data-required-group]')
+    checkboxGroups.forEach(group => {
+      const checkboxes = group.querySelectorAll('input[type="checkbox"]')
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (e) => {
+          if (e.target.checked) {
+            // Clear error for the entire group
+            const groupName = group.getAttribute('data-required-group')
+            const errorElement = document.querySelector(`.error-message[data-field="${groupName}"]`)
+            if (errorElement) {
+              errorElement.textContent = ''
+              errorElement.setAttribute('aria-hidden', 'true')
+              const groupContainer = group.closest('.form-group--checkboxes')
+              if (groupContainer) {
+                groupContainer.classList.remove('error')
+              }
+            }
+          }
+        })
+      })
+    })
   })
 }
 
@@ -46,21 +69,45 @@ function validateField(e) {
 function showFieldError(field, message) {
   field.classList.add('error')
   
-  let errorElement = field.parentElement.querySelector('.error-message')
-  if (!errorElement) {
-    errorElement = document.createElement('span')
-    errorElement.className = 'error-message'
-    field.parentElement.appendChild(errorElement)
+  // Add error class to fieldset for CSS targeting
+  const fieldset = field.closest('fieldset.form-group')
+  if (fieldset) {
+    fieldset.classList.add('error')
   }
-  errorElement.textContent = message
+  
+  // Find error message element using data-field attribute
+  // For checkbox groups, use the group name; for other fields, use field id
+  const fieldId = field.type === 'checkbox' && field.closest('[data-required-group]') 
+    ? field.closest('[data-required-group]').getAttribute('data-required-group')
+    : field.id
+  
+  const errorElement = document.querySelector(`.error-message[data-field="${fieldId}"]`)
+  if (errorElement) {
+    errorElement.textContent = message
+    errorElement.setAttribute('aria-hidden', 'false')
+  }
 }
 
 function clearFieldError(e) {
   const field = e.target
   field.classList.remove('error')
-  const errorElement = field.parentElement.querySelector('.error-message')
+  
+  // Remove error class from fieldset
+  const fieldset = field.closest('fieldset.form-group')
+  if (fieldset) {
+    fieldset.classList.remove('error')
+  }
+  
+  // Hide error message but keep in DOM to prevent layout shift
+  // For checkbox groups, use the group name; for other fields, use field id
+  const fieldId = field.type === 'checkbox' && field.closest('[data-required-group]')
+    ? field.closest('[data-required-group]').getAttribute('data-required-group')
+    : field.id
+  
+  const errorElement = document.querySelector(`.error-message[data-field="${fieldId}"]`)
   if (errorElement) {
-    errorElement.remove()
+    errorElement.textContent = ''
+    errorElement.setAttribute('aria-hidden', 'true')
   }
 }
 
@@ -76,6 +123,28 @@ function handleFormSubmit(e) {
   requiredFields.forEach(field => {
     if (!validateField({ target: field })) {
       isValid = false
+    }
+  })
+  
+  // Validate checkbox groups
+  const checkboxGroups = form.querySelectorAll('[data-required-group]')
+  checkboxGroups.forEach(group => {
+    const checkboxes = group.querySelectorAll('input[type="checkbox"]')
+    const checked = Array.from(checkboxes).some(cb => cb.checked)
+    if (!checked) {
+      isValid = false
+      // Use the group name for error message lookup
+      const groupName = group.getAttribute('data-required-group')
+      const errorElement = document.querySelector(`.error-message[data-field="${groupName}"]`)
+      if (errorElement) {
+        errorElement.textContent = 'Please select at least one option'
+        errorElement.setAttribute('aria-hidden', 'false')
+        // Add error class to the group container
+        const groupContainer = group.closest('.form-group--checkboxes')
+        if (groupContainer) {
+          groupContainer.classList.add('error')
+        }
+      }
     }
   })
   
