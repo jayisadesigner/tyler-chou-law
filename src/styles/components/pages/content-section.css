@@ -240,7 +240,7 @@
   font-size: var(--text-p-size);
   line-height: 1;
   text-transform: uppercase;
-  color: var(--bone);
+  color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   margin: 0;
 }
 
@@ -261,9 +261,38 @@
   font-size: var(--text-h3-size);
   line-height: var(--text-h3-line-height);
   letter-spacing: -0.02em;
-  color: var(--bone);
+  color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
   text-transform: uppercase;
   margin: 0;
+}
+
+/* Page-level overrides (when section doesn't have .bg-* class) */
+body.page-services .content-section__headline-text,
+body.page-about .content-section__headline-text,
+body.page-roster .content-section__headline-text {
+  color: var(--text-headline-on-obsidian);
+}
+
+body.page-love-letters .content-section__headline-text {
+  color: var(--text-headline-on-bone);
+}
+
+body.page-services .content-section__eyebrow-text,
+body.page-about .content-section__eyebrow-text,
+body.page-roster .content-section__eyebrow-text {
+  color: var(--text-body-on-obsidian);
+}
+
+body.page-love-letters .content-section__eyebrow-text {
+  color: var(--text-body-on-bone);
+}
+
+body.page-creatorarq .content-section__headline-text {
+  color: var(--text-headline-on-palo-verde-600);
+}
+
+body.page-creatorarq .content-section__eyebrow-text {
+  color: var(--text-body-on-palo-verde-600);
 }
 
 .content-section__body {
@@ -273,9 +302,24 @@
   font-size: var(--text-p-large-size);
   line-height: var(--text-p-large-line-height);
   letter-spacing: -0.02em;
-  color: var(--bone);
+  color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   width: 100%;
   max-width: 576px;
+}
+
+/* Page-level overrides for body text */
+body.page-services .content-section__body,
+body.page-about .content-section__body,
+body.page-roster .content-section__body {
+  color: var(--text-body-on-obsidian);
+}
+
+body.page-creatorarq .content-section__body {
+  color: var(--text-body-on-palo-verde-600);
+}
+
+body.page-love-letters .content-section__body {
+  color: var(--text-body-on-bone);
 }
 
 .content-section__body p {
@@ -453,8 +497,23 @@
   font-weight: 400;
   line-height: var(--text-h1-line-height);
   letter-spacing: -0.03em;
-  color: var(--chuparosa-100);
+  color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
   text-transform: none;
+}
+
+/* Page-level overrides for large text modifier */
+body.page-services .content-section--centered.content-section--large-text .content-section__headline-text,
+body.page-about .content-section--centered.content-section--large-text .content-section__headline-text,
+body.page-roster .content-section--centered.content-section--large-text .content-section__headline-text {
+  color: var(--text-headline-on-obsidian);
+}
+
+body.page-creatorarq .content-section--centered.content-section--large-text .content-section__headline-text {
+  color: var(--text-headline-on-palo-verde-600);
+}
+
+body.page-love-letters .content-section--centered.content-section--large-text .content-section__headline-text {
+  color: var(--text-headline-on-bone);
 }
 
 /* Large body modifier - increases body text size for centered sections */

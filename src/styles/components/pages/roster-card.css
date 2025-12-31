@@ -70,16 +70,11 @@
     font-size: var(--text-h6-size); /* 1.414rem / 22.62px */
     font-weight: 500;
     line-height: var(--text-h6-line-height);
-    color: var(--chuparosa-100);
+    color: var(--bone);
     text-transform: uppercase;
     margin: 0;
     z-index: 1;
   }
-
-/* Roster page: bone text on obsidian background */
-body.page-roster .roster-card__handle {
-  color: var(--bone);
-}
 
 /* Testimonial Modifier - adds content area below image instead of overlaid handle */
 .roster-card--testimonial {

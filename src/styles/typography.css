@@ -40,7 +40,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
-  color: var(--chuparosa-100);
+  color: var(--text-body-on-chuparosa-600);
   background-color: var(--chuparosa-600);
 }
 
@@ -49,18 +49,24 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 500;
   line-height: 1.1;
-  color: var(--chuparosa-100);
+  color: var(--text-headline-on-chuparosa-600);
   text-wrap: balance; /* Balance lines to avoid widows */
 }
 
-/* Headings in dark sections should be bone */
+/* Headings in dark sections */
 .bg-obsidian h1,
 .bg-obsidian h2,
 .bg-obsidian h3,
 .bg-obsidian h4,
 .bg-obsidian h5,
 .bg-obsidian h6 {
-  color: var(--bone);
+  color: var(--text-headline-on-obsidian);
+}
+
+/* Body text in dark sections */
+.bg-obsidian p,
+.bg-obsidian .body-text {
+  color: var(--text-body-on-obsidian);
 }
 
 h1 {

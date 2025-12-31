@@ -69,11 +69,11 @@ body.page-roster .footer-item {
 /* Palo Verde background: light text on dark green background */
 body.bg-palo-verde .site-footer {
   background-color: var(--page-bg-color);
-  color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
+  color: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
 }
 
 body.bg-palo-verde .footer-item {
-  color: var(--nav-text-on-palo-verde-700, var(--palo-verde-50));
+  color: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
 }
 
 /* Bone background: dark text on light background */

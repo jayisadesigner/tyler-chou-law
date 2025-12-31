@@ -112,10 +112,25 @@
   line-height: var(--text-h2-line-height); /* Responsive line-height */
   letter-spacing: -0.03em;
   text-transform: uppercase;
-  color: var(--chuparosa-100);
+  color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
   text-align: left;
   width: 100%;
   margin: 0;
+}
+
+/* Page-level overrides for featured image headline */
+body.page-services .section--featured-image__headline,
+body.page-about .section--featured-image__headline,
+body.page-roster .section--featured-image__headline {
+  color: var(--text-headline-on-obsidian);
+}
+
+body.page-creatorarq .section--featured-image__headline {
+  color: var(--text-headline-on-palo-verde-600);
+}
+
+body.page-love-letters .section--featured-image__headline {
+  color: var(--text-headline-on-bone);
 }
 
 /* Desktop: Justified text */
@@ -134,8 +149,23 @@
   font-size: var(--text-p-large-size); /* Large body text for emphasis */
   font-weight: 400;
   line-height: var(--text-p-large-line-height); /* Large body text line-height */
-  color: var(--chuparosa-100);
+  color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   width: 100%;
+}
+
+/* Page-level overrides for featured image body */
+body.page-services .section--featured-image__body,
+body.page-about .section--featured-image__body,
+body.page-roster .section--featured-image__body {
+  color: var(--text-body-on-obsidian);
+}
+
+body.page-creatorarq .section--featured-image__body {
+  color: var(--text-body-on-palo-verde-600);
+}
+
+body.page-love-letters .section--featured-image__body {
+  color: var(--text-body-on-bone);
 }
 
 /* Tablet+: two columns */
@@ -208,7 +238,7 @@
 /* When background flips to palo-verde, change flower to desert gold */
 body.bg-palo-verde .palo-verde-flower__image,
 body.page-creatorarq .palo-verde-flower__image {
-  color: var(--desert-gold-500); /* Brighter gold */
+  color: var(--desert-gold-400); /* Lighter gold */
 }
 
 /* Old about-headline styles removed - now using section--featured-image__headline */
@@ -248,17 +278,17 @@ body.page-creatorarq .palo-verde-flower__image {
 
 /* When background flips to palo-verde, change headline color */
 body.bg-palo-verde .palo-verde .section--featured-image__headline {
-  color: var(--palo-verde-50);
+  color: var(--text-headline-on-palo-verde-600);
 }
 
 /* Palo Verde section-specific color overrides */
 .palo-verde .section--featured-image__body {
-  color: var(--chuparosa-100); /* Match about section before flip */
+  color: var(--text-body-on-chuparosa-600); /* Match about section before flip */
 }
 
 /* When background flips to palo-verde, change body text color */
 body.bg-palo-verde .palo-verde .section--featured-image__body {
-  color: var(--palo-verde-300);
+  color: var(--text-body-on-palo-verde-600);
 }
 
 /* Old body column styles removed - now using section--featured-image__body grid */

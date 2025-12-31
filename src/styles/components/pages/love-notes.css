@@ -45,7 +45,7 @@
   font-size: var(--text-h3-size); /* Responsive: 32px mobile → 64px desktop */
   font-weight: 500;
   line-height: var(--text-h3-line-height);
-  color: var(--obsidian);
+  color: var(--text-headline-on-bone);
   text-transform: uppercase;
   margin: 0;
 }

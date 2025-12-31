@@ -109,7 +109,7 @@ body.page-love-letters .hero-eyebrow__text {
   font-size: var(--text-h1-size);
   line-height: var(--text-h1-line-height);
   letter-spacing: -0.03em; /* -3.8364px equivalent */
-  color: var(--chuparosa-100);
+  color: var(--text-headline-on-chuparosa-600);
   text-transform: uppercase;
   text-align: justify;
   text-align-last: justify;
@@ -140,7 +140,7 @@ body.page-love-letters .hero-eyebrow__text {
   font-size: var(--text-h2-size);
   line-height: var(--text-h2-line-height);
   letter-spacing: -0.03em; /* -2.7132px equivalent */
-  color: var(--bone);
+  color: var(--text-headline-on-obsidian);
   text-transform: uppercase;
   text-align: left;
   text-align-last: left;
@@ -151,7 +151,16 @@ body.page-love-letters .hero-eyebrow__text {
 
 /* Love Letters page: obsidian text on bone background */
 body.page-love-letters .hero-headline--inner-page {
-  color: var(--obsidian);
+  color: var(--text-headline-on-bone);
+}
+
+/* CreatorArq page: palo-verde-600 background */
+body.page-creatorarq .hero-headline--inner-page {
+  color: var(--text-headline-on-palo-verde-600);
+}
+
+body.page-creatorarq .hero-eyebrow__text {
+  color: var(--text-body-on-palo-verde-600);
 }
 
 /* Tablet+ (768px): Enhance to complex grid layout */

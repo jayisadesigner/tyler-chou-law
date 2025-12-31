@@ -45,8 +45,8 @@ body {
 
 /* Page-specific backgrounds with CSS variable for sections and curtain */
 body.page-creatorarq {
-  background-color: var(--palo-verde-700);
-  --page-bg-color: var(--palo-verde-700);
+  background-color: var(--palo-verde-600);
+  --page-bg-color: var(--palo-verde-600);
 }
 
 body.page-index,
@@ -77,8 +77,8 @@ body {
 /* Page background changes when Palo Verde section is in view */
 /* These come after page-specific classes so they can override them */
 body.bg-palo-verde {
-  background-color: var(--palo-verde-700);
-  --page-bg-color: var(--palo-verde-700);
+  background-color: var(--palo-verde-600);
+  --page-bg-color: var(--palo-verde-600);
 }
 
 body.bg-bone {
@@ -120,12 +120,118 @@ body.bg-bone {
 /* Background Utilities */
 .bg-obsidian {
   background-color: var(--obsidian);
-  color: var(--bone);
+  color: var(--text-body-on-obsidian);
+}
+
+.bg-obsidian h1,
+.bg-obsidian h2,
+.bg-obsidian h3,
+.bg-obsidian h4,
+.bg-obsidian h5,
+.bg-obsidian h6 {
+  color: var(--text-headline-on-obsidian);
+}
+
+/* Component text elements */
+.bg-obsidian .content-section__headline-text,
+.bg-obsidian .content-section__eyebrow-text,
+.bg-obsidian .section-grid__headline .content-section__headline-text,
+.bg-obsidian .section--featured-image__headline,
+.bg-obsidian .hero-headline,
+.bg-obsidian .hero-headline--inner-page {
+  color: var(--text-headline-on-obsidian);
+}
+
+.bg-obsidian .content-section__body,
+.bg-obsidian .section--featured-image__body {
+  color: var(--text-body-on-obsidian);
 }
 
 .bg-bone {
   background-color: var(--bone);
-  color: var(--obsidian);
+  color: var(--text-body-on-bone);
+}
+
+.bg-bone h1,
+.bg-bone h2,
+.bg-bone h3,
+.bg-bone h4,
+.bg-bone h5,
+.bg-bone h6 {
+  color: var(--text-headline-on-bone);
+}
+
+/* Component text elements */
+.bg-bone .content-section__headline-text,
+.bg-bone .content-section__eyebrow-text,
+.bg-bone .section-grid__headline .content-section__headline-text,
+.bg-bone .section--featured-image__headline,
+.bg-bone .hero-headline,
+.bg-bone .hero-headline--inner-page {
+  color: var(--text-headline-on-bone);
+}
+
+.bg-bone .content-section__body,
+.bg-bone .section--featured-image__body {
+  color: var(--text-body-on-bone);
+}
+
+.bg-chuparosa-600 {
+  background-color: var(--chuparosa-600);
+  color: var(--text-body-on-chuparosa-600);
+}
+
+.bg-chuparosa-600 h1,
+.bg-chuparosa-600 h2,
+.bg-chuparosa-600 h3,
+.bg-chuparosa-600 h4,
+.bg-chuparosa-600 h5,
+.bg-chuparosa-600 h6 {
+  color: var(--text-headline-on-chuparosa-600);
+}
+
+/* Component text elements */
+.bg-chuparosa-600 .content-section__headline-text,
+.bg-chuparosa-600 .content-section__eyebrow-text,
+.bg-chuparosa-600 .section-grid__headline .content-section__headline-text,
+.bg-chuparosa-600 .section--featured-image__headline,
+.bg-chuparosa-600 .hero-headline,
+.bg-chuparosa-600 .hero-headline--inner-page {
+  color: var(--text-headline-on-chuparosa-600);
+}
+
+.bg-chuparosa-600 .content-section__body,
+.bg-chuparosa-600 .section--featured-image__body {
+  color: var(--text-body-on-chuparosa-600);
+}
+
+.bg-palo-verde-600 {
+  background-color: var(--palo-verde-600);
+  color: var(--text-body-on-palo-verde-600);
+}
+
+.bg-palo-verde-600 h1,
+.bg-palo-verde-600 h2,
+.bg-palo-verde-600 h3,
+.bg-palo-verde-600 h4,
+.bg-palo-verde-600 h5,
+.bg-palo-verde-600 h6 {
+  color: var(--text-headline-on-palo-verde-600);
+}
+
+/* Component text elements */
+.bg-palo-verde-600 .content-section__headline-text,
+.bg-palo-verde-600 .content-section__eyebrow-text,
+.bg-palo-verde-600 .section-grid__headline .content-section__headline-text,
+.bg-palo-verde-600 .section--featured-image__headline,
+.bg-palo-verde-600 .hero-headline,
+.bg-palo-verde-600 .hero-headline--inner-page {
+  color: var(--text-headline-on-palo-verde-600);
+}
+
+.bg-palo-verde-600 .content-section__body,
+.bg-palo-verde-600 .section--featured-image__body {
+  color: var(--text-body-on-palo-verde-600);
 }
 
 /* Text Utilities */
