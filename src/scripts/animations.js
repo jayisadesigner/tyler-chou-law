@@ -685,6 +685,20 @@ function initAnimations() {
     }
   }
 
+  // Philosophy section - nav turns obsidian on bone background
+  const philosophySection = document.querySelector('.philosophy')
+  if (philosophySection) {
+    ScrollTrigger.create({
+      trigger: philosophySection,
+      start: 'top center',
+      end: 'bottom top',
+      onEnter: () => setNavColor('var(--obsidian)'),
+      onLeave: () => setNavColor(''),
+      onEnterBack: () => setNavColor('var(--obsidian)'),
+      onLeaveBack: () => setNavColor(''),
+    })
+  }
+
   // Final CTA section - return to default (chuparosa/red)
   createThemeScrollTrigger('.content-section--centered:last-of-type', 'top center', 'bottom top', '')
 
