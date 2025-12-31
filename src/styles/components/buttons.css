@@ -176,11 +176,13 @@
 }
 
 .btn--tertiary.btn--on-dark:hover {
-  color: var(--chuparosa-100); /* Accessible light red for hover */
+  color: var(--bone);
+  opacity: 0.8;
 }
 
 .btn--tertiary.btn--on-dark:active {
-  color: var(--chuparosa-100); /* Accessible light red for active */
+  color: var(--bone);
+  opacity: 0.8;
 }
 
 .btn--tertiary.btn--on-dark:focus,
@@ -210,11 +212,13 @@
 }
 
 .btn--tertiary.btn--on-light:hover {
-  color: var(--chuparosa-500); /* darker red for contrast on light */
+  color: var(--obsidian);
+  opacity: 0.8;
 }
 
 .btn--tertiary.btn--on-light:active {
-  color: var(--chuparosa-500); /* match hover state */
+  color: var(--obsidian);
+  opacity: 0.8;
 }
 
 .btn--tertiary.btn--on-light:focus,
@@ -248,11 +252,13 @@
 }
 
 .btn--ghost.btn--on-dark:hover {
-  color: var(--chuparosa-100); /* Accessible light red for hover */
+  color: var(--bone);
+  opacity: 0.8;
 }
 
 .btn--ghost.btn--on-dark:active {
-  color: var(--chuparosa-100); /* Accessible light red for active */
+  color: var(--bone);
+  opacity: 0.8;
 }
 
 .btn--ghost.btn--on-dark:focus,
@@ -282,11 +288,13 @@
 }
 
 .btn--ghost.btn--on-light:hover {
-  color: var(--chuparosa-500); /* darker red for contrast on light */
+  color: var(--obsidian);
+  opacity: 0.8;
 }
 
 .btn--ghost.btn--on-light:active {
-  color: var(--chuparosa-500); /* match hover state */
+  color: var(--obsidian);
+  opacity: 0.8;
 }
 
 .btn--ghost.btn--on-light:focus,
@@ -371,7 +379,7 @@
 
 /* Secondary with Chuparosa accent (on-dark) */
 .btn--secondary.btn--on-dark.btn--chuparosa {
-  color: var(--chuparosa-100);
+  color: var(--bone);
   border-color: var(--bone);
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
@@ -407,14 +415,14 @@
 /* Tertiary/Ghost with Chuparosa accent (on-dark) */
 .btn--tertiary.btn--on-dark.btn--chuparosa,
 .btn--ghost.btn--on-dark.btn--chuparosa {
-  color: var(--chuparosa-100);
+  color: var(--bone);
 }
 
 .btn--tertiary.btn--on-dark.btn--chuparosa:focus,
 .btn--tertiary.btn--on-dark.btn--chuparosa:focus-visible,
 .btn--ghost.btn--on-dark.btn--chuparosa:focus,
 .btn--ghost.btn--on-dark.btn--chuparosa:focus-visible {
-  outline-color: var(--chuparosa-100);
+  outline-color: var(--bone);
 }
 
 /* ============================================

@@ -76,6 +76,23 @@
   max-width: none;
 }
 
+/* Section grid headers use text color mapping based on page background */
+.section-grid__headline .content-section__headline-text {
+  color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
+}
+
+/* Services, About, Roster pages: obsidian background */
+body.page-services .section-grid__headline .content-section__headline-text,
+body.page-about .section-grid__headline .content-section__headline-text,
+body.page-roster .section-grid__headline .content-section__headline-text {
+  color: var(--text-headline-on-obsidian);
+}
+
+/* Love letters page: bone background (if roster section appears there) */
+body.page-love-letters .section-grid__headline .content-section__headline-text {
+  color: var(--text-headline-on-bone);
+}
+
 /* Link styling */
 .section-grid__link {
   font-family: var(--font-display);
