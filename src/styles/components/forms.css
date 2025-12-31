@@ -167,6 +167,27 @@ fieldset.form-group select {
   white-space: normal; /* Allow text to wrap if needed */
 }
 
+/* Dropdown caret - matches hamburger/close icon style (2px thickness) */
+/* Position caret using a pseudo-element on the fieldset */
+/* Note: fieldset.form-group already has position: relative, so this is just for clarity */
+
+fieldset.form-group:has(select)::after {
+  content: '';
+  position: absolute;
+  right: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background-image: url('/src/assets/icons/caret-down.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
+  color: var(--bone); /* SVG uses currentColor */
+}
+
 /* Textarea Specific - Resizable but same base styling */
 fieldset.form-group textarea {
   resize: vertical;
@@ -252,27 +273,50 @@ fieldset.form-group:has(select:disabled) .form-legend {
 }
 
 /* Error Message - Accessible contrast with visual indicator */
-/* Error messages and instructions share the same visual space */
 /* Always reserve space to prevent layout shift */
 .form-group-wrapper .error-message,
-fieldset.form-group .error-message,
-.form-field-wrapper .error-message {
+fieldset.form-group .error-message {
   display: block;
+  width: 100%;
   min-height: 1.5em; /* Reserve space for one line of text */
   margin-top: var(--space-sm);
   margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
   padding: 0;
   color: var(--bone);
   font-family: var(--font-display);
   font-size: var(--text-small-size);
   font-weight: 500;
-  z-index: 2; /* Above instruction text */
   transition: opacity 0.2s ease;
 }
 
-/* Hide error message when empty to prevent layout shift */
-.error-message:empty,
-.error-message[aria-hidden="true"] {
+/* Error messages and instructions in form-field-wrapper - identical styling, same position */
+.form-field-wrapper .error-message,
+.form-field-wrapper .form-instruction {
+  display: block;
+  width: 100%;
+  min-height: 1.5em; /* Reserve space for one line of text */
+  margin: var(--space-sm) 0 0 0; /* Explicitly reset all margins, then set top */
+  padding: 0;
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-size: var(--text-small-size);
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+/* Hide error message when empty - don't reserve space when instruction is showing */
+.form-field-wrapper .error-message:empty,
+.form-field-wrapper .error-message[aria-hidden="true"] {
+  display: none; /* Don't reserve space when hidden - instruction text is visible */
+}
+
+/* For error messages outside form-field-wrapper, still reserve space */
+.form-group-wrapper .error-message:empty,
+.form-group-wrapper .error-message[aria-hidden="true"],
+fieldset.form-group .error-message:empty,
+fieldset.form-group .error-message[aria-hidden="true"] {
   visibility: hidden;
   opacity: 0;
   min-height: 1.5em; /* Still reserve space */
@@ -282,14 +326,6 @@ fieldset.form-group .error-message,
 .error-message:not(:empty):not([aria-hidden="true"]) {
   visibility: visible;
   opacity: 1;
-}
-
-/* Error messages in form-field-wrapper appear directly below their fieldset */
-.form-field-wrapper .error-message {
-  display: block;
-  width: 100%;
-  margin-top: var(--space-sm);
-  margin-left: 0;
 }
 
 /* Error messages in other contexts (not in fieldsets) */
@@ -434,6 +470,14 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
   flex-direction: column;
   /* Ensure consistent spacing with other form fields */
   margin-bottom: 0;
+  position: relative; /* For positioning error/instruction in same spot */
+}
+
+/* Wrapper to reserve space for error/instruction messages */
+.form-message-wrapper {
+  position: relative;
+  min-height: calc(1.5em + var(--space-sm)); /* Reserve space for message + margin */
+  margin-top: var(--space-sm);
 }
 
 /* Remove margin-bottom from fieldsets inside form-field-wrapper 
@@ -493,8 +537,7 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
 .form-instruction {
   display: block;
   min-height: 1.5em; /* Reserve space for one line of text */
-  margin-top: var(--space-sm);
-  margin-left: 0;
+  margin: var(--space-sm) 0 0 0; /* Explicitly reset all margins, then set top */
   padding: 0;
   color: var(--bone);
   font-family: var(--font-display);
@@ -522,20 +565,6 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
   margin-bottom: var(--space-md);
 }
 
-/* Instruction text - Shares the exact same visual space as error messages */
-.form-field-wrapper .form-instruction {
-  display: block;
-  width: 100%;
-  margin-top: var(--space-sm);
-  margin-left: 0;
-  min-height: 1.5em; /* Reserve space for one line of text */
-  padding: 0;
-  color: var(--bone);
-  font-family: var(--font-display);
-  font-size: var(--text-small-size);
-  font-weight: 500;
-  transition: opacity 0.2s ease;
-}
 
 /* Instruction in form-group-wrapper (for checkbox groups) */
 .form-group-wrapper .form-instruction {
@@ -551,11 +580,11 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
   transition: opacity 0.2s ease;
 }
 
-/* Hide instruction when there's an error (error takes priority) */
+/* Toggle visibility: error and instruction share same space */
+/* When error is visible, hide instruction with display: none */
 .form-field-wrapper:has(.error-message:not([aria-hidden="true"]):not(:empty)) .form-instruction,
 .form-group-wrapper:has(.error-message:not([aria-hidden="true"]):not(:empty)) .form-instruction {
-  visibility: hidden;
-  opacity: 0;
+  display: none; /* Don't reserve space when error is visible */
 }
 
 /* Responsive Adjustments */
