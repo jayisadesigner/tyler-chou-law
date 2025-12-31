@@ -89,13 +89,13 @@
 .philosophy-text--content {
   font-size: clamp(4rem, 8vw, 153.541px); /* Responsive from 4rem to 153.541px */
   letter-spacing: -0.03em;
-  color: var(--chuparosa-600); /* WCAG accessible red on bone background */
+  color: var(--chuparosa-500); /* WCAG accessible red on bone background */
 }
 
 .philosophy-text--king {
   font-size: clamp(5rem, 10vw, 212.351px); /* Responsive from 5rem to 212.351px */
   letter-spacing: -0.03em;
-  color: var(--chuparosa-600); /* WCAG accessible red on bone background */
+  color: var(--chuparosa-500); /* WCAG accessible red on bone background */
 }
 
 .philosophy-text--queen {
@@ -109,7 +109,7 @@
 /* Philosophy Redaction Boxes - Hidden by default (fallback) */
 .philosophy-redaction {
   position: absolute;
-  background-color: var(--chuparosa-600); /* Red strikethrough color matching text */
+  background-color: var(--chuparosa-500); /* Red strikethrough color matching text */
   z-index: 2;
   width: var(--philosophy-redaction-width, 0); /* CSS variable with hidden fallback */
   height: var(--philosophy-redaction-height, 0); /* CSS variable with hidden fallback */

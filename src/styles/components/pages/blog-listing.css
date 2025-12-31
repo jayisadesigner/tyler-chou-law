@@ -32,7 +32,7 @@
 .blog-card {
   position: relative;
   width: 100%;
-  background-color: var(--desert-gold-100);
+  background-color: var(--desert-gold-50);
   overflow: visible;
   display: flex;
   flex-direction: column;
