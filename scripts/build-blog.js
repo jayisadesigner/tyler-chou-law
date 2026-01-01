@@ -91,13 +91,28 @@ function parseFrontmatter(content) {
       const key = line.slice(0, colonIndex).trim()
       let value = line.slice(colonIndex + 1).trim()
       
-      // Remove quotes if present
-      if ((value.startsWith('"') && value.endsWith('"')) ||
-          (value.startsWith("'") && value.endsWith("'"))) {
-        value = value.slice(1, -1)
+      // Handle YAML arrays (e.g., ["item1", "item2"])
+      if (value.startsWith('[') && value.endsWith(']')) {
+        // Extract array elements, removing brackets and quotes
+        const arrayContent = value.slice(1, -1) // Remove [ and ]
+        const items = arrayContent.split(',').map(item => {
+          const trimmed = item.trim()
+          // Remove quotes from each item
+          if ((trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+              (trimmed.startsWith("'") && trimmed.endsWith("'"))) {
+            return trimmed.slice(1, -1)
+          }
+          return trimmed
+        })
+        metadata[key] = items
+      } else {
+        // Remove quotes if present (for string values)
+        if ((value.startsWith('"') && value.endsWith('"')) ||
+            (value.startsWith("'") && value.endsWith("'"))) {
+          value = value.slice(1, -1)
+        }
+        metadata[key] = value
       }
-      
-      metadata[key] = value
     }
   })
   
@@ -158,7 +173,17 @@ function generateTagsHTML(tags) {
     return ''
   }
   
-  const tagArray = Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim())
+  let tagArray = Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim())
+  
+  // Clean up tags: remove brackets, quotes, and extra whitespace
+  tagArray = tagArray.map(tag => {
+    let cleaned = tag.trim()
+    // Remove brackets if present
+    cleaned = cleaned.replace(/^\[|\]$/g, '')
+    // Remove quotes if present
+    cleaned = cleaned.replace(/^["']|["']$/g, '')
+    return cleaned.trim()
+  }).filter(tag => tag.length > 0) // Remove empty tags
   
   return `
             <div class="blog-post-tags">
