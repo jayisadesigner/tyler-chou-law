@@ -1,84 +1,46 @@
 ---
 title: "How to Negotiate Brand Deals Like You Have a Lawyer"
-date: "2025-01-01"
-author: "Tyler Chou"
-excerpt: "Tips for getting better terms on brand partnerships. What to negotiate, what to avoid, and when to walk away."
-tags: "Brand Deals, Negotiation, Business Strategy"
 slug: "negotiate-brand-deals"
+date: 2025-01-09
+author: "Tyler Chou"
+description: "You don't need a lawyer for every brand deal, but you should negotiate like you have one. Entertainment attorney Tyler Chou shares tactics that protect creator interests."
+tags: ["brand deals", "negotiation", "business strategy", "sponsorships"]
 ---
 
-Brand deals are a major revenue source for creators. But most creators accept the first offer. Here's how to negotiate like you have a lawyer (even if you don't).
+You don't need a lawyer for every brand deal. But you should negotiate like you have one.
 
-## What to Negotiate
+After reviewing thousands of sponsorship contracts, I can tell you the clauses brands hope you won't question. And exactly how to push back.
 
-### 1. Payment Terms
+**Before You Negotiate: Know Your Worth**
 
-**Ask for:**
-- Payment upfront or 50% upfront, 50% on delivery
-- Payment within 30 days, not 60-90 days
-- Clear payment schedule in the contract
+Brands have budgets. They'll start low. Your job is understanding your actual market value.
 
-**Why it matters:** Brands sometimes delay payment. Get it in writing.
+CPM benchmarks, engagement rates, conversion data from past campaigns. Bring receipts. Vague asks get vague offers. Specific value propositions get better terms.
 
-### 2. Usage Rights
+**The Clauses That Matter Most**
 
-**Ask for:**
-- Limited usage rights (not "in perpetuity")
-- Geographic restrictions if relevant
-- Platform restrictions (not "all platforms forever")
+Usage rights and duration. "We can use this content across all platforms forever" is very different from "Instagram only for 90 days." Broader usage should mean higher compensation.
 
-**Why it matters:** Unlimited usage means the brand can use your content forever, everywhere. That's worth more than a one-time fee.
+Exclusivity windows. If they want you to avoid competitors, that has a cost. Two weeks of exclusivity is reasonable. Six months should triple your rate.
 
-### 3. Creative Control
+Revision limits. "Unlimited revisions until approval" is a trap. Two rounds of revisions maximum. Additional rounds at additional cost.
 
-**Ask for:**
-- Approval rights over how your content is used
-- Approval over any edits or modifications
-- Right to refuse certain uses
+Payment terms. Net 60 means you wait two months for your money. Push for Net 30. Or better, get partial payment upfront before you start creating.
 
-**Why it matters:** You don't want your content used in ways that hurt your brand.
+Cancellation clauses. If they can kill the deal after you've done the work, you need a kill fee. 50% minimum if cancelled after creative development begins.
 
-### 4. Exclusivity
+**The Negotiation Playbook**
 
-**Ask for:**
-- No exclusivity, or limited exclusivity (e.g., "no competing brands for 30 days")
-- Clear definition of what "competing" means
+Start with questions, not demands. "Can you help me understand why the exclusivity window is six months?" puts the burden on them to justify their terms.
 
-**Why it matters:** Exclusivity limits your ability to work with other brands. That's worth extra money.
+Use silence. After you make a counter-offer, stop talking. Uncomfortable silence makes people fill the gap. Often with concessions.
 
-## What to Avoid
+Trade, don't just take. "I can agree to the extended usage rights if we adjust the compensation to reflect that value." Give and take keeps negotiations collaborative.
 
-### 1. Work-for-Hire Clauses
+Get it in writing. Verbal agreements mean nothing. Every term you negotiate goes in the contract, or it doesn't exist.
 
-If the contract says the brand owns the content you create, that's a red flag. You should retain ownership and license usage to the brand.
+**Know Your Walk-Away Point**
 
-### 2. Indemnification Clauses That Go Too Far
+Some deals aren't worth taking. If the terms undervalue your work, if the brand has a reputation for payment issues, if the contract is aggressively one-sided. Walking away is a power move.
 
-If you're responsible for everything that goes wrong, even things outside your control, that's problematic. Limit your liability.
-
-### 3. Non-Compete Clauses
-
-If the contract prevents you from working with competitors for too long, that limits your revenue. Negotiate it down or get paid more.
-
-## When to Walk Away
-
-Walk away if:
-- The brand won't negotiate on payment terms
-- They demand ownership of your content
-- The indemnification clause is too broad
-- They want exclusivity without paying for it
-
-**Remember:** Not every brand deal is worth it. Some deals cost you more than they pay you.
-
-## The Power of "No"
-
-The best negotiation tool is the ability to walk away. If a brand won't negotiate on important terms, be ready to say no. There are other brands. There's only one you.
-
-## Bottom Line
-
-Don't accept the first offer. Negotiate payment terms, usage rights, creative control, and exclusivity. Avoid work-for-hire clauses and overly broad indemnification. Be ready to walk away from bad deals.
-
-**Your content is valuable. Your time is valuable. Negotiate accordingly.**
-
-Ready to protect your brand deals? [Get in touch](/contact.html).
-
+Your reputation and rights are worth more than any single check.

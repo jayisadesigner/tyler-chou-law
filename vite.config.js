@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
+import { readFileSync, existsSync } from 'fs'
+import { join } from 'path'
 
 export default defineConfig({
   build: {
@@ -44,10 +46,48 @@ export default defineConfig({
     port: 3000,
     open: true,
     host: true, // Allow access from network
+    // Serve blog posts from dist/love-letters/ in dev mode
+    middlewareMode: false,
   },
   preview: {
     port: 4173,
     host: true,
   },
+  // Configure dev server to serve blog posts with proper asset paths
+  plugins: [
+    {
+      name: 'serve-blog-posts',
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          // Check if request is for a blog post
+          if (req.url?.startsWith('/love-letters/') && req.url.endsWith('.html')) {
+            const blogPostPath = join(__dirname, 'dist', req.url)
+            if (existsSync(blogPostPath)) {
+              let content = readFileSync(blogPostPath, 'utf-8')
+              
+              // Rewrite asset paths for dev mode
+              // Remove built CSS link - main.js imports CSS via Vite
+              content = content.replace(
+                /<link rel="stylesheet" href="\/assets\/main-[^"]+\.css">\s*/g,
+                ''
+              )
+              
+              // Replace built JS path with Vite dev server path
+              // This will process CSS imports through Vite's dev server
+              content = content.replace(
+                /<script type="module" src="\/assets\/main-[^"]+\.js"><\/script>/g,
+                '<script type="module" src="/src/scripts/main.js"></script>'
+              )
+              
+              res.setHeader('Content-Type', 'text/html')
+              res.end(content)
+              return
+            }
+          }
+          next()
+        })
+      },
+    },
+  ],
 })
 

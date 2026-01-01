@@ -1,79 +1,52 @@
 ---
 title: "IP Protection 101: What Creators Actually Own"
-date: "2025-01-05"
-author: "Tyler Chou"
-excerpt: "Understanding intellectual property in the creator economy. What you own, what you don't, and how to protect it."
-tags: "IP Protection, Copyright, Legal Education"
 slug: "ip-protection-101"
+date: 2025-01-09
+author: "Tyler Chou"
+description: "Your content, your brand, your formats. Do you actually own them? Entertainment attorney Tyler Chou explains intellectual property basics every creator needs to know."
+tags: ["IP protection", "copyright", "trademark", "legal education"]
 ---
 
-Content is king. IP is queen. But what do you actually own? Here's what creators need to know about intellectual property.
+Creators build empires on intellectual property. Most don't realize what they actually own. Or what they've accidentally given away.
 
-## What You Own (Usually)
+Here's the IP breakdown every creator needs to understand.
 
-### Copyright in Your Content
+**What You Own By Default**
 
-When you create original content—videos, music, writing, graphics—you automatically own the copyright. You don't need to register it (though registration helps if you need to enforce it).
+Your videos. The moment you hit record, you own the copyright to that footage. No registration required for ownership, though registration matters if you ever need to enforce it.
 
-**What this means:** You control how your content is used, distributed, and monetized.
+Your written content. Scripts, captions, blog posts, tweets. All copyrighted the moment you create them.
 
-### Your Brand and Name
+Your original music and sound effects. If you composed it, you own it.
 
-Your channel name, logo, catchphrases—these can be protected as trademarks. But you need to register them to get full protection.
+Your artwork and graphics. Thumbnails, channel art, merchandise designs. All yours.
 
-**What this means:** You can prevent others from using your brand to confuse your audience.
+**What You Might Not Own**
 
-## What You Might Not Own
+Content created by employees or contractors. Work-for-hire agreements can transfer ownership. If you hired an editor, animator, or writer, check your contracts. Without clear terms, ownership gets murky fast.
 
-### Content Created Under Contract
+Content using licensed assets. That royalty-free music? You licensed it. You don't own it. Same for stock footage, templates, and fonts. Read the license terms.
 
-If you create content "for hire" or under a contract that assigns IP, you might not own it. Read your contracts carefully.
+Content created under certain platform or MCN agreements. Some contracts include IP assignment clauses buried in the fine print. If you signed one, you may have given away more than you realized.
 
-**Common trap:** Brand deal contracts that claim ownership of content you create for the brand.
+**What You Should Protect**
 
-### Content Using Others' IP
+Your brand name and logo. Trademark registration costs money but prevents others from using your brand. Do this before you're big enough for copycats to care.
 
-If you use music, clips, or other content you don't own, you don't own the resulting work. You need licenses.
+Your signature formats and series concepts. These are harder to protect legally, but documenting your creative process helps establish ownership if it ever comes into question.
 
-**Common trap:** Using copyrighted music in videos without a license.
+Your character IP. If you've created characters, personas, or fictional worlds, treat them like the valuable assets they are.
 
-## How to Protect Your IP
+**Three Things to Do This Week**
 
-### 1. Register Your Copyrights
+Register your copyrights. For your most valuable content, formal registration with the U.S. Copyright Office gives you stronger legal remedies if someone infringes.
 
-Copyright registration gives you stronger legal protection and the ability to recover damages. Register your most valuable content.
+File trademark applications. Your channel name, logo, and key catchphrases deserve protection.
 
-### 2. Register Your Trademarks
+Audit your contracts. Review every agreement you've signed. Know what IP you've licensed versus what you've assigned away.
 
-If your brand is valuable, register it. This prevents others from using your name or logo.
+**The Mindset Shift**
 
-### 3. Use Contracts That Protect You
+Content is king, but IP is queen. The creators who build lasting empires think about intellectual property from day one. Not after someone steals their ideas.
 
-When you work with brands, MCNs, or collaborators, use contracts that protect your IP. Don't sign away ownership unless you're getting real value in return.
-
-### 4. Document Everything
-
-Keep records of when you created content, who created it, and any contracts or licenses involved.
-
-## Common IP Mistakes
-
-### Mistake 1: Not Registering Copyrights
-
-You own the copyright automatically, but registration gives you stronger protection. Register your valuable content.
-
-### Mistake 2: Signing Away IP in Contracts
-
-Read contracts carefully. Don't sign away ownership of your content unless you're getting real value.
-
-### Mistake 3: Not Protecting Your Brand
-
-If your brand is valuable, protect it. Register trademarks. Monitor for infringement.
-
-## Bottom Line
-
-IP is your most valuable asset. Protect it. Register copyrights. Register trademarks. Use contracts that protect you. Don't sign away ownership without understanding what you're giving up.
-
-**Content is king. IP is queen. Protect both.**
-
-Ready to protect your IP? [Get in touch](/contact.html).
-
+Your IP is your leverage. Protect it accordingly.
