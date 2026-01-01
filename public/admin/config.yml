@@ -1,12 +1,7 @@
 backend:
-  name: github
-  repo: jayisadesigner/tyler-chou-law
+  name: git-gateway
   branch: main
-  auth_type: pkce
-  app_id: Ov23liCZ3fMJIr8wMfvP
-  # Force direct GitHub OAuth (bypass Netlify proxy)
-  base_url: https://github.com
-  auth_endpoint: login/oauth/authorize
+  # Using Auth0 for authentication + Netlify Git Gateway for GitHub API access
 
 media_folder: "src/assets/images/blog"
 public_folder: "/assets/images/blog"
