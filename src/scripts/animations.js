@@ -698,7 +698,9 @@ function initAnimations() {
   
   // Section-based theme switching
   // Palo Verde section - green background
-  createThemeScrollTrigger('.palo-verde', 'top center', 'bottom top', 'bg-palo-verde')
+  // Changed end from 'bottom top' to 'bottom bottom' to ensure it stays active
+  // until the section fully scrolls out, preventing philosophy section from overriding too early
+  createThemeScrollTrigger('.palo-verde', 'top center', 'bottom bottom', 'bg-palo-verde')
 
   // Philosophy section - bone background
   // Theme switching is handled in initPhilosophyRedaction pinned ScrollTrigger (matches love-notes pattern)

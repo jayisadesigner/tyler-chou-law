@@ -241,6 +241,11 @@ body.page-creatorarq .palo-verde-flower__image {
   color: var(--desert-gold-400); /* Lighter gold */
 }
 
+/* When background turns bone (philosophy section), change palo verde flower to chuparosa-500 */
+body.bg-bone .palo-verde .palo-verde-flower__image {
+  color: var(--chuparosa-500);
+}
+
 /* Old about-headline styles removed - now using section--featured-image__headline */
 
 /* ========================================
