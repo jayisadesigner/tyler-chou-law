@@ -93,6 +93,7 @@ body.page-creator .roster-card__handle {
   overflow: visible; /* Allow overflow */
   text-overflow: clip; /* Don't show ellipsis */
   white-space: nowrap; /* Keep handle on one line so it can overflow */
+  z-index: 10; /* Higher than right side content to ensure handle overflow is visible */
 }
 
 /* Testimonial Modifier - adds content area below image instead of overlaid handle */
