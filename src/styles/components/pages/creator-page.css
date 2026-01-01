@@ -39,7 +39,7 @@
   color: var(--bone);
   text-transform: uppercase;
   margin: 0;
-  z-index: 2;
+  z-index: 10; /* Higher than right side content to ensure handle overflow is visible */
 }
 
 @media (min-width: 768px) {
