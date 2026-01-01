@@ -134,12 +134,7 @@
 .blog-card:hover {
   transform: translateY(-4px);
   z-index: 20; /* Higher than footer (z-index: 2) */
-  box-shadow: 
-    0px 499px 140px 0px var(--shadow-color-00),
-    0px 319px 128px 0px var(--shadow-color-01),
-    0px 180px 108px 0px var(--shadow-color-04),
-    0px 80px 80px 0px var(--shadow-color-08),
-    0px 20px 44px 0px var(--shadow-color-09);
+  box-shadow: var(--shadow-desert-gold-light);
 }
 
 /* Desktop only - text color changes on hover */

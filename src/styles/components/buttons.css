@@ -485,3 +485,400 @@
 .btn--align-end {
   align-self: flex-end;
 }
+
+/* ============================================
+   AUTOMATIC BACKGROUND ADAPTATION
+   Buttons automatically adapt to parent .bg-obsidian or .bg-bone
+   Works with both body-level classes (body.bg-bone) and section-level classes (.bg-bone)
+   ============================================ */
+
+/* Primary buttons on obsidian background (dark) */
+.bg-obsidian .btn--primary,
+body.bg-obsidian .btn--primary {
+  padding: var(--space-sm) var(--space-xl);
+  background-color: var(--obsidian);
+  color: var(--bone);
+  border-radius: 4px;
+  border: none;
+}
+
+.bg-obsidian .btn--primary:hover,
+body.bg-obsidian .btn--primary:hover {
+  opacity: 0.8;
+}
+
+.bg-obsidian .btn--primary:active,
+body.bg-obsidian .btn--primary:active {
+  opacity: 0.8;
+}
+
+.bg-obsidian .btn--primary:focus,
+.bg-obsidian .btn--primary:focus-visible,
+body.bg-obsidian .btn--primary:focus,
+body.bg-obsidian .btn--primary:focus-visible {
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.bg-obsidian .btn--primary:disabled,
+body.bg-obsidian .btn--primary:disabled {
+  background-color: var(--gray-400);
+  color: var(--gray-600);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Primary buttons on bone background (light) */
+.bg-bone .btn--primary,
+body.bg-bone .btn--primary {
+  padding: var(--space-sm) var(--space-xl);
+  background-color: var(--bone);
+  color: var(--obsidian);
+  border-radius: 4px;
+  border: none;
+}
+
+.bg-bone .btn--primary:hover,
+body.bg-bone .btn--primary:hover {
+  opacity: 0.8;
+}
+
+.bg-bone .btn--primary:active,
+body.bg-bone .btn--primary:active {
+  opacity: 0.8;
+}
+
+.bg-bone .btn--primary:focus,
+.bg-bone .btn--primary:focus-visible,
+body.bg-bone .btn--primary:focus,
+body.bg-bone .btn--primary:focus-visible {
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.bg-bone .btn--primary:disabled,
+body.bg-bone .btn--primary:disabled {
+  background-color: var(--gray-400);
+  color: var(--gray-600);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Secondary buttons on obsidian background (dark) */
+.bg-obsidian .btn--secondary,
+body.bg-obsidian .btn--secondary {
+  padding: var(--space-md) var(--space-lg);
+  background-color: transparent;
+  color: var(--bone);
+  border: 2px solid var(--bone);
+  border-radius: 1000px;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.bg-obsidian .btn--secondary:hover,
+body.bg-obsidian .btn--secondary:hover {
+  background-color: var(--bone);
+  color: var(--obsidian);
+  border-color: var(--bone);
+}
+
+.bg-obsidian .btn--secondary:active,
+body.bg-obsidian .btn--secondary:active {
+  background-color: var(--bone);
+  color: var(--obsidian);
+  border-color: var(--bone);
+}
+
+.bg-obsidian .btn--secondary:focus,
+.bg-obsidian .btn--secondary:focus-visible,
+body.bg-obsidian .btn--secondary:focus,
+body.bg-obsidian .btn--secondary:focus-visible {
+  background-color: var(--bone);
+  color: var(--obsidian);
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.bg-obsidian .btn--secondary:disabled,
+body.bg-obsidian .btn--secondary:disabled {
+  background-color: transparent;
+  color: var(--gray-400);
+  border-color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Secondary buttons on bone background (light) */
+.bg-bone .btn--secondary,
+body.bg-bone .btn--secondary {
+  padding: var(--space-md) var(--space-lg);
+  background-color: transparent;
+  color: var(--obsidian);
+  border: 2px solid var(--obsidian);
+  border-radius: 1000px;
+}
+
+.bg-bone .btn--secondary:hover,
+body.bg-bone .btn--secondary:hover {
+  background-color: var(--obsidian);
+  color: var(--bone);
+  border-color: var(--obsidian);
+}
+
+.bg-bone .btn--secondary:active,
+body.bg-bone .btn--secondary:active {
+  background-color: var(--obsidian);
+  color: var(--bone);
+  border-color: var(--obsidian);
+}
+
+.bg-bone .btn--secondary:focus,
+.bg-bone .btn--secondary:focus-visible,
+body.bg-bone .btn--secondary:focus,
+body.bg-bone .btn--secondary:focus-visible {
+  background-color: var(--obsidian);
+  color: var(--bone);
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.bg-bone .btn--secondary:disabled,
+body.bg-bone .btn--secondary:disabled {
+  background-color: transparent;
+  color: var(--gray-400);
+  border-color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Tertiary buttons on obsidian background (dark) */
+.bg-obsidian .btn--tertiary,
+body.bg-obsidian .btn--tertiary {
+  padding: 0;
+  background-color: transparent;
+  color: var(--bone);
+  border: none;
+  border-radius: 0;
+  text-decoration: underline;
+}
+
+.bg-obsidian .btn--tertiary:hover,
+body.bg-obsidian .btn--tertiary:hover {
+  color: var(--bone);
+  opacity: 0.8;
+}
+
+.bg-obsidian .btn--tertiary:active,
+body.bg-obsidian .btn--tertiary:active {
+  color: var(--bone);
+  opacity: 0.8;
+}
+
+.bg-obsidian .btn--tertiary:focus,
+.bg-obsidian .btn--tertiary:focus-visible,
+body.bg-obsidian .btn--tertiary:focus,
+body.bg-obsidian .btn--tertiary:focus-visible {
+  padding: var(--space-sm);
+  background-color: var(--obsidian-10);
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--bone);
+  outline: none;
+}
+
+.bg-obsidian .btn--tertiary:disabled,
+body.bg-obsidian .btn--tertiary:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Tertiary buttons on bone background (light) */
+.bg-bone .btn--tertiary,
+body.bg-bone .btn--tertiary {
+  padding: 0;
+  background-color: transparent;
+  color: var(--obsidian);
+  border: none;
+  border-radius: 0;
+  text-decoration: underline;
+}
+
+.bg-bone .btn--tertiary:hover,
+body.bg-bone .btn--tertiary:hover {
+  color: var(--obsidian);
+  opacity: 0.8;
+}
+
+.bg-bone .btn--tertiary:active,
+body.bg-bone .btn--tertiary:active {
+  color: var(--obsidian);
+  opacity: 0.8;
+}
+
+.bg-bone .btn--tertiary:focus,
+.bg-bone .btn--tertiary:focus-visible,
+body.bg-bone .btn--tertiary:focus,
+body.bg-bone .btn--tertiary:focus-visible {
+  padding: var(--space-sm);
+  background-color: var(--bone-10);
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--obsidian);
+  outline: none;
+}
+
+.bg-bone .btn--tertiary:disabled,
+body.bg-bone .btn--tertiary:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Ghost buttons on obsidian background (dark) */
+.bg-obsidian .btn--ghost,
+body.bg-obsidian .btn--ghost {
+  padding: 0;
+  background-color: transparent;
+  color: var(--bone);
+  border: none;
+  border-radius: 0;
+  text-decoration: none;
+}
+
+.bg-obsidian .btn--ghost:hover,
+body.bg-obsidian .btn--ghost:hover {
+  color: var(--bone);
+  opacity: 0.8;
+}
+
+.bg-obsidian .btn--ghost:active,
+body.bg-obsidian .btn--ghost:active {
+  color: var(--bone);
+  opacity: 0.8;
+}
+
+.bg-obsidian .btn--ghost:focus,
+.bg-obsidian .btn--ghost:focus-visible,
+body.bg-obsidian .btn--ghost:focus,
+body.bg-obsidian .btn--ghost:focus-visible {
+  padding: var(--space-sm);
+  background-color: var(--obsidian-10);
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--bone);
+  outline: none;
+}
+
+.bg-obsidian .btn--ghost:disabled,
+body.bg-obsidian .btn--ghost:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Ghost buttons on bone background (light) */
+.bg-bone .btn--ghost,
+body.bg-bone .btn--ghost {
+  padding: 0;
+  background-color: transparent;
+  color: var(--obsidian);
+  border: none;
+  border-radius: 0;
+  text-decoration: none;
+}
+
+.bg-bone .btn--ghost:hover,
+body.bg-bone .btn--ghost:hover {
+  color: var(--obsidian);
+  opacity: 0.8;
+}
+
+.bg-bone .btn--ghost:active,
+body.bg-bone .btn--ghost:active {
+  color: var(--obsidian);
+  opacity: 0.8;
+}
+
+.bg-bone .btn--ghost:focus,
+.bg-bone .btn--ghost:focus-visible,
+body.bg-bone .btn--ghost:focus,
+body.bg-bone .btn--ghost:focus-visible {
+  padding: var(--space-sm);
+  background-color: var(--bone-10);
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--obsidian);
+  outline: none;
+}
+
+.bg-bone .btn--ghost:disabled,
+body.bg-bone .btn--ghost:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Handle page-level backgrounds (body.page-services, etc.) */
+body.page-services .btn--primary,
+body.page-about .btn--primary,
+body.page-roster .btn--primary {
+  padding: var(--space-sm) var(--space-xl);
+  background-color: var(--obsidian);
+  color: var(--bone);
+  border-radius: 4px;
+  border: none;
+}
+
+body.page-services .btn--primary:hover,
+body.page-about .btn--primary:hover,
+body.page-roster .btn--primary:hover {
+  opacity: 0.8;
+}
+
+body.page-services .btn--primary:focus,
+body.page-about .btn--primary:focus,
+body.page-roster .btn--primary:focus,
+body.page-services .btn--primary:focus-visible,
+body.page-about .btn--primary:focus-visible,
+body.page-roster .btn--primary:focus-visible {
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+body.page-services .btn--secondary,
+body.page-about .btn--secondary,
+body.page-roster .btn--secondary {
+  padding: var(--space-md) var(--space-lg);
+  background-color: transparent;
+  color: var(--bone);
+  border: 2px solid var(--bone);
+  border-radius: 1000px;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+body.page-services .btn--secondary:hover,
+body.page-about .btn--secondary:hover,
+body.page-roster .btn--secondary:hover {
+  background-color: var(--bone);
+  color: var(--obsidian);
+  border-color: var(--bone);
+}
+
+body.page-services .btn--tertiary,
+body.page-about .btn--tertiary,
+body.page-roster .btn--tertiary,
+body.page-services .btn--ghost,
+body.page-about .btn--ghost,
+body.page-roster .btn--ghost {
+  color: var(--bone);
+}
+
+body.page-services .btn--tertiary:hover,
+body.page-about .btn--tertiary:hover,
+body.page-roster .btn--tertiary:hover,
+body.page-services .btn--ghost:hover,
+body.page-about .btn--ghost:hover,
+body.page-roster .btn--ghost:hover {
+  opacity: 0.8;
+}
