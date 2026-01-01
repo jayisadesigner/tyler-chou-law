@@ -443,7 +443,10 @@ async function generateListingPage(posts) {
     // Find the placeholder content section and replace with blog listing
     const contentSectionRegex = /<!--\s*Body Content[^>]*-->[\s\S]*?<!--\s*Content Section: Love Letters Intro[^>]*-->/
     // Also try to replace existing blog listing section if placeholder doesn't exist
-    const existingListingRegex = /<!--\s*Blog Listing Section[^>]*-->[\s\S]*?<section class="blog-listing[^>]*>[\s\S]*?<\/section>/
+    // Use dotall flag (s) to match across newlines
+    const existingListingRegex = /<!--\s*Blog Listing Section[^>]*-->[\s\S]*?<section class="blog-listing[^>]*>[\s\S]*?<\/section>/s
+    // Fallback regex to find section by class only
+    const fallbackListingRegex = /<section class="blog-listing[^>]*>[\s\S]*?<\/section>/s
     const listingSection = `
       <!-- Blog Listing Section -->
       <section class="blog-listing section section-reveal">
@@ -454,11 +457,26 @@ async function generateListingPage(posts) {
         </div>
       </section>`
     
-    // Try placeholder first, then existing section
+    // Try placeholder first, then existing section, then fallback
+    let replaced = false
     if (contentSectionRegex.test(listingHTML)) {
       listingHTML = listingHTML.replace(contentSectionRegex, listingSection)
+      replaced = true
+      console.log('✓ Replaced blog listing using contentSectionRegex')
     } else if (existingListingRegex.test(listingHTML)) {
       listingHTML = listingHTML.replace(existingListingRegex, listingSection)
+      replaced = true
+      console.log('✓ Replaced blog listing using existingListingRegex')
+    } else if (fallbackListingRegex.test(listingHTML)) {
+      // Remove the comment from listingSection for fallback
+      const fallbackSection = listingSection.replace(/<!--\s*Blog Listing Section[^>]*-->\s*/g, '')
+      listingHTML = listingHTML.replace(fallbackListingRegex, fallbackSection)
+      replaced = true
+      console.log('✓ Replaced blog listing using fallbackListingRegex')
+    }
+    
+    if (!replaced) {
+      console.error('⚠ Warning: Could not find blog listing section to replace')
     }
     
     // Update Blog schema in head
@@ -525,12 +543,20 @@ async function buildBlog() {
     
     // Build all posts
     const posts = []
+    console.log(`Found ${markdownFiles.length} markdown file(s)`)
     for (const file of markdownFiles) {
       const filePath = join(contentDir, file)
-      const post = await buildPost(filePath, file)
-      if (post) {
-        posts.push(post)
-        console.log(`✓ Built: ${post.title}`)
+      console.log(`Processing: ${file}`)
+      try {
+        const post = await buildPost(filePath, file)
+        if (post) {
+          posts.push(post)
+          console.log(`✓ Built: ${post.title}`)
+        } else {
+          console.error(`✗ Failed to build: ${file} (buildPost returned null)`)
+        }
+      } catch (error) {
+        console.error(`✗ Error building ${file}:`, error.message)
       }
     }
     
