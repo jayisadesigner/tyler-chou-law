@@ -14,6 +14,7 @@ const projectRoot = join(__dirname, '..')
 
 const contentDir = join(projectRoot, 'content', 'blog')
 const outputPath = join(projectRoot, 'public', 'feed.xml')
+const distPath = join(projectRoot, 'dist')
 
 const baseUrl = 'https://tylerchoulaw.com'
 const siteTitle = 'Love Letters to Creators'
@@ -158,8 +159,10 @@ ${items}
   </channel>
 </rss>`
     
-    // Write RSS feed
+    // Write RSS feed to both public/ and dist/ (since Vite copies public/ before this runs)
     await writeFile(outputPath, rss, 'utf-8')
+    const distFeedPath = join(distPath, 'feed.xml')
+    await writeFile(distFeedPath, rss, 'utf-8')
     
     console.log(`✓ Generated RSS feed with ${posts.length} posts`)
     return posts.length

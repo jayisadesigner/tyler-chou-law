@@ -132,8 +132,10 @@ async function buildSitemap() {
 ${xmlEntries}
 </urlset>`
     
-    // Write sitemap
+    // Write sitemap to both public/ and dist/ (since Vite copies public/ before this runs)
     await writeFile(outputPath, sitemap, 'utf-8')
+    const distSitemapPath = join(distPath, 'sitemap.xml')
+    await writeFile(distSitemapPath, sitemap, 'utf-8')
     
     console.log(`✓ Generated sitemap with ${entries.length} entries`)
     return entries.length
