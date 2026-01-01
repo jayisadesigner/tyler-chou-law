@@ -131,6 +131,16 @@ body.page-love-letters .section-grid__headline .content-section__headline-text {
   display: grid;
   width: 100%;
   gap: 0;
+  overflow: visible; /* Allow roster card handles to overflow */
+}
+
+/* Allow overflow on creator pages for roster cards */
+body.page-creator .section-grid__container {
+  overflow: visible;
+}
+
+body.page-creator .section-grid {
+  overflow: visible;
 }
 
 /* ========================================

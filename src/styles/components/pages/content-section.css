@@ -36,6 +36,20 @@
   aspect-ratio: 4 / 5;
 }
 
+/* Allow overflow on creator pages for roster card handles and creator names */
+body.page-creator .content-section__container {
+  overflow: visible;
+}
+
+body.page-creator .content-section {
+  overflow: visible;
+}
+
+/* Allow creator name to overflow on creator pages (image stays clipped via background-image) */
+body.page-creator .content-section__media {
+  overflow: visible;
+}
+
 /* Mobile: Background image fills media container */
 .content-section__media .background-image {
   position: absolute;
