@@ -48,13 +48,11 @@ body.page-creator .content-section {
 /* Allow creator name to overflow on creator pages (image stays clipped via background-image) */
 body.page-creator .content-section__media {
   overflow: visible;
-  position: relative;
   z-index: 5; /* Higher than content section to ensure handle appears above right side */
 }
 
 /* Ensure content section has lower z-index on creator pages */
 body.page-creator .content-section__content {
-  position: relative;
   z-index: 1;
 }
 
