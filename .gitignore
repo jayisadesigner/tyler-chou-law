@@ -31,3 +31,7 @@ content/blog/*.md.bak
 
 # Local Netlify folder
 .netlify
+
+# Auto-generated build artifacts
+public/feed.xml
+public/sitemap.xml
