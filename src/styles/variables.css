@@ -40,6 +40,37 @@
   --obsidian-dark-20: rgba(13, 8, 9, 0.2);
   --obsidian-dark-50: rgba(13, 8, 9, 0.5);
   
+  /* Shadow presets - for use on matching color backgrounds */
+  --shadow-chuparosa: 
+    0 42px 93px rgba(56, 3, 8, 0.35),
+    0 169px 169px rgba(56, 3, 8, 0.28),
+    0 380px 228px rgba(56, 3, 8, 0.18),
+    0 676px 250px rgba(56, 3, 8, 0.08);
+  
+  --shadow-lupine: 
+    0 42px 93px rgba(34, 4, 60, 0.35),
+    0 169px 169px rgba(34, 4, 60, 0.28),
+    0 380px 228px rgba(34, 4, 60, 0.18),
+    0 676px 250px rgba(34, 4, 60, 0.08);
+  
+  --shadow-palo-verde: 
+    0 42px 93px rgba(4, 38, 7, 0.35),
+    0 169px 169px rgba(4, 38, 7, 0.28),
+    0 380px 228px rgba(4, 38, 7, 0.18),
+    0 676px 250px rgba(4, 38, 7, 0.08);
+  
+  --shadow-desert-gold: 
+    0 42px 93px rgba(52, 31, 1, 0.35),
+    0 169px 169px rgba(52, 31, 1, 0.28),
+    0 380px 228px rgba(52, 31, 1, 0.18),
+    0 676px 250px rgba(52, 31, 1, 0.08);
+  
+  --shadow-desert-gold-light: 
+    0 42px 93px rgba(52, 31, 1, 0.10),
+    0 169px 169px rgba(52, 31, 1, 0.09),
+    0 380px 228px rgba(52, 31, 1, 0.05),
+    0 676px 250px rgba(52, 31, 1, 0.01);
+  
 }
 
 /* Gray */
