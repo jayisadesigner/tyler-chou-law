@@ -125,31 +125,61 @@ function setBodyTheme(themeClass) {
   // Add new theme if provided
   if (themeClass) {
     document.body.classList.add(themeClass)
+    
+    // Set nav colors based on theme via inline styles (reliable during pinned scrolls)
+    let navColor = ''
+    if (themeClass === 'bg-bone') {
+      navColor = 'var(--nav-text-on-bone, var(--obsidian))'
+    } else if (themeClass === 'bg-palo-verde') {
+      navColor = 'var(--nav-text-on-palo-verde-600, var(--palo-verde-50))'
+    }
+    
+    if (navColor) {
+      document.body.style.setProperty('--nav-text-color', navColor)
+      document.body.style.setProperty('--nav-hamburger-color', navColor)
+    }
+  } else {
+    // Reset to default: read from CSS or use fallback
+    const computed = getComputedStyle(document.body)
+    const defaultColor = computed.getPropertyValue('--nav-text-color').trim() || 'var(--chuparosa-100)'
+    const defaultHamburger = computed.getPropertyValue('--nav-hamburger-color').trim() || defaultColor
+    document.body.style.setProperty('--nav-text-color', defaultColor)
+    document.body.style.setProperty('--nav-hamburger-color', defaultHamburger)
+  }
+}
+
+/**
+ * Initialize nav colors from CSS - promotes CSS values to inline styles so JS can override
+ * Called early in initAnimations() to ensure CSS values are available for JavaScript to override
+ */
+function initNavColors() {
+  const computed = getComputedStyle(document.body)
+  const textColor = computed.getPropertyValue('--nav-text-color').trim()
+  const hamburgerColor = computed.getPropertyValue('--nav-hamburger-color').trim()
+  
+  if (textColor) {
+    document.body.style.setProperty('--nav-text-color', textColor)
+    document.body.style.setProperty('--nav-hamburger-color', hamburgerColor || textColor)
   }
 }
 
 /**
  * Helper function to manage nav colors via CSS custom properties
+ * Always sets on body for consistency - inline styles override CSS reliably during pinned scrolls
  * @param {string} textColor - CSS variable or color value for nav text (e.g., 'var(--obsidian)' or 'var(--chuparosa-950)')
  * @param {string} hamburgerColor - CSS variable or color value for hamburger icon (optional, defaults to textColor)
  */
 function setNavColor(textColor, hamburgerColor = null) {
-  // Set on body when bg-bone class is present (for philosophy/love-notes sections)
-  // or for page-specific overrides (blog-post, love-letters), fallback to root for others
-  const hasBgBone = document.body.classList.contains('bg-bone')
-  const target = hasBgBone || 
-                 document.body.classList.contains('page-blog-post') || 
-                 document.body.classList.contains('page-love-letters')
-    ? document.body 
-    : document.documentElement
-    
   if (textColor) {
-    target.style.setProperty('--nav-text-color', textColor)
-    target.style.setProperty('--nav-hamburger-color', hamburgerColor || textColor)
+    document.body.style.setProperty('--nav-text-color', textColor)
+    document.body.style.setProperty('--nav-hamburger-color', hamburgerColor || textColor)
   } else {
-    // Reset to default by removing custom properties
-    target.style.removeProperty('--nav-text-color')
-    target.style.removeProperty('--nav-hamburger-color')
+    // Reset to default: read from CSS or use fallback
+    const computed = getComputedStyle(document.body)
+    const defaultColor = computed.getPropertyValue('--nav-text-color').trim() || 'var(--chuparosa-100)'
+    const defaultHamburger = computed.getPropertyValue('--nav-hamburger-color').trim() || defaultColor
+    document.body.style.setProperty('--nav-text-color', defaultColor)
+    document.body.style.setProperty('--nav-hamburger-color', defaultHamburger)
   }
 }
 
@@ -516,6 +546,9 @@ export function splitTextIntoChars(element) {
 
 // Initialize animations when DOM is ready
 function initAnimations() {
+  // Initialize nav colors from CSS (promotes CSS values to inline styles so JS can override)
+  initNavColors()
+  
   // If user prefers reduced motion, set all elements to final state and skip animations
   if (prefersReducedMotion) {
     // Set hero content to visible
@@ -983,8 +1016,8 @@ function initPhilosophyRedaction(reducedMotion = false) {
       // Simple scroll-triggered animation — NO PIN
       ScrollTrigger.create({
         trigger: philosophySection,
-        start: 'top 60%',
-        end: 'bottom 40%',
+        start: 'top bottom',
+        end: 'bottom top',
         onRefresh: () => updateDimensions(),
         invalidateOnRefresh: true,
         onEnter: () => {
@@ -1047,26 +1080,22 @@ function initPhilosophyRedaction(reducedMotion = false) {
       })
     },
     
-    // Tablet: Pinned with strikethroughs animation
+    // Tablet: Horizontal parallax (safe scrub without pin) - matches love-notes timing
     "(min-width: 768px) and (max-width: 1279px)": function() {
       // Initialize redaction boxes for tablet (show them, don't hide)
       initializeRedactionBoxes(dimensions)
       
-      const tabletScrollMultiplier = calculateScrollMultiplier(2, 3.5, 300)
-      
-      // Create timeline with strikethroughs (similar to desktop but simpler)
+      // Create timeline with strikethroughs (non-pinned, matches love-notes timing)
       const tabletTl = gsap.timeline({
-        scrollTrigger: createPinnedScrollConfig({
+        scrollTrigger: {
           trigger: philosophySection,
-          start: 'top top',
-          end: `+=${tabletScrollMultiplier * 100}%`,
-          scrub: 2,
-          callbacks: {
-            onRefresh: () => updateDimensions(),
-            invalidateOnRefresh: true,
-            ...getThemeCallbacks('bg-bone'),
-          },
-        })
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+          onRefresh: () => updateDimensions(),
+          invalidateOnRefresh: true,
+          ...getThemeCallbacks('bg-bone'),
+        }
       })
       
       // First redaction box - strikethrough "Content"
@@ -1103,7 +1132,7 @@ function initPhilosophyRedaction(reducedMotion = false) {
           trigger: philosophySection,
           start: 'top top',
           end: `+=${desktopScrollMultiplier * 100}%`,
-          scrub: 2.5,
+          scrub: 1,
           callbacks: {
             onRefresh: handleResize,
             invalidateOnRefresh: true,
