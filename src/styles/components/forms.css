@@ -553,9 +553,14 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
     background-color 0.2s ease;
 }
 
-/* Hover state - match form field hover */
-.form-checkbox input[type="checkbox"]:hover {
-  background-color: var(--chuparosa-700);
+/* Hover state - match form field hover using same overlay approach */
+.form-checkbox input[type="checkbox"]:hover:not(:focus-visible)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--obsidian-10); /* 10% dark overlay - darkens any background */
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Focus state - match form field focus */

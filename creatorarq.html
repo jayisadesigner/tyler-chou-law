@@ -513,7 +513,7 @@
           <!-- Content Area (Left on desktop) -->
           <div class="content-section__content">
             <div class="content-section__eyebrow">
-              <p class="content-section__eyebrow-text">apply</p>
+              <p class="content-section__eyebrow-text">reach out</p>
             </div>
             <div class="content-section__headline">
               <h2 class="content-section__headline-text">Invest in Your Empire</h2>
@@ -532,13 +532,23 @@
                 <label>Don't fill this out if you're human: <input name="bot-field" /></label>
               </p>
               
-              <div class="form-group-wrapper">
-                <div class="form-field-wrapper">
-                  <fieldset class="form-group">
-                    <legend class="form-legend">Name <span>(required)</span></legend>
-                    <input type="text" id="name" name="name" placeholder="Your Name" required />
-                  </fieldset>
-                  <span class="error-message" aria-live="polite" aria-hidden="true" data-field="name"></span>
+              <div class="form-group-wrapper form-group-wrapper--name">
+                <span class="form-label-static">Name</span>
+                <div class="form-row">
+                  <div class="form-field-wrapper">
+                    <fieldset class="form-group form-group--inline">
+                      <legend class="form-legend form-legend--inline">First Name <span>(required)</span></legend>
+                      <input type="text" id="first-name" name="first-name" placeholder="John" required />
+                    </fieldset>
+                    <span class="error-message" aria-live="polite" aria-hidden="true" data-field="first-name"></span>
+                  </div>
+                  <div class="form-field-wrapper">
+                    <fieldset class="form-group form-group--inline">
+                      <legend class="form-legend form-legend--inline">Last Name <span>(required)</span></legend>
+                      <input type="text" id="last-name" name="last-name" placeholder="Doe" required />
+                    </fieldset>
+                    <span class="error-message" aria-live="polite" aria-hidden="true" data-field="last-name"></span>
+                  </div>
                 </div>
               </div>
               
@@ -555,24 +565,14 @@
               <div class="form-group-wrapper">
                 <div class="form-field-wrapper">
                   <fieldset class="form-group">
-                    <legend class="form-legend">Channel / Business Name</legend>
-                    <input type="text" id="company" name="company" placeholder="Your Channel or Business" />
-                  </fieldset>
-                  <span class="error-message" aria-live="polite" aria-hidden="true" data-field="company"></span>
-                </div>
-              </div>
-              
-              <div class="form-group-wrapper">
-                <div class="form-field-wrapper">
-                  <fieldset class="form-group">
-                    <legend class="form-legend">Tell us about your business, audience, and what you're building <span>(required)</span></legend>
-                    <textarea id="message" name="message" rows="6" placeholder="Describe your business, audience, and what you're building..." required></textarea>
+                    <legend class="form-legend">Message <span>(required)</span></legend>
+                    <textarea id="message" name="message" rows="6" placeholder="Tell us about your business, audience, and what you're building..." required></textarea>
                   </fieldset>
                   <span class="error-message" aria-live="polite" aria-hidden="true" data-field="message"></span>
                 </div>
               </div>
               
-              <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit Application</button>
+              <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit</button>
             </form>
           </div>
         </div>
