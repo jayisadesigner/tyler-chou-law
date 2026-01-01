@@ -139,12 +139,20 @@ function setBodyTheme(themeClass) {
       document.body.style.setProperty('--nav-hamburger-color', navColor)
     }
   } else {
-    // Reset to default: read from CSS or use fallback
-    const computed = getComputedStyle(document.body)
-    const defaultColor = computed.getPropertyValue('--nav-text-color').trim() || 'var(--chuparosa-100)'
-    const defaultHamburger = computed.getPropertyValue('--nav-hamburger-color').trim() || defaultColor
+    // Reset to default: check page class and set appropriate default immediately
+    // This matches the CSS logic and avoids timing issues with requestAnimationFrame
+    let defaultColor = 'var(--nav-text-on-chuparosa-600, var(--chuparosa-100))' // Default for home/contact/creator/blog-post
+    
+    if (document.body.classList.contains('page-services') || 
+        document.body.classList.contains('page-about') || 
+        document.body.classList.contains('page-roster')) {
+      defaultColor = 'var(--bone)'
+    } else if (document.body.classList.contains('page-love-letters')) {
+      defaultColor = 'var(--obsidian)'
+    }
+    
     document.body.style.setProperty('--nav-text-color', defaultColor)
-    document.body.style.setProperty('--nav-hamburger-color', defaultHamburger)
+    document.body.style.setProperty('--nav-hamburger-color', defaultColor)
   }
 }
 
@@ -174,12 +182,20 @@ function setNavColor(textColor, hamburgerColor = null) {
     document.body.style.setProperty('--nav-text-color', textColor)
     document.body.style.setProperty('--nav-hamburger-color', hamburgerColor || textColor)
   } else {
-    // Reset to default: read from CSS or use fallback
-    const computed = getComputedStyle(document.body)
-    const defaultColor = computed.getPropertyValue('--nav-text-color').trim() || 'var(--chuparosa-100)'
-    const defaultHamburger = computed.getPropertyValue('--nav-hamburger-color').trim() || defaultColor
+    // Reset to default: check page class and set appropriate default immediately
+    // This matches setBodyTheme logic and avoids timing issues
+    let defaultColor = 'var(--nav-text-on-chuparosa-600, var(--chuparosa-100))' // Default for home/contact/creator/blog-post
+    
+    if (document.body.classList.contains('page-services') || 
+        document.body.classList.contains('page-about') || 
+        document.body.classList.contains('page-roster')) {
+      defaultColor = 'var(--bone)'
+    } else if (document.body.classList.contains('page-love-letters')) {
+      defaultColor = 'var(--obsidian)'
+    }
+    
     document.body.style.setProperty('--nav-text-color', defaultColor)
-    document.body.style.setProperty('--nav-hamburger-color', defaultHamburger)
+    document.body.style.setProperty('--nav-hamburger-color', defaultColor)
   }
 }
 
@@ -319,7 +335,6 @@ function initLoveLettersScroll(reducedMotion = false) {
           scrub: 1,
           id: 'love-notes-mobile',
           invalidateOnRefresh: true,
-          ...getThemeCallbacks('bg-bone'),
         },
       })
       
@@ -358,7 +373,6 @@ function initLoveLettersScroll(reducedMotion = false) {
           scrub: 1,
           id: 'love-notes-tablet',
           invalidateOnRefresh: true,
-          ...getThemeCallbacks('bg-bone'),
         },
       })
       
@@ -409,7 +423,11 @@ function initLoveLettersScroll(reducedMotion = false) {
           callbacks: {
             id: 'love-notes-desktop',
             invalidateOnRefresh: true,
-            ...getThemeCallbacks('bg-bone'),
+            // Set nav color when love-notes enters (ensures it's set even if philosophy already left)
+            onEnter: () => setBodyTheme('bg-bone'),
+            onEnterBack: () => setBodyTheme('bg-bone'),
+            // Reset nav color when love-notes unpins (scrolling down past the section)
+            onLeave: () => setBodyTheme(''),
           },
         }),
       })
@@ -722,7 +740,45 @@ function initAnimations() {
   }
 
   // Final CTA section - return to default (chuparosa/red)
-  createThemeScrollTrigger('.content-section--centered:last-of-type', 'top center', 'bottom top', '')
+  // Always reset to page default - this is the final section
+  // Use explicit reset to avoid conflicts with philosophy/love-notes sections
+  const finalCTA = document.querySelector('.content-section--centered:last-of-type')
+  if (finalCTA) {
+    ScrollTrigger.create({
+      trigger: finalCTA,
+      start: 'top bottom', // Changed from 'top center' to fire later, after love-notes unpins
+      end: 'bottom top',
+      onEnter: () => {
+        // Force reset: remove theme classes and set default nav color
+        document.body.classList.remove('bg-palo-verde', 'bg-bone')
+        // Set default nav color based on page class
+        let defaultColor = 'var(--nav-text-on-chuparosa-600, var(--chuparosa-100))'
+        if (document.body.classList.contains('page-services') || 
+            document.body.classList.contains('page-about') || 
+            document.body.classList.contains('page-roster')) {
+          defaultColor = 'var(--bone)'
+        } else if (document.body.classList.contains('page-love-letters')) {
+          defaultColor = 'var(--obsidian)'
+        }
+        document.body.style.setProperty('--nav-text-color', defaultColor)
+        document.body.style.setProperty('--nav-hamburger-color', defaultColor)
+      },
+      onEnterBack: () => {
+        // Same reset logic when scrolling back up
+        document.body.classList.remove('bg-palo-verde', 'bg-bone')
+        let defaultColor = 'var(--nav-text-on-chuparosa-600, var(--chuparosa-100))'
+        if (document.body.classList.contains('page-services') || 
+            document.body.classList.contains('page-about') || 
+            document.body.classList.contains('page-roster')) {
+          defaultColor = 'var(--bone)'
+        } else if (document.body.classList.contains('page-love-letters')) {
+          defaultColor = 'var(--obsidian)'
+        }
+        document.body.style.setProperty('--nav-text-color', defaultColor)
+        document.body.style.setProperty('--nav-hamburger-color', defaultColor)
+      },
+    })
+  }
 
   // Philosophy section redaction animation
   initPhilosophyRedaction(false)
@@ -741,6 +797,40 @@ function initAnimations() {
   
   // Love Letters section scroll animations
   initLoveLettersScroll(false)
+  
+  // Unified nav color ScrollTrigger: covers both philosophy and love-notes sections
+  // Mobile/Tablet only - Desktop uses pinned ScrollTrigger callbacks
+  // Philosophy sets bg-bone, love-notes maintains it, resets when love-notes leaves
+  ScrollTrigger.matchMedia({
+    "(max-width: 1279px)": function() {
+      const philosophySection = document.querySelector('.philosophy')
+      const loveNotesSection = document.querySelector('.love-notes--full-height')
+      
+      if (philosophySection) {
+        // Philosophy section: set bg-bone when it enters
+        ScrollTrigger.create({
+          trigger: philosophySection,
+          start: 'top bottom',
+          end: 'bottom top',
+          onEnter: () => setBodyTheme('bg-bone'),
+          onEnterBack: () => setBodyTheme('bg-bone'),
+          onLeaveBack: () => setBodyTheme(''), // Reset when scrolling back up past philosophy
+        })
+      }
+      
+      if (loveNotesSection) {
+        // Love-notes section: maintain bg-bone, reset when it leaves (scrolling down)
+        ScrollTrigger.create({
+          trigger: loveNotesSection,
+          start: 'top bottom',
+          end: 'bottom top',
+          onEnter: () => setBodyTheme('bg-bone'), // Ensure it's set when love-notes enters
+          onEnterBack: () => setBodyTheme('bg-bone'), // Maintain when scrolling back into love-notes
+          onLeave: () => setBodyTheme(''), // Reset when love-notes leaves (scrolling down)
+        })
+      }
+    }
+  })
   
   // Consolidated resize handler (debounced with RAF for performance)
   let resizeTimeout
@@ -1044,10 +1134,7 @@ function initPhilosophyRedaction(reducedMotion = false) {
             ease: 'power2.out',
             duration: 0.6,
           }, 1.4)
-          
-          setBodyTheme('bg-bone')
         },
-        onLeave: () => setBodyTheme(''),
         onEnterBack: () => {
           // Re-trigger animation when scrolling back into view
           const mobileTl = gsap.timeline()
@@ -1066,7 +1153,6 @@ function initPhilosophyRedaction(reducedMotion = false) {
             ease: 'power2.out',
             duration: 0.6,
           }, 1.4)
-          setBodyTheme('bg-bone')
         },
         onLeaveBack: () => {
           // Reset when scrolling back up (but keep display: block)
@@ -1075,7 +1161,6 @@ function initPhilosophyRedaction(reducedMotion = false) {
             display: 'block' // Maintain visibility - GSAP sets as inline style
           })
           gsap.to(queenText, { opacity: 0, duration: 0.3 })
-          setBodyTheme('')
         }
       })
     },
@@ -1094,7 +1179,6 @@ function initPhilosophyRedaction(reducedMotion = false) {
           scrub: 1,
           onRefresh: () => updateDimensions(),
           invalidateOnRefresh: true,
-          ...getThemeCallbacks('bg-bone'),
         }
       })
       
@@ -1127,6 +1211,27 @@ function initPhilosophyRedaction(reducedMotion = false) {
     "(min-width: 1280px)": function() {
       const desktopScrollMultiplier = calculateScrollMultiplier(2.5, 5, 250)
       
+      // Single ScrollTrigger that spans entire section - continuously maintains nav color
+      // Starts when section enters, ends when section fully unpins
+      ScrollTrigger.create({
+        trigger: philosophySection,
+        start: 'top bottom',
+        end: `+=${desktopScrollMultiplier * 100}%`, // Match pinned ScrollTrigger end
+        onEnter: () => {
+          setBodyTheme('bg-bone')
+        },
+        onEnterBack: () => {
+          setBodyTheme('bg-bone')
+        },
+        onUpdate: (self) => {
+          // Continuously ensure nav color is set throughout the scroll
+          if (self.isActive) {
+            setBodyTheme('bg-bone')
+          }
+        },
+        // Don't reset on leave - let love-notes handle the reset
+      })
+      
       createRedactionTimeline(
         createPinnedScrollConfig({
           trigger: philosophySection,
@@ -1136,7 +1241,7 @@ function initPhilosophyRedaction(reducedMotion = false) {
           callbacks: {
             onRefresh: handleResize,
             invalidateOnRefresh: true,
-            ...getThemeCallbacks('bg-bone'),
+            // Don't set nav color here - the ScrollTrigger above handles it
           },
         })
       )
