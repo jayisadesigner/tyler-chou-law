@@ -1,58 +1,48 @@
 ---
 title: "5 Red Flags in MCN Contracts Every Creator Should Know"
-date: "2025-01-15"
-author: "Tyler Chou"
-excerpt: "What to watch for before you sign an MCN contract. These red flags could cost you millions."
-tags: "MCN, Contracts, Legal Advice"
 slug: "5-red-flags-mcn-contracts"
+date: 2025-01-09
+author: "Tyler Chou"
+description: "Entertainment attorney Tyler Chou breaks down the contract clauses that cost creators millions. Know these warning signs before you sign with any MCN."
+tags: ["contracts", "MCN", "creator legal"]
 ---
 
-This is a paragraph of body text using the large paragraph size. It demonstrates the default paragraph styling with desert gold 800 color. This text should be readable and comfortable to read in longer form content.
+MCN contracts are where creator dreams go to die.
 
-## Heading 2 Style
+I've reviewed hundreds of these deals over twenty years in entertainment law. Most creators sign them without understanding what they're giving up. These are the five red flags I see over and over again.
 
-This is a paragraph that follows an h2 heading. The h2 uses the h4 size (bumped down 2 notches) with desert gold 950 color. This paragraph continues to show the body text styling.
+**1. Perpetual Rights Clauses**
 
-### Heading 3 Style
+If a contract says the network retains rights "in perpetuity" or "for the life of the content," walk away. Your videos, your IP, your likeness. Locked up forever. I've seen creators lose access to their own content libraries because they signed away perpetual rights at 22.
 
-This paragraph follows an h3 heading. The h3 uses the h5 size (bumped down 2 notches) with desert gold 950 color. Notice how the hierarchy works with the different heading levels.
+What you want instead: time-limited terms only. Two to three years maximum, with clear reversion of all rights when the deal ends.
 
-#### Heading 4 Style
+**2. Revenue Share Without Transparency**
 
-This paragraph follows an h4 heading. The h4 uses the h6 size (bumped down 2 notches) with desert gold 950 color. This is the smallest heading level in the blog post styles.
+"We'll split revenue 70/30" sounds reasonable until you realize they're calculating revenue after deducting undefined "platform fees," "management costs," and "operational expenses." Your 70% becomes 40% real fast.
 
-**This is bold text using the strong tag.** It uses desert gold 950 color and font-weight 600. Bold text helps emphasize important points in your content.
+What you want instead: gross revenue definitions and itemized deductions. If they won't show you the math, they're hiding something.
 
-This paragraph contains an [inline link to demonstrate link styling](/contact.html). Links use chuparosa 800 color with an underline, and change to chuparosa 600 on hover. The underline color matches the text color.
+**3. Cross-Platform Exclusivity**
 
-Here's an unordered list to show list styling:
+Some MCNs claim rights to content you create anywhere, not just YouTube. That TikTok you posted? That podcast episode? If your contract has broad exclusivity language, they might own a piece of everything.
 
-- First list item with large paragraph size
-- Second list item demonstrating the spacing
-- Third list item showing the desert gold 800 color
-- Fourth list item with proper line height
+What you want instead: platform-specific terms. Your YouTube deal should cover YouTube. That's it.
 
-Here's an ordered list:
+**4. Unilateral Termination Rights**
 
-1. First numbered item
-2. Second numbered item
-3. Third numbered item with **bold text inside**
-4. Fourth item with an [inline link](/contact.html)
+Contracts that let the network drop you for any reason with 30 days notice while locking you in for three years? Predatory. They get all the flexibility. You get none.
 
-> This is a blockquote. It uses italic styling with a chuparosa 400 left border and obsidian 10 background. The text color is chuparosa 100. Blockquotes are great for highlighting important quotes or callouts.
+What you want instead: matching termination rights. If they can exit, so can you, under the same conditions.
 
-This paragraph contains `inline code` to demonstrate code styling. Inline code uses Courier New font with obsidian 20 background and chuparosa 100 text color.
+**5. IP Assignment Language**
 
-Here's a code block:
+The most dangerous clause is often buried deep. Language assigning your intellectual property to the network. Not licensing. Assigning. That means they own your brand, your characters, your formats. Forever.
 
-```
-function exampleCode() {
-  const variable = "This is a code block";
-  return variable;
-}
-```
+What you want instead: license, don't assign. You grant usage rights. You retain ownership.
 
-Code blocks use obsidian background with chuparosa 100 text. They have proper padding and border radius for readability.
+**The Bottom Line**
 
-This final paragraph wraps up the style showcase. All text styles should work harmoniously together with the desert gold 50 background, creating a cohesive reading experience.
+Bad MCN contracts have ended more creator careers than algorithm changes ever will. The creators I work with treat their business like a business. That starts with contracts that protect what they've built.
 
+If you're reviewing an MCN deal and something feels off, trust that instinct.
