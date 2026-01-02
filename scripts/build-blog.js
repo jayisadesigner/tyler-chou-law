@@ -16,7 +16,8 @@ const projectRoot = join(__dirname, '..')
 const contentDir = join(projectRoot, 'content', 'blog')
 // Generate to dist directory after Vite build
 const outputDir = join(projectRoot, 'dist', 'love-letters')
-const listingPagePath = join(projectRoot, 'love-letters.html')
+// Write listing page directly to dist (Vite already copied the source file)
+const listingPagePath = join(projectRoot, 'dist', 'love-letters.html')
 const templatePath = join(projectRoot, 'src', 'templates', 'blog-post.html')
 const componentsDir = join(projectRoot, 'src', 'components')
 
