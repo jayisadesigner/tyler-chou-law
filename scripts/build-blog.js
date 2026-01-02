@@ -382,6 +382,8 @@ async function buildPost(filePath, fileName) {
  */
 async function generateListingPage(posts) {
   try {
+    console.log(`\ngenerateListingPage called with ${posts.length} post(s)`)
+    
     // Read existing love-letters.html as base
     let listingHTML = await readFile(listingPagePath, 'utf-8')
     
@@ -391,6 +393,7 @@ async function generateListingPage(posts) {
     const disclaimerTemplate = await loadComponentTemplate('disclaimer')
     
     // Generate blog post cards HTML
+    console.log(`Generating HTML for ${posts.length} post(s)`)
     const postsHTML = posts.map((post, index) => {
       const dateDisplay = formatDate(post.date)
       const loveLetterNumber = posts.length - index
@@ -562,6 +565,12 @@ async function buildBlog() {
     
     // Sort by date (newest first)
     posts.sort((a, b) => new Date(b.date) - new Date(a.date))
+    
+    // Log posts before generating listing page
+    console.log(`\nGenerating listing page with ${posts.length} post(s):`)
+    posts.forEach((post, index) => {
+      console.log(`  ${index + 1}. ${post.title} (date: ${post.date}, slug: ${post.slug})`)
+    })
     
     // Generate listing page
     await generateListingPage(posts)
