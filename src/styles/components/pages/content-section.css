@@ -186,10 +186,7 @@ body.page-creator .content-section__content {
 }
 
 /* Form in media area modifier - leverages existing 50/50 layout */
-.content-section--form .content-section__content {
-  /* Mobile: standard spacing, scales up on desktop */
-  /* Already inherits padding: var(--space-2xl) var(--space-md) from base */
-}
+/* .content-section--form .content-section__content inherits padding from base */
 
 .content-section--form .content-section__media {
   /* Remove image-specific positioning */
