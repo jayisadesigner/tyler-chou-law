@@ -30,7 +30,7 @@
   transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: box-shadow, transform;
   /* Left-align text on all breakpoints */
-  text-align: left;
+  text-align: var(--text-align-left);
   align-items: flex-start;
 }
 
@@ -47,12 +47,11 @@
 }
 
 .service-card__title {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h4-size); /* Responsive: 1.5rem mobile → 2.5rem desktop → 2.827rem large */
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h4-line-height);
   color: var(--chuparosa-100);
-  text-transform: uppercase;
   margin: 0;
 }
 
@@ -62,7 +61,7 @@ body.page-services .service-card__title {
 }
 
 .service-card__description {
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size); /* 1.414rem / ~23px */
   font-weight: 400;
   line-height: 1.2;

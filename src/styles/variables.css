@@ -439,8 +439,30 @@
 
 /* Typography Scale - Mobile First */
 :root {
-  --font-display: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-body: 'Gambetta', Georgia, serif;
+  --font-headline: 'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-paragraph: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* Font Weights */
+  --font-weight-headline: 800; /* Extrabold for headlines */
+  --font-weight-paragraph: 500; /* Medium for body text */
+  
+  /* Text Transform */
+  --text-transform-headline: uppercase; /* For headlines and titles */
+  --text-transform-ui: uppercase; /* For UI elements, buttons, nav, etc. */
+  
+  /* Letter Spacing */
+  --letter-spacing-headline: 0; /* For headlines */
+  --letter-spacing-paragraph: 0; /* For body text/paragraphs */
+  --letter-spacing-nav: -0.02em; /* For navigation */
+  --letter-spacing-button: 0; /* For buttons */
+  
+  /* Text Align */
+  --text-align-headline: left; /* Default alignment for headlines */
+  --text-align-paragraph: left; /* Default alignment for paragraphs */
+  --text-align-center: center; /* Center alignment utility */
+  --text-align-left: left; /* Left alignment utility */
+  --text-align-right: right; /* Right alignment utility */
+  --text-align-justify: justify; /* Justify alignment utility */
   
   /* Type Scale - Base (Mobile: 320px-767px) */
   
@@ -477,14 +499,14 @@
   --text-tiny-line-height: 1.6;
   
   /* UI Typography - Fixed sizes for consistency */
-  --text-ui-nav: 1rem;              /* Nav links */
-  --text-ui-nav-logo: 1.1875rem;    /* Logo text */
-  --text-ui-nav-mobile: 0.875rem;   /* Mobile nav logo */
-  --text-ui-nav-mobile-link: 1.25rem; /* Mobile nav links */
-  --text-ui-button-sm: 0.889rem;    /* Small button */
-  --text-ui-button-md: 1rem;        /* Medium button */
-  --text-ui-button-lg: 1.125rem;    /* Large button */
-  --text-ui-footer: 1rem;            /* Footer text */
+  --text-nav: 1rem;              /* Nav links */
+  --text-nav-logo: 1.1875rem;    /* Logo text */
+  --text-nav-mobile: 0.875rem;   /* Mobile nav logo */
+  --text-nav-mobile-link: 1.25rem; /* Mobile nav links */
+  --text-button-sm: 0.889rem;    /* Small button */
+  --text-button-md: 1rem;        /* Medium button */
+  --text-button-lg: 1.125rem;    /* Large button */
+  --text-footer: 1rem;            /* Footer text */
 }
 
 /* Responsive Display Typography - Mobile First Approach */

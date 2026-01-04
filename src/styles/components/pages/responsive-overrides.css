@@ -85,7 +85,7 @@
     /* !important justified: Force full width on mobile to override desktop grid positioning */
     grid-column: 1 / -1 !important; /* Full width on mobile */
     justify-self: center;
-    text-align: center;
+    text-align: var(--text-align-center);
     overflow: visible; /* Allow text to overflow if needed */
   }
   
@@ -99,7 +99,7 @@
     word-break: break-word;
     white-space: normal;
     max-width: none; /* Remove max-width constraint on mobile */
-    text-align: center;
+    text-align: var(--text-align-center);
   }
   
   .philosophy-text--content {

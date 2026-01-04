@@ -6,11 +6,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-size: var(--text-ui-button-md); /* Medium size */
-  font-weight: 600;
+  font-family: var(--font-headline);
+  font-size: var(--text-button-md); /* Medium size */
+  font-weight: var(--font-weight-headline);
   line-height: 1;
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   text-decoration: none;
   border: none;
   cursor: pointer;
@@ -432,7 +432,7 @@
 /* Small */
 .btn--sm {
   padding: var(--space-xs) var(--space-md);
-  font-size: var(--text-ui-button-sm);
+  font-size: var(--text-button-sm);
 }
 
 .btn--tertiary.btn--sm,
@@ -443,7 +443,7 @@
 /* Medium (default) - already set in base .btn */
 .btn--md {
   padding: var(--space-sm) var(--space-xl);
-  font-size: var(--text-ui-button-md);
+  font-size: var(--text-button-md);
 }
 
 .btn--secondary.btn--md {
@@ -458,7 +458,7 @@
 /* Large */
 .btn--lg {
   padding: var(--space-lg) var(--space-2xl);
-  font-size: var(--text-ui-button-lg);
+  font-size: var(--text-button-lg);
 }
 
 .btn--secondary.btn--lg {

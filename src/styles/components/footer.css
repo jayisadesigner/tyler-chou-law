@@ -29,13 +29,12 @@
 }
 
 .footer-item {
-  font-family: var(--font-display);
-  font-size: var(--text-ui-footer);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-size: var(--text-footer);
+  font-weight: var(--font-weight-headline);
   line-height: 1;
-  letter-spacing: 0.02em;
   color: var(--chuparosa-100);
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   margin: 0;
   transition: color 0.3s ease;
 }
@@ -87,26 +86,26 @@ body.bg-bone .footer-item {
 }
 
 .footer-item--left {
-  text-align: left;
+  text-align: var(--text-align-left);
 }
 
 .footer-item--right {
-  text-align: right;
+  text-align: var(--text-align-right);
 }
 
 /* Mobile styles now in base - footer items centered by default */
 .footer-item {
-  text-align: center;
+  text-align: var(--text-align-center);
 }
 
 /* Tablet+ (768px): restore original alignment */
 @media (min-width: 768px) {
   .footer-item--left {
-    text-align: left;
+    text-align: var(--text-align-left);
   }
   
   .footer-item--right {
-    text-align: right;
+    text-align: var(--text-align-right);
   }
 }
 

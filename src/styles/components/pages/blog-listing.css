@@ -77,9 +77,9 @@
 }
 
 .blog-card__title {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h3-size);
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h3-line-height);
   color: var(--obsidian);
   margin: var(--space-xl) 0 0 0;
@@ -88,7 +88,7 @@
 }
 
 .blog-card__excerpt {
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);
   line-height: var(--text-p-large-line-height);
   color: var(--obsidian);
@@ -107,11 +107,11 @@
   display: flex;
   gap: var(--space-md);
   align-items: center;
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   font-size: var(--text-p-size);
   line-height: 1;
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   color: var(--obsidian);
   margin: 0 0 var(--space-md) 0;
   flex-wrap: wrap;
