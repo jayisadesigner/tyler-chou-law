@@ -978,7 +978,10 @@ function initPhilosophyRedaction(reducedMotion = false) {
     const fontSize = parseFloat(getComputedStyle(contentTextEl).fontSize)
     const overhang = fontSize * 0.15
     
-    const strikethroughHeight = getSpacingValue('--space-lg')
+    // Scale redaction line height with font size (18% of font size for thicker lines)
+    // This ensures vertical centering stays correct with fluid clamp() font sizes
+    // top: 50% + translateY(-50%) keeps lines vertically centered regardless of height
+    const strikethroughHeight = fontSize * 0.18
     
     const firstLeft = (contentRect.left - firstItemRect.left) - overhang
     const secondLeft = (kingRect.left - secondItemRect.left) - overhang
