@@ -472,17 +472,21 @@
   
   /* Type Scale - Base (Mobile: 320px-767px) */
   
-  /* Display Type - Scales responsively across breakpoints */
-  --text-h1-size: 3rem;          /* 48px mobile */
+  /* Display Type - Fluid scaling with clamp() */
+  /* H1: 48px mobile → 144px XL */
+  --text-h1-size: clamp(3rem, 7.5vw + 0.5rem, 9rem);
   --text-h1-line-height: 0.9;
   
-  --text-h2-size: 2.5rem;        /* 40px mobile */
+  /* H2: 48px mobile → 104px XL (increased mobile from 40px for better readability) */
+  --text-h2-size: clamp(3rem, 5.5vw + 0.5rem, 6.5rem);
   --text-h2-line-height: 0.95;
   
-  --text-h3-size: 2rem;          /* 32px mobile */
+  /* H3: 32px mobile → 72px XL */
+  --text-h3-size: clamp(2rem, 3.5vw + 0.5rem, 4.5rem);
   --text-h3-line-height: 1.0;
   
-  --text-h4-size: 1.5rem;        /* 24px mobile */
+  /* H4: 24px mobile → 45px large desktop */
+  --text-h4-size: clamp(1.5rem, 2vw + 0.5rem, 2.827rem);
   --text-h4-line-height: 1.1;
   
   /* Content Type - Fixed across breakpoints for readability */
@@ -515,65 +519,6 @@
   --text-footer: 1rem;            /* Footer text */
 }
 
-/* Responsive Display Typography - Mobile First Approach */
-/* Tablet (768px+) */
-@media (min-width: 768px) {
-  :root {
-    --text-h1-size: 5rem;          /* 80px tablet */
-    --text-h1-line-height: 0.9;
-    
-    --text-h2-size: 3.5rem;        /* 56px tablet */
-    --text-h2-line-height: 0.95;
-    
-    --text-h3-size: 2.5rem;        /* 40px tablet */
-    --text-h3-line-height: 1.0;
-    
-    --text-h4-size: 2rem;          /* 32px tablet */
-    --text-h4-line-height: 1.1;
-  }
-}
-
-/* Desktop (1024px+) */
-@media (min-width: 1024px) {
-  :root {
-    --text-h1-size: 6.5rem;        /* 104px desktop */
-    --text-h1-line-height: 0.85;
-    
-    --text-h2-size: 4.5rem;        /* 72px desktop */
-    --text-h2-line-height: 0.9;
-    
-    --text-h3-size: 3.25rem;       /* 52px desktop */
-    --text-h3-line-height: 1.0;
-    
-    --text-h4-size: 2.5rem;        /* 40px desktop */
-    --text-h4-line-height: 1.0;
-  }
-}
-
-/* Desktop Large (1280px+) */
-@media (min-width: 1280px) {
-  :root {
-    --text-h1-size: 7.993rem;      /* 128px large desktop */
-    --text-h1-line-height: 0.85;
-    
-    --text-h2-size: 5.653rem;      /* 90px large desktop */
-    --text-h2-line-height: 0.9;
-    
-    --text-h3-size: 3.998rem;      /* 64px large desktop */
-    --text-h3-line-height: 1.0;
-    
-    --text-h4-size: 2.827rem;      /* 45px large desktop */
-    --text-h4-line-height: 1.0;
-  }
-}
-
-/* Desktop XL (1536px+) - Optional: scale up for hero moments */
-@media (min-width: 1536px) {
-  :root {
-    --text-h1-size: 9rem;          /* 144px XL - maximum impact */
-    --text-h2-size: 6.5rem;        /* 104px XL */
-    --text-h3-size: 4.5rem;        /* 72px XL */
-    /* h4 stays at 1280px size for consistency */
-  }
-}
+/* Responsive Display Typography - Now using clamp() for fluid scaling */
+/* All headline sizes scale smoothly via clamp() - no media queries needed */
 
