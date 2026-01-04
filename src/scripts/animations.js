@@ -869,9 +869,11 @@ function initAnimations() {
  */
 function initHeroParallax(reducedMotion = false) {
   const backgroundImages = document.querySelectorAll('.background-image__img')
+  const backgroundVideos = document.querySelectorAll('.background-image__video')
   
-  if (!backgroundImages.length || !ScrollTrigger) return
+  if ((!backgroundImages.length && !backgroundVideos.length) || !ScrollTrigger) return
   
+  // Handle images
   backgroundImages.forEach(img => {
     if (reducedMotion) {
       // Skip animation, show final state
@@ -891,6 +893,41 @@ function initHeroParallax(reducedMotion = false) {
     gsap.to(img, {
       scale: 1.15, // Zoom in 15% (covers more area, prevents gaps)
       yPercent: 10, // Move down 10% (image is already taller, so this is safe)
+      ease: 'none', // Linear movement for smooth parallax
+      scrollTrigger: {
+        trigger: triggerSection,
+        start: 'top bottom', // Start when section top hits viewport bottom
+        end: 'bottom top', // End when section bottom hits viewport top
+        scrub: 1, // Smooth scrubbing (1 = 1 second lag for smoothness)
+        invalidateOnRefresh: true // Recalculate on resize
+      }
+    })
+  })
+  
+  // Handle videos (iframes)
+  backgroundVideos.forEach(video => {
+    if (reducedMotion) {
+      // Skip animation, show final state
+      gsap.set(video, { scale: 1, xPercent: -50, yPercent: -50 })
+      return
+    }
+    
+    // Find parent section for trigger (hero or content-section with parallax)
+    const heroSection = video.closest('.hero--inner-page') || video.closest('.hero')
+    const contentSection = video.closest('.content-section--parallax')
+    const triggerSection = heroSection || contentSection
+    
+    if (!triggerSection) return
+    
+    // For videos, use scale and yPercent movement for parallax effect
+    // Video is centered with translate(-50%, -50%), so use xPercent/yPercent to maintain centering
+    // Set initial centered position using GSAP (replaces CSS translate(-50%, -50%))
+    gsap.set(video, { xPercent: -50, yPercent: -50 })
+    
+    // Scale and yPercent movement for parallax effect
+    gsap.to(video, {
+      scale: 1.15, // Zoom in 15% (covers more area, prevents gaps)
+      yPercent: -40, // Move from -50% (centered) to -40% (down 10%) for parallax
       ease: 'none', // Linear movement for smooth parallax
       scrollTrigger: {
         trigger: triggerSection,
@@ -1380,7 +1417,14 @@ function initLineAnimations(reducedMotion = false) {
     return
   }
   
+  // Initialize hero background video to opacity 0 (if it exists)
+  const heroBackgroundImage = document.querySelector('.hero .background-image')
+  if (heroBackgroundImage) {
+    gsap.set(heroBackgroundImage, { opacity: 0 })
+  }
+  
   animatedElements.forEach((element) => {
+    console.log('Processing element with js-line-animation:', element)
     const originalHTML = element.innerHTML.trim()
     const hasBrTags = originalHTML.includes('<br>') || originalHTML.includes('<br/>') || originalHTML.includes('<br />')
     
@@ -1449,16 +1493,117 @@ function initLineAnimations(reducedMotion = false) {
         shouldWaitForIntro = heroOpacity === 0
       }
       
+      // Check if this is a hero headline for video fade-in
+      const backgroundImage = isHeroHeadline ? element.closest('.hero')?.querySelector('.background-image') : null
+      
       if (isInView && !shouldWaitForIntro) {
         // Animate immediately if already in view and hero is visible
-        animateLineElements(lineElements)
+        const textAnim = animateLineElements(lineElements)
+        
+        // Fade in video after text animation completes (for hero headline)
+        if (isHeroHeadline && backgroundImage) {
+          // Ensure GSAP has control over opacity
+          gsap.set(backgroundImage, { opacity: 0 })
+          
+          // Use callback to fade in video when text animation completes
+          const fadeInVideo = () => {
+            console.log('Text animation complete (br tags), fading in video')
+            gsap.to(backgroundImage, {
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power2.out',
+              delay: 0.3
+            })
+          }
+          
+          textAnim.eventCallback('onComplete', fadeInVideo)
+          
+          // Backup: delayed call based on calculated duration
+          const lineCount = lineElements.length
+          const textDuration = 0.9 + (0.1 * (lineCount - 1))
+          gsap.delayedCall(textDuration + 0.3, () => {
+            const inlineOpacity = backgroundImage.style.opacity
+            const computedOpacity = parseFloat(window.getComputedStyle(backgroundImage).opacity)
+            const currentOpacity = inlineOpacity ? parseFloat(inlineOpacity) : computedOpacity
+            
+            if (currentOpacity === 0 || isNaN(currentOpacity) || !currentOpacity) {
+              console.log('Backup: Fading in video via delayed call (br tags)')
+              gsap.to(backgroundImage, {
+                opacity: 1,
+                duration: 1.2,
+                ease: 'power2.out'
+              })
+            }
+          })
+        }
       } else if (isInView && shouldWaitForIntro) {
         // Hero headline is in view but hidden - wait for hero opacity to reach exactly 1
         const checkHeroVisible = () => {
           const currentOpacity = parseFloat(window.getComputedStyle(heroContent).opacity)
           if (currentOpacity === 1) {
             // Hero is fully visible, trigger animation
-            animateLineElements(lineElements)
+            const textAnim = animateLineElements(lineElements)
+            
+            // Fade in video after text animation completes (for hero headline)
+            if (isHeroHeadline && backgroundImage) {
+              // Ensure GSAP has control over opacity
+              gsap.set(backgroundImage, { opacity: 0 })
+              
+              // Use callback to fade in video when text animation completes
+              const fadeInVideo = () => {
+                console.log('Text animation complete (br tags, wait for intro), fading in video', backgroundImage)
+                const beforeOpacity = window.getComputedStyle(backgroundImage).opacity
+                console.log('Opacity before animation:', beforeOpacity)
+                
+                const videoAnim = gsap.to(backgroundImage, {
+                  opacity: 1,
+                  duration: 1.2,
+                  ease: 'power2.out',
+                  delay: 0.3,
+                  onStart: () => {
+                    console.log('Video fade animation started')
+                  },
+                  onComplete: () => {
+                    const afterOpacity = window.getComputedStyle(backgroundImage).opacity
+                    console.log('Video fade animation complete, opacity:', afterOpacity)
+                  }
+                })
+                console.log('GSAP animation created:', videoAnim)
+              }
+              
+              textAnim.eventCallback('onComplete', fadeInVideo)
+              
+              // Backup: delayed call
+              const lineCount = lineElements.length
+              const textDuration = 0.9 + (0.1 * (lineCount - 1))
+              gsap.delayedCall(textDuration + 0.3, () => {
+                const inlineOpacity = backgroundImage.style.opacity
+                const computedOpacity = parseFloat(window.getComputedStyle(backgroundImage).opacity)
+                const currentOpacity = inlineOpacity ? parseFloat(inlineOpacity) : computedOpacity
+                
+                if (currentOpacity === 0 || isNaN(currentOpacity) || !currentOpacity) {
+                  console.log('Backup: Fading in video via delayed call (br tags, wait for intro)', backgroundImage)
+                  const beforeOpacity = window.getComputedStyle(backgroundImage).opacity
+                  console.log('Backup - Opacity before:', beforeOpacity)
+                  
+                  const videoAnim = gsap.to(backgroundImage, {
+                    opacity: 1,
+                    duration: 1.2,
+                    ease: 'power2.out',
+                    onStart: () => {
+                      console.log('Backup video fade animation started')
+                    },
+                    onComplete: () => {
+                      const afterOpacity = window.getComputedStyle(backgroundImage).opacity
+                      console.log('Backup video fade animation complete, opacity:', afterOpacity)
+                    }
+                  })
+                  console.log('Backup GSAP animation created:', videoAnim)
+                } else {
+                  console.log('Backup skipped - video already faded in, opacity:', currentOpacity)
+                }
+              })
+            }
           } else if (currentOpacity > 0) {
             // Still fading in, keep checking
             requestAnimationFrame(checkHeroVisible)
@@ -1471,33 +1616,98 @@ function initLineAnimations(reducedMotion = false) {
       } else {
         // Use ScrollTrigger for elements not yet in view
         let anim;
-        anim = animateLineElements(lineElements, {
-          scrollTrigger: {
-            trigger: element,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-            onEnter: () => {
-              if (anim) {
-                anim.restart()
-              }
-            },
-            onEnterBack: () => {
-              if (anim) {
-                anim.restart()
+        
+        if (isHeroHeadline && backgroundImage) {
+          // Ensure GSAP has control over opacity
+          gsap.set(backgroundImage, { opacity: 0 })
+          
+          anim = animateLineElements(lineElements, {
+            scrollTrigger: {
+              trigger: element,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+              onEnter: () => {
+                if (anim) {
+                  anim.restart()
+                }
+              },
+              onEnterBack: () => {
+                if (anim) {
+                  anim.restart()
+                }
+              },
+              onComplete: () => {
+                console.log('ScrollTrigger complete (br tags), fading in video')
+                gsap.to(backgroundImage, {
+                  opacity: 1,
+                  duration: 1.2,
+                  ease: 'power2.out',
+                  delay: 0.3
+                })
               }
             }
+          })
+          
+          // Also set callback on animation as backup
+          const fadeInVideo = () => {
+            console.log('Animation onComplete callback fired (br tags), fading in video')
+            gsap.to(backgroundImage, {
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power2.out',
+              delay: 0.3
+            })
           }
-        })
+          anim.eventCallback('onComplete', fadeInVideo)
+          
+          // Backup: delayed call
+          const lineCount = lineElements.length
+          const textDuration = 0.9 + (0.1 * (lineCount - 1))
+          gsap.delayedCall(textDuration + 0.3, () => {
+            const inlineOpacity = backgroundImage.style.opacity
+            const computedOpacity = parseFloat(window.getComputedStyle(backgroundImage).opacity)
+            const currentOpacity = inlineOpacity ? parseFloat(inlineOpacity) : computedOpacity
+            
+            if (currentOpacity === 0 || isNaN(currentOpacity) || !currentOpacity) {
+              console.log('Backup: Fading in video via delayed call (br tags, scroll-triggered)')
+              gsap.to(backgroundImage, {
+                opacity: 1,
+                duration: 1.2,
+                ease: 'power2.out'
+              })
+            }
+          })
+        } else {
+          anim = animateLineElements(lineElements, {
+            scrollTrigger: {
+              trigger: element,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+              onEnter: () => {
+                if (anim) {
+                  anim.restart()
+                }
+              },
+              onEnterBack: () => {
+                if (anim) {
+                  anim.restart()
+                }
+              }
+            }
+          })
+        }
         
         // Fallback: if ScrollTrigger doesn't fire, animate after a delay
-        setTimeout(() => {
-          if (anim.progress() === 0) {
-            const currentRect = element.getBoundingClientRect()
-            if (currentRect.top < viewportHeight && currentRect.bottom > 0) {
-              anim.restart()
+        if (anim) {
+          setTimeout(() => {
+            if (anim && anim.progress() === 0) {
+              const currentRect = element.getBoundingClientRect()
+              if (currentRect.top < viewportHeight && currentRect.bottom > 0) {
+                anim.restart()
+              }
             }
-          }
-        }, 1000)
+          }, 1000)
+        }
       }
       
       return // Skip the rest of the function for <br> tag handling
@@ -1648,16 +1858,89 @@ function initLineAnimations(reducedMotion = false) {
       shouldWaitForIntro = heroOpacity === 0
     }
     
+    // Helper function to create text animation with video fade-in callback
+    const createHeroAnimationTimeline = () => {
+      console.log('createHeroAnimationTimeline called', { isHeroHeadline, element })
+      
+      if (!isHeroHeadline) {
+        // Not hero headline, just animate text normally
+        console.log('Not hero headline, animating text normally')
+        return animateLineElements(lineElements)
+      }
+      
+      const backgroundImage = element.closest('.hero')?.querySelector('.background-image')
+      console.log('Background image found:', backgroundImage)
+      
+      if (!backgroundImage) {
+        // No background image, just animate text
+        console.log('No background image found, animating text normally')
+        return animateLineElements(lineElements)
+      }
+      
+      // Ensure GSAP has control over opacity
+      gsap.set(backgroundImage, { opacity: 0 })
+      console.log('Set background image opacity to 0')
+      
+      // Create text animation
+      const textAnim = animateLineElements(lineElements)
+      
+      // Use callback to fade in video when text animation completes
+      // Store backgroundImage in closure to ensure it's accessible
+      const fadeInVideo = () => {
+        console.log('Text animation complete, fading in video')
+        gsap.to(backgroundImage, {
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power2.out',
+          delay: 0.3
+        })
+      }
+      
+      textAnim.eventCallback('onComplete', fadeInVideo)
+      console.log('onComplete callback set on text animation')
+      
+      // Also add as backup using the animation's duration
+      const lineCount = lineElements.length
+      const textDuration = 0.9 + (0.1 * (lineCount - 1))
+      gsap.delayedCall(textDuration + 0.3, () => {
+        // Check if still at 0 (callback might not have fired)
+        // Check inline style first (GSAP sets this), then computed style
+        const inlineOpacity = backgroundImage.style.opacity
+        const computedOpacity = parseFloat(window.getComputedStyle(backgroundImage).opacity)
+        const currentOpacity = inlineOpacity ? parseFloat(inlineOpacity) : computedOpacity
+        
+        console.log('Backup delayed call fired', { 
+          inlineOpacity, 
+          computedOpacity, 
+          currentOpacity,
+          backgroundImage 
+        })
+        
+        if (currentOpacity === 0 || isNaN(currentOpacity) || !currentOpacity) {
+          console.log('Backup: Fading in video via delayed call')
+          gsap.to(backgroundImage, {
+            opacity: 1,
+            duration: 1.2,
+            ease: 'power2.out'
+          })
+        } else {
+          console.log('Video already faded in, skipping backup')
+        }
+      })
+      
+      return textAnim
+    }
+    
     if (isInView && !shouldWaitForIntro) {
       // Animate immediately if already in view and hero is visible
-      animateLineElements(lineElements)
+      createHeroAnimationTimeline()
     } else if (isInView && shouldWaitForIntro) {
       // Hero headline is in view but hidden - wait for hero opacity to reach exactly 1
       const checkHeroVisible = () => {
         const currentOpacity = parseFloat(window.getComputedStyle(heroContent).opacity)
         if (currentOpacity === 1) {
           // Hero is fully visible, trigger animation
-          animateLineElements(lineElements)
+          createHeroAnimationTimeline()
         } else if (currentOpacity > 0) {
           // Still fading in, keep checking
           requestAnimationFrame(checkHeroVisible)
@@ -1669,31 +1952,115 @@ function initLineAnimations(reducedMotion = false) {
       checkHeroVisible()
     } else {
       // Use ScrollTrigger for elements not yet in view
-      // Declare anim first to avoid temporal dead zone error
+      // Declare anim at function scope so fallback can access it
       let anim;
+      
+      if (isHeroHeadline) {
+        const backgroundImage = element.closest('.hero')?.querySelector('.background-image')
+        if (backgroundImage) {
+          // Ensure GSAP has control over opacity
+          gsap.set(backgroundImage, { opacity: 0 })
+          
+          // Create text animation with ScrollTrigger
+          anim = animateLineElements(lineElements, {
+            scrollTrigger: {
+              trigger: element,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+              onEnter: () => {
+                if (anim) {
+                  anim.restart()
+                }
+              },
+              onEnterBack: () => {
+                if (anim) {
+                  anim.restart()
+                }
+              },
+              onComplete: () => {
+                // Fade in video when scroll trigger completes
+                console.log('ScrollTrigger complete, fading in video')
+                gsap.to(backgroundImage, {
+                  opacity: 1,
+                  duration: 1.2,
+                  ease: 'power2.out',
+                  delay: 0.3
+                })
+              }
+            }
+          })
+          
+          // Also set callback on animation as backup
+          const fadeInVideo = () => {
+            console.log('Animation onComplete callback fired, fading in video')
+            gsap.to(backgroundImage, {
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power2.out',
+              delay: 0.3
+            })
+          }
+          anim.eventCallback('onComplete', fadeInVideo)
+          
+          // Backup: delayed call based on calculated duration
+          const lineCount = lineElements.length
+          const textDuration = 0.9 + (0.1 * (lineCount - 1))
+          gsap.delayedCall(textDuration + 0.3, () => {
+            const currentOpacity = parseFloat(window.getComputedStyle(backgroundImage).opacity)
+            if (currentOpacity === 0 || isNaN(currentOpacity)) {
+              console.log('Backup: Fading in video via delayed call (scroll-triggered)')
+              gsap.to(backgroundImage, {
+                opacity: 1,
+                duration: 1.2,
+                ease: 'power2.out'
+              })
+            }
+          })
+        } else {
+          // No background image, use regular animation
       anim = animateLineElements(lineElements, {
         scrollTrigger: {
           trigger: element,
           start: 'top 85%',
           toggleActions: 'play none none none',
           onEnter: () => {
-            // Ensure animation plays - check if anim is defined first
             if (anim) {
               anim.restart()
             }
           },
           onEnterBack: () => {
-            // Ensure animation plays when scrolling back
             if (anim) {
               anim.restart()
             }
           }
         }
       })
+        }
+      } else {
+        // Not hero headline, use regular animation
+        anim = animateLineElements(lineElements, {
+          scrollTrigger: {
+            trigger: element,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+            onEnter: () => {
+              if (anim) {
+                anim.restart()
+              }
+            },
+            onEnterBack: () => {
+              if (anim) {
+                anim.restart()
+              }
+            }
+          }
+        })
+      }
       
       // Fallback: if ScrollTrigger doesn't fire, animate after a delay
+      if (anim) {
       setTimeout(() => {
-        if (anim.progress() === 0) {
+          if (anim && anim.progress() === 0) {
           // Animation hasn't started, check if element is now in view
           const currentRect = element.getBoundingClientRect()
           if (currentRect.top < viewportHeight && currentRect.bottom > 0) {
@@ -1701,6 +2068,7 @@ function initLineAnimations(reducedMotion = false) {
           }
         }
       }, 1000)
+      }
     }
   })
 }
@@ -1780,15 +2148,100 @@ function initIntro() {
     })
   }
 
+  // Add scroll interrupt handler
+  let scrollInterrupted = false
+  let touchStartY = 0
+  let touchMoveY = 0
+  
+  const handleScrollInterrupt = () => {
+    if (scrollInterrupted) return
+    scrollInterrupted = true
+    
+    // Kill the timeline
+    tl.kill()
+    
+    // Create a fade-out timeline (works for both mobile and desktop)
+    const fadeOutTl = gsap.timeline({
+      onComplete: () => {
+        // Clean up after fade
+        intro.classList.add('is-complete')
+        document.body.classList.remove('intro-active')
+        document.body.classList.remove('curtain-active')
+        cleanupListeners()
+      }
+    })
+    
+    // Fade out intro
+    fadeOutTl.to(intro, {
+      opacity: 0,
+      duration: 0.4,
+      ease: 'power2.out'
+    })
+    
+    // Fade in hero content simultaneously
+    fadeOutTl.to(heroContent, {
+      opacity: 1,
+      duration: 0.4,
+      ease: 'power2.out'
+    }, 0) // Start at same time
+  }
+  
+  const handleWheel = (e) => {
+    // Desktop: any wheel movement interrupts
+    if (Math.abs(e.deltaY) > 0) {
+      e.preventDefault()
+      handleScrollInterrupt()
+    }
+  }
+  
+  const handleTouchStart = (e) => {
+    // Mobile: record initial touch position
+    touchStartY = e.touches[0].clientY
+  }
+  
+  const handleTouchMove = (e) => {
+    // Mobile: detect actual scroll movement
+    touchMoveY = e.touches[0].clientY
+    const deltaY = touchMoveY - touchStartY
+    
+    // If user is trying to scroll (more than 10px movement)
+    if (Math.abs(deltaY) > 10) {
+      e.preventDefault() // Prevent scroll
+      handleScrollInterrupt()
+    }
+  }
+  
+  const handleKeyInterrupt = (e) => {
+    // Allow space, arrow down, page down to interrupt
+    if ([' ', 'ArrowDown', 'PageDown'].includes(e.key)) {
+      e.preventDefault()
+      handleScrollInterrupt()
+    }
+  }
+  
+  const cleanupListeners = () => {
+    window.removeEventListener('wheel', handleWheel, { passive: false })
+    window.removeEventListener('touchstart', handleTouchStart, { passive: true })
+    window.removeEventListener('touchmove', handleTouchMove, { passive: false })
+    window.removeEventListener('keydown', handleKeyInterrupt)
+  }
+
   // Create timeline
   const tl = gsap.timeline({
     onComplete: () => {
       intro.classList.add('is-complete')
       document.body.classList.remove('intro-active')
       document.body.classList.remove('curtain-active')
+      cleanupListeners()
       // CSS handles nav animation - no cleanup needed
     }
   })
+  
+  // Listen for scroll attempts
+  window.addEventListener('wheel', handleWheel, { passive: false })
+  window.addEventListener('touchstart', handleTouchStart, { passive: true })
+  window.addEventListener('touchmove', handleTouchMove, { passive: false })
+  window.addEventListener('keydown', handleKeyInterrupt)
 
   // Step 2: Center video shrinks vertically (700ms–1300ms) - longer pause before scaling
   tl.to(centerVideo, {
