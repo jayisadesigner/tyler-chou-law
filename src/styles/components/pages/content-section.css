@@ -16,7 +16,7 @@
   width: 100%;
   max-width: 1512px;
   margin: 0 auto;
-  padding: 0; /* Mobile: no padding - content handles its own padding to extend to edges */
+  padding: var(--space-2xl) 0; /* Vertical spacing - components handle their own spacing */
 }
 
 /* Mobile: Stacked layout (content first, then media) */
@@ -93,6 +93,12 @@ body.page-creator .content-section__content {
   align-items: center;
 }
 
+/* Remove vertical padding from container when full-height */
+.content-section--full-height .content-section__container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 /* Full height with background modifier - fixed height for absolute positioning */
 .content-section--full-height-bg {
   height: 100vh;
@@ -107,9 +113,8 @@ body.page-creator .content-section__content {
     display: flex;
     align-items: stretch;
     gap: 0;
-    padding: 0;
+    padding: var(--space-4xl) 0; /* Increased vertical spacing on desktop */
     max-width: none;
-    min-height: 982px;
   }
 
   .content-section__content {
@@ -182,6 +187,8 @@ body.page-creator .content-section__content {
   /* Full height on desktop */
   .content-section--full-height .content-section__container {
     min-height: 100vh;
+    padding-top: 0;
+    padding-bottom: 0; /* Ensure vertical padding is removed on desktop too */
   }
 }
 
@@ -252,11 +259,11 @@ body.page-creator .content-section__content {
 }
 
 .content-section__eyebrow-text {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   font-size: var(--text-p-size);
   line-height: 1;
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   margin: 0;
 }
@@ -273,13 +280,11 @@ body.page-creator .content-section__content {
 }
 
 .content-section__headline-text {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   font-size: var(--text-h3-size);
   line-height: var(--text-h3-line-height);
-  letter-spacing: -0.02em;
   color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
-  text-transform: uppercase;
   margin: 0;
 }
 
@@ -315,10 +320,9 @@ body.page-creatorarq .content-section__eyebrow-text {
 .content-section__body {
   grid-column: 1;
   grid-row: 3;
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);
   line-height: var(--text-p-large-line-height);
-  letter-spacing: -0.02em;
   color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   width: 100%;
   max-width: 576px;
@@ -444,8 +448,7 @@ body.page-love-letters .content-section__body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 500px; /* Mobile: minimum height */
-  padding: var(--space-4xl) var(--space-md); /* Apply padding directly to container */
+  padding: var(--space-4xl) var(--space-md); /* Vertical and horizontal padding - already includes spacing */
 }
 
 .content-section--centered .content-section__content {
@@ -453,8 +456,7 @@ body.page-love-letters .content-section__body {
   flex-direction: column;
   align-items: center;
   gap: var(--space-sm);
-  text-align: center;
-  max-width: 960px; /* Mobile: constrain width for readability */
+  text-align: var(--text-align-center);
   margin-bottom: 0;
   padding: 0; /* Remove default padding, container handles it */
   background-color: transparent; /* Remove background */
@@ -486,12 +488,7 @@ body.page-love-letters .content-section__body {
 .content-section--centered .content-section__body {
   width: 100%;
   max-width: none; /* Remove constraint */
-  text-align: center;
-}
-
-/* Full height for centered sections */
-.content-section--centered.content-section--full-height .content-section__container {
-  min-height: 100vh;
+  text-align: var(--text-align-center);
 }
 
 /* Pinned sections - ensure vertical centering when pinned */
@@ -509,11 +506,10 @@ body.page-love-letters .content-section__body {
 
 /* Large text modifier - uses body font as display copy for visual impact (headlines) */
 .content-section--centered.content-section--large-text .content-section__headline-text {
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-h1-size);
-  font-weight: 400;
+  font-weight: var(--font-weight-paragraph);
   line-height: var(--text-h1-line-height);
-  letter-spacing: -0.03em;
   color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
   text-transform: none;
 }
@@ -546,12 +542,8 @@ body.page-love-letters .content-section--centered.content-section--large-text .c
     display: flex; /* Maintain flex */
     justify-content: center;
     align-items: center; /* Vertically center */
-    min-height: 100vh; /* Ensure full height for vertical centering when pinned */
   }
   
-  .content-section--centered .content-section__content {
-    max-width: 960px; /* Desktop: readable width */
-  }
 }
 
 

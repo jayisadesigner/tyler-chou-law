@@ -10,16 +10,15 @@
 
 .service-card {
   width: 100%;
-  max-width: 477px;
   justify-self: center;
   /* Height handled by CSS Grid - all cards in row match tallest card */
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  padding-top: var(--space-2xl);
-  padding-bottom: var(--space-3xl); /* Increased bottom padding by one step */
-  padding-left: var(--space-lg);
-  padding-right: var(--space-lg);
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Title, Description (grows), Button */
+  gap: var(--space-lg);
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-4xl);
+  padding-left: var(--space-xl);
+  padding-right: var(--space-xl);
   background-color: transparent; /* Inherits from body, allows background animation */
   border: none;
   border-radius: 0;
@@ -30,11 +29,10 @@
   transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: box-shadow, transform;
   /* Left-align text on all breakpoints */
-  text-align: left;
-  align-items: flex-start;
+  text-align: var(--text-align-left);
 }
 
-/* Large screens - limit to 3 columns max (since cards are wider: 477px) */
+/* Large screens - limit to 3 columns max */
 @media (min-width: 1536px) {
   .services-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -47,12 +45,11 @@
 }
 
 .service-card__title {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h4-size); /* Responsive: 1.5rem mobile → 2.5rem desktop → 2.827rem large */
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h4-line-height);
   color: var(--chuparosa-100);
-  text-transform: uppercase;
   margin: 0;
 }
 
@@ -62,9 +59,9 @@ body.page-services .service-card__title {
 }
 
 .service-card__description {
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size); /* 1.414rem / ~23px */
-  font-weight: 400;
+  font-weight: var(--font-weight-paragraph);
   line-height: 1.2;
   color: var(--chuparosa-100);
   margin: 0;
@@ -76,7 +73,11 @@ body.page-services .service-card__description {
   color: var(--bone);
 }
 
-/* Service card button now uses .button component */
+/* Service card button - prevent full width */
+.service-card .btn {
+  justify-self: start;
+  width: fit-content;
+}
 
 
 /* Videos Section - Now uses background-image component + content-section system */

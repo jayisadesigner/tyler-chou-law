@@ -16,15 +16,14 @@
 }
 
 .disclaimer-container .disclaimer-text {
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-small-size);
   font-weight: 400;
   line-height: var(--text-small-line-height);
-  letter-spacing: 0;
   color: var(--chuparosa-100);
   margin: 0;
   padding: 0;
-  text-align: left; /* Left align disclaimer text */
+  text-align: var(--text-align-left); /* Left align disclaimer text */
   width: 100%;
   transition: color 0.3s ease;
   box-sizing: border-box;
@@ -47,7 +46,7 @@
   }
   
   .disclaimer-container .disclaimer-text {
-    text-align: center; /* Center align disclaimer text on desktop */
+    text-align: var(--text-align-center); /* Center align disclaimer text on desktop */
   }
 }
 
