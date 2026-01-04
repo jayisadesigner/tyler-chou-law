@@ -83,7 +83,7 @@
 .section--featured-image__content {
   position: relative;
   width: 100%;
-  max-width: 960px;
+  /* No max-width - headline needs to be unrestrained */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -99,8 +99,9 @@
     left: 50%;
     top: 50%; /* Use percentage for vertical centering */
     transform: translate(-50%, -50%); /* Center both horizontally and vertically */
-    width: 724px;
-    align-items: center;
+    width: auto; /* Flex to fit content */
+    /* No max-width - headline needs to be unrestrained */
+    /* Remove align-items: center - keep flex-start from mobile for left alignment */
   }
 }
 
@@ -112,7 +113,7 @@
   line-height: var(--text-h2-line-height); /* Responsive line-height */
   color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
   text-align: var(--text-align-left);
-  width: 100%;
+  width: max-content; /* Allow headline to expand beyond container max-width */
   margin: 0;
 }
 
@@ -131,11 +132,12 @@ body.page-love-letters .section--featured-image__headline {
   color: var(--text-headline-on-bone);
 }
 
-/* Desktop: Justified text */
+/* Desktop: Keep left-aligned, allow headline to break out of container */
 @media (min-width: 1024px) {
   .section--featured-image__headline {
-    text-align: var(--text-align-justify);
-    text-align-last: var(--text-align-justify);
+    text-align: var(--text-align-left);
+    text-align-last: var(--text-align-left);
+    width: max-content; /* Allow headline to expand beyond container max-width */
   }
 }
 
@@ -149,6 +151,8 @@ body.page-love-letters .section--featured-image__headline {
   line-height: var(--text-p-large-line-height); /* Large body text line-height */
   color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   width: 100%;
+  max-width: 960px; /* Apply max-width constraint here instead */
+  margin: 0; /* Remove auto margins - keep left-aligned with headline */
 }
 
 /* Page-level overrides for featured image body */
@@ -173,6 +177,13 @@ body.page-love-letters .section--featured-image__body {
   }
 }
 
+/* Desktop: Apply max-width constraint to body */
+@media (min-width: 1024px) {
+  .section--featured-image__body {
+    max-width: 724px; /* Apply max-width constraint here instead */
+  }
+}
+
 .section--featured-image__body p {
   margin: 0;
 }
@@ -180,6 +191,11 @@ body.page-love-letters .section--featured-image__body {
 /* Ensure line animations work within featured image sections */
 .section--featured-image__content [js-line-animation] {
   width: 100%;
+}
+
+/* Ensure line animations preserve natural text flow for featured image headlines */
+.section--featured-image__headline[js-line-animation] .line {
+  width: max-content; /* Let lines expand to natural width */
 }
 
 /* ======================================== */
