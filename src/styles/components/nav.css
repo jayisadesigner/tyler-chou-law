@@ -105,12 +105,12 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 }
 
 .logo-line {
-  font-family: var(--font-headline);
+  font-family: var(--font-nav);
   font-size: var(--text-nav-mobile); /* Mobile first */
-  font-weight: var(--font-weight-headline);
-  line-height: 0.93;
+  font-weight: var(--font-weight-nav);
+  line-height: var(--line-height-nav);
   color: var(--nav-text-color, var(--chuparosa-100));
-  text-transform: var(--text-transform-ui);
+  text-transform: var(--text-transform-nav);
   display: block;
   transition: color 0.3s ease;
 }
@@ -154,12 +154,12 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 
 /* Mobile menu styles - only when overlay is open */
 .nav-menu.is-open a {
-  font-family: var(--font-headline);
+  font-family: var(--font-nav);
   font-size: var(--text-h2-size);
-  font-weight: var(--font-weight-headline);
+  font-weight: var(--font-weight-nav);
   line-height: var(--text-h2-line-height);
   color: var(--bone);
-  text-transform: var(--text-transform-ui);
+  text-transform: var(--text-transform-nav);
   text-decoration: none;
   text-align: var(--text-align-center);
   display: block;
@@ -383,12 +383,12 @@ body.page-blog-post {
   
   .nav-menu a,
   .nav-menu.is-open a {
-    font-family: var(--font-headline);
+    font-family: var(--font-nav);
     font-size: var(--text-nav);
-    font-weight: var(--font-weight-headline);
-    line-height: 1;
+    font-weight: var(--font-weight-nav);
+    line-height: var(--line-height-nav);
     color: var(--nav-text-color, var(--chuparosa-100));
-    text-transform: var(--text-transform-ui);
+    text-transform: var(--text-transform-nav);
     text-decoration: none;
     text-align: var(--text-align-right);
     width: 100%;

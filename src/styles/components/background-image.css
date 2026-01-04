@@ -12,6 +12,7 @@
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
+  /* Opacity controlled by GSAP - initialized to 0 in JavaScript */
 }
 
 .background-image__img,
@@ -29,21 +30,17 @@
 
 /* Video-specific styles */
 .background-image__video {
-  /* Ensure video/iframe fills entire container */
-  min-width: 100%;
-  min-height: 100%;
-  /* For iframe embeds (YouTube), use fixed positioning to ensure coverage */
-  border: 0;
-  /* Scale up slightly to ensure no gaps on any aspect ratio */
-  width: 100vw;
-  height: 56.25vw; /* 16:9 aspect ratio */
-  min-height: 100vh;
-  min-width: 177.77vh; /* 16:9 aspect ratio */
-  /* Center the video */
+  /* Use viewport-based sizing to ensure iframe always covers container */
+  /* Bumped values to account for parallax: scale 1.15 + 10% downward movement */
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 100vw;
+  height: 56.25vw; /* 16:9 aspect ratio */
+  min-height: 115vh; /* Bumped from 100vh to account for 15% scale */
+  min-width: 204vh; /* Bumped from 177.77vh (177.77 * 1.15 ≈ 204) to account for scale */
   transform: translate(-50%, -50%);
+  border: 0;
   /* Block all interaction with iframe (prevents YouTube hover UI) */
   pointer-events: none;
 }

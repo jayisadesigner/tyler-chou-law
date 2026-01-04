@@ -453,8 +453,14 @@
   /* Letter Spacing */
   --letter-spacing-headline: 0; /* For headlines */
   --letter-spacing-paragraph: 0; /* For body text/paragraphs */
-  --letter-spacing-nav: -0.02em; /* For navigation */
   --letter-spacing-button: 0; /* For buttons */
+  
+  /* Nav Typography - Single source of truth for nav and logo */
+  --font-nav: 'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-weight-nav: 700;
+  --text-transform-nav: uppercase;
+  --letter-spacing-nav: 0;
+  --line-height-nav: 1;
   
   /* Text Align */
   --text-align-headline: left; /* Default alignment for headlines */

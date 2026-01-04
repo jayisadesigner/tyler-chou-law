@@ -9,7 +9,7 @@
   /* Extend to absolute top edge, behind notch */
   margin-top: calc(-1 * env(safe-area-inset-top, 0px));
   padding-top: env(safe-area-inset-top, 0px);
-  /* Background inherits from body for animated transitions */
+  background-color: var(--chuparosa-600); /* Initial background color */
 }
 
 /* Inner Page Hero - with background image and grid layout */
@@ -108,7 +108,7 @@ body.page-love-letters .hero-eyebrow__text {
   font-weight: var(--font-weight-headline);
   font-size: var(--text-h1-size);
   line-height: var(--text-h1-line-height);
-  color: var(--text-headline-on-chuparosa-600);
+  color: var(--bone);
   text-align: var(--text-align-headline);
   text-align-last: var(--text-align-headline);
   width: fit-content;
