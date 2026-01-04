@@ -39,7 +39,6 @@
   
   .service-card {
     width: 100%;
-    max-width: 477px;
     height: auto;
     min-height: 380px;
   }

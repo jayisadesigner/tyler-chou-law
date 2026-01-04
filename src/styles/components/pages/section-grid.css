@@ -19,10 +19,9 @@
    Section Grid Component
    Mobile-first grid sections with consistent container behavior
    Used by: Roster, Services, future grid-based sections
-   Follows container-wide pattern (max-width: 1512px)
    ======================================== */
 
-/* Base section - uses container-wide pattern */
+/* Base section */
 .section-grid {
   position: relative;
   width: 100%;
@@ -30,7 +29,6 @@
 
 .section-grid__container {
   width: 100%;
-  max-width: 1512px; /* Matches container-wide */
   margin: 0 auto;
   padding: var(--space-2xl) var(--space-md); /* Vertical and horizontal spacing */
 }
