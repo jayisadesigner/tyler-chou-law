@@ -1381,6 +1381,129 @@ function initLineAnimations(reducedMotion = false) {
   }
   
   animatedElements.forEach((element) => {
+    const originalHTML = element.innerHTML.trim()
+    const hasBrTags = originalHTML.includes('<br>') || originalHTML.includes('<br/>') || originalHTML.includes('<br />')
+    
+    // If element has <br> tags, respect them for line breaks
+    if (hasBrTags) {
+      // Split by <br> tags to get lines
+      const lineParts = originalHTML.split(/<br\s*\/?>/i)
+      const lines = lineParts.map(part => {
+        // Extract text content from each part, handling HTML entities like &nbsp;
+        const tempDiv = document.createElement('div')
+        tempDiv.innerHTML = part
+        return tempDiv.textContent || tempDiv.innerText || ''
+      }).filter(line => line.trim().length > 0)
+      
+      // Clear original and create line structure
+      element.innerHTML = ''
+      element.style.overflow = 'hidden'
+      
+      lines.forEach((lineText) => {
+        const lineSpan = document.createElement('span')
+        lineSpan.className = 'line'
+        lineSpan.style.display = 'block'
+        lineSpan.style.overflow = 'hidden'
+        lineSpan.style.width = 'fit-content'
+        
+        const lineInner = document.createElement('span')
+        lineInner.className = 'line-inner'
+        lineInner.style.display = 'block'
+        lineInner.style.width = 'fit-content'
+        lineInner.style.whiteSpace = 'nowrap'
+        // Preserve HTML entities like &nbsp; by using innerHTML
+        const tempDiv = document.createElement('div')
+        tempDiv.innerHTML = lineText
+        lineInner.innerHTML = tempDiv.innerHTML || lineText
+        
+        lineSpan.appendChild(lineInner)
+        element.appendChild(lineSpan)
+      })
+      
+      // Get line elements and animate
+      const lineElements = element.querySelectorAll('.line-inner')
+      
+      if (lineElements.length === 0) {
+        element.innerHTML = originalHTML
+        element.style.overflow = ''
+        return
+      }
+      
+      // Set initial state
+      gsap.set(lineElements, {
+        y: '100%',
+        opacity: 0
+      })
+      
+      // Check if element is already in viewport (use cached viewport height)
+      const rect = element.getBoundingClientRect()
+      const isInView = rect.top < viewportHeight * 0.85 && rect.bottom > 0
+      
+      // Check if this is a hero headline that might be hidden by intro
+      const heroContent = element.closest('.hero-content')
+      const isHeroHeadline = heroContent !== null
+      let shouldWaitForIntro = false
+      
+      if (isHeroHeadline && heroContent) {
+        const heroOpacity = parseFloat(window.getComputedStyle(heroContent).opacity)
+        shouldWaitForIntro = heroOpacity === 0
+      }
+      
+      if (isInView && !shouldWaitForIntro) {
+        // Animate immediately if already in view and hero is visible
+        animateLineElements(lineElements)
+      } else if (isInView && shouldWaitForIntro) {
+        // Hero headline is in view but hidden - wait for hero opacity to reach exactly 1
+        const checkHeroVisible = () => {
+          const currentOpacity = parseFloat(window.getComputedStyle(heroContent).opacity)
+          if (currentOpacity === 1) {
+            // Hero is fully visible, trigger animation
+            animateLineElements(lineElements)
+          } else if (currentOpacity > 0) {
+            // Still fading in, keep checking
+            requestAnimationFrame(checkHeroVisible)
+          } else {
+            // Still at 0, keep checking
+            requestAnimationFrame(checkHeroVisible)
+          }
+        }
+        checkHeroVisible()
+      } else {
+        // Use ScrollTrigger for elements not yet in view
+        let anim;
+        anim = animateLineElements(lineElements, {
+          scrollTrigger: {
+            trigger: element,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+            onEnter: () => {
+              if (anim) {
+                anim.restart()
+              }
+            },
+            onEnterBack: () => {
+              if (anim) {
+                anim.restart()
+              }
+            }
+          }
+        })
+        
+        // Fallback: if ScrollTrigger doesn't fire, animate after a delay
+        setTimeout(() => {
+          if (anim.progress() === 0) {
+            const currentRect = element.getBoundingClientRect()
+            if (currentRect.top < viewportHeight && currentRect.bottom > 0) {
+              anim.restart()
+            }
+          }
+        }, 1000)
+      }
+      
+      return // Skip the rest of the function for <br> tag handling
+    }
+    
+    // Original logic for elements without <br> tags
     const originalText = element.textContent.trim()
     const words = originalText.split(' ').filter(w => w.length > 0)
     
@@ -1483,10 +1606,13 @@ function initLineAnimations(reducedMotion = false) {
       lineSpan.className = 'line'
       lineSpan.style.display = 'block'
       lineSpan.style.overflow = 'hidden'
+      lineSpan.style.width = 'fit-content'
       
       const lineInner = document.createElement('span')
       lineInner.className = 'line-inner'
       lineInner.style.display = 'block'
+      lineInner.style.width = 'fit-content'
+      lineInner.style.whiteSpace = 'nowrap'
       lineInner.textContent = lineWords.join(' ')
       
       lineSpan.appendChild(lineInner)
@@ -1512,9 +1638,35 @@ function initLineAnimations(reducedMotion = false) {
     const rect = element.getBoundingClientRect()
     const isInView = rect.top < viewportHeight * 0.85 && rect.bottom > 0
     
-    if (isInView) {
-      // Animate immediately if already in view using shared utility
+    // Check if this is a hero headline that might be hidden by intro
+    const heroContent = element.closest('.hero-content')
+    const isHeroHeadline = heroContent !== null
+    let shouldWaitForIntro = false
+    
+    if (isHeroHeadline && heroContent) {
+      const heroOpacity = parseFloat(window.getComputedStyle(heroContent).opacity)
+      shouldWaitForIntro = heroOpacity === 0
+    }
+    
+    if (isInView && !shouldWaitForIntro) {
+      // Animate immediately if already in view and hero is visible
       animateLineElements(lineElements)
+    } else if (isInView && shouldWaitForIntro) {
+      // Hero headline is in view but hidden - wait for hero opacity to reach exactly 1
+      const checkHeroVisible = () => {
+        const currentOpacity = parseFloat(window.getComputedStyle(heroContent).opacity)
+        if (currentOpacity === 1) {
+          // Hero is fully visible, trigger animation
+          animateLineElements(lineElements)
+        } else if (currentOpacity > 0) {
+          // Still fading in, keep checking
+          requestAnimationFrame(checkHeroVisible)
+        } else {
+          // Still at 0, keep checking
+          requestAnimationFrame(checkHeroVisible)
+        }
+      }
+      checkHeroVisible()
     } else {
       // Use ScrollTrigger for elements not yet in view
       // Declare anim first to avoid temporal dead zone error

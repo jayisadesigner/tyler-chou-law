@@ -95,12 +95,12 @@ body.page-love-letters .section-grid__headline .content-section__headline-text {
 
 /* Link styling */
 .section-grid__link {
-  font-family: var(--font-display);
-  font-size: var(--text-ui-nav);
-  font-weight: 600;
+  font-family: var(--font-headline);
+  font-size: var(--text-nav);
+  font-weight: var(--font-weight-headline);
   line-height: 1;
   color: var(--chuparosa-100);
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   text-decoration: none;
   white-space: nowrap; /* Prevent text wrapping */
   flex-shrink: 0; /* Never shrink below natural width */

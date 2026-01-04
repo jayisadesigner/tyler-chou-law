@@ -106,14 +106,12 @@
 
 /* Headline - Mobile: left-aligned like other sections */
 .section--featured-image__headline {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h2-size); /* Responsive: 40px mobile → 90px large desktop */
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h2-line-height); /* Responsive line-height */
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
   color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
-  text-align: left;
+  text-align: var(--text-align-left);
   width: 100%;
   margin: 0;
 }
@@ -136,8 +134,8 @@ body.page-love-letters .section--featured-image__headline {
 /* Desktop: Justified text */
 @media (min-width: 1024px) {
   .section--featured-image__headline {
-    text-align: justify;
-    text-align-last: justify;
+    text-align: var(--text-align-justify);
+    text-align-last: var(--text-align-justify);
   }
 }
 
@@ -145,7 +143,7 @@ body.page-love-letters .section--featured-image__headline {
 .section--featured-image__body {
   display: grid;
   gap: var(--space-md);
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size); /* Large body text for emphasis */
   font-weight: 400;
   line-height: var(--text-p-large-line-height); /* Large body text line-height */

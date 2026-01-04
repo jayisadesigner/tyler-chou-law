@@ -16,10 +16,13 @@
   display: block;
   overflow: hidden;
   line-height: inherit; /* Preserve original line-height */
+  width: fit-content; /* Allow line to fit its content */
 }
 
 [js-line-animation] .line-inner {
   display: block;
+  width: fit-content; /* Allow inner to fit its content */
+  white-space: nowrap; /* Prevent text wrapping within a line */
 }
 
 /* Reduce extra spacing for palo-verde headline specifically */

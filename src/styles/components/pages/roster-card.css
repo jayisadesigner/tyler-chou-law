@@ -73,12 +73,12 @@ body.page-creator .roster-card {
     bottom: var(--space-sm);
     left: var(--space-sm);
     right: var(--space-sm); /* Constrain handle width on grid pages */
-    font-family: var(--font-display);
+    font-family: var(--font-headline);
     font-size: var(--text-h6-size); /* 1.414rem / 22.62px */
-    font-weight: 500;
+    font-weight: var(--font-weight-headline);
     line-height: var(--text-h6-line-height);
     color: var(--bone);
-    text-transform: uppercase;
+    text-transform: var(--text-transform-ui);
     margin: 0;
     z-index: 1;
     /* Truncate long handles on grid pages */
@@ -134,17 +134,17 @@ body.page-creator .roster-card__handle {
 }
 
 .roster-card__name {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h6-size); /* 1.414rem / 22.62px - matches Figma */
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h6-line-height);
   color: var(--obsidian);
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   margin: 0;
 }
 
 .roster-card__quote {
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-size); /* 1rem / 16px - matches Figma */
   font-weight: 400;
   line-height: var(--text-p-line-height);

@@ -60,10 +60,11 @@
 
 /* Philosophy Text Elements - Grid Layout */
 .philosophy-text {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h1-line-height);
-  text-transform: uppercase;
+  text-transform: var(--text-transform-headline);
+  letter-spacing: var(--letter-spacing-headline);
   white-space: nowrap; /* Prevent line breaks - keep text on one line */
   margin: 0;
   overflow: visible;
@@ -88,19 +89,16 @@
 
 .philosophy-text--content {
   font-size: clamp(4rem, 8vw, 153.541px); /* Responsive from 4rem to 153.541px */
-  letter-spacing: -0.03em;
   color: var(--chuparosa-500); /* WCAG accessible red on bone background */
 }
 
 .philosophy-text--king {
   font-size: clamp(5rem, 10vw, 212.351px); /* Responsive from 5rem to 212.351px */
-  letter-spacing: -0.03em;
   color: var(--chuparosa-500); /* WCAG accessible red on bone background */
 }
 
 .philosophy-text--queen {
   font-size: clamp(6rem, 12vw, 239.141px); /* Responsive from 6rem to 239.141px */
-  letter-spacing: -0.03em;
   color: var(--obsidian);
   opacity: var(--philosophy-queen-opacity, 1); /* CSS variable with visible fallback */
   visibility: visible; /* Keep element in layout flow to maintain grid height */

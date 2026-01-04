@@ -236,15 +236,15 @@ body.bg-bone {
 
 /* Text Utilities */
 .text-center {
-  text-align: center;
+  text-align: var(--text-align-center);
 }
 
 .text-left {
-  text-align: left;
+  text-align: var(--text-align-left);
 }
 
 .text-right {
-  text-align: right;
+  text-align: var(--text-align-right);
 }
 
 /* Lenis Smooth Scroll Styles */

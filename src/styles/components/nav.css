@@ -105,13 +105,12 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 }
 
 .logo-line {
-  font-family: var(--font-display);
-  font-size: var(--text-ui-nav-mobile); /* Mobile first */
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-size: var(--text-nav-mobile); /* Mobile first */
+  font-weight: var(--font-weight-headline);
   line-height: 0.93;
-  letter-spacing: -0.02em; /* -0.38px equivalent */
   color: var(--nav-text-color, var(--chuparosa-100));
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   display: block;
   transition: color 0.3s ease;
 }
@@ -155,15 +154,14 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 
 /* Mobile menu styles - only when overlay is open */
 .nav-menu.is-open a {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h2-size);
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h2-line-height);
-  letter-spacing: -0.02em;
   color: var(--bone);
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   text-decoration: none;
-  text-align: center;
+  text-align: var(--text-align-center);
   display: block;
   position: relative;
   width: 100%;
@@ -353,7 +351,7 @@ body.page-blog-post {
   }
   
   .logo-line {
-    font-size: var(--text-ui-nav-logo);
+    font-size: var(--text-nav-logo);
   }
   
   .logo {
@@ -385,15 +383,14 @@ body.page-blog-post {
   
   .nav-menu a,
   .nav-menu.is-open a {
-    font-family: var(--font-display);
-    font-size: var(--text-ui-nav);
-    font-weight: 500;
+    font-family: var(--font-headline);
+    font-size: var(--text-nav);
+    font-weight: var(--font-weight-headline);
     line-height: 1;
-    letter-spacing: 0.02em;
     color: var(--nav-text-color, var(--chuparosa-100));
-    text-transform: uppercase;
+    text-transform: var(--text-transform-ui);
     text-decoration: none;
-    text-align: right;
+    text-align: var(--text-align-right);
     width: 100%;
     padding: 0;
     max-width: none;
