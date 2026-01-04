@@ -1443,18 +1443,19 @@ function initLineAnimations(reducedMotion = false) {
       element.innerHTML = ''
       element.style.overflow = 'hidden'
       
+      // Check if this is a featured image headline (needs natural text flow)
+      const isFeaturedImage = element.classList.contains('section--featured-image__headline')
+      
       lines.forEach((lineText) => {
         const lineSpan = document.createElement('span')
         lineSpan.className = 'line'
         lineSpan.style.display = 'block'
-        lineSpan.style.overflow = 'hidden'
-        lineSpan.style.width = 'fit-content'
+        // CSS handles overflow and width
         
         const lineInner = document.createElement('span')
         lineInner.className = 'line-inner'
         lineInner.style.display = 'block'
-        lineInner.style.width = 'fit-content'
-        lineInner.style.whiteSpace = 'nowrap'
+        // CSS handles width and whiteSpace
         // Preserve HTML entities like &nbsp; by using innerHTML
         const tempDiv = document.createElement('div')
         tempDiv.innerHTML = lineText
@@ -1466,6 +1467,12 @@ function initLineAnimations(reducedMotion = false) {
       
       // Get line elements and animate
       const lineElements = element.querySelectorAll('.line-inner')
+      
+      // Debug: Log line count for featured image headlines
+      if (isFeaturedImage) {
+        console.log(`Featured image headline (br tags): ${lineElements.length} lines created`)
+        console.log('Lines:', Array.from(lineElements).map(el => el.textContent))
+      }
       
       if (lineElements.length === 0) {
         element.innerHTML = originalHTML
@@ -1807,6 +1814,15 @@ function initLineAnimations(reducedMotion = false) {
       lines.push(words)
     }
     
+    // Check if this is a featured image headline (needs natural text flow)
+    const isFeaturedImage = element.classList.contains('section--featured-image__headline')
+    
+    // Debug: Log line detection for featured image headlines
+    if (isFeaturedImage) {
+      console.log(`Featured image headline: ${lines.length} lines detected from word splitting`)
+      console.log('Detected lines:', lines.map(line => line.join(' ')))
+    }
+    
     // Clear original and create line structure
     element.innerHTML = ''
     element.style.overflow = 'hidden'
@@ -1815,14 +1831,12 @@ function initLineAnimations(reducedMotion = false) {
       const lineSpan = document.createElement('span')
       lineSpan.className = 'line'
       lineSpan.style.display = 'block'
-      lineSpan.style.overflow = 'hidden'
-      lineSpan.style.width = 'fit-content'
+      // CSS handles overflow and width
       
       const lineInner = document.createElement('span')
       lineInner.className = 'line-inner'
       lineInner.style.display = 'block'
-      lineInner.style.width = 'fit-content'
-      lineInner.style.whiteSpace = 'nowrap'
+      // CSS handles width and whiteSpace
       lineInner.textContent = lineWords.join(' ')
       
       lineSpan.appendChild(lineInner)
@@ -1831,6 +1845,12 @@ function initLineAnimations(reducedMotion = false) {
     
     // Get line elements and animate
     const lineElements = element.querySelectorAll('.line-inner')
+    
+    // Debug: Log line count for featured image headlines
+    if (isFeaturedImage) {
+      console.log(`Featured image headline: ${lineElements.length} lines created`)
+      console.log('Lines:', Array.from(lineElements).map(el => el.textContent))
+    }
     
     if (lineElements.length === 0) {
       element.innerHTML = originalText

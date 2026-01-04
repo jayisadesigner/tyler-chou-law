@@ -14,7 +14,7 @@
 
 [js-line-animation] .line {
   display: block;
-  overflow: hidden;
+  overflow: visible; /* Prevents text cut-off */
   line-height: inherit; /* Preserve original line-height */
   width: fit-content; /* Allow line to fit its content */
 }
