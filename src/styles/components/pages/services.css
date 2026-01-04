@@ -63,7 +63,7 @@ body.page-services .service-card__title {
 .service-card__description {
   font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size); /* 1.414rem / ~23px */
-  font-weight: 400;
+  font-weight: var(--font-weight-paragraph);
   line-height: 1.2;
   color: var(--chuparosa-100);
   margin: 0;

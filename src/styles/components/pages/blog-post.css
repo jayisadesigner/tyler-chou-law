@@ -20,7 +20,7 @@
 
 .blog-post-meta__author-name {
   color: var(--chuparosa-100);
-  font-weight: 500;
+  font-weight: var(--font-weight-paragraph);
 }
 
 .blog-post-meta__date {

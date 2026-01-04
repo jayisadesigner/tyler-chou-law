@@ -32,13 +32,13 @@
   width: 100%;
   max-width: 1512px; /* Matches container-wide */
   margin: 0 auto;
-  padding: 0 var(--space-md); /* Mobile first */
+  padding: var(--space-2xl) var(--space-md); /* Vertical and horizontal spacing */
 }
 
 /* Desktop padding adjustments */
 @media (min-width: 768px) {
   .section-grid__container {
-    padding: 0 var(--space-lg); /* Match other sections at desktop */
+    padding: var(--space-4xl) var(--space-lg); /* Increased vertical spacing on desktop */
   }
 }
 
