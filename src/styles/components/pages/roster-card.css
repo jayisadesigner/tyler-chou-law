@@ -146,7 +146,7 @@ body.page-creator .roster-card__handle {
 .roster-card__quote {
   font-family: var(--font-paragraph);
   font-size: var(--text-p-size); /* 1rem / 16px - matches Figma */
-  font-weight: 400;
+  font-weight: var(--font-weight-paragraph);
   line-height: var(--text-p-line-height);
   color: var(--obsidian);
   margin: 0;
