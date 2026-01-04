@@ -2,7 +2,7 @@
 .about,
 .palo-verde {
   position: relative;
-  /* Uses .section padding - var(--space-4xl) 0 on desktop, var(--space-2xl) 0 on mobile */
+  /* Spacing handled by .section--featured-image__container */
   overflow: visible; /* Allow decorative elements to overflow on large screens */
 }
 
@@ -36,15 +36,16 @@
   width: 100%;
   max-width: 1512px;
   margin: 0 auto;
-  padding: 0 var(--space-md);
-  padding-bottom: var(--space-4xl);
+  padding: var(--space-2xl) var(--space-md); /* Vertical and horizontal spacing */
+  padding-bottom: var(--space-4xl); /* Extra bottom spacing */
   overflow: visible;
 }
 
 /* Desktop: Minimum height for decorative layout */
 @media (min-width: 1024px) {
   .section--featured-image__container {
-    padding: 0 var(--space-lg);
+    padding: var(--space-4xl) var(--space-lg); /* Increased vertical spacing on desktop */
+    padding-bottom: var(--space-4xl); /* Maintain extra bottom spacing */
     min-height: calc(617px + 500px + var(--space-4xl));
   }
 }
@@ -83,7 +84,7 @@
 .section--featured-image__content {
   position: relative;
   width: 100%;
-  max-width: 960px;
+  /* No max-width - headline needs to be unrestrained */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -99,22 +100,21 @@
     left: 50%;
     top: 50%; /* Use percentage for vertical centering */
     transform: translate(-50%, -50%); /* Center both horizontally and vertically */
-    width: 724px;
-    align-items: center;
+    width: auto; /* Flex to fit content */
+    /* No max-width - headline needs to be unrestrained */
+    /* Remove align-items: center - keep flex-start from mobile for left alignment */
   }
 }
 
 /* Headline - Mobile: left-aligned like other sections */
 .section--featured-image__headline {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h2-size); /* Responsive: 40px mobile → 90px large desktop */
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h2-line-height); /* Responsive line-height */
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
   color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
-  text-align: left;
-  width: 100%;
+  text-align: var(--text-align-left);
+  width: max-content; /* Allow headline to expand beyond container max-width */
   margin: 0;
 }
 
@@ -133,11 +133,12 @@ body.page-love-letters .section--featured-image__headline {
   color: var(--text-headline-on-bone);
 }
 
-/* Desktop: Justified text */
+/* Desktop: Keep left-aligned, allow headline to break out of container */
 @media (min-width: 1024px) {
   .section--featured-image__headline {
-    text-align: justify;
-    text-align-last: justify;
+    text-align: var(--text-align-left);
+    text-align-last: var(--text-align-left);
+    width: max-content; /* Allow headline to expand beyond container max-width */
   }
 }
 
@@ -145,12 +146,14 @@ body.page-love-letters .section--featured-image__headline {
 .section--featured-image__body {
   display: grid;
   gap: var(--space-md);
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size); /* Large body text for emphasis */
-  font-weight: 400;
+  font-weight: var(--font-weight-paragraph);
   line-height: var(--text-p-large-line-height); /* Large body text line-height */
   color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   width: 100%;
+  max-width: 960px; /* Apply max-width constraint here instead */
+  margin: 0; /* Remove auto margins - keep left-aligned with headline */
 }
 
 /* Page-level overrides for featured image body */
@@ -175,6 +178,13 @@ body.page-love-letters .section--featured-image__body {
   }
 }
 
+/* Desktop: Apply max-width constraint to body */
+@media (min-width: 1024px) {
+  .section--featured-image__body {
+    max-width: 724px; /* Apply max-width constraint here instead */
+  }
+}
+
 .section--featured-image__body p {
   margin: 0;
 }
@@ -182,6 +192,11 @@ body.page-love-letters .section--featured-image__body {
 /* Ensure line animations work within featured image sections */
 .section--featured-image__content [js-line-animation] {
   width: 100%;
+}
+
+/* Ensure line animations preserve natural text flow for featured image headlines */
+.section--featured-image__headline[js-line-animation] .line {
+  width: max-content; /* Let lines expand to natural width */
 }
 
 /* ======================================== */

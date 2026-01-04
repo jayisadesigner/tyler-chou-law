@@ -1,55 +1,28 @@
 /* Typography System */
 
-/* Font Loading - Fontshare Variable Fonts */
-/* Place variable .woff2 files in src/assets/fonts/ directory */
-/* Variable fonts contain all weights and styles in a single file */
-@font-face {
-  font-family: 'General Sans';
-  src: url('../assets/fonts/GeneralSans-Variable.woff2') format('woff2');
-  font-weight: 200 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'General Sans';
-  src: url('../assets/fonts/GeneralSans-VariableItalic.woff2') format('woff2');
-  font-weight: 200 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gambetta';
-  src: url('../assets/fonts/Gambetta-Variable.woff2') format('woff2');
-  font-weight: 300 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gambetta';
-  src: url('../assets/fonts/Gambetta-VariableItalic.woff2') format('woff2');
-  font-weight: 300 700;
-  font-style: italic;
-  font-display: swap;
-}
+/* Font Loading - Fontshare Variable Web Fonts */
+/* Cabinet Grotesk (variable 1-800) for headlines, Satoshi (variable 1-900) for body */
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@1,800&f[]=satoshi@1,900&display=swap');
 
 /* Base Typography */
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
+  font-weight: var(--font-weight-paragraph);
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
+  letter-spacing: var(--letter-spacing-paragraph);
   color: var(--text-body-on-chuparosa-600);
   background-color: var(--chuparosa-600);
 }
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   line-height: 1.1;
+  letter-spacing: var(--letter-spacing-headline);
   color: var(--text-headline-on-chuparosa-600);
+  text-transform: var(--text-transform-headline);
   text-wrap: balance; /* Balance lines to avoid widows */
 }
 

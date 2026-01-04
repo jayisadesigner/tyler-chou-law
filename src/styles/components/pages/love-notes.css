@@ -41,12 +41,11 @@
 }
 
 .love-notes__headline {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h3-size); /* Responsive: 32px mobile → 64px desktop */
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h3-line-height);
   color: var(--text-headline-on-bone);
-  text-transform: uppercase;
   margin: 0;
 }
 
@@ -210,7 +209,7 @@
     transform: translate(-50%, -50%);
     z-index: 5; /* Back layer - only small cards behind, medium and large cards in front */
     pointer-events: none; /* Don't block interaction with scrollable content */
-    text-align: center;
+    text-align: var(--text-align-center);
     width: auto;
     max-width: 80%;
     font-size: var(--text-h1-size); /* 128px at 1280px+ */
