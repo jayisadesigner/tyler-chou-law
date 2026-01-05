@@ -12,6 +12,7 @@
   overflow: hidden;
   padding-top: 0.1em; /* Space for ascenders */
   padding-bottom: 0.1em; /* Space for descenders */
+  opacity: 1; /* Progressive enhancement: Visible by default, JS can enhance with animations */
 }
 
 [js-line-animation] .line {

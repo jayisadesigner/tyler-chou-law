@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Theme color matches hero background for seamless browser chrome integration -->
     <meta name="theme-color" content="#120203" /> <!-- var(--obsidian) -->
-    <style>
+      /* Progressive enhancement: Hide briefly to prevent FOUC, auto-show after 3s even without JS */    <style>
       body:not(.ready) { visibility: hidden; }
+      body:not(.ready) { animation: show-after-load 0.01s 3s forwards; }
+      @keyframes show-after-load { to { visibility: visible; } }
     </style>
     <script>
       window.addEventListener('load', function() {
@@ -15,6 +17,8 @@
     </script>
     <!-- Performance: Preconnect to external domains if needed -->
     <link rel="preconnect" href="https://api.fontshare.com">
+    <!-- Main stylesheet - loads without JavaScript for progressive enhancement -->
+    <link rel="stylesheet" href="/src/styles/main.css">
     <title>@jadroppingscience | Tyler Chou Law Roster</title>
     <meta name="description" content="Portland-based educational creator turning complex science into binge-worthy content. His signature style (deadpan delivery meets absurdist scenarios) makes ..." />
     <link rel="canonical" href="https://tylerchoulaw.com/roster/jadroppingscience.html" />

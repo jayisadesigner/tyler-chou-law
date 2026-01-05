@@ -98,6 +98,9 @@ function initLenis() {
 // Check for reduced motion preference
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+// Debug flag for hero fallback tracking (accessible to all functions)
+const DEBUG_FALLBACK = true // Set to false to disable debug logs
+
 // Cache viewport dimensions (updated on resize)
 let viewportWidth = window.innerWidth
 let viewportHeight = window.innerHeight
@@ -418,7 +421,7 @@ function initLoveLettersScroll(reducedMotion = false) {
         scrollTrigger: createPinnedScrollConfig({
           trigger: loveNotesSection,
           start: 'top top',
-          end: '+=1200%', // Pin for 12x viewport height - ensures all cards fully scroll through
+          end: '+=400%', // Pin for 4x viewport height - faster scroll while ensuring all cards fully scroll through
           scrub: 1,
           callbacks: {
             id: 'love-notes-desktop',
@@ -944,6 +947,11 @@ function initAnimations() {
   
   // Love Letters section scroll animations
   initLoveLettersScroll(false)
+  
+  // Refresh ScrollTrigger after pinned sections are set up to ensure subsequent triggers calculate correctly
+  if (ScrollTrigger) {
+    ScrollTrigger.refresh()
+  }
   
   // Mouse trail effect
   initMouseTrail(prefersReducedMotion)
@@ -1554,6 +1562,12 @@ function initCredentialsShadow(reducedMotion = false) {
  * @param {boolean} reducedMotion - If true, skip animation and show final state
  */
 function initLineAnimations(reducedMotion = false) {
+  if (DEBUG_FALLBACK) {
+    const stack = new Error().stack
+    const caller = stack.split('\n')[2]?.trim() || 'unknown'
+    console.log('[Hero Fallback] initLineAnimations called from:', caller)
+  }
+  
   const animatedElements = document.querySelectorAll('[js-line-animation]')
   
   if (animatedElements.length === 0) {
@@ -1573,10 +1587,16 @@ function initLineAnimations(reducedMotion = false) {
   const introIsActive = intro && !intro.classList.contains('is-complete')
   
   // Hide hero headlines immediately to prevent flash (before processing)
+  // Hide hero headlines initially (they'll be shown when intro completes or is interrupted)
+  // BUT skip headlines that are already processed (have line structure) - they're already visible
   animatedElements.forEach((element) => {
     const heroContent = element.closest('.hero-content')
     if (heroContent) {
-      gsap.set(element, { opacity: 0 })
+      // Check if already processed - don't hide if it's already animated
+      const hasLineStructure = element.querySelector('.line-wrapper, .line')
+      if (!hasLineStructure) {
+        gsap.set(element, { opacity: 0 })
+      }
     }
   })
   
@@ -1590,6 +1610,15 @@ function initLineAnimations(reducedMotion = false) {
     // Skip if element has already been processed (has line structure)
     const hasLineStructure = element.querySelector('.line-wrapper, .line')
     if (hasLineStructure) {
+      // Ensure it stays visible if already processed
+      const heroContent = element.closest('.hero-content')
+      if (heroContent) {
+        const heroOpacity = parseFloat(window.getComputedStyle(heroContent).opacity)
+        // If hero is visible and headline is already processed, ensure headline is visible
+        if (heroOpacity === 1) {
+          gsap.set(element, { opacity: 1 })
+        }
+      }
       return
     }
     
@@ -2203,6 +2232,8 @@ function initLineAnimations(reducedMotion = false) {
           trigger: element,
           start: 'top 85%',
           toggleActions: 'play none none none',
+          invalidateOnRefresh: true, // Recalculate positions when ScrollTrigger refreshes (important after pinned sections)
+          refreshPriority: -1, // Refresh after pinned sections (lower priority = refreshes later)
           onEnter: () => {
             if (anim) {
               anim.restart()
@@ -2223,6 +2254,8 @@ function initLineAnimations(reducedMotion = false) {
             trigger: element,
             start: 'top 85%',
             toggleActions: 'play none none none',
+            invalidateOnRefresh: true, // Recalculate positions when ScrollTrigger refreshes (important after pinned sections)
+            refreshPriority: -1, // Refresh after pinned sections (lower priority = refreshes later)
             onEnter: () => {
               if (anim) {
                 anim.restart()
@@ -2334,6 +2367,10 @@ function setupEarlyScrollDetection() {
  * Total duration: ~7 seconds
  */
 function initIntro() {
+  // Track page load time to block early scroll interrupts
+  const pageLoadTime = Date.now()
+  const scrollBlockDuration = 2000 // Block scroll interrupts for 2 seconds after page load
+  
   const intro = document.querySelector('.intro')
   const centerVideo = document.querySelector('.intro__video--center') // wrapper
   const leftVideo = document.querySelector('.intro__video--left') // wrapper
@@ -2377,6 +2414,7 @@ function initIntro() {
   document.body.classList.add('curtain-active')
 
   // Set initial states
+  if (DEBUG_FALLBACK) console.log('[Hero Fallback] Intro starting - setting hero opacity to 0')
   gsap.set(heroContent, { opacity: 0 })
   gsap.set([leftVideo, centerVideo, rightVideo], {
     transformOrigin: 'center center'
@@ -2414,10 +2452,28 @@ function initIntro() {
   let touchStartY = 0
   let touchMoveY = 0
   let tl = null // Declare timeline variable early so it's accessible in interrupt handler
+  let fallbackTimeout = null // Declare fallback timeout early so it's accessible in interrupt handler
   
   const handleScrollInterrupt = () => {
     if (scrollInterrupted) return
+    
+    // Block interrupts for a few seconds after page load to let intro initialize
+    const timeSinceLoad = Date.now() - pageLoadTime
+    if (timeSinceLoad < scrollBlockDuration) {
+      if (DEBUG_FALLBACK) console.log('[Hero Fallback] Interrupt blocked - only', timeSinceLoad, 'ms since page load, need', scrollBlockDuration, 'ms')
+      return // Block the interrupt
+    }
+    
     scrollInterrupted = true
+    
+    if (DEBUG_FALLBACK) console.log('[Hero Fallback] Interrupt triggered')
+    
+    // Clear fallback timeout since interrupt is handling it
+    if (fallbackTimeout) {
+      if (DEBUG_FALLBACK) console.log('[Hero Fallback] Cleared timeout - interrupt handling hero visibility')
+      clearTimeout(fallbackTimeout)
+      fallbackTimeout = null
+    }
     
     // Kill the timeline if it exists (may not exist if interrupted before creation)
     if (tl) {
@@ -2548,9 +2604,76 @@ function initIntro() {
   // Store hero headline reference for processing after intro completes
   const heroHeadline = heroContent?.querySelector('[js-line-animation]')
   
+  // Fallback timeout: Ensure hero appears even if intro animation fails
+  // This will be cleared if timeline completes successfully or is interrupted
+  if (DEBUG_FALLBACK) console.log('[Hero Fallback] Setting 8s timeout fallback')
+  fallbackTimeout = setTimeout(() => {
+    if (DEBUG_FALLBACK) console.log('[Hero Fallback] Timeout fired - checking hero visibility')
+    const heroContentCheck = document.querySelector('.hero-content')
+    const introCheck = document.querySelector('.intro')
+    const introIsComplete = introCheck?.classList.contains('is-complete')
+    
+    // If hero is still hidden and intro hasn't completed, force show it
+    if (heroContentCheck) {
+      const currentOpacity = parseFloat(window.getComputedStyle(heroContentCheck).opacity)
+      if (DEBUG_FALLBACK) {
+        console.log('[Hero Fallback] Hero opacity:', currentOpacity, 'Intro complete:', introIsComplete)
+      }
+      
+      if ((currentOpacity === 0 || isNaN(currentOpacity)) && !introIsComplete) {
+        if (DEBUG_FALLBACK) console.log('[Hero Fallback] ⚠️ Hero still hidden - FORCING VISIBLE (fallback triggered)')
+        
+        // Hero is still hidden - force show it
+        gsap.set(heroContentCheck, { opacity: 1 })
+        
+        // Mark intro as complete if it exists
+        if (introCheck) {
+          introCheck.classList.add('is-complete')
+          document.body.classList.remove('intro-active')
+          document.body.classList.remove('curtain-active')
+          if (DEBUG_FALLBACK) console.log('[Hero Fallback] Marked intro as complete')
+        }
+        
+        // Trigger hero headline line animation if it hasn't been processed
+        const heroHeadline = heroContentCheck.querySelector('[js-line-animation]')
+        if (heroHeadline) {
+          if (!heroHeadline.querySelector('.line-wrapper') && !heroHeadline.querySelector('.line')) {
+            if (DEBUG_FALLBACK) console.log('[Hero Fallback] Triggering hero headline line animation')
+            initLineAnimations(false)
+          }
+        }
+        
+        // Fade in background video if it exists
+        const heroBackgroundImage = document.querySelector('.hero .background-image')
+        if (heroBackgroundImage) {
+          const bgOpacity = parseFloat(window.getComputedStyle(heroBackgroundImage).opacity)
+          if (bgOpacity === 0 || isNaN(bgOpacity)) {
+            if (DEBUG_FALLBACK) console.log('[Hero Fallback] Fading in background video')
+            gsap.to(heroBackgroundImage, {
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power2.out'
+            })
+          }
+        }
+      } else {
+        if (DEBUG_FALLBACK) console.log('[Hero Fallback] ✓ Hero already visible or intro completed - no action needed')
+      }
+    } else {
+      if (DEBUG_FALLBACK) console.log('[Hero Fallback] ⚠️ Hero content element not found')
+    }
+  }, 8000) // 8 seconds - after intro should complete (~7s) + 1s buffer
+  
   // Create timeline
   tl = gsap.timeline({
     onComplete: () => {
+      // Clear fallback timeout since timeline completed successfully
+      if (fallbackTimeout) {
+        if (DEBUG_FALLBACK) console.log('[Hero Fallback] Cleared timeout - timeline completed successfully')
+        clearTimeout(fallbackTimeout)
+        fallbackTimeout = null
+      }
+      
       intro.classList.add('is-complete')
       document.body.classList.remove('intro-active')
       document.body.classList.remove('curtain-active')

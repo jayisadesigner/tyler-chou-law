@@ -6,7 +6,10 @@
     <!-- Theme color matches hero background for seamless browser chrome integration -->
     <meta name="theme-color" content="#120203" /> <!-- var(--obsidian) -->
     <style>
+      /* Progressive enhancement: Hide briefly to prevent FOUC, auto-show after 3s even without JS */
       body:not(.ready) { visibility: hidden; }
+      body:not(.ready) { animation: show-after-load 0.01s 3s forwards; }
+      @keyframes show-after-load { to { visibility: visible; } }
     </style>
     <script>
       window.addEventListener('load', function() {
@@ -15,6 +18,8 @@
     </script>
     <!-- Performance: Preconnect to external domains if needed -->
     <link rel="preconnect" href="https://api.fontshare.com">
+    <!-- Main stylesheet - loads without JavaScript for progressive enhancement -->
+    <link rel="stylesheet" href="/src/styles/main.css">
     <title>Contact Tyler Chou | Creator Legal Consultation</title>
     <meta name="description" content="Get in touch with Tyler Chou for legal representation and strategic advisory. Consultations available for YouTube creators and creator-led businesses." />
     <link rel="canonical" href="https://tylerchoulaw.com/contact.html" />
@@ -458,7 +463,7 @@
               <p class="content-section__eyebrow-text">contact</p>
             </div>
             <div class="content-section__headline">
-              <h2 class="content-section__headline-text">Let's Talk About Your Empire</h2>
+              <h2 class="content-section__headline-text">Protect Your Empire. Let's Talk.</h2>
             </div>
             <div class="content-section__body">
               <p>Tyler Chou Law for Creators works with established YouTube creators, creator-founders building businesses, talent managers seeking high-level legal partnership, venture funds evaluating creator investments, and industry professionals who need serious representation for serious deals.</p>
