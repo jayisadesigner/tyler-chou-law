@@ -6,13 +6,18 @@
     <!-- Theme color matches hero background for seamless browser chrome integration -->
     <meta name="theme-color" content="#120203" /> <!-- var(--obsidian) -->
     <style>
+      /* Progressive enhancement: Hide briefly to prevent FOUC, auto-show after 3s even without JS */
       body:not(.ready) { visibility: hidden; }
+      body:not(.ready) { animation: show-after-load 0.01s 3s forwards; }
+      @keyframes show-after-load { to { visibility: visible; } }
     </style>
     <script>
       window.addEventListener('load', function() {
         document.body.classList.add('ready');
       });
     </script>
+    <!-- Performance: Preconnect to external domains if needed -->
+    <link rel="preconnect" href="https://api.fontshare.com">
     <title>{{title}} | Love Letters to Creators</title>
     <meta name="description" content="{{excerpt}}" />
     <link rel="canonical" href="https://tylerchoulaw.com/love-letters/{{slug}}.html" />

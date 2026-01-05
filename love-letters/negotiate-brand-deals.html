@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <!-- Theme color matches hero background for seamless browser chrome integration -->
     <meta name="theme-color" content="#120203" /> <!-- var(--obsidian) -->
-    <style>
+      /* Progressive enhancement: Hide briefly to prevent FOUC, auto-show after 3s even without JS */    <style>
       body:not(.ready) { visibility: hidden; }
+      body:not(.ready) { animation: show-after-load 0.01s 3s forwards; }
+      @keyframes show-after-load { to { visibility: visible; } }
     </style>
     <script>
       window.addEventListener('load', function() {
         document.body.classList.add('ready');
       });
     </script>
+    <!-- Performance: Preconnect to external domains if needed -->
+    <link rel="preconnect" href="https://api.fontshare.com">
     <title>How to Negotiate Brand Deals Like You Have a Lawyer | Love Letters to Creators</title>
     <meta name="description" content="Tips for getting better terms on brand partnerships. What to negotiate, what to avoid, and when to walk away." />
     <link rel="canonical" href="https://tylerchoulaw.com/love-letters/negotiate-brand-deals.html" />

@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <!-- Theme color matches hero background for seamless browser chrome integration -->
     <meta name="theme-color" content="#120203" /> <!-- var(--obsidian) -->
-    <style>
+      /* Progressive enhancement: Hide briefly to prevent FOUC, auto-show after 3s even without JS */    <style>
       body:not(.ready) { visibility: hidden; }
+      body:not(.ready) { animation: show-after-load 0.01s 3s forwards; }
+      @keyframes show-after-load { to { visibility: visible; } }
     </style>
     <script>
       window.addEventListener('load', function() {
         document.body.classList.add('ready');
       });
     </script>
+    <!-- Performance: Preconnect to external domains if needed -->
+    <link rel="preconnect" href="https://api.fontshare.com">
     <title>IP Protection 101: What Creators Actually Own | Love Letters to Creators</title>
     <meta name="description" content="Understanding intellectual property in the creator economy. What you own, what you don't, and how to protect it." />
     <link rel="canonical" href="https://tylerchoulaw.com/love-letters/ip-protection-101.html" />

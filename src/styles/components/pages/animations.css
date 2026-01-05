@@ -10,16 +10,22 @@
 /* Line Animation Styles */
 [js-line-animation] {
   overflow: hidden;
+  padding-top: 0.1em; /* Space for ascenders */
+  padding-bottom: 0.1em; /* Space for descenders */
+  opacity: 1; /* Progressive enhancement: Visible by default, JS can enhance with animations */
 }
 
 [js-line-animation] .line {
   display: block;
-  overflow: hidden;
+  overflow: visible; /* Prevents text cut-off */
   line-height: inherit; /* Preserve original line-height */
+  width: fit-content; /* Allow line to fit its content */
 }
 
 [js-line-animation] .line-inner {
   display: block;
+  width: fit-content; /* Allow inner to fit its content */
+  white-space: nowrap; /* Prevent text wrapping within a line */
 }
 
 /* Reduce extra spacing for palo-verde headline specifically */

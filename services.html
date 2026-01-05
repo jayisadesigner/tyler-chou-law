@@ -6,13 +6,20 @@
     <!-- Theme color matches hero background for seamless browser chrome integration -->
     <meta name="theme-color" content="#120203" /> <!-- var(--obsidian) -->
     <style>
+      /* Progressive enhancement: Hide briefly to prevent FOUC, auto-show after 3s even without JS */
       body:not(.ready) { visibility: hidden; }
+      body:not(.ready) { animation: show-after-load 0.01s 3s forwards; }
+      @keyframes show-after-load { to { visibility: visible; } }
     </style>
     <script>
       window.addEventListener('load', function() {
         document.body.classList.add('ready');
       });
     </script>
+    <!-- Performance: Preconnect to external domains if needed -->
+    <link rel="preconnect" href="https://api.fontshare.com">
+    <!-- Main stylesheet - loads without JavaScript for progressive enhancement -->
+    <link rel="stylesheet" href="/src/styles/main.css">
     <title>Legal Services for Creators | Contract Review, IP Protection, Business Strategy</title>
     <meta name="description" content="Comprehensive legal services for YouTube creators and creator-led businesses. Contract negotiation, IP protection, fractional CEO services, and M&A representation." />
     <link rel="canonical" href="https://tylerchoulaw.com/services.html" />
@@ -474,7 +481,7 @@
     
     <!-- Headline (Columns 2-4, Row 1) - Contains nested subheadline for mobile-first stacking -->
     <div class="hero-headline-wrapper">
-      <h1 class="hero-headline hero-headline--inner-page">Your Empire Needs an Architect, Not Just an Attorney.</h1>
+      <h1 class="hero-headline hero-headline--inner-page">Build Your Empire. We Protect It.</h1>
       <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--nested">Strategic legal counsel and business architecture for creators who are building something that lasts.</p>
     </div>
     
@@ -576,7 +583,7 @@
   <div class="content-section__container">
     <div class="content-section__content">
       <div class="content-section__headline">
-        <h2 class="content-section__headline-text">Something serious is at stake. Let's talk.</h2>
+        <h2 class="content-section__headline-text" js-line-animation>Something serious<br>is at stake.</h2>
       </div>
       <a href="https://calendly.com/tyler-thecreatorsattorney" class="btn btn--secondary btn--on-dark btn--chuparosa" target="_blank" rel="noopener noreferrer">Schedule a Consultation</a>
     </div>
