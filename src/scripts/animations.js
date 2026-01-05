@@ -1427,7 +1427,6 @@ function initLineAnimations(reducedMotion = false) {
   }
   
   animatedElements.forEach((element) => {
-    console.log('Processing element with js-line-animation:', element)
     const originalHTML = element.innerHTML.trim()
     const hasBrTags = originalHTML.includes('<br>') || originalHTML.includes('<br/>') || originalHTML.includes('<br />')
     
@@ -1471,11 +1470,6 @@ function initLineAnimations(reducedMotion = false) {
       // Get line elements and animate
       const lineElements = element.querySelectorAll('.line-inner')
       
-      // Debug: Log line count for featured image headlines
-      if (isFeaturedImage) {
-        console.log(`Featured image headline (br tags): ${lineElements.length} lines created`)
-        console.log('Lines:', Array.from(lineElements).map(el => el.textContent))
-      }
       
       if (lineElements.length === 0) {
         element.innerHTML = originalHTML
@@ -1517,7 +1511,6 @@ function initLineAnimations(reducedMotion = false) {
           
           // Use callback to fade in video when text animation completes
           const fadeInVideo = () => {
-            console.log('Text animation complete (br tags), fading in video')
             gsap.to(backgroundImage, {
               opacity: 1,
               duration: 1.2,
@@ -1537,7 +1530,6 @@ function initLineAnimations(reducedMotion = false) {
             const currentOpacity = inlineOpacity ? parseFloat(inlineOpacity) : computedOpacity
             
             if (currentOpacity === 0 || isNaN(currentOpacity) || !currentOpacity) {
-              console.log('Backup: Fading in video via delayed call (br tags)')
               gsap.to(backgroundImage, {
                 opacity: 1,
                 duration: 1.2,
@@ -1561,24 +1553,12 @@ function initLineAnimations(reducedMotion = false) {
               
               // Use callback to fade in video when text animation completes
               const fadeInVideo = () => {
-                console.log('Text animation complete (br tags, wait for intro), fading in video', backgroundImage)
-                const beforeOpacity = window.getComputedStyle(backgroundImage).opacity
-                console.log('Opacity before animation:', beforeOpacity)
-                
-                const videoAnim = gsap.to(backgroundImage, {
+                gsap.to(backgroundImage, {
                   opacity: 1,
                   duration: 1.2,
                   ease: 'power2.out',
-                  delay: 0.3,
-                  onStart: () => {
-                    console.log('Video fade animation started')
-                  },
-                  onComplete: () => {
-                    const afterOpacity = window.getComputedStyle(backgroundImage).opacity
-                    console.log('Video fade animation complete, opacity:', afterOpacity)
-                  }
+                  delay: 0.3
                 })
-                console.log('GSAP animation created:', videoAnim)
               }
               
               textAnim.eventCallback('onComplete', fadeInVideo)
@@ -1592,25 +1572,11 @@ function initLineAnimations(reducedMotion = false) {
                 const currentOpacity = inlineOpacity ? parseFloat(inlineOpacity) : computedOpacity
                 
                 if (currentOpacity === 0 || isNaN(currentOpacity) || !currentOpacity) {
-                  console.log('Backup: Fading in video via delayed call (br tags, wait for intro)', backgroundImage)
-                  const beforeOpacity = window.getComputedStyle(backgroundImage).opacity
-                  console.log('Backup - Opacity before:', beforeOpacity)
-                  
-                  const videoAnim = gsap.to(backgroundImage, {
+                  gsap.to(backgroundImage, {
                     opacity: 1,
                     duration: 1.2,
-                    ease: 'power2.out',
-                    onStart: () => {
-                      console.log('Backup video fade animation started')
-                    },
-                    onComplete: () => {
-                      const afterOpacity = window.getComputedStyle(backgroundImage).opacity
-                      console.log('Backup video fade animation complete, opacity:', afterOpacity)
-                    }
+                    ease: 'power2.out'
                   })
-                  console.log('Backup GSAP animation created:', videoAnim)
-                } else {
-                  console.log('Backup skipped - video already faded in, opacity:', currentOpacity)
                 }
               })
             }
@@ -1647,7 +1613,6 @@ function initLineAnimations(reducedMotion = false) {
                 }
               },
               onComplete: () => {
-                console.log('ScrollTrigger complete (br tags), fading in video')
                 gsap.to(backgroundImage, {
                   opacity: 1,
                   duration: 1.2,
@@ -1660,7 +1625,6 @@ function initLineAnimations(reducedMotion = false) {
           
           // Also set callback on animation as backup
           const fadeInVideo = () => {
-            console.log('Animation onComplete callback fired (br tags), fading in video')
             gsap.to(backgroundImage, {
               opacity: 1,
               duration: 1.2,
@@ -1679,7 +1643,6 @@ function initLineAnimations(reducedMotion = false) {
             const currentOpacity = inlineOpacity ? parseFloat(inlineOpacity) : computedOpacity
             
             if (currentOpacity === 0 || isNaN(currentOpacity) || !currentOpacity) {
-              console.log('Backup: Fading in video via delayed call (br tags, scroll-triggered)')
               gsap.to(backgroundImage, {
                 opacity: 1,
                 duration: 1.2,
@@ -1739,8 +1702,10 @@ function initLineAnimations(reducedMotion = false) {
     }
     
     // Ensure we have a valid width
+    // If element is hidden or not yet rendered, skip animation
     if (elementWidth <= 0) {
-      console.warn('Could not determine width for element:', element)
+      // Element may be hidden (display: none) or not yet rendered
+      // This is expected for some elements and can be safely ignored
       return
     }
     
@@ -1820,11 +1785,6 @@ function initLineAnimations(reducedMotion = false) {
     // Check if this is a featured image headline (needs natural text flow)
     const isFeaturedImage = element.classList.contains('section--featured-image__headline')
     
-    // Debug: Log line detection for featured image headlines
-    if (isFeaturedImage) {
-      console.log(`Featured image headline: ${lines.length} lines detected from word splitting`)
-      console.log('Detected lines:', lines.map(line => line.join(' ')))
-    }
     
     // Clear original and create line structure
     element.innerHTML = ''
@@ -1849,11 +1809,6 @@ function initLineAnimations(reducedMotion = false) {
     // Get line elements and animate
     const lineElements = element.querySelectorAll('.line-inner')
     
-    // Debug: Log line count for featured image headlines
-    if (isFeaturedImage) {
-      console.log(`Featured image headline: ${lineElements.length} lines created`)
-      console.log('Lines:', Array.from(lineElements).map(el => el.textContent))
-    }
     
     if (lineElements.length === 0) {
       element.innerHTML = originalText
@@ -1883,26 +1838,20 @@ function initLineAnimations(reducedMotion = false) {
     
     // Helper function to create text animation with video fade-in callback
     const createHeroAnimationTimeline = () => {
-      console.log('createHeroAnimationTimeline called', { isHeroHeadline, element })
-      
       if (!isHeroHeadline) {
         // Not hero headline, just animate text normally
-        console.log('Not hero headline, animating text normally')
         return animateLineElements(lineElements)
       }
       
       const backgroundImage = element.closest('.hero')?.querySelector('.background-image')
-      console.log('Background image found:', backgroundImage)
       
       if (!backgroundImage) {
         // No background image, just animate text
-        console.log('No background image found, animating text normally')
         return animateLineElements(lineElements)
       }
       
       // Ensure GSAP has control over opacity
       gsap.set(backgroundImage, { opacity: 0 })
-      console.log('Set background image opacity to 0')
       
       // Create text animation
       const textAnim = animateLineElements(lineElements)
@@ -1910,7 +1859,6 @@ function initLineAnimations(reducedMotion = false) {
       // Use callback to fade in video when text animation completes
       // Store backgroundImage in closure to ensure it's accessible
       const fadeInVideo = () => {
-        console.log('Text animation complete, fading in video')
         gsap.to(backgroundImage, {
           opacity: 1,
           duration: 1.2,
@@ -1920,7 +1868,6 @@ function initLineAnimations(reducedMotion = false) {
       }
       
       textAnim.eventCallback('onComplete', fadeInVideo)
-      console.log('onComplete callback set on text animation')
       
       // Also add as backup using the animation's duration
       const lineCount = lineElements.length
@@ -1932,22 +1879,12 @@ function initLineAnimations(reducedMotion = false) {
         const computedOpacity = parseFloat(window.getComputedStyle(backgroundImage).opacity)
         const currentOpacity = inlineOpacity ? parseFloat(inlineOpacity) : computedOpacity
         
-        console.log('Backup delayed call fired', { 
-          inlineOpacity, 
-          computedOpacity, 
-          currentOpacity,
-          backgroundImage 
-        })
-        
         if (currentOpacity === 0 || isNaN(currentOpacity) || !currentOpacity) {
-          console.log('Backup: Fading in video via delayed call')
           gsap.to(backgroundImage, {
             opacity: 1,
             duration: 1.2,
             ease: 'power2.out'
           })
-        } else {
-          console.log('Video already faded in, skipping backup')
         }
       })
       
@@ -2002,7 +1939,6 @@ function initLineAnimations(reducedMotion = false) {
               },
               onComplete: () => {
                 // Fade in video when scroll trigger completes
-                console.log('ScrollTrigger complete, fading in video')
                 gsap.to(backgroundImage, {
                   opacity: 1,
                   duration: 1.2,
@@ -2015,7 +1951,6 @@ function initLineAnimations(reducedMotion = false) {
           
           // Also set callback on animation as backup
           const fadeInVideo = () => {
-            console.log('Animation onComplete callback fired, fading in video')
             gsap.to(backgroundImage, {
               opacity: 1,
               duration: 1.2,
@@ -2031,7 +1966,6 @@ function initLineAnimations(reducedMotion = false) {
           gsap.delayedCall(textDuration + 0.3, () => {
             const currentOpacity = parseFloat(window.getComputedStyle(backgroundImage).opacity)
             if (currentOpacity === 0 || isNaN(currentOpacity)) {
-              console.log('Backup: Fading in video via delayed call (scroll-triggered)')
               gsap.to(backgroundImage, {
                 opacity: 1,
                 duration: 1.2,
