@@ -407,7 +407,7 @@ export function initAnimations() {
   if (document.body.classList.contains('page-creator')) {
     const container = document.querySelector('.page-creator .content-section__container')
     const media = document.querySelector('.page-creator .content-section--media-bleed .content-section__media')
-    
+
     if (container && media) {
       ScrollTrigger.create({
         trigger: container,
@@ -418,6 +418,27 @@ export function initAnimations() {
       })
     }
   }
+
+  // Contact page: Pin content while form scrolls (GSAP ScrollTrigger works with Lenis)
+  // Only on tablet+ where we have side-by-side layout
+  ScrollTrigger.matchMedia({
+    "(min-width: 768px)": function() {
+      if (document.body.classList.contains('page-contact')) {
+        const container = document.querySelector('.page-contact .content-section--form .content-section__container')
+        const content = document.querySelector('.page-contact .content-section--form .content-section__content')
+
+        if (container && content) {
+          ScrollTrigger.create({
+            trigger: container,
+            start: "top top",
+            end: "bottom bottom",
+            pin: content,
+            pinSpacing: false
+          })
+        }
+      }
+    }
+  })
   
   // Unified nav color ScrollTrigger: handles love-notes section on home page
   // Mobile/Tablet only - Desktop uses pinned ScrollTrigger callbacks
