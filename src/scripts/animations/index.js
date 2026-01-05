@@ -44,6 +44,7 @@ function initLenis() {
   // Animation frame loop
   function raf(time) {
     lenis.raf(time)
+    ScrollTrigger.update()
     requestAnimationFrame(raf)
   }
 
@@ -428,17 +429,13 @@ export function initAnimations() {
         const content = document.querySelector('.page-contact .content-section--form .content-section__content')
 
         if (container && content) {
-          // Get space-xl value from CSS (matches original sticky top offset)
-          const offset = getComputedStyle(document.documentElement).getPropertyValue('--space-xl').trim()
-
           ScrollTrigger.create({
-            trigger: content,
-            start: `top top+=${offset}`, // Pin with same offset as CSS sticky had
-            endTrigger: container,
+            trigger: container,
+            start: "top top",
             end: "bottom bottom",
-            pin: true,
+            pin: content,
             pinSpacing: false,
-            anticipatePin: 1
+            invalidateOnRefresh: true
           })
         }
       }
