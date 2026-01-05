@@ -178,7 +178,7 @@ body:not(.intro-active) .hero-content {
 .hero--inner-page:has(.background-image) .hero-eyebrow__text,
 .hero--inner-page:has(.background-image) .hero-subheadline,
 .hero--inner-page:has(.background-image) .hero-subheadline--inner-page {
-  color: var(--text-body-on-obsidian);
+  color: var(--text-headline-on-obsidian); /* Use headline color for better contrast on background images */
 }
 
 /* Palo Verde background: hero text adapts to green background */
@@ -311,6 +311,7 @@ body.bg-bone .hero-subheadline--inner-page {
   /* Use CSS variable that adapts to background - set by body.bg-* classes */
   color: var(--text-body-color);
   text-align: var(--text-align-center);
+  text-wrap: balance;
   margin-top: var(--space-lg);
   margin-bottom: 0;
 }
@@ -323,6 +324,7 @@ body.bg-bone .hero-subheadline--inner-page {
   /* Use CSS variable that adapts to background - set by body.bg-* classes */
   color: var(--text-body-color);
   text-align: var(--text-align-left);
+  text-wrap: balance;
   margin: 0;
 }
 
