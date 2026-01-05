@@ -376,12 +376,12 @@ body.page-love-letters .content-section__body {
 
 .content-section--stacked .content-section__media {
   order: -1; /* Image first */
-  width: 100vw; /* Full viewport width */
+  width: 100%; /* Use 100% on mobile to avoid scrollbar width issues */
   position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  left: 0;
+  right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 @media (min-width: 768px) {
