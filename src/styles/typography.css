@@ -11,7 +11,8 @@ body {
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
   letter-spacing: var(--letter-spacing-paragraph);
-  color: var(--text-body-on-chuparosa-600);
+  /* Use CSS variable that adapts to background - set by body.bg-* classes */
+  color: var(--text-body-color);
   background-color: var(--chuparosa-600);
 }
 
@@ -21,7 +22,8 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-weight-headline);
   line-height: 1.1;
   letter-spacing: var(--letter-spacing-headline);
-  color: var(--text-headline-on-chuparosa-600);
+  /* Use CSS variable that adapts to background - set by body.bg-* classes */
+  color: var(--text-headline-color);
   text-transform: var(--text-transform-headline);
   text-wrap: balance; /* Balance lines to avoid widows */
 }

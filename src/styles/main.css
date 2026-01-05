@@ -49,6 +49,8 @@ body {
 body.page-creatorarq {
   background-color: var(--palo-verde-600);
   --page-bg-color: var(--palo-verde-600);
+  --text-headline-color: var(--text-headline-on-palo-verde-600);
+  --text-body-color: var(--text-body-on-palo-verde-600);
 }
 
 body.page-index,
@@ -57,23 +59,41 @@ body.page-creator,
 body.page-blog-post {
   background-color: var(--chuparosa-600);
   --page-bg-color: var(--chuparosa-600);
+  --text-headline-color: var(--text-headline-on-chuparosa-600);
+  --text-body-color: var(--text-body-on-chuparosa-600);
 }
 
 body.page-love-letters {
   background-color: var(--bone);
   --page-bg-color: var(--bone);
+  --text-headline-color: var(--text-headline-on-bone);
+  --text-body-color: var(--text-body-on-bone);
 }
 
 body.page-services,
-body.page-about,
 body.page-roster {
   background-color: var(--obsidian);
   --page-bg-color: var(--obsidian);
+  --text-headline-color: var(--text-headline-on-obsidian);
+  --text-body-color: var(--text-body-on-obsidian);
+}
+
+body.page-about {
+  background-color: var(--bone);
+  --page-bg-color: var(--bone);
+  --text-headline-color: var(--text-headline-on-bone);
+  --text-body-color: var(--text-body-on-bone);
 }
 
 /* Default fallback */
 body {
   --page-bg-color: var(--chuparosa-600);
+  --text-headline-color: var(--text-headline-on-chuparosa-600);
+  --text-body-color: var(--text-body-on-chuparosa-600);
+  /* Button colors - adapt to background */
+  --button-bg-color: var(--obsidian);
+  --button-text-color: var(--bone);
+  --button-border-color: var(--bone);
 }
 
 /* Page background changes when Palo Verde section is in view */
@@ -81,11 +101,74 @@ body {
 body.bg-palo-verde {
   background-color: var(--palo-verde-600);
   --page-bg-color: var(--palo-verde-600);
+  color: var(--text-body-on-palo-verde-600);
+  --text-headline-color: var(--text-headline-on-palo-verde-600);
+  --text-body-color: var(--text-body-on-palo-verde-600);
+  /* Button colors for palo verde background - light button on dark green */
+  /* Use the light text color (which is the button bg) and dark green for button text */
+  --button-bg-color: var(--text-headline-on-palo-verde-600);
+  --button-text-color: var(--palo-verde-600);
+  --button-border-color: var(--text-headline-on-palo-verde-600);
+}
+
+body.bg-palo-verde h1,
+body.bg-palo-verde h2,
+body.bg-palo-verde h3,
+body.bg-palo-verde h4,
+body.bg-palo-verde h5,
+body.bg-palo-verde h6 {
+  color: var(--text-headline-on-palo-verde-600);
+}
+
+/* Component text elements */
+body.bg-palo-verde .content-section__headline-text,
+body.bg-palo-verde .content-section__eyebrow-text,
+body.bg-palo-verde .section-grid__headline .content-section__headline-text,
+body.bg-palo-verde .section--featured-image__headline,
+body.bg-palo-verde .hero-headline,
+body.bg-palo-verde .hero-headline--inner-page {
+  color: var(--text-headline-on-palo-verde-600);
+}
+
+body.bg-palo-verde .content-section__body,
+body.bg-palo-verde .section--featured-image__body {
+  color: var(--text-body-on-palo-verde-600);
 }
 
 body.bg-bone {
   background-color: var(--bone);
   --page-bg-color: var(--bone);
+  color: var(--text-body-on-bone);
+  --text-headline-color: var(--text-headline-on-bone);
+  --text-body-color: var(--text-body-on-bone);
+  /* Button colors for bone background - dark button on light background */
+  --button-bg-color: var(--obsidian);
+  --button-text-color: var(--bone);
+  --button-border-color: var(--obsidian);
+}
+
+body.bg-bone h1,
+body.bg-bone h2,
+body.bg-bone h3,
+body.bg-bone h4,
+body.bg-bone h5,
+body.bg-bone h6 {
+  color: var(--text-headline-on-bone);
+}
+
+/* Component text elements */
+body.bg-bone .content-section__headline-text,
+body.bg-bone .content-section__eyebrow-text,
+body.bg-bone .section-grid__headline .content-section__headline-text,
+body.bg-bone .section--featured-image__headline,
+body.bg-bone .hero-headline,
+body.bg-bone .hero-headline--inner-page {
+  color: var(--text-headline-on-bone);
+}
+
+body.bg-bone .content-section__body,
+body.bg-bone .section--featured-image__body {
+  color: var(--text-body-on-bone);
 }
 
 /* Container Utilities - Mobile First */

@@ -52,18 +52,26 @@ body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-po
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-/* Services, About, and Roster pages: bone text on obsidian background */
+/* Services and Roster pages: bone text on obsidian background */
 body.page-services .site-footer,
-body.page-about .site-footer,
 body.page-roster .site-footer {
   background-color: var(--obsidian);
   color: var(--bone);
 }
 
 body.page-services .footer-item,
-body.page-about .footer-item,
 body.page-roster .footer-item {
   color: var(--bone);
+}
+
+/* About page: obsidian text on bone background */
+body.page-about .site-footer {
+  background-color: var(--bone);
+  color: var(--nav-text-on-bone, var(--obsidian));
+}
+
+body.page-about .footer-item {
+  color: var(--nav-text-on-bone, var(--obsidian));
 }
 
 /* Palo Verde background: light text on dark green background */

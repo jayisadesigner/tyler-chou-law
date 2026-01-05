@@ -90,15 +90,13 @@ body:not(.intro-active) .hero-content {
   font-size: var(--text-p-size);
   line-height: 1;
   text-transform: var(--text-transform-ui);
-  color: var(--bone);
+  /* Use CSS variable that adapts to background - set by body.bg-* classes */
+  color: var(--text-body-color);
   margin: 0;
   white-space: nowrap;
 }
 
-/* Love Letters page: obsidian text on bone background */
-body.page-love-letters .hero-eyebrow__text {
-  color: var(--obsidian);
-}
+/* Love Letters page: uses --text-body-color set by body.page-love-letters */
 
 /* Hero Headline Wrapper - Mobile: Row 2, contains nested subheadline */
 .hero-headline-wrapper {
@@ -123,7 +121,8 @@ body.page-love-letters .hero-eyebrow__text {
   font-weight: var(--font-weight-headline);
   font-size: var(--text-h1-size);
   line-height: var(--text-h1-line-height);
-  color: var(--bone);
+  /* Use CSS variable that adapts to page background - set by body.page-* classes */
+  color: var(--text-headline-color);
   text-align: var(--text-align-headline);
   text-align-last: var(--text-align-headline);
   width: fit-content;
@@ -153,7 +152,8 @@ body.page-love-letters .hero-eyebrow__text {
   font-weight: var(--font-weight-headline);
   font-size: var(--text-h2-size);
   line-height: var(--text-h2-line-height);
-  color: var(--text-headline-on-obsidian);
+  /* Use CSS variable that adapts to page background - set by body.page-* classes */
+  color: var(--text-headline-color);
   text-align: var(--text-align-left);
   text-align-last: var(--text-align-left);
   width: 100%;
@@ -161,18 +161,69 @@ body.page-love-letters .hero-eyebrow__text {
   margin: 0;
 }
 
-/* Love Letters page: obsidian text on bone background */
-body.page-love-letters .hero-headline--inner-page {
-  color: var(--text-headline-on-bone);
+/* Hero text adapts to page background via CSS variables set on body */
+/* Headlines use --text-headline-color, body text uses --text-body-color */
+/* These variables are set by body.page-* classes in main.css */
+
+/* Heroes with image backgrounds - always use obsidian text colors */
+/* Only apply when hero actually has a background-image element */
+.hero--inner-page:has(.background-image) .hero-headline,
+.hero--inner-page:has(.background-image) .hero-headline--inner-page {
+  color: var(--text-headline-on-obsidian);
 }
 
-/* CreatorArq page: palo-verde-600 background */
-body.page-creatorarq .hero-headline--inner-page {
-  color: var(--text-headline-on-palo-verde-600);
+.hero--inner-page:has(.background-image) .hero-eyebrow__text,
+.hero--inner-page:has(.background-image) .hero-subheadline,
+.hero--inner-page:has(.background-image) .hero-subheadline--inner-page {
+  color: var(--text-body-on-obsidian);
 }
 
-body.page-creatorarq .hero-eyebrow__text {
-  color: var(--text-body-on-palo-verde-600);
+/* Palo Verde background: hero text adapts to green background */
+/* Uses --text-headline-color and --text-body-color set by body.bg-palo-verde */
+body.bg-palo-verde .hero-headline {
+  color: var(--text-headline-color);
+}
+
+/* Use same specificity as base rule to override */
+body.bg-palo-verde .hero-headline-wrapper .hero-headline--inner-page,
+body.bg-palo-verde .hero-headline--inner-page {
+  color: var(--text-headline-color);
+}
+
+body.bg-palo-verde .hero-eyebrow__text {
+  color: var(--text-body-color);
+}
+
+body.bg-palo-verde .hero-subheadline {
+  color: var(--text-body-color);
+}
+
+body.bg-palo-verde .hero-subheadline--inner-page {
+  color: var(--text-body-color);
+}
+
+/* Bone background: hero text adapts to bone background */
+/* Uses --text-headline-color and --text-body-color set by body.bg-bone */
+body.bg-bone .hero-headline {
+  color: var(--text-headline-color);
+}
+
+/* Use same specificity as base rule to override */
+body.bg-bone .hero-headline-wrapper .hero-headline--inner-page,
+body.bg-bone .hero-headline--inner-page {
+  color: var(--text-headline-color);
+}
+
+body.bg-bone .hero-eyebrow__text {
+  color: var(--text-body-color);
+}
+
+body.bg-bone .hero-subheadline {
+  color: var(--text-body-color);
+}
+
+body.bg-bone .hero-subheadline--inner-page {
+  color: var(--text-body-color);
 }
 
 /* Tablet+ (768px): Enhance to complex grid layout */
@@ -254,7 +305,8 @@ body.page-creatorarq .hero-eyebrow__text {
   font-family: var(--font-paragraph);
   font-size: var(--text-h5-size);
   line-height: var(--text-h5-line-height);
-  color: var(--chuparosa-100);
+  /* Use CSS variable that adapts to background - set by body.bg-* classes */
+  color: var(--text-body-color);
   text-align: var(--text-align-center);
   margin-top: var(--space-lg);
   margin-bottom: 0;
@@ -265,15 +317,13 @@ body.page-creatorarq .hero-eyebrow__text {
   font-family: var(--font-paragraph);
   font-size: var(--text-h3-size);
   line-height: var(--text-h3-line-height);
-  color: var(--bone);
+  /* Use CSS variable that adapts to background - set by body.bg-* classes */
+  color: var(--text-body-color);
   text-align: var(--text-align-left);
   margin: 0;
 }
 
-/* Love Letters page: obsidian text on bone background */
-body.page-love-letters .hero-subheadline--inner-page {
-  color: var(--obsidian);
-}
+/* Love Letters page: uses --text-body-color set by body.page-love-letters */
 
 /* CreatorArq page: center subheadline */
 .page-creatorarq .hero-subheadline--inner-page {
