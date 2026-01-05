@@ -4,11 +4,9 @@ date: 2026-01-02
 author: Jay Allison
 excerpt: Why trading your work for "exposure" is almost never worth it—and what
   to ask for instead.
-tags: Busines, Contracts, Creator Economy, Negotiation, Brand Deals
+tags: Business, Contracts, Creator Economy, Negotiation, Brand Deals
 slug: hidden-cost-exposure-deals
 ---
-# The Hidden Cost of "Exposure" Deals
-
 Let's talk about the four-letter word of the creator economy: free.
 
 "We can't pay you, but think of the exposure!" It's a tale as old as YouTube itself. And look, I get it—early in your career, visibility matters. But here's what nobody tells you: exposure deals set a precedent that's incredibly hard to undo.
