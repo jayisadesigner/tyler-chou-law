@@ -956,6 +956,22 @@ function initAnimations() {
   // Mouse trail effect
   initMouseTrail(prefersReducedMotion)
   
+  // Creator page: Pin media while content scrolls (GSAP ScrollTrigger works with Lenis)
+  if (document.body.classList.contains('page-creator')) {
+    const container = document.querySelector('.page-creator .content-section__container')
+    const media = document.querySelector('.page-creator .content-section--media-bleed .content-section__media')
+    
+    if (container && media) {
+      ScrollTrigger.create({
+        trigger: container,
+        start: "top top",
+        end: "bottom bottom",
+        pin: media,
+        pinSpacing: false
+      })
+    }
+  }
+  
   // Unified nav color ScrollTrigger: covers both philosophy and love-notes sections
   // Mobile/Tablet only - Desktop uses pinned ScrollTrigger callbacks
   // Philosophy sets bg-bone, love-notes maintains it, resets when love-notes leaves

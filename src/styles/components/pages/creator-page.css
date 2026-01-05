@@ -5,24 +5,40 @@
    ======================================== */
 
 
-/* Media viewport height, sticky, content starts below nav */
+/* Remove top padding from container so image starts at top */
+.page-creator .content-section__container {
+  padding-top: 0; /* Remove top padding so image starts at top */
+}
+
+/* Media viewport height, GSAP ScrollTrigger pin, content starts below nav */
 @media (min-width: 768px) {
   .page-creator .content-section__container {
-    min-height: 100vh;
+    /* Remove fixed height - let it grow with content */
+    padding-top: 0; /* Remove top padding so image starts at top */
+    padding-bottom: 0; /* Remove bottom padding for full height */
+    align-items: flex-start; /* Prevent pinned child from stretching */
+    /* Container already has display: flex from general desktop rules */
   }
 
-  .page-creator .content-section__media {
-    height: 100vh;
-    position: sticky;
-    top: 0; /* Stick at top, media starts at top */
+  /* Media sizing for GSAP ScrollTrigger pin (not position: sticky) */
+  .page-creator .content-section--media-bleed .content-section__media {
+    overflow: visible; /* Override overflow: hidden from general rule */
+    height: 100vh; /* Explicit height for pinned element */
+    width: 50vw;
     padding: 0; /* Remove default padding for full bleed */
   }
 
+  /* Content side: normal flow, scrolls independently */
   .page-creator .content-section__content {
+    width: 50%;
+    margin-right: 0; /* Remove auto margin */
+    margin-bottom: 0; /* Remove bottom margin */
+    max-width: none; /* Remove max-width constraint */
     align-self: flex-start; /* Don't stretch, size to content */
     padding-top: calc(60px + var(--space-4xl)); /* Start content below nav */
     padding-left: var(--space-2xl); /* Bump up from xl to 2xl */
     padding-right: var(--space-2xl); /* Bump up from xl to 2xl */
+    padding-bottom: var(--space-2xl); /* Override general desktop padding bottom */
   }
 }
 

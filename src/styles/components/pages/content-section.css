@@ -126,7 +126,7 @@ body.page-creator .content-section__content {
     padding: var(--space-4xl) var(--space-xl); /* Desktop padding */
   }
 
-  .content-section__media {
+  .content-section:not(.content-section--media-bleed) .content-section__media {
     width: 50%;
     flex-shrink: 0;
     position: relative;
