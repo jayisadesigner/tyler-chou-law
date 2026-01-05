@@ -9,7 +9,7 @@
   /* Extend to absolute top edge, behind notch */
   margin-top: calc(-1 * env(safe-area-inset-top, 0px));
   padding-top: env(safe-area-inset-top, 0px);
-  background-color: var(--chuparosa-600); /* Initial background color */
+  background-color: var(--page-bg-color); /* Inherit from page background */
 }
 
 /* Inner Page Hero - with background image and grid layout */

@@ -10,6 +10,8 @@
 /* Line Animation Styles */
 [js-line-animation] {
   overflow: hidden;
+  padding-top: 0.1em; /* Space for ascenders */
+  padding-bottom: 0.1em; /* Space for descenders */
 }
 
 [js-line-animation] .line {
