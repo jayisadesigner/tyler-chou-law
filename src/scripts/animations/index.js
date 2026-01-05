@@ -107,8 +107,12 @@ export function initAnimations() {
       gsap.set(section, { opacity: 1, y: 0 })
     })
     
-    // Set flowers to final rotation state
+    // Set flowers to final rotation state (only if elements exist)
+    const aboutFlower = document.querySelector('.about-flower')
+    const aboutSection = document.querySelector('.section--featured-image--left')
+    if (aboutFlower && aboutSection) {
     animateFlowerRotation('.about-flower', '.section--featured-image--left', prefersReducedMotion)
+    }
     animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment', prefersReducedMotion)
     
     // Set background colors
@@ -219,19 +223,99 @@ export function initAnimations() {
   })
 
   // Flower rotation animations
+  // Only animate about-flower if it exists (home page only)
+  const aboutFlower = document.querySelector('.about-flower')
+  const aboutSection = document.querySelector('.section--featured-image--left')
+  if (aboutFlower && aboutSection) {
   animateFlowerRotation('.about-flower', '.section--featured-image--left', prefersReducedMotion)
-  animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment', prefersReducedMotion)
+  }
+  
+  // Palo verde flower animation - handle both about page and creatorarq page
+  if (document.body.classList.contains('page-about')) {
+    // On about page, flower animation will be set up in the background color observer section below
+    // to ensure they trigger at the same time
+  } else {
+    // On other pages (like creatorarq), only animate if elements exist
+    const paloVerdeFlower = document.querySelector('.palo-verde-flower')
+    const paloVerdeTrigger = document.querySelector('.palo-verde, #creatorarq-investment')
+    if (paloVerdeFlower && paloVerdeTrigger) {
+      animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment', prefersReducedMotion)
+    }
+  }
   
   // Section-based theme switching
-  // Palo Verde section - green background
-  // Changed end from 'bottom top' to 'bottom bottom' to ensure it stays active
-  // until the section fully scrolls out, preventing philosophy section from overriding too early
-  createThemeScrollTrigger('.palo-verde', 'top center', 'bottom bottom', 'bg-palo-verde')
+  // Palo Verde section - green background (on about page)
+  // Only create ScrollTrigger on about page
+  // Matches original home page implementation: stays green until section fully scrolls out
+  // Resets when scrolling back up past the section
+  if (document.body.classList.contains('page-about')) {
+    const paloVerdeSection = document.querySelector('.palo-verde')
+    if (paloVerdeSection) {
+      // Use IntersectionObserver for direct visibility-based triggering (independent of pinned sections)
+      // This directly checks if the section is visible in the viewport
+      let hasBeenVisible = false
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const isVisible = entry.isIntersecting && entry.intersectionRatio > 0.1 // At least 10% visible
+          const rect = entry.boundingClientRect
+          const scrolledPast = rect.top < 0 && rect.bottom < window.innerHeight
+          
+          if (isVisible) {
+            // Section is visible - set green background
+            hasBeenVisible = true
+            setBodyTheme('bg-palo-verde')
+          } else if (scrolledPast && hasBeenVisible) {
+            // Scrolled past section - keep green until end of page
+            // Don't reset - keep green background
+          } else if (!scrolledPast && hasBeenVisible) {
+            // Scrolled back up before section - reset to default
+            hasBeenVisible = false
+            setBodyTheme('')
+          }
+        })
+      }, {
+        threshold: [0, 0.1, 0.5, 1.0], // Multiple thresholds for better detection
+        rootMargin: '0px' // No margin - exact viewport detection
+      })
+      
+      observer.observe(paloVerdeSection)
+      
+      // Set up flower animation to trigger at the same time using IntersectionObserver
+      // This ensures both background and flower trigger together when section becomes visible
+      const paloVerdeFlower = document.querySelector('.palo-verde-flower')
+      if (paloVerdeFlower) {
+        // Create a separate observer for the flower to trigger animation start
+        let flowerAnimationStarted = false
+        const flowerObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            const isVisible = entry.isIntersecting && entry.intersectionRatio > 0.1
+            
+            if (isVisible && !flowerAnimationStarted) {
+              // Section is visible - start the flower animation
+              flowerAnimationStarted = true
+              // Use 'top top' to ensure it starts when section is fully in view
+              animateFlowerRotation('.palo-verde-flower', paloVerdeSection, prefersReducedMotion, 'top top')
+            } else if (!isVisible && flowerAnimationStarted) {
+              // Reset when scrolled back up
+              flowerAnimationStarted = false
+            }
+          })
+        }, {
+          threshold: [0, 0.1], // Match the background observer threshold
+          rootMargin: '0px'
+        })
+        
+        flowerObserver.observe(paloVerdeSection)
+      }
+    } else {
+    }
+  }
 
-  // Philosophy section - bone background
+  // Philosophy section - bone background (on about page)
   // Theme switching is handled in initPhilosophyRedaction pinned ScrollTrigger (matches love-notes pattern)
 
-  // Love Letters section - bone background
+  // Love Letters section - bone background (on home page)
   // Note: Theme switching for love-notes is handled in initLoveLettersScroll
   // because the section is pinned on desktop and needs to coordinate with the pin animation
 
@@ -270,6 +354,7 @@ export function initAnimations() {
   // Final CTA section - return to default (chuparosa/red)
   // Always reset to page default - this is the final section
   // Use explicit reset to avoid conflicts with philosophy/love-notes sections
+  // Exception: On about page, keep palo-verde green background until end of page
   const finalCTA = document.querySelector('.content-section--centered:last-of-type')
   if (finalCTA) {
     ScrollTrigger.create({
@@ -277,33 +362,17 @@ export function initAnimations() {
       start: 'top bottom', // Changed from 'top center' to fire later, after love-notes unpins
       end: 'bottom top',
       onEnter: () => {
-        // Force reset: remove theme classes and set default nav color
-        document.body.classList.remove('bg-palo-verde', 'bg-bone')
-        // Set default nav color based on page class
-        let defaultColor = 'var(--nav-text-on-chuparosa-600, var(--chuparosa-100))'
-        if (document.body.classList.contains('page-services') || 
-            document.body.classList.contains('page-about') || 
-            document.body.classList.contains('page-roster')) {
-          defaultColor = 'var(--bone)'
-        } else if (document.body.classList.contains('page-love-letters')) {
-          defaultColor = 'var(--obsidian)'
+        // On about page, keep palo-verde green background (don't reset)
+        // On other pages, reset to default
+        if (!document.body.classList.contains('page-about')) {
+          setBodyTheme('') // This handles both theme class removal and nav color reset
         }
-        document.body.style.setProperty('--nav-text-color', defaultColor)
-        document.body.style.setProperty('--nav-hamburger-color', defaultColor)
       },
       onEnterBack: () => {
-        // Same reset logic when scrolling back up
-        document.body.classList.remove('bg-palo-verde', 'bg-bone')
-        let defaultColor = 'var(--nav-text-on-chuparosa-600, var(--chuparosa-100))'
-        if (document.body.classList.contains('page-services') || 
-            document.body.classList.contains('page-about') || 
-            document.body.classList.contains('page-roster')) {
-          defaultColor = 'var(--bone)'
-        } else if (document.body.classList.contains('page-love-letters')) {
-          defaultColor = 'var(--obsidian)'
+        // Same logic when scrolling back up
+        if (!document.body.classList.contains('page-about')) {
+          setBodyTheme('') // This handles both theme class removal and nav color reset
         }
-        document.body.style.setProperty('--nav-text-color', defaultColor)
-        document.body.style.setProperty('--nav-hamburger-color', defaultColor)
       },
     })
   }
@@ -350,37 +419,33 @@ export function initAnimations() {
     }
   }
   
-  // Unified nav color ScrollTrigger: covers both philosophy and love-notes sections
+  // Unified nav color ScrollTrigger: handles love-notes section on home page
   // Mobile/Tablet only - Desktop uses pinned ScrollTrigger callbacks
-  // Philosophy sets bg-bone, love-notes maintains it, resets when love-notes leaves
+  // Philosophy is now on about page, so love-notes sets bg-bone when it enters and resets when it leaves
   ScrollTrigger.matchMedia({
     "(max-width: 1279px)": function() {
-      const philosophySection = document.querySelector('.philosophy')
+      // Philosophy section is on about page, handled separately
+      // Only handle love-notes on home page
+      if (document.body.classList.contains('page-index')) {
       const loveNotesSection = document.querySelector('.love-notes--full-height')
       
-      if (philosophySection) {
-        // Philosophy section: set bg-bone when it enters
-        ScrollTrigger.create({
-          trigger: philosophySection,
-          start: 'top bottom',
-          end: 'bottom top',
-          onEnter: () => setBodyTheme('bg-bone'),
-          onEnterBack: () => setBodyTheme('bg-bone'),
-          onLeaveBack: () => setBodyTheme(''), // Reset when scrolling back up past philosophy
-        })
-      }
-      
       if (loveNotesSection) {
-        // Love-notes section: maintain bg-bone, reset when it leaves (scrolling down)
+          // Love-notes section: set bg-bone when it enters, reset when it leaves
         ScrollTrigger.create({
           trigger: loveNotesSection,
           start: 'top bottom',
           end: 'bottom top',
-          onEnter: () => setBodyTheme('bg-bone'), // Ensure it's set when love-notes enters
+            onEnter: () => setBodyTheme('bg-bone'), // Set when love-notes enters
           onEnterBack: () => setBodyTheme('bg-bone'), // Maintain when scrolling back into love-notes
           onLeave: () => setBodyTheme(''), // Reset when love-notes leaves (scrolling down)
+            onLeaveBack: () => setBodyTheme(''), // Reset when scrolling back up past love-notes
         })
+        }
       }
+      
+      // Philosophy section on about page
+      // No background color change needed - about page already has bone background by default
+      // Removed ScrollTrigger for background color changes
     }
   })
   

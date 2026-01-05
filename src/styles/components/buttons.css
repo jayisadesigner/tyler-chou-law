@@ -533,8 +533,8 @@ body.bg-obsidian .btn--primary:disabled {
 .bg-bone .btn--primary,
 body.bg-bone .btn--primary {
   padding: var(--space-sm) var(--space-xl);
-  background-color: var(--bone);
-  color: var(--obsidian);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border-radius: 4px;
   border: none;
 }
@@ -614,31 +614,31 @@ body.bg-obsidian .btn--secondary:disabled {
 body.bg-bone .btn--secondary {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
-  color: var(--obsidian);
-  border: 2px solid var(--obsidian);
+  color: var(--button-border-color);
+  border: 2px solid var(--button-border-color);
   border-radius: 1000px;
 }
 
 .bg-bone .btn--secondary:hover,
 body.bg-bone .btn--secondary:hover {
-  background-color: var(--obsidian);
-  color: var(--bone);
-  border-color: var(--obsidian);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-border-color);
 }
 
 .bg-bone .btn--secondary:active,
 body.bg-bone .btn--secondary:active {
-  background-color: var(--obsidian);
-  color: var(--bone);
-  border-color: var(--obsidian);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-border-color);
 }
 
 .bg-bone .btn--secondary:focus,
 .bg-bone .btn--secondary:focus-visible,
 body.bg-bone .btn--secondary:focus,
 body.bg-bone .btn--secondary:focus-visible {
-  background-color: var(--obsidian);
-  color: var(--bone);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border: 5px solid var(--focus-color);
   outline: none;
 }
@@ -699,7 +699,7 @@ body.bg-obsidian .btn--tertiary:disabled {
 body.bg-bone .btn--tertiary {
   padding: 0;
   background-color: transparent;
-  color: var(--obsidian);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: underline;
@@ -707,13 +707,13 @@ body.bg-bone .btn--tertiary {
 
 .bg-bone .btn--tertiary:hover,
 body.bg-bone .btn--tertiary:hover {
-  color: var(--obsidian);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .bg-bone .btn--tertiary:active,
 body.bg-bone .btn--tertiary:active {
-  color: var(--obsidian);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -725,7 +725,7 @@ body.bg-bone .btn--tertiary:focus-visible {
   background-color: var(--bone-10);
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--obsidian);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -783,7 +783,7 @@ body.bg-obsidian .btn--ghost:disabled {
 body.bg-bone .btn--ghost {
   padding: 0;
   background-color: transparent;
-  color: var(--obsidian);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: none;
@@ -791,13 +791,13 @@ body.bg-bone .btn--ghost {
 
 .bg-bone .btn--ghost:hover,
 body.bg-bone .btn--ghost:hover {
-  color: var(--obsidian);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .bg-bone .btn--ghost:active,
 body.bg-bone .btn--ghost:active {
-  color: var(--obsidian);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -809,12 +809,181 @@ body.bg-bone .btn--ghost:focus-visible {
   background-color: var(--bone-10);
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--obsidian);
+  color: var(--button-border-color);
   outline: none;
 }
 
 .bg-bone .btn--ghost:disabled,
 body.bg-bone .btn--ghost:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================
+   PALO VERDE BACKGROUND ADAPTATION
+   Buttons automatically adapt when body.bg-palo-verde is active
+   ============================================ */
+
+/* Primary buttons on palo verde background */
+.bg-palo-verde .btn--primary,
+body.bg-palo-verde .btn--primary {
+  padding: var(--space-sm) var(--space-xl);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-radius: 4px;
+  border: none;
+}
+
+.bg-palo-verde .btn--primary:hover,
+body.bg-palo-verde .btn--primary:hover {
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--primary:active,
+body.bg-palo-verde .btn--primary:active {
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--primary:focus,
+.bg-palo-verde .btn--primary:focus-visible,
+body.bg-palo-verde .btn--primary:focus,
+body.bg-palo-verde .btn--primary:focus-visible {
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.bg-palo-verde .btn--primary:disabled,
+body.bg-palo-verde .btn--primary:disabled {
+  background-color: var(--gray-400);
+  color: var(--gray-600);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Secondary buttons on palo verde background */
+.bg-palo-verde .btn--secondary,
+body.bg-palo-verde .btn--secondary {
+  padding: var(--space-md) var(--space-lg);
+  background-color: transparent;
+  color: var(--button-border-color);
+  border: 2px solid var(--button-border-color);
+  border-radius: 1000px;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.bg-palo-verde .btn--secondary:hover,
+body.bg-palo-verde .btn--secondary:hover {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-border-color);
+}
+
+.bg-palo-verde .btn--secondary:active,
+body.bg-palo-verde .btn--secondary:active {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-border-color);
+}
+
+.bg-palo-verde .btn--secondary:focus,
+.bg-palo-verde .btn--secondary:focus-visible,
+body.bg-palo-verde .btn--secondary:focus,
+body.bg-palo-verde .btn--secondary:focus-visible {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.bg-palo-verde .btn--secondary:disabled,
+body.bg-palo-verde .btn--secondary:disabled {
+  background-color: transparent;
+  color: var(--gray-400);
+  border-color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Tertiary buttons on palo verde background */
+.bg-palo-verde .btn--tertiary,
+body.bg-palo-verde .btn--tertiary {
+  padding: 0;
+  background-color: transparent;
+  color: var(--button-border-color);
+  border: none;
+  border-radius: 0;
+  text-decoration: underline;
+}
+
+.bg-palo-verde .btn--tertiary:hover,
+body.bg-palo-verde .btn--tertiary:hover {
+  color: var(--button-border-color);
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--tertiary:active,
+body.bg-palo-verde .btn--tertiary:active {
+  color: var(--button-border-color);
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--tertiary:focus,
+.bg-palo-verde .btn--tertiary:focus-visible,
+body.bg-palo-verde .btn--tertiary:focus,
+body.bg-palo-verde .btn--tertiary:focus-visible {
+  padding: var(--space-sm);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--button-border-color);
+  outline: none;
+}
+
+.bg-palo-verde .btn--tertiary:disabled,
+body.bg-palo-verde .btn--tertiary:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Ghost buttons on palo verde background */
+.bg-palo-verde .btn--ghost,
+body.bg-palo-verde .btn--ghost {
+  padding: 0;
+  background-color: transparent;
+  color: var(--button-border-color);
+  border: none;
+  border-radius: 0;
+  text-decoration: none;
+}
+
+.bg-palo-verde .btn--ghost:hover,
+body.bg-palo-verde .btn--ghost:hover {
+  color: var(--button-border-color);
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--ghost:active,
+body.bg-palo-verde .btn--ghost:active {
+  color: var(--button-border-color);
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--ghost:focus,
+.bg-palo-verde .btn--ghost:focus-visible,
+body.bg-palo-verde .btn--ghost:focus,
+body.bg-palo-verde .btn--ghost:focus-visible {
+  padding: var(--space-sm);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--button-border-color);
+  outline: none;
+}
+
+.bg-palo-verde .btn--ghost:disabled,
+body.bg-palo-verde .btn--ghost:disabled {
   color: var(--gray-400);
   cursor: not-allowed;
   pointer-events: none;

@@ -168,11 +168,13 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
           callbacks: {
             id: 'love-notes-desktop',
             invalidateOnRefresh: true,
-            // Set nav color when love-notes enters (ensures it's set even if philosophy already left)
+            // Set nav color when love-notes enters (philosophy is now on about page, not before love-notes)
             onEnter: () => setBodyTheme('bg-bone'),
             onEnterBack: () => setBodyTheme('bg-bone'),
             // Reset nav color when love-notes unpins (scrolling down past the section)
             onLeave: () => setBodyTheme(''),
+            // Reset when scrolling back up past love-notes
+            onLeaveBack: () => setBodyTheme(''),
           },
         }),
       })
@@ -484,26 +486,9 @@ export function initPhilosophyRedaction(reducedMotion = false, viewportHeight = 
     "(min-width: 1280px)": function() {
       const desktopScrollMultiplier = calculateScrollMultiplier(2.5, 5, 250, viewportHeight)
       
-      // Single ScrollTrigger that spans entire section - continuously maintains nav color
-      // Starts when section enters, ends when section fully unpins
-      ScrollTrigger.create({
-        trigger: philosophySection,
-        start: 'top bottom',
-        end: `+=${desktopScrollMultiplier * 100}%`, // Match pinned ScrollTrigger end
-        onEnter: () => {
-          setBodyTheme('bg-bone')
-        },
-        onEnterBack: () => {
-          setBodyTheme('bg-bone')
-        },
-        onUpdate: (self) => {
-          // Continuously ensure nav color is set throughout the scroll
-          if (self.isActive) {
-            setBodyTheme('bg-bone')
-          }
-        },
-        // Don't reset on leave - let love-notes handle the reset
-      })
+      // Philosophy section - no background color change needed
+      // About page already has bone background by default
+      // Only palo verde section changes background to green
       
       createRedactionTimeline(
         createPinnedScrollConfig({

@@ -18,27 +18,64 @@ if (typeof gsap !== 'undefined') {
  * @param {string} triggerSelector - Selector for trigger element
  * @param {boolean} prefersReducedMotion - If true, skip animation
  */
-export function animateFlowerRotation(flowerSelector, triggerSelector, prefersReducedMotion = false) {
+export function animateFlowerRotation(flowerSelector, triggerSelector, prefersReducedMotion = false, startPosition = 'top bottom') {
   const flower = document.querySelector(flowerSelector)
-  const trigger = document.querySelector(triggerSelector)
+  // Handle both selector string and element
+  const trigger = typeof triggerSelector === 'string' 
+    ? document.querySelector(triggerSelector) 
+    : triggerSelector
   
-  if (!flower || !trigger) return
+  if (!flower || !trigger) {
+    return
+  }
   
   if (prefersReducedMotion) {
     gsap.set(flower, { rotation: 30 })
     return
   }
   
-  gsap.to(flower, {
+  // Animate from 0 to 30 degrees based on scroll
+  // Use the full height of the trigger section to ensure complete rotation
+  const animation = gsap.fromTo(flower, 
+    { rotation: 0 },
+    {
     rotation: 30,
     ease: 'none',
     scrollTrigger: {
       trigger: trigger,
-      start: 'top bottom',
-      end: 'bottom top',
+        start: startPosition, // Use provided start position (defaults to 'top bottom', but can be customized)
+        end: '+=100%', // Extend the end point to give more scroll range for complete rotation
       scrub: 1,
-    },
-  })
+        invalidateOnRefresh: true,
+        // Ensure animation completes by using the full scroll range
+        onUpdate: (self) => {
+          const rotation = gsap.getProperty(flower, 'rotation')
+          // Force completion if we're at the end but rotation isn't complete
+          if (self.progress >= 0.95 && rotation < 29) {
+            gsap.set(flower, { rotation: 30 })
+          }
+        },
+        onEnter: () => {
+          gsap.set(flower, { rotation: 0 }) // Ensure we start at 0
+        },
+        onLeave: () => {
+          // Ensure rotation is complete when leaving
+          const rotation = gsap.getProperty(flower, 'rotation')
+          if (rotation < 29) {
+            gsap.set(flower, { rotation: 30 })
+          }
+        },
+        onEnterBack: () => {
+          // Animation continues from current position
+        },
+        onLeaveBack: () => {
+          gsap.set(flower, { rotation: 0 }) // Reset when scrolling back up
+        },
+      },
+    }
+  )
+  
+  return animation
 }
 
 /**

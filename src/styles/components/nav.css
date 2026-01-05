@@ -275,12 +275,17 @@ body:not(.bg-palo-verde):not(.bg-bone):not(.page-services):not(.page-about):not(
   --nav-hamburger-color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-/* Services, About, and Roster pages: bone text on obsidian background */
+/* Services and Roster pages: bone text on obsidian background */
 body.page-services,
-body.page-about,
 body.page-roster {
   --nav-text-color: var(--bone);
   --nav-hamburger-color: var(--bone);
+}
+
+/* About page: obsidian text on bone background */
+body.page-about {
+  --nav-text-color: var(--nav-text-on-bone, var(--obsidian));
+  --nav-hamburger-color: var(--nav-text-on-bone, var(--obsidian));
 }
 
 /* Palo Verde background: light text on dark green background */

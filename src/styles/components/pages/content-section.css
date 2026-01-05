@@ -295,9 +295,12 @@ body.page-creator .content-section__content {
 
 /* Page-level overrides (when section doesn't have .bg-* class) */
 body.page-services .content-section__headline-text,
-body.page-about .content-section__headline-text,
 body.page-roster .content-section__headline-text {
   color: var(--text-headline-on-obsidian);
+}
+
+body.page-about .content-section__headline-text {
+  color: var(--text-headline-on-bone);
 }
 
 body.page-love-letters .content-section__headline-text {
@@ -305,9 +308,12 @@ body.page-love-letters .content-section__headline-text {
 }
 
 body.page-services .content-section__eyebrow-text,
-body.page-about .content-section__eyebrow-text,
 body.page-roster .content-section__eyebrow-text {
   color: var(--text-body-on-obsidian);
+}
+
+body.page-about .content-section__eyebrow-text {
+  color: var(--text-body-on-bone);
 }
 
 body.page-love-letters .content-section__eyebrow-text {
@@ -334,9 +340,12 @@ body.page-creatorarq .content-section__eyebrow-text {
 
 /* Page-level overrides for body text */
 body.page-services .content-section__body,
-body.page-about .content-section__body,
 body.page-roster .content-section__body {
   color: var(--text-body-on-obsidian);
+}
+
+body.page-about .content-section__body {
+  color: var(--text-body-on-bone);
 }
 
 body.page-creatorarq .content-section__body {
@@ -344,6 +353,35 @@ body.page-creatorarq .content-section__body {
 }
 
 body.page-love-letters .content-section__body {
+  color: var(--text-body-on-bone);
+}
+
+/* Background color adaptations: content section text adapts to background changes */
+/* These override page-level defaults when bg-palo-verde or bg-bone is applied */
+
+/* Palo Verde background */
+body.bg-palo-verde .content-section__headline-text {
+  color: var(--text-headline-on-palo-verde-600);
+}
+
+body.bg-palo-verde .content-section__eyebrow-text {
+  color: var(--text-body-on-palo-verde-600);
+}
+
+body.bg-palo-verde .content-section__body {
+  color: var(--text-body-on-palo-verde-600);
+}
+
+/* Bone background */
+body.bg-bone .content-section__headline-text {
+  color: var(--text-headline-on-bone);
+}
+
+body.bg-bone .content-section__eyebrow-text {
+  color: var(--text-body-on-bone);
+}
+
+body.bg-bone .content-section__body {
   color: var(--text-body-on-bone);
 }
 
@@ -520,7 +558,8 @@ body.page-love-letters .content-section__body {
   font-size: var(--text-h1-size);
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h1-line-height);
-  color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
+  /* Use CSS variable that adapts to page background - set by body.page-* classes */
+  color: var(--text-headline-color);
   text-align: center;
   text-transform: none;
   display: flex;
@@ -535,20 +574,8 @@ body.page-love-letters .content-section__body {
   margin-right: auto;
 }
 
-/* Page-level overrides for large text modifier */
-body.page-services .content-section--centered.content-section--large-text .content-section__headline-text,
-body.page-about .content-section--centered.content-section--large-text .content-section__headline-text,
-body.page-roster .content-section--centered.content-section--large-text .content-section__headline-text {
-  color: var(--text-headline-on-obsidian);
-}
-
-body.page-creatorarq .content-section--centered.content-section--large-text .content-section__headline-text {
-  color: var(--text-headline-on-palo-verde-600);
-}
-
-body.page-love-letters .content-section--centered.content-section--large-text .content-section__headline-text {
-  color: var(--text-headline-on-bone);
-}
+/* CTA section titles adapt to page background via CSS variables set on body */
+/* Uses --text-headline-color which is set by body.page-* classes in main.css */
 
 /* Large body modifier - increases body text size for centered sections */
 .content-section--centered.content-section--large-body .content-section__body,
