@@ -63,20 +63,28 @@ body.page-services .service-card__title {
   font-size: var(--text-p-large-size); /* 1.414rem / ~23px */
   font-weight: var(--font-weight-paragraph);
   line-height: 1.2;
-  color: var(--chuparosa-100);
+  color: var(--text-body-color); /* Adapts to page background via CSS variables */
   margin: 0;
   /* Let description take only space it needs - CSS Grid handles equal card heights */
 }
 
-/* Services page: bone text on obsidian background */
-body.page-services .service-card__description {
-  color: var(--bone);
-}
-
-/* Service card button - prevent full width */
+/* Service card button - prevent full width and use adaptive colors */
 .service-card .btn {
   justify-self: start;
   width: fit-content;
+}
+
+/* Service card buttons use adaptive color variables */
+.service-card .btn--secondary.btn--on-dark {
+  color: var(--text-body-color); /* Adapts to page background */
+  border-color: var(--text-body-color); /* Adapts to page background */
+}
+
+.service-card .btn--secondary.btn--on-dark:hover,
+.service-card .btn--secondary.btn--on-dark:active {
+  background-color: var(--text-body-color); /* Adapts to page background */
+  color: var(--page-bg-color); /* Use background color for text on hover */
+  border-color: var(--text-body-color);
 }
 
 
