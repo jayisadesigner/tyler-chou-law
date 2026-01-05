@@ -185,6 +185,10 @@ export function initLineAnimations(reducedMotion = false, viewportHeight = windo
       return
     }
     
+    // Define isHeroHeadline at function level so it's available throughout
+    const heroContent = element.closest('.hero-content')
+    const isHeroHeadline = heroContent !== null
+    
     // Hide element immediately before processing to prevent flash
     if (isHeroHeadlineCheck) {
       gsap.set(element, { opacity: 0 })
@@ -245,9 +249,7 @@ export function initLineAnimations(reducedMotion = false, viewportHeight = windo
         opacity: 0
       })
       
-      // Check if this is a hero headline for video fade-in
-      const heroContent = element.closest('.hero-content')
-      const isHeroHeadline = heroContent !== null
+      // Check if this is a hero headline for video fade-in (use the function-level variable)
       const backgroundImage = isHeroHeadline ? element.closest('.hero')?.querySelector('.background-image') : null
       
       if (isInView && !shouldWaitForIntro) {
@@ -645,7 +647,6 @@ export function initLineAnimations(reducedMotion = false, viewportHeight = windo
       createHeroAnimationTimeline()
     } else if (isInView && shouldWaitForIntro) {
       // Hero headline is in view but hidden - wait for hero opacity to reach exactly 1
-      const heroContent = element.closest('.hero-content')
       const checkHeroVisible = () => {
         const currentOpacity = parseFloat(window.getComputedStyle(heroContent).opacity)
         if (currentOpacity === 1) {
