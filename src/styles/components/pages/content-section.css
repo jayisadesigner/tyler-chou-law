@@ -36,6 +36,12 @@
   aspect-ratio: 4 / 5;
 }
 
+/* Full-width modifier - makes media 100% width on mobile */
+.content-section--full-width .content-section__media {
+  width: 100%;
+  padding: 0;
+}
+
 /* Allow overflow on creator pages for roster card handles and creator names */
 body.page-creator .content-section__container {
   overflow: visible;
@@ -182,6 +188,14 @@ body.page-creator .content-section__content {
   .content-section.content-section--parallax .content-section__media .background-image__img {
     top: -10%;
     height: 120%;
+  }
+
+  /* Full-width modifier - makes media 100% width - must override base rule */
+  .content-section--full-width .content-section__media {
+    width: 100%;
+    padding: 0;
+    flex-shrink: 0; /* Match base rule properties */
+    position: relative;
   }
 
   /* Full height on desktop */
@@ -366,13 +380,7 @@ body.page-love-letters .content-section__body {
   padding: 0; /* Remove padding for full bleed */
 }
 
-.content-section--stacked .content-section__content {
-  margin-bottom: 0;
-  max-width: 1512px; /* Constrain content only */
-  margin-left: auto;
-  margin-right: auto;
-  /* Padding inherits from base mobile-first styles */
-}
+/* Stacked content inherits all base styles - no overrides needed */
 
 .content-section--stacked .content-section__media {
   order: -1; /* Image first */
@@ -394,10 +402,10 @@ body.page-love-letters .content-section__body {
 
   .content-section--stacked .content-section__content {
     width: 100%;
-    max-width: 1512px;
+    max-width: 576px; /* Same as general content sections */
     margin-left: auto;
     margin-right: auto;
-    padding: var(--space-4xl) var(--space-lg);
+    padding: var(--space-4xl) var(--space-xl); /* Same as general desktop content sections */
   }
 
   .content-section--stacked .content-section__media {
