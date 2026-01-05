@@ -244,7 +244,9 @@ body.page-creator .content-section__content {
   gap: var(--space-sm);
   padding: var(--space-2xl) var(--space-md); /* Mobile first - vertical 2xl, horizontal md */
   background-color: var(--page-bg-color);
-  overflow: clip;
+  overflow: visible; /* Allow headlines to overflow */
+  max-width: 576px; /* Container-level constraint */
+  margin: 0 auto; /* Center the container */
 }
 
 .content-section__eyebrow {
@@ -255,7 +257,6 @@ body.page-creator .content-section__content {
   align-items: flex-start;
   padding-top: var(--space-xl);
   width: 100%;
-  max-width: 576px;
 }
 
 .content-section__eyebrow-text {
@@ -276,7 +277,6 @@ body.page-creator .content-section__content {
   align-items: flex-start;
   padding-top: var(--space-xs);
   width: 100%;
-  max-width: 576px;
 }
 
 .content-section__headline-text {
@@ -325,7 +325,6 @@ body.page-creatorarq .content-section__eyebrow-text {
   line-height: var(--text-p-large-line-height);
   color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   width: 100%;
-  max-width: 576px;
 }
 
 /* Page-level overrides for body text */
@@ -464,6 +463,7 @@ body.page-love-letters .content-section__body {
   position: relative;
   z-index: 1;
   width: 100%;
+  max-width: none; /* Mobile: no constraint, full width */
 }
 
 /* Remove grid-specific properties from child elements */
@@ -473,7 +473,6 @@ body.page-love-letters .content-section__body {
   align-items: center;
   padding-top: var(--space-xl);
   width: 100%;
-  max-width: none; /* Remove constraint */
 }
 
 .content-section--centered .content-section__headline {
@@ -482,13 +481,32 @@ body.page-love-letters .content-section__body {
   align-items: center;
   padding-top: var(--space-xs);
   width: 100%;
-  max-width: none; /* Remove constraint */
 }
 
 .content-section--centered .content-section__body {
   width: 100%;
-  max-width: none; /* Remove constraint */
   text-align: var(--text-align-center);
+}
+
+/* Tablet: Add max-width for better readability */
+@media (min-width: 768px) {
+  .content-section--centered .content-section__content {
+    max-width: 640px;
+  }
+}
+
+/* Desktop: Increase max-width */
+@media (min-width: 1024px) {
+  .content-section--centered .content-section__content {
+    max-width: 800px;
+  }
+}
+
+/* Large desktop: Further increase for optimal line length */
+@media (min-width: 1280px) {
+  .content-section--centered .content-section__content {
+    max-width: 960px;
+  }
 }
 
 /* Pinned sections - ensure vertical centering when pinned */
@@ -504,14 +522,25 @@ body.page-love-letters .content-section__body {
   background-color: var(--page-bg-color);
 }
 
-/* Large text modifier - uses body font as display copy for visual impact (headlines) */
+/* Large text modifier - uses headline font for display copy */
 .content-section--centered.content-section--large-text .content-section__headline-text {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-headline);
   font-size: var(--text-h1-size);
-  font-weight: var(--font-weight-paragraph);
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h1-line-height);
   color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
+  text-align: center;
   text-transform: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center line spans vertically within large-text headlines */
+.content-section--centered.content-section--large-text .content-section__headline-text[js-line-animation] .line {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Page-level overrides for large text modifier */
@@ -554,5 +583,50 @@ body.page-love-letters .content-section--centered.content-section--large-text .c
     font-size: var(--text-h5-size);
     line-height: var(--text-h5-line-height);
   }
+}
+
+/* ========================================
+   Mouse Trail Effect
+   Universal modifier for content-section and hero
+   ======================================== */
+
+/* Content Section Support */
+.content-section--has-mousetrail {
+  position: relative;
+  overflow: visible; /* Allow trail images to extend beyond bounds */
+}
+
+/* Hero Section Support */
+.hero--has-mousetrail {
+  position: relative;
+  overflow: visible; /* Allow trail images to extend beyond bounds */
+}
+
+/* Trail Images - Universal */
+.mouse-trail__image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  will-change: transform, opacity;
+  z-index: 10;
+  width: 400px;
+  height: 225px; /* 16:9 ratio (400 * 9/16 = 225) */
+  object-fit: cover; /* Images fill container */
+  border-radius: 0; /* No rounded corners */
+  opacity: 0; /* Hidden by default */
+  transition: none; /* Remove transition for instant show/hide */
+}
+
+.mouse-trail__image.is-visible {
+  opacity: 1; /* Visible when class is added */
+}
+
+/* Ensure trail images are above content */
+.content-section--has-mousetrail .content-section__container,
+.hero--has-mousetrail .hero-content {
+  position: relative;
+  z-index: 1;
 }
 
