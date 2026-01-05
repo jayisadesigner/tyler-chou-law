@@ -26,8 +26,8 @@
 /* Primary / On-Dark */
 .btn--primary.btn--on-dark {
   padding: var(--space-sm) var(--space-xl);
-  background-color: var(--obsidian);
-  color: var(--bone);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border-radius: 4px;
   border: none;
 }
@@ -56,8 +56,8 @@
 /* Primary / On-Light */
 .btn--primary.btn--on-light {
   padding: var(--space-sm) var(--space-xl);
-  background-color: var(--bone);
-  color: var(--obsidian);
+  background-color: var(--button-text-color);
+  color: var(--button-bg-color);
   border-radius: 4px;
   border: none;
 }
@@ -91,28 +91,28 @@
 .btn--secondary.btn--on-dark {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
-  color: var(--bone);
-  border: 2px solid var(--bone);
+  color: var(--button-border-color);
+  border: 2px solid var(--button-border-color);
   border-radius: 1000px;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn--secondary.btn--on-dark:hover {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .btn--secondary.btn--on-dark:active {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .btn--secondary.btn--on-dark:focus,
 .btn--secondary.btn--on-dark:focus-visible {
-  background-color: var(--bone);
-  color: var(--obsidian);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
   border: 5px solid var(--focus-color);
   outline: none;
 }
@@ -129,27 +129,27 @@
 .btn--secondary.btn--on-light {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
-  color: var(--obsidian);
-  border: 2px solid var(--obsidian);
+  color: var(--button-bg-color);
+  border: 2px solid var(--button-bg-color);
   border-radius: 1000px;
 }
 
 .btn--secondary.btn--on-light:hover {
-  background-color: var(--obsidian);
-  color: var(--bone);
-  border-color: var(--obsidian);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-bg-color);
 }
 
 .btn--secondary.btn--on-light:active {
-  background-color: var(--obsidian);
-  color: var(--bone);
-  border-color: var(--obsidian);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-bg-color);
 }
 
 .btn--secondary.btn--on-light:focus,
 .btn--secondary.btn--on-light:focus-visible {
-  background-color: var(--obsidian);
-  color: var(--bone);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border: 5px solid var(--focus-color);
   outline: none;
 }
@@ -170,19 +170,19 @@
 .btn--tertiary.btn--on-dark {
   padding: 0;
   background-color: transparent;
-  color: var(--bone);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: underline;
 }
 
 .btn--tertiary.btn--on-dark:hover {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .btn--tertiary.btn--on-dark:active {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -192,7 +192,7 @@
   background-color: var(--obsidian-10); /* subtle dark background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--bone);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -206,19 +206,19 @@
 .btn--tertiary.btn--on-light {
   padding: 0;
   background-color: transparent;
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   border: none;
   border-radius: 0;
   text-decoration: underline;
 }
 
 .btn--tertiary.btn--on-light:hover {
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   opacity: 0.8;
 }
 
 .btn--tertiary.btn--on-light:active {
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   opacity: 0.8;
 }
 
@@ -228,7 +228,7 @@
   background-color: var(--bone-10); /* subtle light background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   outline: none;
 }
 
@@ -246,19 +246,19 @@
 .btn--ghost.btn--on-dark {
   padding: 0;
   background-color: transparent;
-  color: var(--bone);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: none;
 }
 
 .btn--ghost.btn--on-dark:hover {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .btn--ghost.btn--on-dark:active {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -268,7 +268,7 @@
   background-color: var(--obsidian-10); /* subtle dark background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--bone);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -282,19 +282,19 @@
 .btn--ghost.btn--on-light {
   padding: 0;
   background-color: transparent;
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   border: none;
   border-radius: 0;
   text-decoration: none;
 }
 
 .btn--ghost.btn--on-light:hover {
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   opacity: 0.8;
 }
 
 .btn--ghost.btn--on-light:active {
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   opacity: 0.8;
 }
 
@@ -304,7 +304,7 @@
   background-color: var(--bone-10); /* subtle light background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   outline: none;
 }
 
@@ -380,27 +380,27 @@
 
 /* Secondary with Chuparosa accent (on-dark) */
 .btn--secondary.btn--on-dark.btn--chuparosa {
-  color: var(--bone);
-  border-color: var(--bone);
+  color: var(--button-border-color);
+  border-color: var(--button-border-color);
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn--secondary.btn--on-dark.btn--chuparosa:hover {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .btn--secondary.btn--on-dark.btn--chuparosa:active {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .btn--secondary.btn--on-dark.btn--chuparosa:focus,
 .btn--secondary.btn--on-dark.btn--chuparosa:focus-visible {
-  background-color: var(--bone);
-  color: var(--obsidian);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
   border: 5px solid var(--focus-color);
   outline: none;
 }
@@ -416,14 +416,14 @@
 /* Tertiary/Ghost with Chuparosa accent (on-dark) */
 .btn--tertiary.btn--on-dark.btn--chuparosa,
 .btn--ghost.btn--on-dark.btn--chuparosa {
-  color: var(--bone);
+  color: var(--button-border-color);
 }
 
 .btn--tertiary.btn--on-dark.btn--chuparosa:focus,
 .btn--tertiary.btn--on-dark.btn--chuparosa:focus-visible,
 .btn--ghost.btn--on-dark.btn--chuparosa:focus,
 .btn--ghost.btn--on-dark.btn--chuparosa:focus-visible {
-  outline-color: var(--bone);
+  outline-color: var(--button-border-color);
 }
 
 /* ============================================
@@ -497,8 +497,8 @@
 .bg-obsidian .btn--primary,
 body.bg-obsidian .btn--primary {
   padding: var(--space-sm) var(--space-xl);
-  background-color: var(--obsidian);
-  color: var(--bone);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border-radius: 4px;
   border: none;
 }
@@ -570,32 +570,32 @@ body.bg-bone .btn--primary:disabled {
 body.bg-obsidian .btn--secondary {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
-  color: var(--bone);
-  border: 2px solid var(--bone);
+  color: var(--button-border-color);
+  border: 2px solid var(--button-border-color);
   border-radius: 1000px;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .bg-obsidian .btn--secondary:hover,
 body.bg-obsidian .btn--secondary:hover {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .bg-obsidian .btn--secondary:active,
 body.bg-obsidian .btn--secondary:active {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .bg-obsidian .btn--secondary:focus,
 .bg-obsidian .btn--secondary:focus-visible,
 body.bg-obsidian .btn--secondary:focus,
 body.bg-obsidian .btn--secondary:focus-visible {
-  background-color: var(--bone);
-  color: var(--obsidian);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
   border: 5px solid var(--focus-color);
   outline: none;
 }
@@ -657,7 +657,7 @@ body.bg-bone .btn--secondary:disabled {
 body.bg-obsidian .btn--tertiary {
   padding: 0;
   background-color: transparent;
-  color: var(--bone);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: underline;
@@ -665,13 +665,13 @@ body.bg-obsidian .btn--tertiary {
 
 .bg-obsidian .btn--tertiary:hover,
 body.bg-obsidian .btn--tertiary:hover {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .bg-obsidian .btn--tertiary:active,
 body.bg-obsidian .btn--tertiary:active {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -683,7 +683,7 @@ body.bg-obsidian .btn--tertiary:focus-visible {
   background-color: var(--obsidian-10);
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--bone);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -741,7 +741,7 @@ body.bg-bone .btn--tertiary:disabled {
 body.bg-obsidian .btn--ghost {
   padding: 0;
   background-color: transparent;
-  color: var(--bone);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: none;
@@ -749,13 +749,13 @@ body.bg-obsidian .btn--ghost {
 
 .bg-obsidian .btn--ghost:hover,
 body.bg-obsidian .btn--ghost:hover {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .bg-obsidian .btn--ghost:active,
 body.bg-obsidian .btn--ghost:active {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -767,7 +767,7 @@ body.bg-obsidian .btn--ghost:focus-visible {
   background-color: var(--obsidian-10);
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--bone);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -994,8 +994,8 @@ body.page-services .btn--primary,
 body.page-about .btn--primary,
 body.page-roster .btn--primary {
   padding: var(--space-sm) var(--space-xl);
-  background-color: var(--obsidian);
-  color: var(--bone);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border-radius: 4px;
   border: none;
 }
@@ -1021,8 +1021,8 @@ body.page-about .btn--secondary,
 body.page-roster .btn--secondary {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
-  color: var(--bone);
-  border: 2px solid var(--bone);
+  color: var(--button-border-color);
+  border: 2px solid var(--button-border-color);
   border-radius: 1000px;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
@@ -1030,9 +1030,9 @@ body.page-roster .btn--secondary {
 body.page-services .btn--secondary:hover,
 body.page-about .btn--secondary:hover,
 body.page-roster .btn--secondary:hover {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 body.page-services .btn--tertiary,
@@ -1041,7 +1041,7 @@ body.page-roster .btn--tertiary,
 body.page-services .btn--ghost,
 body.page-about .btn--ghost,
 body.page-roster .btn--ghost {
-  color: var(--bone);
+  color: var(--button-border-color);
 }
 
 body.page-services .btn--tertiary:hover,
