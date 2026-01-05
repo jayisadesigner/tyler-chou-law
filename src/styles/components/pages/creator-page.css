@@ -31,13 +31,12 @@
   position: absolute;
   bottom: var(--space-xl);
   left: var(--space-xl);
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h3-size);
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h3-line-height);
-  letter-spacing: -0.03em;
   color: var(--bone);
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   margin: 0;
   z-index: 10; /* Higher than right side content to ensure handle overflow is visible */
 }
@@ -66,23 +65,21 @@
 }
 
 .creator-stat-value {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h4-size);
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h4-line-height);
-  letter-spacing: -0.03em;
   color: var(--bone);
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   margin: 0;
 }
 
 .creator-stat-label {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h6-size);
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-weight: var(--font-weight-headline);
   color: var(--bone);
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   margin: 0;
   line-height: var(--text-h6-line-height);
 }
@@ -99,7 +96,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
   color: var(--bone);
@@ -134,13 +131,11 @@
 }
 
 .creator-videos h2 {
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-h4-size);
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h4-line-height);
-  letter-spacing: -0.03em;
   color: var(--bone);
-  text-transform: uppercase;
   margin: 0 0 var(--space-lg) 0;
   width: 100%;
 }

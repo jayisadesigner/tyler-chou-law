@@ -80,17 +80,16 @@ body.intro-active {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: clamp(3rem, 15vw, 20rem); /* Aggressive scaling - allows slight cutoff on smallest screens */
-  font-weight: 500; /* Match h1/hero headlines */
+  font-weight: var(--font-weight-headline); /* Match h1/hero headlines */
   color: var(--bone);
-  text-transform: uppercase;
-  letter-spacing: -0.01em; /* Looser tracking for better readability at massive sizes */
+  text-transform: var(--text-transform-ui);
   line-height: var(--text-h1-line-height); /* Use responsive variable (0.9 mobile, 0.85 desktop) */
   white-space: nowrap;
   z-index: 10;
   width: 110vw; /* Wider than screen for dramatic overflow */
-  text-align: center;
+  text-align: var(--text-align-center);
   overflow: visible; /* Allow slight cutoff for dramatic effect */
 }
 

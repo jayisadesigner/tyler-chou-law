@@ -1,0 +1,47 @@
+/* ========================================
+   Logo Grid Component
+   Mobile-first: 2 rows with equal spacing
+   ======================================== */
+
+.logo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-xl);
+  width: 100%;
+  margin-top: var(--space-2xl);
+}
+
+.logo-grid__item {
+  flex: 0 0 auto;
+  max-width: 120px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.logo-grid__item:hover {
+  opacity: 1;
+}
+
+/* Tablet: More spacing */
+@media (min-width: 768px) {
+  .logo-grid {
+    gap: var(--space-2xl);
+  }
+}
+
+/* Desktop: Larger spacing */
+@media (min-width: 1024px) {
+  .logo-grid {
+    gap: var(--space-2xl);
+  }
+  
+  .logo-grid__item {
+    max-width: 140px;
+  }
+}
+

@@ -9,7 +9,7 @@
   /* Extend to absolute top edge, behind notch */
   margin-top: calc(-1 * env(safe-area-inset-top, 0px));
   padding-top: env(safe-area-inset-top, 0px);
-  /* Background inherits from body for animated transitions */
+  background-color: var(--page-bg-color); /* Inherit from page background */
 }
 
 /* Inner Page Hero - with background image and grid layout */
@@ -40,6 +40,21 @@ body.page-love-letters .hero--inner-page {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1; /* Progressive enhancement: Visible by default, JS can enhance with animations */
+  /* Fallback: Force visible after 8 seconds if intro animation fails */
+  animation: hero-fallback-show 0.01s 8s forwards;
+}
+
+@keyframes hero-fallback-show {
+  to {
+    opacity: 1 !important; /* Force visible after 8 seconds */
+  }
+}
+
+/* Cancel animation if intro completes successfully */
+.intro.is-complete ~ .hero .hero-content,
+body:not(.intro-active) .hero-content {
+  animation: none;
 }
 
 /* Inner Page Hero Content - Grid Layout */
@@ -70,11 +85,11 @@ body.page-love-letters .hero--inner-page {
 }
 
 .hero-eyebrow__text {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   font-size: var(--text-p-size);
   line-height: 1;
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   color: var(--bone);
   margin: 0;
   white-space: nowrap;
@@ -100,20 +115,19 @@ body.page-love-letters .hero-eyebrow__text {
 /* CreatorArq page: center hero content */
 .page-creatorarq .hero-headline-wrapper {
   align-items: center;
-  text-align: center;
+  text-align: var(--text-align-center);
 }
 
 .hero-headline {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   font-size: var(--text-h1-size);
   line-height: var(--text-h1-line-height);
-  letter-spacing: -0.03em; /* -3.8364px equivalent */
-  color: var(--text-headline-on-chuparosa-600);
-  text-transform: uppercase;
-  text-align: justify;
-  text-align-last: justify;
-  width: 100%;
+  color: var(--bone);
+  text-align: var(--text-align-headline);
+  text-align-last: var(--text-align-headline);
+  width: fit-content;
+  min-width: fit-content;
   margin: 0;
   text-wrap: balance; /* Balance lines to avoid widows */
 }
@@ -135,15 +149,13 @@ body.page-love-letters .hero-eyebrow__text {
 /* Inner Page Hero Headline */
 .hero-headline-wrapper .hero-headline--inner-page,
 .hero-headline--inner-page {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   font-size: var(--text-h2-size);
   line-height: var(--text-h2-line-height);
-  letter-spacing: -0.03em; /* -2.7132px equivalent */
   color: var(--text-headline-on-obsidian);
-  text-transform: uppercase;
-  text-align: left;
-  text-align-last: left;
+  text-align: var(--text-align-left);
+  text-align-last: var(--text-align-left);
   width: 100%;
   max-width: 100%;
   margin: 0;
@@ -189,7 +201,7 @@ body.page-creatorarq .hero-eyebrow__text {
   /* CreatorArq page: center hero content on desktop */
   .page-creatorarq .hero-headline-wrapper {
     align-items: center;
-    text-align: center;
+    text-align: var(--text-align-center);
     gap: 0; /* Remove gap on desktop - subheadline is in separate row */
   }
   
@@ -208,7 +220,7 @@ body.page-creatorarq .hero-eyebrow__text {
   
   /* CreatorArq page: center subheadline wrapper */
   .page-creatorarq .hero-subheadline-wrapper {
-    text-align: center;
+    text-align: var(--text-align-center);
   }
   
   /* Show desktop subheadline on desktop */
@@ -225,7 +237,7 @@ body.page-creatorarq .hero-eyebrow__text {
 /* Hero Subheadline Wrapper - Mobile: Hidden (subheadline is nested in headline wrapper) */
 .hero-subheadline-wrapper {
   display: none; /* Hide on mobile - subheadline is nested in headline wrapper */
-  text-align: center;
+  text-align: var(--text-align-center);
 }
 
 /* Nested subheadline - visible on mobile */
@@ -239,23 +251,22 @@ body.page-creatorarq .hero-eyebrow__text {
 }
 
 .hero-subheadline {
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-h5-size);
   line-height: var(--text-h5-line-height);
   color: var(--chuparosa-100);
-  text-align: center;
+  text-align: var(--text-align-center);
   margin-top: var(--space-lg);
   margin-bottom: 0;
 }
 
 /* Inner Page Hero Subheadline */
 .hero-subheadline--inner-page {
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-h3-size);
   line-height: var(--text-h3-line-height);
-  letter-spacing: -0.02em; /* -1.2792px equivalent */
   color: var(--bone);
-  text-align: left;
+  text-align: var(--text-align-left);
   margin: 0;
 }
 
@@ -266,7 +277,7 @@ body.page-love-letters .hero-subheadline--inner-page {
 
 /* CreatorArq page: center subheadline */
 .page-creatorarq .hero-subheadline--inner-page {
-  text-align: center;
+  text-align: var(--text-align-center);
 }
 
 /* Blog Post Hero - 80vh height */
@@ -290,15 +301,14 @@ body.page-love-letters .hero-subheadline--inner-page {
 }
 
 .hero-headline--blog-post {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   font-size: var(--text-h3-size); /* Bumped down 2 notches from h1 */
   line-height: var(--text-h3-line-height);
-  letter-spacing: -0.03em;
   color: var(--text-headline-on-chuparosa-600); /* Use text color mapping system */
   text-transform: none; /* Blog titles not uppercase */
-  text-align: left;
-  text-align-last: left;
+  text-align: var(--text-align-left);
+  text-align-last: var(--text-align-left);
   width: 100%;
   margin: 0 0 var(--space-lg) 0;
   text-wrap: balance;

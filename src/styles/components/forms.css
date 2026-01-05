@@ -68,7 +68,7 @@ fieldset.form-group .form-legend {
   top: var(--space-md);
   padding: 0 var(--space-xs);
   margin: 0;
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);
   font-weight: 400;
   color: var(--bone);
@@ -90,7 +90,7 @@ fieldset.form-group .form-legend {
 /* Static label for checkbox groups */
 .form-group--checkboxes .form-group__label-static {
   display: block;
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);
   font-weight: 400;
   color: var(--bone);
@@ -109,7 +109,7 @@ fieldset.form-group:has(select:not([value=""])) .form-legend {
   left: var(--space-xs); /* Smallest space value for indentation */
   top: -0.5em;
   font-size: var(--text-p-size);
-  font-weight: 600;
+  font-weight: var(--font-weight-headline);
   background-color: var(--page-bg-color);
 }
 
@@ -119,7 +119,7 @@ fieldset.form-group:has(select option:checked:not([value=""])) .form-legend {
   left: var(--space-xs); /* Smallest space value for indentation */
   top: -0.5em;
   font-size: var(--text-p-size);
-  font-weight: 600;
+  font-weight: var(--font-weight-headline);
   background-color: var(--page-bg-color);
 }
 
@@ -131,7 +131,7 @@ fieldset.form-group select {
   padding: var(--space-lg) var(--space-md);
   border: none;
   border-radius: 0;
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);
   line-height: var(--text-p-large-line-height);
   background-color: transparent;
@@ -222,7 +222,7 @@ fieldset.form-group input::placeholder,
 fieldset.form-group textarea::placeholder {
   color: var(--bone);
   opacity: 0.6; /* Slightly lighter than actual text for distinction */
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);
   line-height: var(--text-p-large-line-height);
   transition: opacity 0.2s ease;
@@ -299,9 +299,9 @@ fieldset.form-group .error-message {
   margin-bottom: 0;
   padding: 0;
   color: var(--bone);
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-small-size);
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   transition: opacity 0.2s ease;
 }
 
@@ -314,9 +314,9 @@ fieldset.form-group .error-message {
   margin: var(--space-sm) 0 0 0; /* Explicitly reset all margins, then set top */
   padding: 0;
   color: var(--bone);
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-small-size);
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   transition: opacity 0.2s ease;
 }
 
@@ -349,9 +349,9 @@ fieldset.form-group .error-message[aria-hidden="true"] {
   margin-left: 0;
   padding: 0;
   color: var(--bone);
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-small-size);
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
 }
 
 /* Disabled State */
@@ -399,7 +399,7 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
 
 /* Form Success State */
 .form-success {
-  text-align: center;
+  text-align: var(--text-align-center);
   padding: var(--space-3xl) var(--space-xl);
   border-bottom: 2px solid var(--palo-verde-500);
 }
@@ -407,12 +407,12 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
 .form-success h3 {
   margin-bottom: var(--space-md);
   color: var(--bone);
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
 }
 
 .form-success p {
   color: var(--bone);
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
 }
 
 /* Submit Button Spacing */
@@ -423,10 +423,9 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
 /* CTA Links - Accessible with underline animation */
 .cta-link {
   color: var(--bone);
-  font-family: var(--font-display);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  text-transform: var(--text-transform-ui);
   text-decoration: none;
   border-bottom: 2px solid var(--bone);
   padding-bottom: 2px;
@@ -613,9 +612,9 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
   margin: var(--space-sm) 0 0 0; /* Explicitly reset all margins, then set top */
   padding: 0;
   color: var(--bone);
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-small-size);
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   transition: opacity 0.2s ease;
 }
 
@@ -631,7 +630,7 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
 /* Static label for grouped fields */
 .form-label-static {
   display: block;
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);
   font-weight: 400;
   color: var(--bone);
@@ -647,9 +646,9 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
   margin-left: 0;
   padding: 0;
   color: var(--bone);
-  font-family: var(--font-display);
+  font-family: var(--font-headline);
   font-size: var(--text-small-size);
-  font-weight: 500;
+  font-weight: var(--font-weight-headline);
   transition: opacity 0.2s ease;
 }
 

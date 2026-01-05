@@ -16,7 +16,7 @@
   width: 100%;
   max-width: 1512px;
   margin: 0 auto;
-  padding: 0; /* Mobile: no padding - content handles its own padding to extend to edges */
+  padding: var(--space-2xl) 0; /* Vertical spacing - components handle their own spacing */
 }
 
 /* Mobile: Stacked layout (content first, then media) */
@@ -93,6 +93,12 @@ body.page-creator .content-section__content {
   align-items: center;
 }
 
+/* Remove vertical padding from container when full-height */
+.content-section--full-height .content-section__container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 /* Full height with background modifier - fixed height for absolute positioning */
 .content-section--full-height-bg {
   height: 100vh;
@@ -107,9 +113,8 @@ body.page-creator .content-section__content {
     display: flex;
     align-items: stretch;
     gap: 0;
-    padding: 0;
+    padding: var(--space-4xl) 0; /* Increased vertical spacing on desktop */
     max-width: none;
-    min-height: 982px;
   }
 
   .content-section__content {
@@ -182,14 +187,13 @@ body.page-creator .content-section__content {
   /* Full height on desktop */
   .content-section--full-height .content-section__container {
     min-height: 100vh;
+    padding-top: 0;
+    padding-bottom: 0; /* Ensure vertical padding is removed on desktop too */
   }
 }
 
 /* Form in media area modifier - leverages existing 50/50 layout */
-.content-section--form .content-section__content {
-  /* Mobile: standard spacing, scales up on desktop */
-  /* Already inherits padding: var(--space-2xl) var(--space-md) from base */
-}
+/* .content-section--form .content-section__content inherits padding from base */
 
 .content-section--form .content-section__media {
   /* Remove image-specific positioning */
@@ -240,7 +244,9 @@ body.page-creator .content-section__content {
   gap: var(--space-sm);
   padding: var(--space-2xl) var(--space-md); /* Mobile first - vertical 2xl, horizontal md */
   background-color: var(--page-bg-color);
-  overflow: clip;
+  overflow: visible; /* Allow headlines to overflow */
+  max-width: 576px; /* Container-level constraint */
+  margin: 0 auto; /* Center the container */
 }
 
 .content-section__eyebrow {
@@ -251,15 +257,14 @@ body.page-creator .content-section__content {
   align-items: flex-start;
   padding-top: var(--space-xl);
   width: 100%;
-  max-width: 576px;
 }
 
 .content-section__eyebrow-text {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   font-size: var(--text-p-size);
   line-height: 1;
-  text-transform: uppercase;
+  text-transform: var(--text-transform-ui);
   color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   margin: 0;
 }
@@ -272,17 +277,14 @@ body.page-creator .content-section__content {
   align-items: flex-start;
   padding-top: var(--space-xs);
   width: 100%;
-  max-width: 576px;
 }
 
 .content-section__headline-text {
-  font-family: var(--font-display);
-  font-weight: 500;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
   font-size: var(--text-h3-size);
   line-height: var(--text-h3-line-height);
-  letter-spacing: -0.02em;
   color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
-  text-transform: uppercase;
   margin: 0;
 }
 
@@ -318,13 +320,11 @@ body.page-creatorarq .content-section__eyebrow-text {
 .content-section__body {
   grid-column: 1;
   grid-row: 3;
-  font-family: var(--font-body);
+  font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);
   line-height: var(--text-p-large-line-height);
-  letter-spacing: -0.02em;
   color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   width: 100%;
-  max-width: 576px;
 }
 
 /* Page-level overrides for body text */
@@ -447,8 +447,7 @@ body.page-love-letters .content-section__body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 500px; /* Mobile: minimum height */
-  padding: var(--space-4xl) var(--space-md); /* Apply padding directly to container */
+  padding: var(--space-4xl) var(--space-md); /* Vertical and horizontal padding - already includes spacing */
 }
 
 .content-section--centered .content-section__content {
@@ -456,8 +455,7 @@ body.page-love-letters .content-section__body {
   flex-direction: column;
   align-items: center;
   gap: var(--space-sm);
-  text-align: center;
-  max-width: 960px; /* Mobile: constrain width for readability */
+  text-align: var(--text-align-center);
   margin-bottom: 0;
   padding: 0; /* Remove default padding, container handles it */
   background-color: transparent; /* Remove background */
@@ -465,6 +463,7 @@ body.page-love-letters .content-section__body {
   position: relative;
   z-index: 1;
   width: 100%;
+  max-width: none; /* Mobile: no constraint, full width */
 }
 
 /* Remove grid-specific properties from child elements */
@@ -474,7 +473,6 @@ body.page-love-letters .content-section__body {
   align-items: center;
   padding-top: var(--space-xl);
   width: 100%;
-  max-width: none; /* Remove constraint */
 }
 
 .content-section--centered .content-section__headline {
@@ -483,18 +481,32 @@ body.page-love-letters .content-section__body {
   align-items: center;
   padding-top: var(--space-xs);
   width: 100%;
-  max-width: none; /* Remove constraint */
 }
 
 .content-section--centered .content-section__body {
   width: 100%;
-  max-width: none; /* Remove constraint */
-  text-align: center;
+  text-align: var(--text-align-center);
 }
 
-/* Full height for centered sections */
-.content-section--centered.content-section--full-height .content-section__container {
-  min-height: 100vh;
+/* Tablet: Add max-width for better readability */
+@media (min-width: 768px) {
+  .content-section--centered .content-section__content {
+    max-width: 640px;
+  }
+}
+
+/* Desktop: Increase max-width */
+@media (min-width: 1024px) {
+  .content-section--centered .content-section__content {
+    max-width: 800px;
+  }
+}
+
+/* Large desktop: Further increase for optimal line length */
+@media (min-width: 1280px) {
+  .content-section--centered .content-section__content {
+    max-width: 960px;
+  }
 }
 
 /* Pinned sections - ensure vertical centering when pinned */
@@ -510,15 +522,25 @@ body.page-love-letters .content-section__body {
   background-color: var(--page-bg-color);
 }
 
-/* Large text modifier - uses body font as display copy for visual impact (headlines) */
+/* Large text modifier - uses headline font for display copy */
 .content-section--centered.content-section--large-text .content-section__headline-text {
-  font-family: var(--font-body);
+  font-family: var(--font-headline);
   font-size: var(--text-h1-size);
-  font-weight: 400;
+  font-weight: var(--font-weight-headline);
   line-height: var(--text-h1-line-height);
-  letter-spacing: -0.03em;
   color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
+  text-align: center;
   text-transform: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center line spans vertically within large-text headlines */
+.content-section--centered.content-section--large-text .content-section__headline-text[js-line-animation] .line {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Page-level overrides for large text modifier */
@@ -549,12 +571,8 @@ body.page-love-letters .content-section--centered.content-section--large-text .c
     display: flex; /* Maintain flex */
     justify-content: center;
     align-items: center; /* Vertically center */
-    min-height: 100vh; /* Ensure full height for vertical centering when pinned */
   }
   
-  .content-section--centered .content-section__content {
-    max-width: 960px; /* Desktop: readable width */
-  }
 }
 
 
@@ -565,5 +583,50 @@ body.page-love-letters .content-section--centered.content-section--large-text .c
     font-size: var(--text-h5-size);
     line-height: var(--text-h5-line-height);
   }
+}
+
+/* ========================================
+   Mouse Trail Effect
+   Universal modifier for content-section and hero
+   ======================================== */
+
+/* Content Section Support */
+.content-section--has-mousetrail {
+  position: relative;
+  overflow: visible; /* Allow trail images to extend beyond bounds */
+}
+
+/* Hero Section Support */
+.hero--has-mousetrail {
+  position: relative;
+  overflow: visible; /* Allow trail images to extend beyond bounds */
+}
+
+/* Trail Images - Universal */
+.mouse-trail__image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  will-change: transform, opacity;
+  z-index: 10;
+  width: 400px;
+  height: 225px; /* 16:9 ratio (400 * 9/16 = 225) */
+  object-fit: cover; /* Images fill container */
+  border-radius: 0; /* No rounded corners */
+  opacity: 0; /* Hidden by default */
+  transition: none; /* Remove transition for instant show/hide */
+}
+
+.mouse-trail__image.is-visible {
+  opacity: 1; /* Visible when class is added */
+}
+
+/* Ensure trail images are above content */
+.content-section--has-mousetrail .content-section__container,
+.hero--has-mousetrail .hero-content {
+  position: relative;
+  z-index: 1;
 }
 
