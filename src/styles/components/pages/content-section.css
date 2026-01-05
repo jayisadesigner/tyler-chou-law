@@ -539,6 +539,20 @@ body.bg-bone .content-section__body {
   }
 }
 
+/* Full width modifier - removes content max-width constraint on desktop */
+/* Can be used with --centered or standalone for full-width content like logo grids */
+@media (min-width: 1024px) {
+  .content-section--full-width .content-section__content {
+    max-width: none;
+  }
+  
+  /* When used with --centered, keep headline constrained */
+  .content-section--centered.content-section--full-width .content-section__headline {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
 /* Pinned sections - ensure vertical centering when pinned */
 .content-section--pinned .content-section__container {
   min-height: 100vh;
