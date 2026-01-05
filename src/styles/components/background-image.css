@@ -12,7 +12,7 @@
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
-  /* Opacity controlled by GSAP - initialized to 0 in JavaScript */
+  opacity: 1; /* Progressive enhancement: Visible by default, JS can enhance with animations */
 }
 
 /* Image-specific styles */

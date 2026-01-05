@@ -40,6 +40,21 @@ body.page-love-letters .hero--inner-page {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1; /* Progressive enhancement: Visible by default, JS can enhance with animations */
+  /* Fallback: Force visible after 8 seconds if intro animation fails */
+  animation: hero-fallback-show 0.01s 8s forwards;
+}
+
+@keyframes hero-fallback-show {
+  to {
+    opacity: 1 !important; /* Force visible after 8 seconds */
+  }
+}
+
+/* Cancel animation if intro completes successfully */
+.intro.is-complete ~ .hero .hero-content,
+body:not(.intro-active) .hero-content {
+  animation: none;
 }
 
 /* Inner Page Hero Content - Grid Layout */
