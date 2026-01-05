@@ -8,7 +8,7 @@ import '../styles/main.css'
 
 import { initNavigation } from './nav.js'
 import { initForms } from './forms.js'
-import './animations.js'
+import './animations/index.js'
 
 // Initialize navigation when DOM is ready
 if (document.readyState === 'loading') {
