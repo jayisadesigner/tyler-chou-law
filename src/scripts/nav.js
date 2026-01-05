@@ -3,7 +3,7 @@
  */
 
 import gsap from 'gsap'
-import { animateLineElements } from './animations.js'
+import { animateLineElements } from './animations/line-animations.js'
 
 export function initNavigation() {
   const menu = document.querySelector('.nav-menu')
