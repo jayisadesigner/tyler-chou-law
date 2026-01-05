@@ -588,6 +588,19 @@ body.bg-bone .content-section__body {
   margin-right: auto;
 }
 
+/* Vertically center line spans in all centered sections */
+.content-section--centered .content-section__headline-text[js-line-animation] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-section--centered .content-section__headline-text[js-line-animation] .line {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* CTA section titles adapt to page background via CSS variables set on body */
 /* Uses --text-headline-color which is set by body.page-* classes in main.css */
 

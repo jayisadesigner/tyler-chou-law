@@ -367,6 +367,30 @@ body.bg-bone .hero-subheadline--inner-page {
   text-wrap: balance;
 }
 
+/* Home page hero: center line spans on mobile */
+.page-index .hero-headline[js-line-animation] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-index .hero-headline[js-line-animation] .line {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Desktop: left-align line spans */
+@media (min-width: 1024px) {
+  .page-index .hero-headline[js-line-animation] {
+    align-items: flex-start;
+  }
+  
+  .page-index .hero-headline[js-line-animation] .line {
+    margin-left: 0;
+    margin-right: auto;
+  }
+}
+
 /* Tablet+ (768px) */
 @media (min-width: 768px) {
   .hero--blog-post {
