@@ -15,8 +15,8 @@
   /* Opacity controlled by GSAP - initialized to 0 in JavaScript */
 }
 
-.background-image__img,
-.background-image__video {
+/* Image-specific styles */
+.background-image__img {
   position: absolute;
   top: -10%; /* Offset to allow for parallax movement */
   left: 0;
