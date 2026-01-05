@@ -239,7 +239,7 @@ export function initAnimations() {
     const paloVerdeFlower = document.querySelector('.palo-verde-flower')
     const paloVerdeTrigger = document.querySelector('.palo-verde, #creatorarq-investment')
     if (paloVerdeFlower && paloVerdeTrigger) {
-      animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment', prefersReducedMotion)
+  animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment', prefersReducedMotion)
     }
   }
   

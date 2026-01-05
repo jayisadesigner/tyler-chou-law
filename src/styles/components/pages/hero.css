@@ -165,13 +165,16 @@ body:not(.intro-active) .hero-content {
 /* Headlines use --text-headline-color, body text uses --text-body-color */
 /* These variables are set by body.page-* classes in main.css */
 
-/* Heroes with image backgrounds - always use obsidian text colors */
+/* Heroes with image/video backgrounds - always use obsidian text colors */
 /* Only apply when hero actually has a background-image element */
+.hero:has(.background-image) .hero-headline,
 .hero--inner-page:has(.background-image) .hero-headline,
 .hero--inner-page:has(.background-image) .hero-headline--inner-page {
   color: var(--text-headline-on-obsidian);
 }
 
+.hero:has(.background-image) .hero-eyebrow__text,
+.hero:has(.background-image) .hero-subheadline,
 .hero--inner-page:has(.background-image) .hero-eyebrow__text,
 .hero--inner-page:has(.background-image) .hero-subheadline,
 .hero--inner-page:has(.background-image) .hero-subheadline--inner-page {
