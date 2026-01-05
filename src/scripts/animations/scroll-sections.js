@@ -608,3 +608,52 @@ export function initCredentialsShadow(reducedMotion = false) {
   }
 }
 
+/**
+ * Pin content sections with forms
+ * Pins the content area while the form area scrolls
+ * Works with Lenis smooth scrolling
+ * Used on contact and creatorarq pages
+ */
+export function initFormSections() {
+  const formSections = document.querySelectorAll('.content-section--form')
+  
+  if (!formSections.length || !ScrollTrigger) return
+  
+  // Wait for layout to be ready before creating pins
+  const initPins = () => {
+    formSections.forEach(section => {
+      const container = section.querySelector('.content-section__container')
+      const content = section.querySelector('.content-section__content')
+      
+      if (container && content) {
+        ScrollTrigger.create({
+          trigger: container,
+          start: "top top",
+          end: "bottom bottom",
+          pin: content,
+          pinSpacing: false, // Match creator page pattern
+          invalidateOnRefresh: true, // Recalculate on refresh
+        })
+      }
+    })
+    
+    // Refresh after creating pins to ensure proper calculation
+    if (ScrollTrigger) {
+      ScrollTrigger.refresh()
+    }
+  }
+  
+  // Use requestAnimationFrame to ensure DOM is ready
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(initPins) // Double RAF for layout stability
+    })
+  } else {
+    window.addEventListener('load', () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(initPins)
+      })
+    })
+  }
+}
+

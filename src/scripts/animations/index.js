@@ -81,7 +81,7 @@ function initLenis() {
 
 // Import animation modules
 import { initNavColors, setBodyTheme, setNavColor, createThemeScrollTrigger } from './utils.js'
-import { initPinnedSections, initLoveLettersScroll, initPhilosophyRedaction, initCredentialsShadow } from './scroll-sections.js'
+import { initPinnedSections, initLoveLettersScroll, initPhilosophyRedaction, initCredentialsShadow, initFormSections } from './scroll-sections.js'
 import { initLineAnimations } from './line-animations.js'
 import { initHeroParallax, animateFlowerRotation } from './parallax.js'
 import { initMouseTrail } from './mouse-trail.js'
@@ -418,6 +418,8 @@ export function initAnimations() {
       })
     }
   }
+  
+  // Form sections use CSS sticky (not ScrollTrigger pinning)
   
   // Unified nav color ScrollTrigger: handles love-notes section on home page
   // Mobile/Tablet only - Desktop uses pinned ScrollTrigger callbacks
