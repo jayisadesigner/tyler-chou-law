@@ -27,6 +27,11 @@
   width: 100%;
 }
 
+/* Services section: higher z-index to ensure shadows appear above next section */
+.section-grid--services {
+  z-index: 2;
+}
+
 .section-grid__container {
   width: 100%;
   margin: 0 auto;
