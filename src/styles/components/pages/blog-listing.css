@@ -87,6 +87,11 @@
   order: 3;
 }
 
+/* Love letter card titles use capitalize */
+body.page-love-letters .blog-card__title {
+  text-transform: capitalize;
+}
+
 .blog-card__excerpt {
   font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);

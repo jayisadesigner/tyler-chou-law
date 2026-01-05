@@ -29,12 +29,13 @@
 }
 
 .footer-item {
-  font-family: var(--font-headline);
-  font-size: var(--text-footer);
-  font-weight: var(--font-weight-headline);
-  line-height: 1;
+  font-family: var(--font-nav);
+  font-size: var(--text-nav);
+  font-weight: var(--font-weight-nav);
+  line-height: var(--line-height-nav);
+  letter-spacing: var(--letter-spacing-nav);
   color: var(--chuparosa-100);
-  text-transform: var(--text-transform-ui);
+  text-transform: var(--text-transform-nav);
   margin: 0;
   transition: color 0.3s ease;
 }
