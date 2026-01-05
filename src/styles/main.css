@@ -34,6 +34,7 @@
 html {
   /* scroll-behavior handled by Lenis */
   background-color: var(--chuparosa-600); /* Prevent white flash on page load */
+  overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
 }
 
 body {
