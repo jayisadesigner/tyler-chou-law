@@ -192,6 +192,59 @@ body.page-creator .section-grid {
   }
 }
 
+/* ========================================
+   YouTube Videos Modifier
+   ======================================== */
+
+/* YouTube Videos Grid */
+.youtube-videos-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile: single column */
+  gap: var(--space-md);
+  width: 100%;
+  margin-top: var(--space-4xl); /* Spacing from content above */
+}
+
+/* Small tablet and up: 2 columns */
+@media (min-width: 640px) {
+  .youtube-videos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+}
+
+/* Desktop: increase gap */
+@media (min-width: 1024px) {
+  .youtube-videos-grid {
+    gap: var(--space-lg);
+  }
+}
+
+/* YouTube Video Item */
+.youtube-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Standard YouTube aspect ratio */
+  overflow: hidden;
+  background-color: var(--black); /* Fallback background */
+}
+
+.youtube-video .video {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.youtube-video .video__embed {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: none;
+}
+
 /* Main Content Container (About only) */
 /* About Content - follows reusable animated heading pattern */
 .about-content {
