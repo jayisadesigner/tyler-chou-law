@@ -39,7 +39,9 @@
   height: 56.25vw; /* 16:9 aspect ratio */
   min-height: 115vh; /* Bumped from 100vh to account for 15% scale */
   min-width: 204vh; /* Bumped from 177.77vh (177.77 * 1.15 ≈ 204) to account for scale */
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); REMOVED - GSAP handles centering with xPercent/yPercent */
+  transform-origin: center center; /* Scale from center for parallax */
+  display: block;
   border: 0;
   /* Block all interaction with iframe (prevents YouTube hover UI) */
   pointer-events: none;
