@@ -429,11 +429,13 @@ export function initAnimations() {
 
         if (container && content) {
           ScrollTrigger.create({
-            trigger: container,
+            trigger: content,
             start: "top top",
+            endTrigger: container,
             end: "bottom bottom",
-            pin: content,
-            pinSpacing: false
+            pin: true,
+            pinSpacing: false,
+            anticipatePin: 1
           })
         }
       }
