@@ -153,12 +153,21 @@ body.page-creator .roster-card__handle {
 
 /* Handle uses large paragraph styling - only for testimonial cards in content area */
 .roster-card--testimonial .roster-card__content .roster-card__handle {
+  position: static; /* Reset absolute positioning - keep in normal flow */
   font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);
   font-weight: var(--font-weight-paragraph);
   line-height: var(--text-p-large-line-height);
   color: var(--obsidian);
   margin: 0;
+  /* Reset properties from absolutely positioned handle */
+  bottom: auto;
+  left: auto;
+  right: auto;
+  z-index: auto;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 /* Stats uses regular paragraph styling - only for testimonial cards */
