@@ -419,7 +419,29 @@ export function initAnimations() {
     }
   }
   
-  // Form sections use CSS sticky (not ScrollTrigger pinning)
+  // Form sections: Pin content while form scrolls (GSAP ScrollTrigger works with Lenis)
+  // Only on tablet+ where we have side-by-side layout
+  ScrollTrigger.matchMedia({
+    "(min-width: 768px)": function() {
+      const formSections = document.querySelectorAll('.content-section--form')
+      
+      formSections.forEach(section => {
+        const container = section.querySelector('.content-section__container')
+        const content = section.querySelector('.content-section__content')
+        
+        if (container && content) {
+          ScrollTrigger.create({
+            trigger: container,
+            start: "top top",
+            end: "bottom bottom",
+            pin: content,
+            pinSpacing: false,
+            invalidateOnRefresh: true
+          })
+        }
+      })
+    }
+  })
   
   // Unified nav color ScrollTrigger: handles love-notes section on home page
   // Mobile/Tablet only - Desktop uses pinned ScrollTrigger callbacks
