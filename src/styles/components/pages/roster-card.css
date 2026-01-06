@@ -127,21 +127,21 @@ body.page-creator .roster-card__handle {
 }
 
 /* Content area for testimonial cards (meta + quote below image) */
-.roster-card__content {
+.roster-card--testimonial .roster-card__content {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm); /* Gap between meta and quote */
 }
 
 /* Meta container for name, handle, and stats */
-.roster-card__meta {
+.roster-card--testimonial .roster-card__meta {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs); /* 8px - gap between name, handle, and stats */
 }
 
-/* Name uses h4 styling */
-.roster-card__name {
+/* Name uses h4 styling - only for testimonial cards */
+.roster-card--testimonial .roster-card__name {
   font-family: var(--font-headline);
   font-size: var(--text-h4-size);
   font-weight: var(--font-weight-headline);
@@ -151,8 +151,8 @@ body.page-creator .roster-card__handle {
   margin: 0;
 }
 
-/* Handle uses large paragraph styling */
-.roster-card__handle {
+/* Handle uses large paragraph styling - only for testimonial cards in content area */
+.roster-card--testimonial .roster-card__content .roster-card__handle {
   font-family: var(--font-paragraph);
   font-size: var(--text-p-large-size);
   font-weight: var(--font-weight-paragraph);
@@ -161,8 +161,8 @@ body.page-creator .roster-card__handle {
   margin: 0;
 }
 
-/* Stats uses regular paragraph styling */
-.roster-card__stats {
+/* Stats uses regular paragraph styling - only for testimonial cards */
+.roster-card--testimonial .roster-card__stats {
   font-family: var(--font-paragraph);
   font-size: var(--text-p-size);
   font-weight: var(--font-weight-paragraph);
@@ -171,7 +171,8 @@ body.page-creator .roster-card__handle {
   margin: 0;
 }
 
-.roster-card__quote {
+/* Quote styling - only for testimonial cards */
+.roster-card--testimonial .roster-card__quote {
   font-family: var(--font-paragraph);
   font-weight: var(--font-weight-paragraph);
   color: var(--obsidian);
