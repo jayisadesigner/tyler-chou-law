@@ -115,8 +115,8 @@ body.page-creator .roster-card__handle {
   --depth: 2;
 }
 
-/* Hide overlaid handle when using testimonial modifier */
-.roster-card--testimonial .roster-card__handle {
+/* Hide overlaid handle when using testimonial modifier (only the absolutely positioned one) */
+.roster-card--testimonial .roster-card__image-wrapper .roster-card__handle {
   display: none;
 }
 
@@ -140,30 +140,33 @@ body.page-creator .roster-card__handle {
   gap: var(--space-xs); /* 8px - gap between name, handle, and stats */
 }
 
+/* Name uses h4 styling */
 .roster-card__name {
   font-family: var(--font-headline);
-  font-size: var(--text-h6-size); /* 1.414rem / 22.62px */
+  font-size: var(--text-h4-size);
   font-weight: var(--font-weight-headline);
-  line-height: var(--text-h6-line-height);
+  line-height: var(--text-h4-line-height);
   color: var(--obsidian);
   text-transform: var(--text-transform-ui);
   margin: 0;
 }
 
+/* Handle uses large paragraph styling */
 .roster-card__handle {
   font-family: var(--font-paragraph);
-  font-size: var(--text-small-size); /* 0.889rem / 14px */
+  font-size: var(--text-p-large-size);
   font-weight: var(--font-weight-paragraph);
-  line-height: var(--text-small-line-height);
+  line-height: var(--text-p-large-line-height);
   color: var(--obsidian);
   margin: 0;
 }
 
+/* Stats uses regular paragraph styling */
 .roster-card__stats {
   font-family: var(--font-paragraph);
-  font-size: var(--text-small-size); /* 0.889rem / 14px */
+  font-size: var(--text-p-size);
   font-weight: var(--font-weight-paragraph);
-  line-height: var(--text-small-line-height);
+  line-height: var(--text-p-line-height);
   color: var(--obsidian);
   margin: 0;
 }
