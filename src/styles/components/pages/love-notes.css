@@ -161,13 +161,7 @@
     --depth: 1;
   }
   
-  /* Card 4 - Medium, center bottom (man with cap) */
-  .love-notes__carousel--top .roster-card--testimonial:nth-child(4) {
-    grid-column: 5 / 7;
-    grid-row: 5 / 7;
-    --scale: 1;
-    --depth: 2;
-  }
+  /* Card 4 - REMOVED: No longer exists */
   
   /* Card 5 - Large, right middle-top (purple lighting woman) */
   .love-notes__carousel--bottom .roster-card--testimonial:nth-child(1) {
@@ -185,21 +179,7 @@
     --depth: 1;
   }
   
-  /* Card 7 - Medium, bottom left area */
-  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(3) {
-    grid-column: 3 / 5;
-    grid-row: 6 / 7;
-    --scale: 0.85;
-    --depth: 2;
-  }
-  
-  /* Card 8 - Medium, bottom right */
-  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(4) {
-    grid-column: 8 / 10;
-    grid-row: 6 / 7;
-    --scale: 0.9;
-    --depth: 2;
-  }
+  /* Card 7 & 8 - REMOVED: No longer exist */
   
   /* Headline centered in section - stays only within section bounds */
   .love-notes__headline {
@@ -224,10 +204,7 @@
   }
   
   /* Medium cards (scale 0.9-1.0) - in front of headline */
-  .love-notes__carousel--top .roster-card--testimonial:nth-child(2),
-  .love-notes__carousel--top .roster-card--testimonial:nth-child(4),
-  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(3),
-  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(4) {
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(2) {
     z-index: 7;
   }
   
