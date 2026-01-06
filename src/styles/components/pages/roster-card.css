@@ -140,26 +140,28 @@ body.page-creator .roster-card__handle {
   gap: var(--space-xs); /* 8px - gap between name, handle, and stats */
 }
 
-/* Name uses h4 styling - only for testimonial cards */
+/* Name uses h5 styling - only for testimonial cards */
 .roster-card--testimonial .roster-card__name {
   font-family: var(--font-headline);
-  font-size: var(--text-h4-size);
+  font-size: var(--text-h5-size);
   font-weight: var(--font-weight-headline);
-  line-height: var(--text-h4-line-height);
+  line-height: var(--text-h5-line-height);
   color: var(--obsidian);
   text-transform: var(--text-transform-ui);
   margin: 0;
+  width: 100%; /* Fill container width */
 }
 
-/* Handle uses large paragraph styling - only for testimonial cards in content area */
+/* Handle uses regular paragraph styling - only for testimonial cards in content area */
 .roster-card--testimonial .roster-card__content .roster-card__handle {
   position: static; /* Reset absolute positioning - keep in normal flow */
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-large-size);
+  font-size: var(--text-p-size);
   font-weight: var(--font-weight-paragraph);
-  line-height: var(--text-p-large-line-height);
+  line-height: var(--text-p-line-height);
   color: var(--obsidian);
   margin: 0;
+  width: 100%; /* Fill container width */
   /* Reset properties from absolutely positioned handle */
   bottom: auto;
   left: auto;
@@ -178,6 +180,7 @@ body.page-creator .roster-card__handle {
   line-height: var(--text-p-line-height);
   color: var(--obsidian);
   margin: 0;
+  width: 100%; /* Fill container width */
 }
 
 /* Quote styling - only for testimonial cards */
