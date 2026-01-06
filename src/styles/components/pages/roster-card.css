@@ -126,16 +126,23 @@ body.page-creator .roster-card__handle {
   display: none;
 }
 
-/* Content area for testimonial cards (name + quote below image) */
+/* Content area for testimonial cards (meta + quote below image) */
 .roster-card__content {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs); /* 8px - closest to Figma spec 10px */
+  gap: var(--space-sm); /* Gap between meta and quote */
+}
+
+/* Meta container for name, handle, and stats */
+.roster-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs); /* 8px - gap between name, handle, and stats */
 }
 
 .roster-card__name {
   font-family: var(--font-headline);
-  font-size: var(--text-h6-size); /* 1.414rem / 22.62px - matches Figma */
+  font-size: var(--text-h6-size); /* 1.414rem / 22.62px */
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h6-line-height);
   color: var(--obsidian);
@@ -143,12 +150,32 @@ body.page-creator .roster-card__handle {
   margin: 0;
 }
 
-.roster-card__quote {
+.roster-card__handle {
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-size); /* 1rem / 16px - matches Figma */
+  font-size: var(--text-small-size); /* 0.889rem / 14px */
   font-weight: var(--font-weight-paragraph);
-  line-height: var(--text-p-line-height);
+  line-height: var(--text-small-line-height);
   color: var(--obsidian);
   margin: 0;
+}
+
+.roster-card__stats {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-small-size); /* 0.889rem / 14px */
+  font-weight: var(--font-weight-paragraph);
+  line-height: var(--text-small-line-height);
+  color: var(--obsidian);
+  margin: 0;
+}
+
+.roster-card__quote {
+  font-family: var(--font-paragraph);
+  font-weight: var(--font-weight-paragraph);
+  color: var(--obsidian);
+  margin: 0;
+  /* Large text style applied via .text-large class uses:
+     font-size: var(--text-p-large-size);
+     line-height: var(--text-p-large-line-height);
+  */
 }
 
