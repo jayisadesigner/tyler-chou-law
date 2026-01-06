@@ -216,11 +216,9 @@ body.page-creator .content-section__content {
   width: 100%;
 }
 
-/* Tablet (768px+): Make content sticky while form scrolls */
+/* Tablet (768px+): Layout for form with GSAP pin (sticky removed due to Lenis conflict) */
 @media (min-width: 768px) {
   .content-section--form .content-section__content {
-    position: sticky;
-    top: var(--space-xl);
     align-self: flex-start;
     max-height: calc(100vh - var(--space-xl) * 2);
     padding-top: var(--space-4xl);
@@ -231,6 +229,7 @@ body.page-creator .content-section__content {
     align-items: flex-start;
     justify-content: center;
     padding: var(--space-4xl) var(--space-2xl) var(--space-2xl) var(--space-2xl);
+    height: auto; /* Override 100vh constraint to allow scrolling */
   }
 }
 
