@@ -429,10 +429,55 @@ body.bg-bone .content-section__body {
 
   .content-section--stacked .content-section__content {
     width: 100%;
-    max-width: 576px; /* Same as general content sections */
+    max-width: 640px; /* Match centered sections for better readability */
     margin-left: auto;
     margin-right: auto;
     padding: var(--space-4xl) var(--space-xl); /* Same as general desktop content sections */
+  }
+}
+
+/* Desktop: Increase max-width for stacked content */
+@media (min-width: 1024px) {
+  .content-section--stacked .content-section__content {
+    max-width: 800px; /* Match centered sections */
+    text-align: center; /* Center all text */
+  }
+
+  /* Center eyebrow, headline, and body text */
+  .content-section--stacked .content-section__eyebrow {
+    align-items: center;
+  }
+
+  .content-section--stacked .content-section__eyebrow-text {
+    text-align: center;
+  }
+
+  .content-section--stacked .content-section__headline {
+    align-items: center;
+  }
+
+  .content-section--stacked .content-section__headline-text {
+    text-align: center;
+  }
+
+  /* Use p-large size for body text on desktop - ensure it overrides any base styles */
+  .content-section--stacked .content-section__body {
+    font-size: var(--text-p-large-size);
+    line-height: var(--text-p-large-line-height);
+    text-align: center;
+  }
+
+  .content-section--stacked .content-section__body p {
+    font-size: var(--text-p-large-size);
+    line-height: var(--text-p-large-line-height);
+    text-wrap: balance;
+  }
+}
+
+/* Large desktop: Further increase for optimal line length */
+@media (min-width: 1280px) {
+  .content-section--stacked .content-section__content {
+    max-width: 960px; /* Match centered sections */
   }
 
   .content-section--stacked .content-section__media {

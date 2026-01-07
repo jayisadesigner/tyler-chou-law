@@ -312,6 +312,18 @@ body.page-blog-post {
   --nav-hamburger-color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
+/* Heroes with background images - nav uses light colors for contrast */
+body:has(.hero:has(.background-image)) {
+  --nav-text-color: var(--nav-text-on-obsidian, var(--bone));
+  --nav-hamburger-color: var(--nav-text-on-obsidian, var(--bone));
+}
+
+/* Inner page heroes with background images - nav uses light colors */
+body:has(.hero--inner-page:has(.background-image)) {
+  --nav-text-color: var(--nav-text-on-obsidian, var(--bone));
+  --nav-hamburger-color: var(--nav-text-on-obsidian, var(--bone));
+}
+
 /* All nav elements read from custom property - JavaScript sets it dynamically */
 .logo-line,
 .nav-menu a {
