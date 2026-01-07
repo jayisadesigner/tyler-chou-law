@@ -80,8 +80,8 @@ body.intro-active {
   pointer-events: none;
 }
 
-/* Support both video elements and iframes */
-.intro__video[src],
+/* Support video elements and iframes */
+.intro__video-wrapper video,
 .intro__video-wrapper iframe {
   position: absolute;
   top: 0;

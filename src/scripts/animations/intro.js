@@ -7,7 +7,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { initLineAnimations } from './line-animations.js'
 import { splitTextIntoChars } from './line-animations.js'
-import { initVimeoPlayers } from '../utils/vimeo-loader.js'
+// Vimeo loader no longer needed - using local video elements
 
 // Register GSAP plugins
 if (typeof gsap !== 'undefined') {
@@ -157,8 +157,27 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
 
   // Wait for all intro videos to be ready before starting animation
   const introVideos = document.querySelectorAll('.intro__video')
+  
+  // Wait for video elements to be ready (canplaythrough event)
+  const videoReadyPromises = Array.from(introVideos).map(video => {
+    return new Promise((resolve) => {
+      if (video.tagName === 'VIDEO') {
+        if (video.readyState >= 3) { // HAVE_FUTURE_DATA or better
+          resolve()
+        } else {
+          video.addEventListener('canplaythrough', resolve, { once: true })
+          // Fallback timeout
+          setTimeout(resolve, 3000)
+        }
+      } else {
+        // Not a video element, resolve immediately
+        resolve()
+      }
+    })
+  })
+  
   try {
-    await initVimeoPlayers(introVideos)
+    await Promise.all(videoReadyPromises)
     // Videos are ready - show center video immediately
     // Show intro container and center video wrapper
     intro.classList.remove('intro--hidden')
@@ -422,8 +441,8 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
     onStart: () => {
       // Intro container and center video are already visible
       // Show side video wrappers now that animation is starting
-      introVideos.forEach((iframe) => {
-        const wrapper = iframe.closest('.intro__video-wrapper')
+      introVideos.forEach((video) => {
+        const wrapper = video.closest('.intro__video-wrapper')
         if (wrapper && !wrapper.classList.contains('intro__video--center')) {
           wrapper.classList.add('is-ready')
         }
