@@ -3,6 +3,8 @@
  * Background image/video parallax and flower rotation animations
  */
 
+import { initVimeoPlayer } from '../utils/vimeo-loader.js'
+
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { getSpacingValue } from './utils.js'
@@ -124,6 +126,22 @@ export function initHeroParallax(reducedMotion = false) {
     if (reducedMotion) {
       // Skip animation, show final state
       gsap.set(video, { scale: 1, xPercent: -50, yPercent: -50 })
+      // Still initialize video loading for visibility
+      initVimeoPlayer(video).then(() => {
+        video.classList.add('is-ready')
+        const backgroundImage = video.closest('.background-image')
+        if (backgroundImage) {
+          backgroundImage.classList.add('is-ready')
+        }
+      }).catch(error => {
+        console.error('Failed to load background video:', error)
+        // Fallback: show anyway
+        video.classList.add('is-ready')
+        const backgroundImage = video.closest('.background-image')
+        if (backgroundImage) {
+          backgroundImage.classList.add('is-ready')
+        }
+      })
       return
     }
     
@@ -133,6 +151,26 @@ export function initHeroParallax(reducedMotion = false) {
     const triggerSection = heroSection || contentSection
     
     if (!triggerSection) return
+    
+    // Initialize video loading - wait for video to be ready before showing
+    initVimeoPlayer(video).then(() => {
+      video.classList.add('is-ready')
+      // Small delay to ensure video is playing before showing container
+      setTimeout(() => {
+        const backgroundImage = video.closest('.background-image')
+        if (backgroundImage) {
+          backgroundImage.classList.add('is-ready')
+        }
+      }, 200)
+    }).catch(error => {
+      console.error('Failed to load background video:', error)
+      // Fallback: show anyway
+      video.classList.add('is-ready')
+      const backgroundImage = video.closest('.background-image')
+      if (backgroundImage) {
+        backgroundImage.classList.add('is-ready')
+      }
+    })
     
     // For videos, use scale and yPercent movement for parallax effect
     // Video is centered with translate(-50%, -50%), so use xPercent/yPercent to maintain centering

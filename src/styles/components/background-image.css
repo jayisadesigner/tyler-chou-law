@@ -15,6 +15,16 @@
   opacity: 1; /* Progressive enhancement: Visible by default, JS can enhance with animations */
 }
 
+/* Hide background-image container (including overlays) until video is ready */
+.background-image:has(.background-image__video):not(.is-ready) {
+  visibility: hidden; /* Hide until video is ready - no fade, just prevent flash */
+}
+
+.background-image:has(.background-image__video.is-ready),
+.background-image.is-ready {
+  visibility: visible; /* Show immediately when ready - no fade */
+}
+
 /* Image-specific styles */
 .background-image__img {
   position: absolute;

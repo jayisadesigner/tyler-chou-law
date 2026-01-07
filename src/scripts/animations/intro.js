@@ -7,6 +7,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { initLineAnimations } from './line-animations.js'
 import { splitTextIntoChars } from './line-animations.js'
+import { initVimeoPlayers } from '../utils/vimeo-loader.js'
 
 // Register GSAP plugins
 if (typeof gsap !== 'undefined') {
@@ -117,7 +118,7 @@ export function initCurtain(prefersReducedMotion = false) {
  * 10. Hero fades in (800ms)
  * Total duration: ~7 seconds
  */
-export function initIntro(prefersReducedMotion = false, viewportWidth = window.innerWidth) {
+export async function initIntro(prefersReducedMotion = false, viewportWidth = window.innerWidth) {
   // Track page load time to block early scroll interrupts
   const pageLoadTime = Date.now()
   const scrollBlockDuration = 2000 // Block scroll interrupts for 2 seconds after page load
@@ -154,6 +155,23 @@ export function initIntro(prefersReducedMotion = false, viewportWidth = window.i
     return
   }
 
+  // Wait for all intro videos to be ready before starting animation
+  const introVideos = document.querySelectorAll('.intro__video')
+  try {
+    await initVimeoPlayers(introVideos)
+    // Videos are ready - but don't show containers yet, wait for timeline start
+    // Small delay to ensure videos are playing before starting animation
+    await new Promise(resolve => setTimeout(resolve, 300))
+    // Continue with animation setup
+  } catch (error) {
+    console.error('Failed to load intro videos:', error)
+    // Fallback: continue after 2 second timeout
+    await new Promise(resolve => setTimeout(resolve, 2000))
+  }
+
+  // Don't show intro container yet - wait until animation starts
+  // intro.classList.add('is-ready') // Moved to timeline start
+
   // Prevent scroll restoration and lock scroll
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual'
@@ -168,6 +186,9 @@ export function initIntro(prefersReducedMotion = false, viewportWidth = window.i
   gsap.set(heroContent, { opacity: 0 })
   gsap.set([leftVideo, centerVideo, rightVideo], {
     transformOrigin: 'center center'
+  })
+  gsap.set(centerVideo, {
+    opacity: 0 // Start hidden for fade-in
   })
   gsap.set(leftVideo, { 
     x: 0,
@@ -398,6 +419,19 @@ export function initIntro(prefersReducedMotion = false, viewportWidth = window.i
   
   // Create timeline
   tl = gsap.timeline({
+    delay: 0.2, // Small delay at start (container still hidden) to give videos time to fully load
+    onStart: () => {
+      // Show intro container and video wrappers when timeline actually starts (after delay)
+      intro.classList.remove('intro--hidden')
+      intro.classList.add('is-ready')
+      // Show video wrappers now that animation is starting
+      introVideos.forEach((iframe) => {
+        const wrapper = iframe.closest('.intro__video-wrapper')
+        if (wrapper) {
+          wrapper.classList.add('is-ready')
+        }
+      })
+    },
     onComplete: () => {
       // Clear fallback timeout since timeline completed successfully
       if (fallbackTimeout) {
@@ -432,6 +466,13 @@ export function initIntro(prefersReducedMotion = false, viewportWidth = window.i
   window.addEventListener('touchstart', handleTouchStart, { passive: true })
   window.addEventListener('touchmove', handleTouchMove, { passive: false })
   window.addEventListener('keydown', handleKeyInterrupt)
+
+  // Step 1: Fade in center video (0ms–2500ms)
+  tl.to(centerVideo, {
+    opacity: 1,
+    duration: 2.5,
+    ease: 'power2.out'
+  }, 0)
 
   // Step 2: Center video shrinks vertically (700ms–1300ms) - longer pause before scaling
   tl.to(centerVideo, {

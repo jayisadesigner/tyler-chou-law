@@ -437,7 +437,7 @@ async function resolveFeaturedImage(featuredImage, metadata = {}, cacheKey = nul
     let filename
     let localPath
     
-    if (featuredImage.startsWith('/')) {
+  if (featuredImage.startsWith('/')) {
       // Path like "/images/blog/filename.jpg"
       filename = basename(featuredImage)
       localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)

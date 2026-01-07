@@ -515,7 +515,9 @@ if (document.readyState === 'loading') {
     if (isHomepage) {
       import('./intro.js').then(({ initIntro, initCurtain }) => {
         initCurtain(prefersReducedMotion)
-        initIntro(prefersReducedMotion, viewportWidth)
+        initIntro(prefersReducedMotion, viewportWidth).catch(error => {
+          console.error('Intro animation failed:', error)
+        })
       })
     } else {
       import('./intro.js').then(({ initCurtain }) => {
@@ -535,7 +537,9 @@ if (document.readyState === 'loading') {
   if (isHomepage) {
     import('./intro.js').then(({ initIntro, initCurtain }) => {
       initCurtain(prefersReducedMotion)
-      initIntro(prefersReducedMotion, viewportWidth)
+      initIntro(prefersReducedMotion, viewportWidth).catch(error => {
+        console.error('Intro animation failed:', error)
+      })
     })
   } else {
     import('./intro.js').then(({ initCurtain }) => {

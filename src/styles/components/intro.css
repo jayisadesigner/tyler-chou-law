@@ -22,6 +22,16 @@ body.intro-active {
   overflow: hidden;
 }
 
+.intro--hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.intro.is-ready {
+  opacity: 1;
+  visibility: visible;
+}
+
 .intro.is-complete {
   visibility: hidden;
   pointer-events: none;
@@ -42,13 +52,35 @@ body.intro-active {
   height: 100%;
   width: 33vw;
   overflow: hidden;
+  visibility: hidden; /* Hide until video is ready - no fade, just prevent flash */
 }
+
+.intro__video-wrapper.is-ready {
+  visibility: visible; /* Show immediately when ready - no fade */
+}
+
 
 .intro__video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  border: 0;
+  pointer-events: none;
+}
+
+/* Support both video elements and iframes */
+.intro__video[src],
+.intro__video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 177.78vh; /* 16:9 aspect ratio: height * (16/9) = 100vh * 1.7778 */
+  min-width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
 }
 
 /* Center video wrapper — visible */
