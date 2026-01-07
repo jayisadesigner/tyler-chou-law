@@ -3,6 +3,25 @@
  * Initializes global components and functionality
  */
 
+// Global error handler to suppress Netlify service worker errors
+// This catches the "Response with null body status cannot have body" error from cnm-sw.js
+window.addEventListener('error', function(event) {
+  // Suppress Netlify service worker errors that we can't control
+  if (event.message && event.message.includes('Response with null body status')) {
+    event.preventDefault()
+    event.stopPropagation()
+    return false
+  }
+}, true)
+
+// Also catch unhandled promise rejections from service worker
+window.addEventListener('unhandledrejection', function(event) {
+  if (event.reason && event.reason.message && event.reason.message.includes('Response with null body status')) {
+    event.preventDefault()
+    return false
+  }
+})
+
 // Import CSS so Vite processes it during build
 import '../styles/main.css'
 

@@ -12,6 +12,23 @@
       @keyframes show-after-load { to { visibility: visible; } }
     </style>
     <script>
+      // Suppress Netlify service worker errors (cnm-sw.js)
+      // This runs early to catch errors before other scripts load
+      window.addEventListener('error', function(event) {
+        if (event.message && event.message.includes('Response with null body status')) {
+          event.preventDefault();
+          event.stopPropagation();
+          return false;
+        }
+      }, true);
+      
+      window.addEventListener('unhandledrejection', function(event) {
+        if (event.reason && event.reason.message && event.reason.message.includes('Response with null body status')) {
+          event.preventDefault();
+          return false;
+        }
+      });
+      
       window.addEventListener('load', function() {
         document.body.classList.add('ready');
       });
