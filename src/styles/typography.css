@@ -1,8 +1,30 @@
 /* Typography System */
 
-/* Font Loading - Fontshare Variable Web Fonts */
-/* Cabinet Grotesk (variable 1-800) for headlines, Satoshi (variable 1-900) for body */
-@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@1,800&f[]=satoshi@1,900&display=swap');
+/* Font Loading - Self-hosted Variable Web Fonts */
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('../assets/fonts/CabinetGrotesk-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../assets/fonts/Satoshi-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+/* Note: Satoshi-Variable.woff2 (regular) needs to be uploaded - currently only italic exists */
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../assets/fonts/Satoshi-VariableItalic.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
 
 /* Base Typography */
 body {
