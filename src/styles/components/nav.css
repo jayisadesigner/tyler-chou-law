@@ -282,10 +282,10 @@ body.page-roster {
   --nav-hamburger-color: var(--bone);
 }
 
-/* About page: obsidian text on bone background */
+/* About page: bone text on obsidian background */
 body.page-about {
-  --nav-text-color: var(--nav-text-on-bone, var(--obsidian));
-  --nav-hamburger-color: var(--nav-text-on-bone, var(--obsidian));
+  --nav-text-color: var(--bone);
+  --nav-hamburger-color: var(--bone);
 }
 
 /* Palo Verde background: light text on dark green background */

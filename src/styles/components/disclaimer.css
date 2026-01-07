@@ -74,14 +74,14 @@ body.page-roster .disclaimer-container .disclaimer-text {
   color: var(--bone);
 }
 
-/* About page: obsidian text on bone background */
+/* About page: bone text on obsidian background */
 body.page-about .site-disclaimer {
-  background-color: var(--bone);
-  color: var(--nav-text-on-bone, var(--obsidian));
+  background-color: var(--obsidian);
+  color: var(--bone);
 }
 
 body.page-about .disclaimer-container .disclaimer-text {
-  color: var(--nav-text-on-bone, var(--obsidian));
+  color: var(--bone);
 }
 
 /* Palo Verde background: light text on dark green background */

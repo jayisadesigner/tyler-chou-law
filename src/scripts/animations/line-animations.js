@@ -138,10 +138,14 @@ export function initLineAnimations(reducedMotion = false, viewportHeight = windo
     }
   })
   
-  // Initialize hero background video to opacity 0 (if it exists)
-  const heroBackgroundImage = document.querySelector('.hero .background-image')
-  if (heroBackgroundImage) {
-    gsap.set(heroBackgroundImage, { opacity: 0 })
+  // Initialize hero background image/video to opacity 0 (if it exists AND hero has line animation)
+  // Only hide if there's a line animation that will fade it back in
+  const heroWithLineAnimation = document.querySelector('.hero .hero-headline[js-line-animation]')
+  if (heroWithLineAnimation) {
+    const heroBackgroundImage = heroWithLineAnimation.closest('.hero')?.querySelector('.background-image')
+    if (heroBackgroundImage) {
+      gsap.set(heroBackgroundImage, { opacity: 0 })
+    }
   }
   
   // Now do all DOM writes: hide hero headlines that need hiding

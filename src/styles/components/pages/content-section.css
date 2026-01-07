@@ -299,7 +299,7 @@ body.page-roster .content-section__headline-text {
 }
 
 body.page-about .content-section__headline-text {
-  color: var(--text-headline-on-bone);
+  color: var(--text-headline-on-obsidian);
 }
 
 body.page-love-letters .content-section__headline-text {
@@ -312,7 +312,7 @@ body.page-roster .content-section__eyebrow-text {
 }
 
 body.page-about .content-section__eyebrow-text {
-  color: var(--text-body-on-bone);
+  color: var(--text-body-on-obsidian);
 }
 
 body.page-love-letters .content-section__eyebrow-text {
@@ -344,7 +344,7 @@ body.page-roster .content-section__body {
 }
 
 body.page-about .content-section__body {
-  color: var(--text-body-on-bone);
+  color: var(--text-body-on-obsidian);
 }
 
 body.page-creatorarq .content-section__body {

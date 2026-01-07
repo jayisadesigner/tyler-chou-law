@@ -486,10 +486,6 @@ export function initPhilosophyRedaction(reducedMotion = false, viewportHeight = 
     "(min-width: 1280px)": function() {
       const desktopScrollMultiplier = calculateScrollMultiplier(2.5, 5, 250, viewportHeight)
       
-      // Philosophy section - no background color change needed
-      // About page already has bone background by default
-      // Only palo verde section changes background to green
-      
       createRedactionTimeline(
         createPinnedScrollConfig({
           trigger: philosophySection,
@@ -499,7 +495,6 @@ export function initPhilosophyRedaction(reducedMotion = false, viewportHeight = 
           callbacks: {
             onRefresh: handleResize,
             invalidateOnRefresh: true,
-            // Don't set nav color here - the ScrollTrigger above handles it
           },
         })
       )

@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   overflow: visible;
-  background-color: var(--bone);
+  background-color: var(--page-bg-color, var(--bone));
 }
 
 .philosophy-container {
@@ -89,17 +89,17 @@
 
 .philosophy-text--content {
   font-size: clamp(4rem, 8vw, 153.541px); /* Responsive from 4rem to 153.541px */
-  color: var(--chuparosa-500); /* WCAG accessible red on bone background */
+  color: var(--text-headline-color, var(--chuparosa-500));
 }
 
 .philosophy-text--king {
   font-size: clamp(5rem, 10vw, 212.351px); /* Responsive from 5rem to 212.351px */
-  color: var(--chuparosa-500); /* WCAG accessible red on bone background */
+  color: var(--text-headline-color, var(--chuparosa-500));
 }
 
 .philosophy-text--queen {
   font-size: clamp(6rem, 12vw, 239.141px); /* Responsive from 6rem to 239.141px */
-  color: var(--obsidian);
+  color: var(--chuparosa-500); /* Same color as redaction lines */
   opacity: var(--philosophy-queen-opacity, 1); /* CSS variable with visible fallback */
   visibility: visible; /* Keep element in layout flow to maintain grid height */
 }

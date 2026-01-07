@@ -79,10 +79,10 @@ body.page-roster {
 }
 
 body.page-about {
-  background-color: var(--bone);
-  --page-bg-color: var(--bone);
-  --text-headline-color: var(--text-headline-on-bone);
-  --text-body-color: var(--text-body-on-bone);
+  background-color: var(--obsidian);
+  --page-bg-color: var(--obsidian);
+  --text-headline-color: var(--text-headline-on-obsidian);
+  --text-body-color: var(--text-body-on-obsidian);
 }
 
 /* Default fallback */
