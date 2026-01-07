@@ -159,15 +159,20 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   const introVideos = document.querySelectorAll('.intro__video')
   try {
     await initVimeoPlayers(introVideos)
-    // Videos are ready - start animation immediately
+    // Videos are ready - show center video immediately
+    // Show intro container and center video wrapper
+    intro.classList.remove('intro--hidden')
+    intro.classList.add('is-ready')
+    
+    // Show center video wrapper immediately (centerVideo is already the wrapper element)
+    if (centerVideo) {
+      centerVideo.classList.add('is-ready')
+    }
   } catch (error) {
     console.error('Failed to load intro videos:', error)
     // Fallback: continue after 2 second timeout
     await new Promise(resolve => setTimeout(resolve, 2000))
   }
-
-  // Don't show intro container yet - wait until animation starts
-  // intro.classList.add('is-ready') // Moved to timeline start
 
   // Prevent scroll restoration and lock scroll
   if ('scrollRestoration' in history) {
@@ -184,9 +189,7 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   gsap.set([leftVideo, centerVideo, rightVideo], {
     transformOrigin: 'center center'
   })
-  gsap.set(centerVideo, {
-    opacity: 0 // Start hidden for fade-in
-  })
+  // Center video starts visible now (opacity: 1 by default, no need to set to 0)
   gsap.set(leftVideo, { 
     x: 0,
     xPercent: -50,
@@ -417,13 +420,11 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   // Create timeline
   tl = gsap.timeline({
     onStart: () => {
-      // Show intro container and video wrappers when timeline starts
-      intro.classList.remove('intro--hidden')
-      intro.classList.add('is-ready')
-      // Show video wrappers now that animation is starting
+      // Intro container and center video are already visible
+      // Show side video wrappers now that animation is starting
       introVideos.forEach((iframe) => {
         const wrapper = iframe.closest('.intro__video-wrapper')
-        if (wrapper) {
+        if (wrapper && !wrapper.classList.contains('intro__video--center')) {
           wrapper.classList.add('is-ready')
         }
       })
@@ -463,12 +464,8 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   window.addEventListener('touchmove', handleTouchMove, { passive: false })
   window.addEventListener('keydown', handleKeyInterrupt)
 
-  // Step 1: Fade in center video (0ms–2500ms)
-  tl.to(centerVideo, {
-    opacity: 1,
-    duration: 2.5,
-    ease: 'power2.out'
-  }, 0)
+  // Step 1: Center video is already visible, no fade-in needed
+  // (Center video was made visible immediately after Vimeo players loaded)
 
   // Step 2: Center video shrinks vertically (700ms–1300ms) - longer pause before scaling
   tl.to(centerVideo, {
