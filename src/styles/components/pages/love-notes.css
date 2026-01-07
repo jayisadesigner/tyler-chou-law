@@ -47,6 +47,13 @@
   line-height: var(--text-h3-line-height);
   color: var(--text-headline-on-bone);
   margin: 0;
+  text-align: center; /* Center the headline text */
+}
+
+/* Center line spans for line animation */
+.love-notes__headline[js-line-animation] .line {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Desktop header sizing */
