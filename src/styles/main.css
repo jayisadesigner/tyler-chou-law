@@ -9,6 +9,7 @@
 @import './components/disclaimer.css';
 @import './components/buttons.css';
 @import './components/forms.css';
+@import './components/thank-you.css';
 @import './components/video.css';
 @import './components/background-image.css';
 @import './components/pages/animations.css';
@@ -56,7 +57,8 @@ body.page-creatorarq {
 body.page-index,
 body.page-contact,
 body.page-creator,
-body.page-blog-post {
+body.page-blog-post,
+body.page-thank-you {
   background-color: var(--chuparosa-600);
   --page-bg-color: var(--chuparosa-600);
   --text-headline-color: var(--text-headline-on-chuparosa-600);
