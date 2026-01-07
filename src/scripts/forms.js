@@ -113,6 +113,7 @@ function clearFieldError(e) {
 
 function handleFormSubmit(e) {
   e.preventDefault()
+  e.stopPropagation()
   
   const form = e.target
   const formData = new FormData(form)
@@ -172,12 +173,8 @@ function handleFormSubmit(e) {
           <p>Your message has been received. Tyler will get back to you within 24-48 hours.</p>
         </div>
       `
-      // Scroll to form if needed
+      // Scroll to form
       form.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-      // Update URL hash to match redirect
-      if (window.location.pathname === '/contact.html' || window.location.pathname === '/creatorarq.html') {
-        window.history.replaceState(null, '', `${window.location.pathname}#success`)
-      }
     })
     .catch((error) => {
       console.error('Form submission error:', error)
@@ -194,20 +191,5 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initForms)
 } else {
   initForms()
-}
-
-// Handle form success hash (in case JavaScript didn't run and Netlify redirected)
-if (window.location.hash === '#success') {
-  const form = document.querySelector('#contact-form')
-  if (form && !form.querySelector('.form-success')) {
-    // Form was submitted but JavaScript didn't run - show success message
-    form.innerHTML = `
-      <div class="form-success">
-        <h3>Thank you for reaching out!</h3>
-        <p>Your message has been received. Tyler will get back to you within 24-48 hours.</p>
-      </div>
-    `
-    form.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-  }
 }
 
