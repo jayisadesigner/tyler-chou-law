@@ -16,8 +16,9 @@ const projectRoot = join(__dirname, '..')
 const contentDir = join(projectRoot, 'content', 'blog')
 // Generate to dist directory after Vite build
 const outputDir = join(projectRoot, 'dist', 'love-letters')
-// Write listing page directly to dist (Vite already copied the source file)
-const listingPagePath = join(projectRoot, 'dist', 'love-letters.html')
+// Read from root file (source), write to both root (dev) and dist (production)
+const listingPageSourcePath = join(projectRoot, 'love-letters.html')
+const listingPageDistPath = join(projectRoot, 'dist', 'love-letters.html')
 const templatePath = join(projectRoot, 'src', 'templates', 'blog-post.html')
 const componentsDir = join(projectRoot, 'src', 'components')
 
@@ -393,8 +394,18 @@ async function generateListingPage(posts) {
   try {
     console.log(`\ngenerateListingPage called with ${posts.length} post(s)`)
     
-    // Read existing love-letters.html as base
-    let listingHTML = await readFile(listingPagePath, 'utf-8')
+    // Read existing love-letters.html as base (try root first, fallback to dist)
+    let listingHTML
+    try {
+      listingHTML = await readFile(listingPageSourcePath, 'utf-8')
+    } catch {
+      // Fallback to dist if root doesn't exist
+      try {
+        listingHTML = await readFile(listingPageDistPath, 'utf-8')
+      } catch {
+        throw new Error('Could not find love-letters.html source file')
+      }
+    }
     
     // Load components
     const headerTemplate = await loadComponentTemplate('header')
@@ -519,10 +530,11 @@ async function generateListingPage(posts) {
       listingHTML = listingHTML.substring(0, footerEndIndex + 9) + '\n    ' + disclaimerTemplate + listingHTML.substring(footerEndIndex + 9)
     }
     
-    // Write updated listing page
-    await writeFile(listingPagePath, listingHTML, 'utf-8')
+    // Write updated listing page to both root (for dev) and dist (for production)
+    await writeFile(listingPageSourcePath, listingHTML, 'utf-8')
+    await writeFile(listingPageDistPath, listingHTML, 'utf-8')
     
-    console.log('✓ Generated listing page: love-letters.html')
+    console.log('✓ Generated listing page: love-letters.html (root and dist)')
   } catch (error) {
     console.error('Error generating listing page:', error)
     throw error
