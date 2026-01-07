@@ -573,6 +573,22 @@ async function generateListingPage(posts) {
     }
     
     // Replace asset paths with production paths
+    // First, replace old production paths with dev paths (so Vite can build)
+    // Then replace dev paths with production paths (if available)
+    
+    // Replace old production CSS paths with dev path first
+    listingHTML = listingHTML.replace(
+      /href="\/assets\/main-[^"]+\.css"/g,
+      'href="/src/styles/main.css"'
+    )
+    
+    // Replace old production JS paths with dev path first
+    listingHTML = listingHTML.replace(
+      /src="\/assets\/main-[^"]+\.js"/g,
+      'src="/src/scripts/main.js"'
+    )
+    
+    // Now replace dev paths with production paths (if available)
     if (viteAssets.mainCss) {
       listingHTML = listingHTML.replace(
         /href="\/src\/styles\/main\.css"/g,
