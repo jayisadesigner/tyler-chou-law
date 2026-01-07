@@ -8,14 +8,6 @@ import { readdir, readFile, writeFile, mkdir, stat } from 'fs/promises'
 import { join, dirname, basename } from 'path'
 import { fileURLToPath } from 'url'
 import { marked } from 'marked'
-import { config } from 'dotenv'
-
-// Load environment variables from .env file
-config()
-
-// Unsplash API configuration
-const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY
-const UNSPLASH_API_URL = 'https://api.unsplash.com'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -29,8 +21,6 @@ const listingPageSourcePath = join(projectRoot, 'love-letters.html')
 const listingPageDistPath = join(projectRoot, 'dist', 'love-letters.html')
 const templatePath = join(projectRoot, 'src', 'templates', 'blog-post.html')
 const componentsDir = join(projectRoot, 'src', 'components')
-// Cache file for Unsplash images
-const unsplashCachePath = join(projectRoot, '.unsplash-cache.json')
 
 /**
  * Calculate reading time from word count
@@ -140,339 +130,47 @@ function parseFrontmatter(content) {
 }
 
 /**
- * Concept mapping: Map abstract terms to concrete visual search terms
- */
-const conceptMapping = {
-  'creator economy': ['business', 'entrepreneur', 'success', 'startup'],
-  'creator business': ['business', 'entrepreneur', 'success', 'startup'],
-  'purpose': ['mission', 'vision', 'impact', 'goal'],
-  'legacy': ['success', 'achievement', 'impact', 'heritage'],
-  'copyright': ['legal', 'protection', 'security', 'shield', 'law'],
-  'copyright strikes': ['legal', 'protection', 'security', 'shield'],
-  'dmca': ['legal', 'protection', 'security'],
-  'ip trolls': ['legal', 'protection', 'security', 'shield'],
-  'creator protection': ['legal', 'protection', 'security', 'shield'],
-  'brand deals': ['business', 'partnership', 'deal', 'contract'],
-  'sponsorships': ['business', 'partnership', 'deal'],
-  'negotiation': ['business', 'deal', 'contract', 'meeting'],
-  'revenue streams': ['business', 'money', 'success', 'growth'],
-  'audience ownership': ['community', 'connection', 'people', 'audience'],
-  'email list': ['community', 'connection', 'marketing'],
-  'community building': ['community', 'connection', 'people', 'together'],
-  'youtube': ['video', 'content', 'media', 'online'],
-  'channel deletion': ['warning', 'danger', 'alert', 'protection'],
-  'pain points': ['challenge', 'problem', 'solution', 'help'],
-  'case studies': ['analysis', 'study', 'research', 'business']
-}
-
-/**
- * Map abstract concepts to concrete visual terms
- */
-function mapConcepts(keywords) {
-  const mapped = []
-  const lowerKeywords = keywords.map(k => k.toLowerCase())
-  
-  for (const keyword of lowerKeywords) {
-    let foundMapping = false
-    
-    // Check for exact matches in concept mapping
-    if (conceptMapping[keyword]) {
-      mapped.push(...conceptMapping[keyword])
-      foundMapping = true
-    } else {
-      // Check for partial matches (e.g., "creator economy" contains "creator")
-      for (const [concept, visuals] of Object.entries(conceptMapping)) {
-        if (keyword.includes(concept) || concept.includes(keyword)) {
-          mapped.push(...visuals)
-          foundMapping = true
-          break
-        }
-      }
-    }
-    
-    // If no mapping found, use the original keyword
-    if (!foundMapping) {
-      mapped.push(keyword)
-    }
-  }
-  
-  // Remove duplicates and return unique terms
-  return [...new Set(mapped)]
-}
-
-/**
- * Extract keywords from description text
- */
-function extractKeywordsFromText(text) {
-  if (!text) return []
-  
-  // Common stop words to filter out
-  const stopWords = new Set([
-    'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
-    'of', 'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'been',
-    'be', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
-    'should', 'may', 'might', 'must', 'can', 'this', 'that', 'these', 'those',
-    'i', 'you', 'he', 'she', 'it', 'we', 'they', 'what', 'which', 'who',
-    'when', 'where', 'why', 'how', 'all', 'each', 'every', 'both', 'few',
-    'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only',
-    'own', 'same', 'so', 'than', 'too', 'very', 'just', 'now'
-  ])
-  
-  // Extract meaningful words (3+ characters, not stop words)
-  const words = text
-    .toLowerCase()
-    .replace(/[^\w\s]/g, ' ')
-    .split(/\s+/)
-    .filter(word => word.length >= 3 && !stopWords.has(word))
-  
-  // Return most common/relevant words (prioritize longer words)
-  return words
-    .sort((a, b) => b.length - a.length)
-    .slice(0, 4)
-}
-
-/**
- * Get keywords for a blog post based on image_keywords, description, tags, and title
- * Priority: image_keywords (manual) → description → tags → title
- */
-function getImageKeywords(metadata) {
-  const keywords = []
-  
-  // Priority 1: Manual image_keywords field (highest priority)
-  if (metadata.image_keywords) {
-    const manualKeywords = metadata.image_keywords
-      .split(',')
-      .map(k => k.trim())
-      .filter(k => k.length > 0)
-    if (manualKeywords.length > 0) {
-      const result = manualKeywords.slice(0, 3)
-      console.log(`  → Using manual image_keywords for "${metadata.title}":`, result.join(', '))
-      return result // Use manual keywords directly
-    }
-  }
-  
-  // Priority 2: Extract from description (more descriptive than tags)
-  if (metadata.description) {
-    const descKeywords = extractKeywordsFromText(metadata.description)
-    if (descKeywords.length > 0) {
-      keywords.push(...descKeywords)
-    }
-  }
-  
-  // Priority 3: Use tags (map abstract concepts to visual terms)
-  if (metadata.tags) {
-    const tags = Array.isArray(metadata.tags) 
-      ? metadata.tags 
-      : metadata.tags.split(',').map(t => t.trim())
-    
-    // Filter and prioritize longer tags
-    const sortedTags = tags
-      .filter(tag => tag.length > 3)
-      .sort((a, b) => b.length - a.length)
-      .slice(0, 3)
-    
-    // Map abstract concepts to concrete visual terms
-    if (sortedTags.length > 0) {
-      const mappedTags = mapConcepts(sortedTags)
-      keywords.push(...mappedTags)
-    }
-  }
-  
-  // Priority 4: Extract from title if we still don't have enough
-  if (keywords.length < 2 && metadata.title) {
-    const titleWords = extractKeywordsFromText(metadata.title)
-    if (titleWords.length > 0) {
-      keywords.push(...titleWords)
-    }
-  }
-  
-  // Remove duplicates, filter out very short terms, and return top 3
-  const uniqueKeywords = [...new Set(keywords)]
-    .filter(k => k.length >= 3)
-    .slice(0, 3)
-  
-  // FALLBACK: If we still have no keywords, use generic terms based on context
-  if (uniqueKeywords.length === 0) {
-    console.warn(`  ⚠ No keywords extracted for "${metadata.title}", using fallback`)
-    // Try to use at least the title as a fallback
-    if (metadata.title) {
-      const titleFallback = metadata.title
-        .toLowerCase()
-        .replace(/[^\w\s]/g, ' ')
-        .split(/\s+/)
-        .filter(word => word.length >= 4)
-        .slice(0, 2)
-      if (titleFallback.length > 0) {
-        return titleFallback
-      }
-    }
-    // Ultimate fallback
-    return ['business', 'entrepreneur', 'success']
-  }
-  
-  console.log(`  → Extracted keywords for "${metadata.title}":`, uniqueKeywords.join(', '))
-  return uniqueKeywords
-}
-
-/**
- * Load Unsplash image cache
- */
-async function loadUnsplashCache() {
-  try {
-    const cacheContent = await readFile(unsplashCachePath, 'utf-8')
-    return JSON.parse(cacheContent)
-  } catch (error) {
-    // Cache file doesn't exist or is invalid, return empty cache
-    return {}
-  }
-}
-
-/**
- * Save Unsplash image cache
- */
-async function saveUnsplashCache(cache) {
-  try {
-    await writeFile(unsplashCachePath, JSON.stringify(cache, null, 2), 'utf-8')
-  } catch (error) {
-    console.warn(`  ⚠ Failed to save Unsplash cache: ${error.message}`)
-  }
-}
-
-/**
- * Fetch image from Unsplash API based on keywords (with caching)
- */
-async function fetchUnsplashImage(keywords, cacheKey) {
-  if (!UNSPLASH_ACCESS_KEY) {
-    console.warn('  ⚠ Unsplash API key not found. Set UNSPLASH_ACCESS_KEY environment variable to enable automatic images.')
-    return null
-  }
-  
-  if (!keywords || keywords.length === 0) {
-    console.warn('  ⚠ No keywords provided for Unsplash search')
-    return null
-  }
-  
-  // Check cache first
-  if (cacheKey) {
-    const cache = await loadUnsplashCache()
-    if (cache[cacheKey]) {
-      console.log(`  → Using cached image for "${cacheKey}"`)
-      return cache[cacheKey]
-    }
-  }
-  
-  try {
-    const query = keywords.join(' ')
-    const url = `${UNSPLASH_API_URL}/photos/random?query=${encodeURIComponent(query)}&orientation=landscape&w=1600&h=900&client_id=${UNSPLASH_ACCESS_KEY}`
-    
-    const response = await fetch(url)
-    
-    if (!response.ok) {
-      if (response.status === 403) {
-        console.warn(`  ⚠ Unsplash API rate limit reached (403). Wait an hour or upgrade API access.`)
-      } else if (response.status === 404) {
-        console.warn(`  ⚠ Unsplash API: No images found for "${query}" (404)`)
-      } else {
-        console.warn(`  ⚠ Unsplash API error: ${response.status} ${response.statusText}`)
-      }
-      return null
-    }
-    
-    const data = await response.json()
-    
-    if (data && data.urls && data.urls.regular) {
-      const imageData = {
-        url: data.urls.regular,
-        photographer: data.user?.name || 'Unknown',
-        photographerUrl: data.user?.links?.html || 'https://unsplash.com',
-        unsplashUrl: data.links?.html || 'https://unsplash.com'
-      }
-      
-      // Save to cache if we have a cache key
-      if (cacheKey) {
-        const cache = await loadUnsplashCache()
-        cache[cacheKey] = imageData
-        await saveUnsplashCache(cache)
-      }
-      
-      return imageData
-    }
-    
-    console.warn(`  ⚠ Unsplash API: Invalid response format`)
-    return null
-  } catch (error) {
-    console.warn(`  ⚠ Failed to fetch Unsplash image: ${error.message}`)
-    return null
-  }
-}
-
-/**
- * Generate Unsplash attribution HTML
- */
-function generateUnsplashAttribution(unsplashData) {
-  if (!unsplashData) return ''
-  
-  return `
-        <div class="blog-post-unsplash-attribution">
-          <p class="blog-post-unsplash-attribution__text">
-            Photo by <a href="${unsplashData.photographerUrl}?utm_source=tyler_chou_law&utm_medium=referral" target="_blank" rel="noopener noreferrer">${unsplashData.photographer}</a> on <a href="${unsplashData.unsplashUrl}?utm_source=tyler_chou_law&utm_medium=referral" target="_blank" rel="noopener noreferrer">Unsplash</a>
-          </p>
-        </div>`
-}
-
-/**
  * Resolve featured image path
- * CMS stores in src/assets/images/blog/, public path is /assets/images/blog/
- * Checks if local files exist, falls back to Unsplash if not found
+ * Handles direct URLs (external images) and local files in src/assets/images/blog/
  */
-async function resolveFeaturedImage(featuredImage, metadata = {}, cacheKey = null) {
-  // If featured image is provided, check if it exists
-  if (featuredImage) {
-    // If it's already a full URL, return as is (external image)
+async function resolveFeaturedImage(featuredImage) {
+  // If no featured image provided, return null
+  if (!featuredImage) {
+    return { url: null }
+  }
+  
+  // If it's already a full URL, return as is (external image)
   if (featuredImage.startsWith('http://') || featuredImage.startsWith('https://')) {
-      return { url: featuredImage, unsplashData: null }
+    return { url: featuredImage }
   }
   
-    // Check if local file exists
-    let filename
-    let localPath
-    
+  // Check if local file exists
+  let filename
+  let localPath
+  
   if (featuredImage.startsWith('/')) {
-      // Path like "/images/blog/filename.jpg"
-      filename = basename(featuredImage)
-      localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
-    } else {
-      // Just filename or relative path
-      filename = basename(featuredImage)
-      localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
-    }
-    
-    // Check if file exists
-    try {
-      await stat(localPath)
-      // File exists, use it
-      const publicPath = featuredImage.startsWith('/') 
-        ? `https://tylerchoulaw.com${featuredImage}`
-        : `https://tylerchoulaw.com/assets/images/blog/${filename}`
-      return { url: publicPath, unsplashData: null }
-    } catch {
-      // File doesn't exist, log and fall through to Unsplash
-      console.log(`  → Local image not found: ${filename}, fetching from Unsplash`)
-    }
+    // Path like "/images/blog/filename.jpg"
+    filename = basename(featuredImage)
+    localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
+  } else {
+    // Just filename or relative path
+    filename = basename(featuredImage)
+    localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
   }
   
-  // No featured image provided OR file doesn't exist - try to fetch from Unsplash
-  const keywords = getImageKeywords(metadata)
-  if (keywords.length > 0) {
-    // Use provided cacheKey (slug) or generate from title
-    const key = cacheKey || metadata.slug || slugify(metadata.title || '')
-    const unsplashData = await fetchUnsplashImage(keywords, key)
-    if (unsplashData) {
-      return { url: unsplashData.url, unsplashData }
-    }
+  // Check if file exists
+  try {
+    await stat(localPath)
+    // File exists, use it
+    const publicPath = featuredImage.startsWith('/') 
+      ? `https://tylerchoulaw.com${featuredImage}`
+      : `https://tylerchoulaw.com/assets/images/blog/${filename}`
+    return { url: publicPath }
+  } catch {
+    // File doesn't exist, log warning
+    console.warn(`  ⚠ Local image not found: ${filename}`)
+    return { url: null }
   }
-  
-  return { url: null, unsplashData: null }
 }
 
 /**
@@ -534,14 +232,10 @@ function generateFeaturedImageHero(imageData) {
   }
   
   // For local images, remove domain prefix for relative path
-  // For Unsplash URLs, use full URL
+  // For external URLs, use full URL
   const imageSrc = imageData.url.startsWith('https://tylerchoulaw.com')
     ? imageData.url.replace('https://tylerchoulaw.com', '')
     : imageData.url
-  
-  const attribution = imageData.unsplashData 
-    ? generateUnsplashAttribution(imageData.unsplashData)
-    : ''
   
   return `
         <div class="background-image" aria-hidden="true">
@@ -560,7 +254,6 @@ function generateFeaturedImageHero(imageData) {
             <div class="background-image__overlay background-image__overlay-dark"></div>
             <!-- Overlay Layer 4: Final opacity overlay -->
             <div class="background-image__overlay background-image__overlay-opacity"></div>
-            ${attribution}
         </div>`
 }
 
@@ -636,16 +329,11 @@ async function buildPost(filePath, fileName) {
     const footerTemplate = await loadComponentTemplate('footer')
     const disclaimerTemplate = await loadComponentTemplate('disclaimer')
     
-    // Handle featured image (may fetch from Unsplash if not provided)
+    // Handle featured image
     const featuredImage = metadata.featured_image || null
-    // Pass slug as cache key for Unsplash images
-    const imageData = await resolveFeaturedImage(featuredImage, metadata, slug)
+    const imageData = await resolveFeaturedImage(featuredImage)
     const imageMeta = generateFeaturedImageMeta(imageData)
     const featuredImageHero = generateFeaturedImageHero(imageData)
-    
-    if (imageData.unsplashData) {
-      console.log(`  → Fetched Unsplash image for "${metadata.title}"`)
-    }
     
     // Format dates
     const dateDisplay = formatDate(metadata.date)
@@ -739,6 +427,9 @@ async function generateListingPage(posts) {
   try {
     console.log(`\ngenerateListingPage called with ${posts.length} post(s)`)
     
+    // Get Vite-generated asset paths (needed for production)
+    const viteAssets = await getViteAssets()
+    
     // Read existing love-letters.html as base (try root first, fallback to dist)
     let listingHTML
     try {
@@ -762,7 +453,7 @@ async function generateListingPage(posts) {
     const postsHTML = posts.map((post, index) => {
       const dateDisplay = formatDate(post.date)
       const loveLetterNumber = posts.length - index
-      // Handle both local and Unsplash URLs
+      // Handle both local and external URLs
       const imageSrc = post.featuredImage 
         ? (post.featuredImage.startsWith('https://tylerchoulaw.com') 
             ? post.featuredImage.replace('https://tylerchoulaw.com', '')
@@ -879,6 +570,21 @@ async function generateListingPage(posts) {
     const footerEndIndex = listingHTML.lastIndexOf('</footer>')
     if (footerEndIndex !== -1) {
       listingHTML = listingHTML.substring(0, footerEndIndex + 9) + '\n    ' + disclaimerTemplate + listingHTML.substring(footerEndIndex + 9)
+    }
+    
+    // Replace asset paths with production paths
+    if (viteAssets.mainCss) {
+      listingHTML = listingHTML.replace(
+        /href="\/src\/styles\/main\.css"/g,
+        `href="${viteAssets.mainCss}"`
+      )
+    }
+    
+    if (viteAssets.mainJs) {
+      listingHTML = listingHTML.replace(
+        /src="\/src\/scripts\/main\.js"/g,
+        `src="${viteAssets.mainJs}"`
+      )
     }
     
     // Write updated listing page to both root (for dev) and dist (for production)
