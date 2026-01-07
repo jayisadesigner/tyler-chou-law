@@ -27,6 +27,11 @@ body.intro-active {
   visibility: hidden;
 }
 
+.intro--hidden .background-image__overlay {
+  visibility: hidden;
+  opacity: 0;
+}
+
 .intro.is-ready {
   opacity: 1;
   visibility: visible;
@@ -57,6 +62,18 @@ body.intro-active {
 
 .intro__video-wrapper.is-ready {
   visibility: visible; /* Show immediately when ready - no fade */
+}
+
+/* Hide overlays when video wrapper is not ready */
+.intro__video-wrapper:not(.is-ready) .background-image__overlay {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* Show overlays when video wrapper is ready */
+.intro__video-wrapper.is-ready .background-image__overlay {
+  visibility: visible;
+  opacity: 1;
 }
 
 
