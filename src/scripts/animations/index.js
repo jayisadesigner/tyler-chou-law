@@ -360,10 +360,10 @@ export function initAnimations() {
       start: 'top bottom', // Changed from 'top center' to fire later, after love-notes unpins
       end: 'bottom top',
       onEnter: () => {
-        setBodyTheme('') // This handles both theme class removal and nav color reset
+          setBodyTheme('') // This handles both theme class removal and nav color reset
       },
       onEnterBack: () => {
-        setBodyTheme('') // This handles both theme class removal and nav color reset
+          setBodyTheme('') // This handles both theme class removal and nav color reset
       },
     })
   }

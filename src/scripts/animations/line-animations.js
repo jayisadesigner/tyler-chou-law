@@ -143,8 +143,8 @@ export function initLineAnimations(reducedMotion = false, viewportHeight = windo
   const heroWithLineAnimation = document.querySelector('.hero .hero-headline[js-line-animation]')
   if (heroWithLineAnimation) {
     const heroBackgroundImage = heroWithLineAnimation.closest('.hero')?.querySelector('.background-image')
-    if (heroBackgroundImage) {
-      gsap.set(heroBackgroundImage, { opacity: 0 })
+  if (heroBackgroundImage) {
+    gsap.set(heroBackgroundImage, { opacity: 0 })
     }
   }
   
