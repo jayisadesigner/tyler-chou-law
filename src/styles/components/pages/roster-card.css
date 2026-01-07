@@ -187,11 +187,10 @@ body.page-creator .roster-card__handle {
 .roster-card--testimonial .roster-card__quote {
   font-family: var(--font-paragraph);
   font-weight: var(--font-weight-paragraph);
+  font-size: var(--text-h5-size);
+  line-height: var(--text-h5-line-height);
   color: var(--obsidian);
   margin: 0;
-  /* Large text style applied via .text-large class uses:
-     font-size: var(--text-p-large-size);
-     line-height: var(--text-p-large-line-height);
-  */
+  text-wrap: balance;
 }
 

@@ -360,7 +360,7 @@ body.bg-bone .hero-subheadline--inner-page {
   font-weight: var(--font-weight-headline);
   font-size: var(--text-h3-size); /* Bumped down 2 notches from h1 */
   line-height: var(--text-h3-line-height);
-  color: var(--text-headline-on-chuparosa-600); /* Use text color mapping system */
+  color: var(--text-headline-on-obsidian);
   text-transform: none; /* Blog titles not uppercase */
   text-align: var(--text-align-left);
   text-align-last: var(--text-align-left);

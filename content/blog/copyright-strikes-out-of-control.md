@@ -5,6 +5,8 @@ date: 2025-09-22
 author: "Tyler Chou"
 description: "Claims, strikes, and demonetization are crushing creators. Tyler Chou breaks down what's actually happening and how to protect your channel before disaster strikes."
 tags: ["copyright", "YouTube", "DMCA", "creator protection", "IP trolls"]
+image_keywords: "legal protection, security, shield, defense, law"
+featured_image: "https://images.unsplash.com/photo-1593444285553-28163240e3f1?w=1600&h=900&fit=crop&q=80"
 ---
 
 ## TL;DR: How to Protect Your Channel from Strikes

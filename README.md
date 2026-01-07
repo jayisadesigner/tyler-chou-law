@@ -70,10 +70,25 @@ The build script can automatically fetch featured images from Unsplash if no ima
 5. For Netlify deployment, add `UNSPLASH_ACCESS_KEY` as an environment variable in your Netlify dashboard
 
 **How it works:**
-- If a blog post has a `featured_image` in frontmatter, that image is used
-- If no image is provided, the script automatically fetches a relevant image from Unsplash based on the post's tags and title
+- If a blog post has a `featured_image` in frontmatter and the file exists, that image is used
+- If no image is provided or the file doesn't exist, the script automatically fetches a relevant image from Unsplash
+- Image keywords are determined by priority:
+  1. **Manual `image_keywords` field** (comma-separated) - highest priority
+  2. **Description field** - extracts meaningful keywords
+  3. **Tags** - maps abstract concepts to visual terms (e.g., "creator economy" → "business, entrepreneur")
+  4. **Title** - extracts keywords as fallback
 - Images include proper attribution to the photographer and Unsplash
 - Free tier: 50 requests/hour (sufficient for build-time generation)
+
+**Example frontmatter:**
+```yaml
+---
+title: "My Blog Post"
+description: "A great description"
+tags: ["creator business", "legal"]
+image_keywords: "business, entrepreneur, success, startup"  # Optional: manual control
+---
+```
 
 **Note:** The script works without an API key, but will skip automatic image fetching and show a warning.
 

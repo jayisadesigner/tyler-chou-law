@@ -5,6 +5,8 @@ date: 2025-10-12
 author: "Tyler Chou"
 description: "Your YouTube channel, your Instagram following, your TikTok audience — you don't own any of it. Tyler Chou explains why building on rented land is the biggest risk creators take."
 tags: ["creator business", "audience ownership", "email list", "community", "revenue streams"]
+image_keywords: "ownership, independence, freedom, control, foundation"
+featured_image: "https://images.unsplash.com/photo-1589287707312-213624549c88?w=1600&h=900&fit=crop&q=80"
 ---
 
 You don't own your audience.

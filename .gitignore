@@ -17,6 +17,9 @@ dist-ssr
 .env.local
 .env.*.local
 
+# Unsplash image cache
+.unsplash-cache.json
+
 # Content (blog posts are tracked, but generated files are not)
 content/blog/*.md.bak
 

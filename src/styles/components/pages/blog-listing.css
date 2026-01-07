@@ -57,6 +57,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 3 / 4;
+  max-height: 400px;
   overflow: hidden;
   background-color: var(--obsidian);
   flex-shrink: 0;
