@@ -16,6 +16,7 @@ export default defineConfig({
         services: resolve(__dirname, 'services.html'),
         'love-letters': resolve(__dirname, 'love-letters.html'),
         contact: resolve(__dirname, 'contact.html'),
+        'thank-you': resolve(__dirname, 'thank-you.html'),
         admin: resolve(__dirname, 'admin/index.html'),
         // Roster pages - static HTML files processed by Vite
         'roster/calebhammer': resolve(__dirname, 'roster/calebhammer.html'),
