@@ -41,38 +41,17 @@ export function animateFlowerRotation(flowerSelector, triggerSelector, prefersRe
   const animation = gsap.fromTo(flower, 
     { rotation: 0 },
     {
-    rotation: 30,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: trigger,
+      rotation: 30,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: trigger,
         start: startPosition, // Use provided start position (defaults to 'top bottom', but can be customized)
         end: '+=100%', // Extend the end point to give more scroll range for complete rotation
-      scrub: 1,
+        scrub: 2, // Increased from 1 to 2 for smoother animation (less jittery)
         invalidateOnRefresh: true,
-        // Ensure animation completes by using the full scroll range
-        onUpdate: (self) => {
-          const rotation = gsap.getProperty(flower, 'rotation')
-          // Force completion if we're at the end but rotation isn't complete
-          if (self.progress >= 0.95 && rotation < 29) {
-            gsap.set(flower, { rotation: 30 })
-          }
-        },
-        onEnter: () => {
-          gsap.set(flower, { rotation: 0 }) // Ensure we start at 0
-        },
-        onLeave: () => {
-          // Ensure rotation is complete when leaving
-          const rotation = gsap.getProperty(flower, 'rotation')
-          if (rotation < 29) {
-            gsap.set(flower, { rotation: 30 })
-          }
-        },
-        onEnterBack: () => {
-          // Animation continues from current position
-        },
-        onLeaveBack: () => {
-          gsap.set(flower, { rotation: 0 }) // Reset when scrolling back up
-        },
+        // Removed callbacks that were directly setting rotation values
+        // These were causing glitchiness by interfering with GSAP's smooth scroll animation
+        // GSAP's fromTo with initial values ensures proper start/end states
       },
     }
   )
