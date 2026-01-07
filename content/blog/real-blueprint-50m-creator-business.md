@@ -5,7 +5,6 @@ date: 2025-09-15
 author: "Tyler Chou"
 description: "Most creators have 1-3 revenue streams. You need 15 to exit one day. Tyler Chou breaks down the exact playbook she uses with top creator clients."
 tags: ["creator business", "revenue streams", "IP strategy", "creator economy"]
-featured_image: "/images/blog/50m-blueprint.jpg"
 ---
 
 Being a creator is the American dream.

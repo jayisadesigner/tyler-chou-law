@@ -5,7 +5,6 @@ date: 2025-10-11
 author: "Tyler Chou"
 description: "Tyler Chou has advised over 1000 creators in 18 months. Here are the top issues she sees across every stage of the creator journey."
 tags: ["creator business", "pain points", "case studies", "YouTube", "creator economy"]
-featured_image: "/images/blog/creator-pain-points.jpg"
 ---
 
 I have met with and advised over 1000 creators in the past 18 months since I started my law firm for creators.

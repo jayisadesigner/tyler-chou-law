@@ -5,7 +5,6 @@ date: 2025-10-30
 author: "Tyler Chou"
 description: "Tyler Chou met MrBeast's Head of Development and learned everything she thought she knew was wrong. Here's what she can share."
 tags: ["MrBeast", "creator economy", "purpose", "legacy", "creator business"]
-featured_image: "/images/blog/mrbeast-behind-veil.jpg"
 ---
 
 I met MrBeast's Head of Development on Monday night at a creator puppy fundraiser event.

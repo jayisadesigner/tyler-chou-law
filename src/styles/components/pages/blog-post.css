@@ -74,6 +74,7 @@
   width: 100%;
   margin: 0 0 var(--space-4xl) 0;
   background-color: var(--obsidian);
+  position: relative;
 }
 
 .blog-post-hero-image__img {
@@ -83,6 +84,45 @@
   object-fit: cover;
   max-height: 60vh;
   object-position: center;
+}
+
+/* Unsplash Attribution */
+.blog-post-unsplash-attribution {
+  position: absolute;
+  bottom: var(--space-sm);
+  right: var(--space-sm);
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+
+.blog-post-unsplash-attribution__text {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-small-size);
+  color: var(--chuparosa-200);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.blog-post-unsplash-attribution__text a {
+  color: var(--chuparosa-100);
+  text-decoration: underline;
+  text-decoration-color: var(--chuparosa-300);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.blog-post-unsplash-attribution__text a:hover {
+  color: var(--chuparosa-50);
+  text-decoration-color: var(--chuparosa-200);
+}
+
+/* When in hero, position attribution differently */
+.hero--blog-post .blog-post-unsplash-attribution {
+  position: absolute;
+  bottom: var(--space-md);
+  right: var(--space-md);
+  z-index: 2;
 }
 
 /* Blog Post Content */

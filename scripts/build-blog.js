@@ -8,6 +8,14 @@ import { readdir, readFile, writeFile, mkdir, stat } from 'fs/promises'
 import { join, dirname, basename } from 'path'
 import { fileURLToPath } from 'url'
 import { marked } from 'marked'
+import { config } from 'dotenv'
+
+// Load environment variables from .env file
+config()
+
+// Unsplash API configuration
+const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY
+const UNSPLASH_API_URL = 'https://api.unsplash.com'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -130,32 +138,156 @@ function parseFrontmatter(content) {
 }
 
 /**
+ * Get keywords for a blog post based on title, tags, and description
+ */
+function getImageKeywords(metadata) {
+  const keywords = []
+  
+  // Add tags if available
+  if (metadata.tags) {
+    const tags = Array.isArray(metadata.tags) 
+      ? metadata.tags 
+      : metadata.tags.split(',').map(t => t.trim())
+    // Use first 2-3 tags, prioritizing longer/more descriptive ones
+    const sortedTags = tags
+      .filter(tag => tag.length > 3) // Filter out short tags
+      .sort((a, b) => b.length - a.length) // Sort by length
+      .slice(0, 2)
+    keywords.push(...sortedTags)
+  }
+  
+  // Extract keywords from title if we don't have enough
+  if (keywords.length < 2 && metadata.title) {
+    const titleWords = metadata.title
+      .toLowerCase()
+      .replace(/[^\w\s]/g, '')
+      .split(/\s+/)
+      .filter(word => word.length > 3 && !['the', 'and', 'for', 'with', 'from', 'that', 'this'].includes(word))
+      .slice(0, 2)
+    keywords.push(...titleWords)
+  }
+  
+  return keywords.filter(Boolean).slice(0, 3) // Max 3 keywords
+}
+
+/**
+ * Fetch image from Unsplash API based on keywords
+ */
+async function fetchUnsplashImage(keywords) {
+  if (!UNSPLASH_ACCESS_KEY) {
+    console.warn('  ⚠ Unsplash API key not found. Set UNSPLASH_ACCESS_KEY environment variable to enable automatic images.')
+    return null
+  }
+  
+  if (!keywords || keywords.length === 0) {
+    return null
+  }
+  
+  try {
+    const query = keywords.join(' ')
+    const url = `${UNSPLASH_API_URL}/photos/random?query=${encodeURIComponent(query)}&orientation=landscape&w=1600&h=900&client_id=${UNSPLASH_ACCESS_KEY}`
+    
+    const response = await fetch(url)
+    
+    if (!response.ok) {
+      if (response.status === 403) {
+        console.warn(`  ⚠ Unsplash API rate limit reached. Consider upgrading your API access.`)
+      } else {
+        console.warn(`  ⚠ Unsplash API error: ${response.status} ${response.statusText}`)
+      }
+      return null
+    }
+    
+    const data = await response.json()
+    
+    if (data && data.urls && data.urls.regular) {
+      return {
+        url: data.urls.regular,
+        photographer: data.user?.name || 'Unknown',
+        photographerUrl: data.user?.links?.html || 'https://unsplash.com',
+        unsplashUrl: data.links?.html || 'https://unsplash.com'
+      }
+    }
+    
+    return null
+  } catch (error) {
+    console.warn(`  ⚠ Failed to fetch Unsplash image: ${error.message}`)
+    return null
+  }
+}
+
+/**
+ * Generate Unsplash attribution HTML
+ */
+function generateUnsplashAttribution(unsplashData) {
+  if (!unsplashData) return ''
+  
+  return `
+        <div class="blog-post-unsplash-attribution">
+          <p class="blog-post-unsplash-attribution__text">
+            Photo by <a href="${unsplashData.photographerUrl}?utm_source=tyler_chou_law&utm_medium=referral" target="_blank" rel="noopener noreferrer">${unsplashData.photographer}</a> on <a href="${unsplashData.unsplashUrl}?utm_source=tyler_chou_law&utm_medium=referral" target="_blank" rel="noopener noreferrer">Unsplash</a>
+          </p>
+        </div>`
+}
+
+/**
  * Resolve featured image path
  * CMS stores in src/assets/images/blog/, public path is /assets/images/blog/
+ * Checks if local files exist, falls back to Unsplash if not found
  */
-function resolveFeaturedImage(featuredImage) {
-  if (!featuredImage) return null
-  
-  // If it's already a full URL, return as is
-  if (featuredImage.startsWith('http://') || featuredImage.startsWith('https://')) {
-    return featuredImage
+async function resolveFeaturedImage(featuredImage, metadata = {}) {
+  // If featured image is provided, check if it exists
+  if (featuredImage) {
+    // If it's already a full URL, return as is (external image)
+    if (featuredImage.startsWith('http://') || featuredImage.startsWith('https://')) {
+      return { url: featuredImage, unsplashData: null }
+    }
+    
+    // Check if local file exists
+    let filename
+    let localPath
+    
+    if (featuredImage.startsWith('/')) {
+      // Path like "/images/blog/filename.jpg"
+      filename = basename(featuredImage)
+      localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
+    } else {
+      // Just filename or relative path
+      filename = basename(featuredImage)
+      localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
+    }
+    
+    // Check if file exists
+    try {
+      await stat(localPath)
+      // File exists, use it
+      const publicPath = featuredImage.startsWith('/') 
+        ? `https://tylerchoulaw.com${featuredImage}`
+        : `https://tylerchoulaw.com/assets/images/blog/${filename}`
+      return { url: publicPath, unsplashData: null }
+    } catch {
+      // File doesn't exist, log and fall through to Unsplash
+      console.log(`  → Local image not found: ${filename}, fetching from Unsplash`)
+    }
   }
   
-  // If it starts with /, assume it's already a public path
-  if (featuredImage.startsWith('/')) {
-    return `https://tylerchoulaw.com${featuredImage}`
+  // No featured image provided OR file doesn't exist - try to fetch from Unsplash
+  const keywords = getImageKeywords(metadata)
+  if (keywords.length > 0) {
+    const unsplashData = await fetchUnsplashImage(keywords)
+    if (unsplashData) {
+      return { url: unsplashData.url, unsplashData }
+    }
   }
   
-  // Extract filename from path (CMS might store full path or just filename)
-  const filename = basename(featuredImage)
-  return `https://tylerchoulaw.com/assets/images/blog/${filename}`
+  return { url: null, unsplashData: null }
 }
 
 /**
  * Generate featured image meta tags
  */
-function generateFeaturedImageMeta(featuredImage) {
-  if (!featuredImage) {
+function generateFeaturedImageMeta(imageData) {
+  if (!imageData || !imageData.url) {
     return {
       ogImage: '',
       twitterImage: '',
@@ -163,14 +295,12 @@ function generateFeaturedImageMeta(featuredImage) {
     }
   }
   
-  const imageUrl = resolveFeaturedImage(featuredImage)
-  
   return {
-    ogImage: `<meta property="og:image" content="${imageUrl}" />`,
-    twitterImage: `<meta name="twitter:image" content="${imageUrl}" />`,
+    ogImage: `<meta property="og:image" content="${imageData.url}" />`,
+    twitterImage: `<meta name="twitter:image" content="${imageData.url}" />`,
     schemaImage: `"image": {
         "@type": "ImageObject",
-        "url": "${imageUrl}"
+        "url": "${imageData.url}"
       },`
   }
 }
@@ -204,23 +334,32 @@ function generateTagsHTML(tags) {
 /**
  * Generate featured image hero section
  */
-function generateFeaturedImageHero(featuredImage) {
-  if (!featuredImage) {
+function generateFeaturedImageHero(imageData) {
+  if (!imageData || !imageData.url) {
     return ''
   }
   
-  const imageUrl = resolveFeaturedImage(featuredImage)
+  // For local images, remove domain prefix for relative path
+  // For Unsplash URLs, use full URL
+  const imageSrc = imageData.url.startsWith('https://tylerchoulaw.com')
+    ? imageData.url.replace('https://tylerchoulaw.com', '')
+    : imageData.url
+  
+  const attribution = imageData.unsplashData 
+    ? generateUnsplashAttribution(imageData.unsplashData)
+    : ''
   
   return `
         <div class="blog-post-hero-image">
           <div class="container-wide">
             <img 
-              src="${imageUrl.replace('https://tylerchoulaw.com', '')}" 
+              src="${imageSrc}" 
               alt="{{title}}" 
               class="blog-post-hero-image__img"
               loading="eager"
               fetchpriority="high"
             />
+            ${attribution}
           </div>
         </div>`
 }
@@ -297,10 +436,15 @@ async function buildPost(filePath, fileName) {
     const footerTemplate = await loadComponentTemplate('footer')
     const disclaimerTemplate = await loadComponentTemplate('disclaimer')
     
-    // Handle featured image
+    // Handle featured image (may fetch from Unsplash if not provided)
     const featuredImage = metadata.featured_image || null
-    const imageMeta = generateFeaturedImageMeta(featuredImage)
-    const featuredImageHero = generateFeaturedImageHero(featuredImage)
+    const imageData = await resolveFeaturedImage(featuredImage, metadata)
+    const imageMeta = generateFeaturedImageMeta(imageData)
+    const featuredImageHero = generateFeaturedImageHero(imageData)
+    
+    if (imageData.unsplashData) {
+      console.log(`  → Fetched Unsplash image for "${metadata.title}"`)
+    }
     
     // Format dates
     const dateDisplay = formatDate(metadata.date)
@@ -379,7 +523,7 @@ async function buildPost(filePath, fileName) {
       author: metadata.author || 'Tyler Chou',
       readingTime,
       tags: metadata.tags ? (Array.isArray(metadata.tags) ? metadata.tags : metadata.tags.split(',').map(t => t.trim())) : [],
-      featuredImage: featuredImage ? resolveFeaturedImage(featuredImage) : null,
+      featuredImage: imageData.url,
     }
   } catch (error) {
     console.error(`Error building post ${fileName}:`, error)
@@ -417,8 +561,14 @@ async function generateListingPage(posts) {
     const postsHTML = posts.map((post, index) => {
       const dateDisplay = formatDate(post.date)
       const loveLetterNumber = posts.length - index
-      const featuredImageHTML = post.featuredImage 
-        ? `<img src="${post.featuredImage.replace('https://tylerchoulaw.com', '')}" alt="${post.title}" class="blog-card__image" loading="lazy" />`
+      // Handle both local and Unsplash URLs
+      const imageSrc = post.featuredImage 
+        ? (post.featuredImage.startsWith('https://tylerchoulaw.com') 
+            ? post.featuredImage.replace('https://tylerchoulaw.com', '')
+            : post.featuredImage)
+        : null
+      const featuredImageHTML = imageSrc
+        ? `<img src="${imageSrc}" alt="${post.title}" class="blog-card__image" loading="lazy" />`
         : ''
       
       return `

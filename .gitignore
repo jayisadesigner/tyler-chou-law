@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env
+.env.local
+.env.*.local
+
 # Content (blog posts are tracked, but generated files are not)
 content/blog/*.md.bak
 
