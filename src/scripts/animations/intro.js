@@ -159,10 +159,7 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   const introVideos = document.querySelectorAll('.intro__video')
   try {
     await initVimeoPlayers(introVideos)
-    // Videos are ready - but don't show containers yet, wait for timeline start
-    // Small delay to ensure videos are playing before starting animation
-    await new Promise(resolve => setTimeout(resolve, 300))
-    // Continue with animation setup
+    // Videos are ready - start animation immediately
   } catch (error) {
     console.error('Failed to load intro videos:', error)
     // Fallback: continue after 2 second timeout
@@ -419,9 +416,8 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   
   // Create timeline
   tl = gsap.timeline({
-    delay: 0.2, // Small delay at start (container still hidden) to give videos time to fully load
     onStart: () => {
-      // Show intro container and video wrappers when timeline actually starts (after delay)
+      // Show intro container and video wrappers when timeline starts
       intro.classList.remove('intro--hidden')
       intro.classList.add('is-ready')
       // Show video wrappers now that animation is starting
