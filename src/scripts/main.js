@@ -19,38 +19,35 @@ if (document.readyState === 'loading') {
 
 // Load header and footer components (dev mode only)
 // In production, these are injected at build time, so we only load if they're empty
-async function loadComponent(selector, path) {
-  try {
-    const element = document.querySelector(selector)
-    // Only load if element is empty (dev mode) - in production, content is already in HTML
-    if (element && !element.innerHTML.trim()) {
-      const response = await fetch(path, {
-        redirect: 'manual',
-        cache: 'no-store'
-      })
-      
-      // Handle response - check if it's valid before trying to read text
-      if (response.ok || response.status === 0) {
-        const html = await response.text()
-        element.innerHTML = html
-        // Re-initialize navigation after header is loaded (dev mode only)
-        // In production, navigation is already initialized at startup (line 17)
-        if (selector === 'header') {
-          initNavigation()
-        }
+// Use XMLHttpRequest instead of fetch to bypass Netlify service worker issues
+function loadComponent(selector, path) {
+  const element = document.querySelector(selector)
+  // Only load if element is empty (dev mode) - in production, content is already in HTML
+  if (!element || element.innerHTML.trim()) {
+    return
+  }
+  
+  const xhr = new XMLHttpRequest()
+  xhr.open('GET', path, true)
+  
+  xhr.onload = function() {
+    if (xhr.status >= 200 && xhr.status < 400) {
+      element.innerHTML = xhr.responseText
+      // Re-initialize navigation after header is loaded (dev mode only)
+      // In production, navigation is already initialized at startup (line 17)
+      if (selector === 'header') {
+        initNavigation()
       }
     }
-    // Note: If content already exists (production), navigation was already initialized
-    // at startup, so we don't need to call initNavigation() again here
-  } catch (error) {
-    // Silently handle service worker errors - component loading is non-critical
-    // The error is from Netlify's service worker trying to handle responses incorrectly
-    if (error.message && error.message.includes('Response with null body status')) {
-      console.warn(`Service worker error loading ${path}, component may already be loaded`)
-    } else {
-      console.warn(`Could not load component from ${path}:`, error)
-    }
   }
+  
+  xhr.onerror = function() {
+    // Silently fail - component loading is non-critical
+    // In production, components are already in HTML
+    console.warn(`Could not load component from ${path}`)
+  }
+  
+  xhr.send()
 }
 
 // Load global components (only if empty - dev mode convenience)

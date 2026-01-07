@@ -159,38 +159,41 @@ function handleFormSubmit(e) {
   submitButton.disabled = true
   submitButton.textContent = 'Sending...'
   
-  // Submit to Netlify
-  // Use redirect: 'manual' to prevent service worker from trying to handle redirects incorrectly
-  fetch('/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams(formData).toString(),
-    redirect: 'manual',
-    cache: 'no-store'
-  })
-    .then((response) => {
-      // Handle successful submission (Netlify returns 302 redirect or 200)
-      // Any 2xx or 3xx status means success
-      if (response.status >= 200 && response.status < 400) {
-        // Show success message
-        form.innerHTML = `
-          <div class="form-success">
-            <h3>Thank you for reaching out!</h3>
-            <p>Your message has been received. Tyler will get back to you within 24-48 hours.</p>
-          </div>
-        `
-        // Scroll to form
-        form.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-      } else {
-        throw new Error(`Form submission failed with status: ${response.status}`)
-      }
-    })
-    .catch((error) => {
-      console.error('Form submission error:', error)
+  // Submit to Netlify using XMLHttpRequest to bypass service worker issues
+  const formAction = form.getAttribute('action') || '/'
+  const xhr = new XMLHttpRequest()
+  xhr.open('POST', formAction, true)
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  
+  xhr.onload = function() {
+    // Netlify returns 200 on success, or 302 redirect
+    // If we get here, the form was submitted successfully
+    if (xhr.status >= 200 && xhr.status < 400) {
+      // Show success message
+      form.innerHTML = `
+        <div class="form-success">
+          <h3>Thank you for reaching out!</h3>
+          <p>Your message has been received. Tyler will get back to you within 24-48 hours.</p>
+        </div>
+      `
+      // Scroll to form
+      form.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    } else {
       submitButton.disabled = false
       submitButton.textContent = originalText
       alert('There was an error sending your message. Please try again.')
-    })
+    }
+  }
+  
+  xhr.onerror = function() {
+    console.error('Form submission error:', xhr.statusText)
+    submitButton.disabled = false
+    submitButton.textContent = originalText
+    alert('There was an error sending your message. Please try again.')
+  }
+  
+  // Send the form data
+  xhr.send(new URLSearchParams(formData).toString())
   
   return false
 }
