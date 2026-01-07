@@ -160,21 +160,30 @@ function handleFormSubmit(e) {
   submitButton.textContent = 'Sending...'
   
   // Submit to Netlify
+  // Use redirect: 'manual' to prevent service worker from trying to handle redirects incorrectly
   fetch('/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams(formData).toString(),
+    redirect: 'manual',
+    cache: 'no-store'
   })
-    .then(() => {
-      // Show success message
-      form.innerHTML = `
-        <div class="form-success">
-          <h3>Thank you for reaching out!</h3>
-          <p>Your message has been received. Tyler will get back to you within 24-48 hours.</p>
-        </div>
-      `
-      // Scroll to form
-      form.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    .then((response) => {
+      // Handle successful submission (Netlify returns 302 redirect or 200)
+      // Any 2xx or 3xx status means success
+      if (response.status >= 200 && response.status < 400) {
+        // Show success message
+        form.innerHTML = `
+          <div class="form-success">
+            <h3>Thank you for reaching out!</h3>
+            <p>Your message has been received. Tyler will get back to you within 24-48 hours.</p>
+          </div>
+        `
+        // Scroll to form
+        form.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      } else {
+        throw new Error(`Form submission failed with status: ${response.status}`)
+      }
     })
     .catch((error) => {
       console.error('Form submission error:', error)
