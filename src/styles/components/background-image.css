@@ -30,7 +30,7 @@
 
 /* Video-specific styles */
 .background-image__video {
-  /* Use viewport-based sizing to ensure iframe always covers container */
+  /* Use viewport-based sizing to ensure video/iframe always covers container */
   /* Bumped values to account for parallax: scale 1.15 + 10% downward movement */
   position: absolute;
   top: 50%;
@@ -44,7 +44,8 @@
   transform-origin: center center; /* Scale from center for parallax */
   display: block;
   border: 0;
-  /* Block all interaction with iframe (prevents YouTube hover UI) */
+  object-fit: cover; /* For video elements - ensures video covers container */
+  /* Block all interaction with video/iframe */
   pointer-events: none;
 }
 
