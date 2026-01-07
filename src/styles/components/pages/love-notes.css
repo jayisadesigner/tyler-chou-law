@@ -163,9 +163,9 @@
   
   /* Card 4 - REMOVED: No longer exists */
   
-  /* Card 5 - Large, right middle (James) */
+  /* Card 5 - Large, center left (James) */
   .love-notes__carousel--bottom .roster-card--testimonial:nth-child(1) {
-    grid-column: 10 / 12;
+    grid-column: 4 / 6;
     grid-row: 2 / 4; /* Center vertically */
     --scale: 1.25;
     --depth: 3;
