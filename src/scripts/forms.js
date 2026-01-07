@@ -168,8 +168,8 @@ function handleFormSubmit(e) {
       // Show success message
       form.innerHTML = `
         <div class="form-success">
-          <h3>Thank you!</h3>
-          <p>Your message has been sent. We'll get back to you soon.</p>
+          <h3>Thank you for reaching out!</h3>
+          <p>Your message has been received. Tyler will get back to you within 24-48 hours.</p>
         </div>
       `
     })
