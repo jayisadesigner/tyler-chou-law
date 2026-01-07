@@ -168,13 +168,6 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
           callbacks: {
             id: 'love-notes-desktop',
             invalidateOnRefresh: true,
-            // Set nav color when love-notes enters (philosophy is now on about page, not before love-notes)
-            onEnter: () => setBodyTheme('bg-bone'),
-            onEnterBack: () => setBodyTheme('bg-bone'),
-            // Reset nav color when love-notes unpins (scrolling down past the section)
-            onLeave: () => setBodyTheme(''),
-            // Reset when scrolling back up past love-notes
-            onLeaveBack: () => setBodyTheme(''),
           },
         }),
       })

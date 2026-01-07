@@ -150,6 +150,26 @@ body.page-creator .section-grid {
    Roster Modifier
    ======================================== */
 
+/* Remove horizontal padding from roster container (grid needs full width) */
+.section-grid--roster .section-grid__container {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+/* Add horizontal padding to roster header only */
+.section-grid--roster .section-grid__header {
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .section-grid--roster .section-grid__header {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+}
+
 .section-grid--roster .section-grid__grid {
   grid-template-columns: 1fr; /* Mobile: single column */
 }
@@ -178,6 +198,17 @@ body.page-creator .section-grid {
 /* ========================================
    Services Modifier
    ======================================== */
+
+/* Increase top padding for services section */
+.section-grid--services .section-grid__container {
+  padding-top: calc(var(--space-4xl) + var(--space-xl)); /* Increased top padding */
+}
+
+@media (min-width: 768px) {
+  .section-grid--services .section-grid__container {
+    padding-top: calc(var(--space-4xl) + var(--space-2xl)); /* Even more top padding on desktop */
+  }
+}
 
 .section-grid--services .section-grid__grid {
   grid-template-columns: 1fr; /* Mobile: single column */

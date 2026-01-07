@@ -19,6 +19,15 @@
   padding: var(--space-2xl) 0; /* Vertical spacing - components handle their own spacing */
 }
 
+/* Remove gap between history section and stacked expertise section on about page */
+.content-section--media-left + .content-section--stacked .content-section__container {
+  padding-top: 0;
+}
+
+.content-section--media-left:has(+ .content-section--stacked) .content-section__container {
+  padding-bottom: 0;
+}
+
 /* Mobile: Stacked layout (content first, then media) */
 .content-section__content,
 .content-section__media {
@@ -115,6 +124,15 @@ body.page-creator .content-section__content {
     gap: 0;
     padding: var(--space-4xl) 0; /* Increased vertical spacing on desktop */
     max-width: none;
+  }
+  
+  /* Remove gap between history section and stacked expertise section on about page - desktop */
+  .content-section--media-left + .content-section--stacked .content-section__container {
+    padding-top: 0;
+  }
+  
+  .content-section--media-left:has(+ .content-section--stacked) .content-section__container {
+    padding-bottom: 0;
   }
 
   .content-section__content {

@@ -245,14 +245,11 @@ export function initAnimations() {
   
   // Section-based theme switching
   // Palo Verde section - green background (on about page)
-  // Only create ScrollTrigger on about page
-  // Matches original home page implementation: stays green until section fully scrolls out
-  // Resets when scrolling back up past the section
+  // Nav color is handled by CSS only
   if (document.body.classList.contains('page-about')) {
     const paloVerdeSection = document.querySelector('.palo-verde')
     if (paloVerdeSection) {
-      // Use IntersectionObserver for direct visibility-based triggering (independent of pinned sections)
-      // This directly checks if the section is visible in the viewport
+      // Use IntersectionObserver for background color change (no nav color change)
       let hasBeenVisible = false
       
       const observer = new IntersectionObserver((entries) => {
@@ -262,9 +259,12 @@ export function initAnimations() {
           const scrolledPast = rect.top < 0 && rect.bottom < window.innerHeight
           
           if (isVisible) {
-            // Section is visible - set green background
+            // Section is visible - set green background (but not nav color)
             hasBeenVisible = true
             setBodyTheme('bg-palo-verde')
+            // Immediately clear nav color inline styles - CSS will handle it
+            document.body.style.removeProperty('--nav-text-color')
+            document.body.style.removeProperty('--nav-hamburger-color')
           } else if (scrolledPast && hasBeenVisible) {
             // Scrolled past section - keep green until end of page
             // Don't reset - keep green background
@@ -272,6 +272,9 @@ export function initAnimations() {
             // Scrolled back up before section - reset to default
             hasBeenVisible = false
             setBodyTheme('')
+            // Immediately clear nav color inline styles - CSS will handle it
+            document.body.style.removeProperty('--nav-text-color')
+            document.body.style.removeProperty('--nav-hamburger-color')
           }
         })
       }, {
@@ -308,12 +311,8 @@ export function initAnimations() {
         
         flowerObserver.observe(paloVerdeSection)
       }
-    } else {
     }
   }
-
-  // Philosophy section - bone background (on about page)
-  // Theme switching is handled in initPhilosophyRedaction pinned ScrollTrigger (matches love-notes pattern)
 
   // Love Letters section - bone background (on home page)
   // Note: Theme switching for love-notes is handled in initLoveLettersScroll
@@ -353,26 +352,18 @@ export function initAnimations() {
 
   // Final CTA section - return to default (chuparosa/red)
   // Always reset to page default - this is the final section
-  // Use explicit reset to avoid conflicts with philosophy/love-notes sections
-  // Exception: On about page, keep palo-verde green background until end of page
+  // Nav color is handled by CSS only on about page
   const finalCTA = document.querySelector('.content-section--centered:last-of-type')
-  if (finalCTA) {
+  if (finalCTA && !document.body.classList.contains('page-about')) {
     ScrollTrigger.create({
       trigger: finalCTA,
       start: 'top bottom', // Changed from 'top center' to fire later, after love-notes unpins
       end: 'bottom top',
       onEnter: () => {
-        // On about page, keep palo-verde green background (don't reset)
-        // On other pages, reset to default
-        if (!document.body.classList.contains('page-about')) {
-          setBodyTheme('') // This handles both theme class removal and nav color reset
-        }
+        setBodyTheme('') // This handles both theme class removal and nav color reset
       },
       onEnterBack: () => {
-        // Same logic when scrolling back up
-        if (!document.body.classList.contains('page-about')) {
-          setBodyTheme('') // This handles both theme class removal and nav color reset
-        }
+        setBodyTheme('') // This handles both theme class removal and nav color reset
       },
     })
   }
@@ -440,36 +431,6 @@ export function initAnimations() {
           })
         }
       })
-    }
-  })
-  
-  // Unified nav color ScrollTrigger: handles love-notes section on home page
-  // Mobile/Tablet only - Desktop uses pinned ScrollTrigger callbacks
-  // Philosophy is now on about page, so love-notes sets bg-bone when it enters and resets when it leaves
-  ScrollTrigger.matchMedia({
-    "(max-width: 1279px)": function() {
-      // Philosophy section is on about page, handled separately
-      // Only handle love-notes on home page
-      if (document.body.classList.contains('page-index')) {
-      const loveNotesSection = document.querySelector('.love-notes--full-height')
-      
-      if (loveNotesSection) {
-          // Love-notes section: set bg-bone when it enters, reset when it leaves
-        ScrollTrigger.create({
-          trigger: loveNotesSection,
-          start: 'top bottom',
-          end: 'bottom top',
-            onEnter: () => setBodyTheme('bg-bone'), // Set when love-notes enters
-          onEnterBack: () => setBodyTheme('bg-bone'), // Maintain when scrolling back into love-notes
-          onLeave: () => setBodyTheme(''), // Reset when love-notes leaves (scrolling down)
-            onLeaveBack: () => setBodyTheme(''), // Reset when scrolling back up past love-notes
-        })
-        }
-      }
-      
-      // Philosophy section on about page
-      // No background color change needed - about page already has bone background by default
-      // Removed ScrollTrigger for background color changes
     }
   })
   

@@ -7,7 +7,7 @@
 .love-notes {
   position: relative;
   width: 100%;
-  background-color: var(--bone); /* Off-white background from Figma */
+  background-color: var(--chuparosa-700); /* One step darker than page background, only for this section */
   overflow: hidden;
 }
 
@@ -45,7 +45,7 @@
   font-size: var(--text-h3-size); /* Responsive: 32px mobile → 64px desktop */
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h3-line-height);
-  color: var(--text-headline-on-bone);
+  color: var(--text-headline-color, var(--text-headline-on-chuparosa-700)); /* Adapt to page background */
   margin: 0;
   text-align: center; /* Center the headline text */
 }
@@ -203,22 +203,14 @@
     line-height: var(--text-h1-line-height); /* 0.85 at 1280px+ */
   }
   
-  /* Z-index layering based on card size/depth */
-  /* Small cards (scale 0.75-0.85) - behind headline */
-  .love-notes__carousel--top .roster-card--testimonial:nth-child(3),
-  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(2) {
-    z-index: 1;
+  /* Default: all testimonial cards below headline (z-index: 5) */
+  .love-notes .roster-card--testimonial {
+    z-index: 1; /* Below headline by default */
   }
   
-  /* Medium cards (scale 0.9-1.0) - in front of headline */
-  .love-notes__carousel--top .roster-card--testimonial:nth-child(2) {
-    z-index: 7;
-  }
-  
-  /* Large cards (scale 1.25) - in front of headline */
-  .love-notes__carousel--top .roster-card--testimonial:nth-child(1),
-  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(1) {
-    z-index: 10;
+  /* On hover, all testimonial cards should be above the headline (z-index: 5) */
+  .love-notes .roster-card--testimonial:hover {
+    z-index: 20; /* Higher than headline (5) */
   }
 }
 

@@ -103,7 +103,7 @@ body.page-creator .roster-card__handle {
   cursor: default; /* Not clickable */
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs); /* 8px - gap between image and content */
+  gap: 0; /* No gap between image and content */
   
   /* Performance optimizations for scroll animations */
   will-change: transform;
@@ -131,6 +131,8 @@ body.page-creator .roster-card__handle {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm); /* Gap between meta and quote */
+  background-color: var(--chuparosa-700); /* Match section background */
+  padding: var(--space-md); /* Add padding to text container */
 }
 
 /* Meta container for name, handle, and stats */
@@ -146,7 +148,7 @@ body.page-creator .roster-card__handle {
   font-size: var(--text-h5-size);
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h5-line-height);
-  color: var(--obsidian);
+  color: var(--text-headline-color, var(--text-headline-on-chuparosa-700)); /* Adapt to page background */
   text-transform: var(--text-transform-ui);
   margin: 0;
   width: 100%; /* Fill container width */
@@ -159,7 +161,7 @@ body.page-creator .roster-card__handle {
   font-size: var(--text-p-size);
   font-weight: var(--font-weight-paragraph);
   line-height: var(--text-p-line-height);
-  color: var(--obsidian);
+  color: var(--text-body-color, var(--text-body-on-chuparosa-700)); /* Adapt to page background */
   margin: 0;
   width: 100%; /* Fill container width */
   /* Reset properties from absolutely positioned handle */
@@ -178,7 +180,7 @@ body.page-creator .roster-card__handle {
   font-size: var(--text-p-size);
   font-weight: var(--font-weight-paragraph);
   line-height: var(--text-p-line-height);
-  color: var(--obsidian);
+  color: var(--text-body-color, var(--text-body-on-chuparosa-700)); /* Adapt to page background */
   margin: 0;
   width: 100%; /* Fill container width */
 }
@@ -187,9 +189,9 @@ body.page-creator .roster-card__handle {
 .roster-card--testimonial .roster-card__quote {
   font-family: var(--font-paragraph);
   font-weight: var(--font-weight-paragraph);
-  font-size: var(--text-h5-size);
-  line-height: var(--text-h5-line-height);
-  color: var(--obsidian);
+  font-size: var(--text-h6-size); /* Reduced one step from h5 */
+  line-height: var(--text-h6-line-height);
+  color: var(--text-body-color, var(--text-body-on-chuparosa-700)); /* Adapt to page background */
   margin: 0;
   text-wrap: balance;
 }
