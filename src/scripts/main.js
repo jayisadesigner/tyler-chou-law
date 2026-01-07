@@ -24,19 +24,32 @@ async function loadComponent(selector, path) {
     const element = document.querySelector(selector)
     // Only load if element is empty (dev mode) - in production, content is already in HTML
     if (element && !element.innerHTML.trim()) {
-      const response = await fetch(path)
-      const html = await response.text()
-      element.innerHTML = html
-      // Re-initialize navigation after header is loaded (dev mode only)
-      // In production, navigation is already initialized at startup (line 17)
-      if (selector === 'header') {
-        initNavigation()
+      const response = await fetch(path, {
+        redirect: 'manual',
+        cache: 'no-store'
+      })
+      
+      // Handle response - check if it's valid before trying to read text
+      if (response.ok || response.status === 0) {
+        const html = await response.text()
+        element.innerHTML = html
+        // Re-initialize navigation after header is loaded (dev mode only)
+        // In production, navigation is already initialized at startup (line 17)
+        if (selector === 'header') {
+          initNavigation()
+        }
       }
     }
     // Note: If content already exists (production), navigation was already initialized
     // at startup, so we don't need to call initNavigation() again here
   } catch (error) {
-    console.warn(`Could not load component from ${path}:`, error)
+    // Silently handle service worker errors - component loading is non-critical
+    // The error is from Netlify's service worker trying to handle responses incorrectly
+    if (error.message && error.message.includes('Response with null body status')) {
+      console.warn(`Service worker error loading ${path}, component may already be loaded`)
+    } else {
+      console.warn(`Could not load component from ${path}:`, error)
+    }
   }
 }
 
