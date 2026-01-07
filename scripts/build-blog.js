@@ -44,6 +44,8 @@ function slugify(text) {
 
 /**
  * Get Vite-generated asset filenames
+ * In dev mode (when dist/assets doesn't exist), returns dev-friendly paths
+ * In production (after vite build), returns actual Vite-generated paths
  */
 async function getViteAssets() {
   try {
@@ -53,9 +55,15 @@ async function getViteAssets() {
     try {
       await stat(assetsDir)
     } catch {
-      throw new Error('dist/assets directory not found. Run vite build first.')
+      // Dev mode: dist/assets doesn't exist yet, use dev-friendly paths
+      // Vite dev server will handle these paths correctly
+      return {
+        mainJs: '/src/scripts/main.js',
+        mainCss: null // CSS is imported via JS in dev mode
+      }
     }
     
+    // Production mode: dist/assets exists, use actual Vite-generated paths
     const files = await readdir(assetsDir)
     
     const mainJs = files.find(f => f.startsWith('main-') && f.endsWith('.js'))

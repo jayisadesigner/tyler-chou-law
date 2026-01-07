@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run build:blog && vite",
     "build:blog": "node scripts/build-blog.js",
     "build:sitemap": "node scripts/build-sitemap.js",
     "build:rss": "node scripts/build-rss.js",
