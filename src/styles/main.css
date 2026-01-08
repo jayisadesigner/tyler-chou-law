@@ -27,6 +27,7 @@
 @import './components/pages/services.css';
 @import './components/pages/blog-listing.css';
 @import './components/pages/blog-post.css';
+@import './components/blog-image.css';
 @import './components/accessibility.css';
 @import './components/intro.css';
 @import './components/curtain.css';

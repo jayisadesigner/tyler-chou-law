@@ -162,9 +162,11 @@ async function resolveFeaturedImage(featuredImage) {
   try {
     await stat(localPath)
     // File exists, use it
-    const publicPath = featuredImage.startsWith('/') 
-      ? `https://tylerchoulaw.com${featuredImage}`
-      : `https://tylerchoulaw.com/assets/images/blog/${filename}`
+    // Use /src/assets/images/blog/ path to match pattern used elsewhere in codebase
+    // This works with Vite dev server and will be processed by Vite in production
+    const publicPath = featuredImage.startsWith('/src/assets/')
+      ? featuredImage
+      : `/src/assets/images/blog/${filename}`
     return { url: publicPath }
   } catch {
     // File doesn't exist, log warning
