@@ -36,6 +36,8 @@ body.page-creator .roster-card {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  /* Apply grayscale filter from blog images */
+  filter: grayscale(100%) blur(0.5px);
 }
 
 /* Hover effects - Desktop only (1024px+) */
@@ -44,7 +46,12 @@ body.page-creator .roster-card {
     transition: transform 0.4s ease;
   }
 
-  .roster-card:hover .roster-card__image {
+  .roster-card__overlay {
+    transition: transform 0.4s ease;
+  }
+
+  .roster-card:hover .roster-card__image,
+  .roster-card:hover .roster-card__overlay {
     transform: scale(1.05);
   }
 }
@@ -52,14 +59,20 @@ body.page-creator .roster-card {
 .roster-card__overlay {
   position: absolute;
   inset: 0;
-  background-color: var(--obsidian);
-  mix-blend-mode: color;
+  z-index: 1;
   pointer-events: none;
+  /* Noise overlay - reusing blog image noise effect */
+  background-image: url('/src/assets/images/blog/seamless-noise-texture.png');
+  background-repeat: repeat;
+  background-size: 200px 200px; /* Tile size for noise texture */
+  opacity: 0.5;
+  mix-blend-mode: overlay;
 }
 
 .roster-card__scrim {
   position: absolute;
   inset: 0;
+  z-index: 2; /* Above noise overlay for text readability */
   background: linear-gradient(
     to bottom,
     var(--obsidian-0) 12.019%,
@@ -80,7 +93,7 @@ body.page-creator .roster-card {
     color: var(--bone);
     text-transform: var(--text-transform-ui);
     margin: 0;
-    z-index: 1;
+    z-index: 3; /* Above scrim (z-index: 2) for text readability */
     /* Truncate long handles on grid pages */
     overflow: hidden;
     text-overflow: ellipsis;
@@ -118,6 +131,11 @@ body.page-creator .roster-card__handle {
 /* Hide overlaid handle when using testimonial modifier (only the absolutely positioned one) */
 .roster-card--testimonial .roster-card__image-wrapper .roster-card__handle {
   display: none;
+}
+
+/* Remove grayscale filter from testimonial card images */
+.roster-card--testimonial .roster-card__image {
+  filter: none;
 }
 
 /* Hide overlay and scrim on testimonial cards */
@@ -194,5 +212,16 @@ body.page-creator .roster-card__handle {
   color: var(--text-body-color, var(--text-body-on-chuparosa-700)); /* Adapt to page background */
   margin: 0;
   text-wrap: balance;
+}
+
+/* ========================================
+   Responsive Considerations
+   ======================================== */
+
+/* Reduce blur intensity on mobile for performance */
+@media (max-width: 767px) {
+  .roster-card__image {
+    filter: grayscale(100%) blur(0.3px);
+  }
 }
 
