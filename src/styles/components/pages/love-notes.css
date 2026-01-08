@@ -24,7 +24,7 @@
   width: 100%;
   max-width: 1512px;
   margin: 0 auto;
-  padding: var(--space-2xl) 0;
+  padding: 0; /* No padding on container - padding is inside on header/carousels */
 }
 
 /* Desktop: Full viewport width */
@@ -36,7 +36,7 @@
 
 /* Section Header */
 .love-notes__header {
-  padding: 0 var(--space-md);
+  padding: var(--space-2xl) var(--space-md) 0 var(--space-md); /* Top padding inside container */
   margin-bottom: var(--space-xl);
 }
 
@@ -69,6 +69,7 @@
   flex-direction: column;
   gap: var(--space-md);
   width: 100%;
+  padding-bottom: var(--space-2xl); /* Bottom padding inside container */
 }
 
 /* Individual Carousel Row */
@@ -77,8 +78,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   position: relative;
-  display: flex;
-  justify-content: center;
+  /* Remove flex/justify-content to allow proper horizontal scrolling */
   /* Smooth momentum scrolling for iOS */
   -webkit-overflow-scrolling: touch;
   /* Snap scrolling disabled to allow free swiping */
@@ -99,8 +99,9 @@
   gap: var(--space-md);
   padding: 0 var(--space-md);
   width: fit-content;
+  min-width: 100%; /* Ensure track is at least full width for proper scrolling */
   /* Enable horizontal pan gestures only */
-  touch-action: pan-x pan-y;
+  touch-action: pan-x;
 }
 
 /* Desktop: Grid-based scattered layout with depth */

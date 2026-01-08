@@ -35,8 +35,10 @@
 /* Base Layout */
 html {
   /* scroll-behavior handled by Lenis */
-  background-color: var(--page-bg-color, var(--obsidian)); /* Match page background, fallback to obsidian */
+  background-color: var(--chuparosa-600); /* Default to home page color */
   overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
+  /* Page-specific background colors set via body classes will override via CSS variable */
+  --page-bg-color: var(--chuparosa-600); /* Default variable */
 }
 
 body {
@@ -48,7 +50,9 @@ body {
 }
 
 /* Page-specific backgrounds with CSS variable for sections and curtain */
-body.page-creatorarq {
+/* Also update HTML background to match */
+body.page-creatorarq,
+html:has(body.page-creatorarq) {
   background-color: var(--palo-verde-600);
   --page-bg-color: var(--palo-verde-600);
   --text-headline-color: var(--text-headline-on-palo-verde-600);
@@ -56,16 +60,21 @@ body.page-creatorarq {
 }
 
 body.page-index,
+html:has(body.page-index),
 body.page-contact,
+html:has(body.page-contact),
 body.page-blog-post,
-body.page-thank-you {
+html:has(body.page-blog-post),
+body.page-thank-you,
+html:has(body.page-thank-you) {
   background-color: var(--chuparosa-600);
   --page-bg-color: var(--chuparosa-600);
   --text-headline-color: var(--text-headline-on-chuparosa-600);
   --text-body-color: var(--text-body-on-chuparosa-600);
 }
 
-body.page-love-letters {
+body.page-love-letters,
+html:has(body.page-love-letters) {
   background-color: var(--bone);
   --page-bg-color: var(--bone);
   --text-headline-color: var(--text-headline-on-bone);
@@ -73,15 +82,19 @@ body.page-love-letters {
 }
 
 body.page-services,
+html:has(body.page-services),
 body.page-roster,
-body.page-creator {
+html:has(body.page-roster),
+body.page-creator,
+html:has(body.page-creator) {
   background-color: var(--obsidian);
   --page-bg-color: var(--obsidian);
   --text-headline-color: var(--text-headline-on-obsidian);
   --text-body-color: var(--text-body-on-obsidian);
 }
 
-body.page-about {
+body.page-about,
+html:has(body.page-about) {
   background-color: var(--obsidian);
   --page-bg-color: var(--obsidian);
   --text-headline-color: var(--text-headline-on-obsidian);

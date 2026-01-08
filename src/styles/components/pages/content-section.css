@@ -16,7 +16,7 @@
   width: 100%;
   max-width: 1512px;
   margin: 0 auto;
-  padding: var(--space-2xl) 0; /* Vertical spacing - components handle their own spacing */
+  padding: 0; /* No padding on container - padding is inside on content/media */
 }
 
 /* Remove gap between history section and stacked expertise section on about page */
@@ -29,6 +29,14 @@
 }
 
 /* Mobile: Stacked layout (image first, then content) */
+/* Ensure container uses flexbox for order to work on mobile */
+@media (max-width: 767px) {
+  .content-section__container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .content-section__content,
 .content-section__media {
   width: 100%;
@@ -36,7 +44,9 @@
 
 .content-section__content {
   margin-bottom: var(--space-xl);
-  order: 2; /* Content appears second on mobile */
+  order: 2; /* Content appears second on mobile - always after image */
+  padding-top: var(--space-3xl); /* Top padding inside container */
+  padding-bottom: var(--space-3xl); /* Bottom padding inside container */
 }
 
 .content-section__media {
@@ -44,7 +54,19 @@
   overflow: hidden;
   /* Mobile: Give media container height for absolutely positioned background-image */
   aspect-ratio: 4 / 5;
-  order: 1; /* Media appears first on mobile */
+  order: 1; /* Media appears first on mobile - always before content */
+  padding-top: var(--space-3xl); /* Top padding inside container */
+}
+
+/* Ensure media-first order on mobile regardless of modifiers */
+@media (max-width: 767px) {
+  .content-section__media {
+    order: 1; /* Force image first on mobile */
+  }
+  
+  .content-section__content {
+    order: 2; /* Force content second on mobile */
+  }
 }
 
 /* Allow overflow on creator pages for roster card handles and creator names */
@@ -124,8 +146,19 @@ body.page-creator .content-section__content {
     display: flex;
     align-items: stretch;
     gap: 0;
-    padding: var(--space-4xl) 0; /* Increased vertical spacing on desktop */
+    padding: 0; /* No padding on container - padding is inside on content/media */
     max-width: none;
+  }
+  
+  /* Desktop: padding inside content/media elements */
+  .content-section__content {
+    padding-top: var(--space-4xl); /* Top padding inside container */
+    padding-bottom: var(--space-4xl); /* Bottom padding inside container */
+  }
+  
+  .content-section__media {
+    padding-top: var(--space-4xl); /* Top padding inside container */
+    padding-bottom: var(--space-4xl); /* Bottom padding inside container */
   }
   
   /* Remove gap between history section and stacked expertise section on about page - desktop */
@@ -546,7 +579,7 @@ body.bg-bone .content-section__body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: var(--space-4xl) var(--space-md); /* Vertical and horizontal padding - already includes spacing */
+  padding: var(--space-2xl) var(--space-md); /* Keep original vertical padding for CTAs, horizontal spacing */
 }
 
 .content-section--centered .content-section__content {
