@@ -32,6 +32,57 @@ function calculateReadingTime(content) {
 }
 
 /**
+ * Get colors for all posts ensuring no consecutive duplicates
+ * Uses only 600 variants
+ */
+function assignPostColors(posts) {
+  const colorOptions = [
+    'chuparosa-600', 
+    'lupine-600', 
+    'palo-verde-600', 
+    'desert-gold-600',
+    'obsidian'
+  ]
+  
+  let previousColor = null
+  
+  return posts.map((post, index) => {
+    // Check if post has explicit color in metadata (from Decap or manual edit)
+    // imageColor is null if not set, or the actual color value if set
+    const hasExplicitColor = post.imageColor && 
+      post.imageColor !== 'chuparosa-600' && 
+      colorOptions.includes(post.imageColor)
+    
+    // If explicit color exists, use it (respects Decap uploads)
+    if (hasExplicitColor) {
+      previousColor = post.imageColor
+      return { ...post, imageColor: post.imageColor }
+    }
+    
+    // Only auto-assign if no explicit color was set
+    // Start with index-based color
+    let colorIndex = index % colorOptions.length
+    let color = colorOptions[colorIndex]
+    
+    // If this would be the same as previous, find next different color
+    if (color === previousColor && colorOptions.length > 1) {
+      // Try next color in sequence
+      colorIndex = (colorIndex + 1) % colorOptions.length
+      color = colorOptions[colorIndex]
+      
+      // If still same (shouldn't happen with 5 colors), try next
+      if (color === previousColor) {
+        colorIndex = (colorIndex + 1) % colorOptions.length
+        color = colorOptions[colorIndex]
+      }
+    }
+    
+    previousColor = color
+    return { ...post, imageColor: color }
+  })
+}
+
+/**
  * Generate slug from title
  */
 function slugify(text) {
@@ -64,11 +115,37 @@ async function getViteAssets() {
       }
     }
     
-    // Production mode: dist/assets exists, use actual Vite-generated paths
+    // Production mode: dist/assets exists, check if files actually exist
     const files = await readdir(assetsDir)
     
     const mainJs = files.find(f => f.startsWith('main-') && f.endsWith('.js'))
     const mainCss = files.find(f => f.startsWith('main-') && f.endsWith('.css'))
+    
+    // Only use production paths if files actually exist
+    // In dev mode, even if dist/assets exists from old build, use dev paths
+    if (mainJs) {
+      try {
+        await stat(join(assetsDir, mainJs))
+      } catch {
+        // File doesn't exist, use dev path
+        return {
+          mainJs: '/src/scripts/main.js',
+          mainCss: null
+        }
+      }
+    }
+    
+    if (mainCss) {
+      try {
+        await stat(join(assetsDir, mainCss))
+      } catch {
+        // File doesn't exist, return dev-friendly paths
+        return {
+          mainJs: mainJs ? `/assets/${mainJs}` : '/src/scripts/main.js',
+          mainCss: null
+        }
+      }
+    }
     
     return {
       mainJs: mainJs ? `/assets/${mainJs}` : null,
@@ -162,9 +239,11 @@ async function resolveFeaturedImage(featuredImage) {
   try {
     await stat(localPath)
     // File exists, use it
-    const publicPath = featuredImage.startsWith('/') 
-      ? `https://tylerchoulaw.com${featuredImage}`
-      : `https://tylerchoulaw.com/assets/images/blog/${filename}`
+    // Use /src/assets/images/blog/ path to match pattern used elsewhere in codebase
+    // This works with Vite dev server and will be processed by Vite in production
+    const publicPath = featuredImage.startsWith('/src/assets/')
+      ? featuredImage
+      : `/src/assets/images/blog/${filename}`
     return { url: publicPath }
   } catch {
     // File doesn't exist, log warning
@@ -224,7 +303,7 @@ function generateTagsHTML(tags) {
 /**
  * Generate featured image hero section
  */
-function generateFeaturedImageHero(imageData) {
+function generateFeaturedImageHero(imageData, imageColor = 'chuparosa-500', imageIntensity = '') {
   // If no image, return empty background-image div (CSS will handle fallback)
   if (!imageData || !imageData.url) {
     return `
@@ -237,8 +316,11 @@ function generateFeaturedImageHero(imageData) {
     ? imageData.url.replace('https://tylerchoulaw.com', '')
     : imageData.url
   
+  const intensityClass = imageIntensity ? ` blog-image--${imageIntensity}` : ''
+  
   return `
         <div class="background-image" aria-hidden="true">
+            <div class="blog-image${intensityClass}" data-color="${imageColor}">
             <img 
               src="${imageSrc}" 
               alt="{{title}}" 
@@ -246,6 +328,7 @@ function generateFeaturedImageHero(imageData) {
               loading="eager"
               fetchpriority="high"
             />
+            </div>
             <!-- Overlay Layer 1: Crimson to Purple gradient with soft-light blend -->
             <div class="background-image__overlay background-image__overlay-gradient-1"></div>
             <!-- Overlay Layer 2: Dark brown to gold gradient with hue blend -->
@@ -255,6 +338,22 @@ function generateFeaturedImageHero(imageData) {
             <!-- Overlay Layer 4: Final opacity overlay -->
             <div class="background-image__overlay background-image__overlay-opacity"></div>
         </div>`
+}
+
+/**
+ * Generate author headshot HTML for blog post hero
+ */
+function generateAuthorHeadshot() {
+  return `
+            <div class="hero--blog-post__author-image-wrapper">
+              <img 
+                src="/src/assets/images/about/tyler-chou-headshot.jpeg" 
+                alt="Tyler Chou" 
+                class="hero--blog-post__author-image background-image__img"
+                width="354"
+                height="442"
+              />
+            </div>`
 }
 
 /**
@@ -305,9 +404,51 @@ async function loadComponentTemplate(name) {
 }
 
 /**
+ * Parse post metadata (lightweight, for color assignment)
+ */
+async function parsePostMetadata(filePath, fileName) {
+  try {
+    const content = await readFile(filePath, 'utf-8')
+    const { metadata, body } = parseFrontmatter(content)
+    const slug = metadata.slug || slugify(metadata.title || fileName.replace('.md', ''))
+    
+    // Calculate reading time (needed for listing page)
+    const readingTime = calculateReadingTime(body)
+    
+    // Format dates (needed for listing page)
+    const dateDisplay = formatDate(metadata.date)
+    const dateISO = formatDateISO(metadata.date)
+    
+    // Resolve featured image URL (needed for listing page)
+    const featuredImage = metadata.featured_image || null
+    const imageData = await resolveFeaturedImage(featuredImage)
+    
+    return {
+      filePath,
+      fileName,
+      slug,
+      date: metadata.date,
+      dateDisplay,
+      dateISO,
+      title: metadata.title,
+      excerpt: metadata.excerpt || '',
+      author: metadata.author || 'Tyler Chou',
+      readingTime,
+      tags: metadata.tags ? (Array.isArray(metadata.tags) ? metadata.tags : metadata.tags.split(',').map(t => t.trim())) : [],
+      featuredImage: imageData.url,
+      imageColor: metadata.image_color || null, // Preserve original or null
+      imageIntensity: metadata.image_intensity || '',
+    }
+  } catch (error) {
+    console.error(`Error parsing metadata for ${fileName}:`, error)
+    return null
+  }
+}
+
+/**
  * Build a single blog post
  */
-async function buildPost(filePath, fileName) {
+async function buildPost(filePath, fileName, assignedColor = null) {
   try {
     const content = await readFile(filePath, 'utf-8')
     const { metadata, body } = parseFrontmatter(content)
@@ -333,7 +474,13 @@ async function buildPost(filePath, fileName) {
     const featuredImage = metadata.featured_image || null
     const imageData = await resolveFeaturedImage(featuredImage)
     const imageMeta = generateFeaturedImageMeta(imageData)
-    const featuredImageHero = generateFeaturedImageHero(imageData)
+    // Get image treatment settings: use assigned color if provided, otherwise metadata color, otherwise default
+    // This ensures hero and card use the same color
+    const defaultColor = 'chuparosa-600'
+    const imageColor = assignedColor || metadata.image_color || defaultColor
+    const imageIntensity = metadata.image_intensity || ''
+    const featuredImageHero = generateFeaturedImageHero(imageData, imageColor, imageIntensity)
+    const authorHeadshot = generateAuthorHeadshot()
     
     // Format dates
     const dateDisplay = formatDate(metadata.date)
@@ -364,6 +511,7 @@ async function buildPost(filePath, fileName) {
       .replace(/\{\{excerpt\}\}/g, metadata.excerpt || '')
       .replace(/\{\{tagsHTML\}\}/g, tagsHTML)
       .replace(/\{\{featuredImageHero\}\}/g, featuredImageHero)
+      .replace(/\{\{authorHeadshot\}\}/g, authorHeadshot)
       .replace(/\{\{ogImage\}\}/g, imageMeta.ogImage)
       .replace(/\{\{twitterImage\}\}/g, imageMeta.twitterImage)
       .replace(/\{\{featuredImageSchema\}\}/g, imageMeta.schemaImage)
@@ -413,6 +561,8 @@ async function buildPost(filePath, fileName) {
       readingTime,
       tags: metadata.tags ? (Array.isArray(metadata.tags) ? metadata.tags : metadata.tags.split(',').map(t => t.trim())) : [],
       featuredImage: imageData.url,
+      imageColor: imageColor,
+      imageIntensity: imageIntensity,
     }
   } catch (error) {
     console.error(`Error building post ${fileName}:`, error)
@@ -459,8 +609,16 @@ async function generateListingPage(posts) {
             ? post.featuredImage.replace('https://tylerchoulaw.com', '')
             : post.featuredImage)
         : null
+      // Get image treatment settings from post metadata
+      // Colors are pre-assigned in assignPostColors to avoid consecutive duplicates
+      const imageColor = post.imageColor
+      const imageIntensity = post.imageIntensity || ''
+      const intensityClass = imageIntensity ? ` blog-image--${imageIntensity}` : ''
+      
       const featuredImageHTML = imageSrc
-        ? `<img src="${imageSrc}" alt="${post.title}" class="blog-card__image" loading="lazy" />`
+        ? `<div class="blog-image${intensityClass}" data-color="${imageColor}">
+            <img src="${imageSrc}" alt="${post.title}" class="background-image__img" loading="lazy" />
+          </div>`
         : ''
       
       return `
@@ -469,6 +627,12 @@ async function generateListingPage(posts) {
             ${featuredImageHTML ? `<div class="blog-card__image-wrapper">${featuredImageHTML}</div>` : ''}
             <div class="blog-card__content">
               <h3 class="blog-card__title">${post.title}</h3>
+              <div class="blog-card__byline">
+                <div class="blog-card__author-avatar">
+                  <img src="/src/assets/images/about/tyler-chou-headshot.jpeg" alt="Tyler Chou" class="blog-card__author-image" />
+                </div>
+                <p class="blog-card__author-text">Written by Tyler Chou</p>
+              </div>
               <p class="blog-card__excerpt">${post.excerpt || ''}</p>
               <div class="blog-card__meta">
                 <span class="blog-card__love-letter-number">Love Letter #${loveLetterNumber}</span>
@@ -572,40 +736,63 @@ async function generateListingPage(posts) {
       listingHTML = listingHTML.substring(0, footerEndIndex + 9) + '\n    ' + disclaimerTemplate + listingHTML.substring(footerEndIndex + 9)
     }
     
-    // Replace asset paths with production paths
-    // First, replace old production paths with dev paths (so Vite can build)
-    // Then replace dev paths with production paths (if available)
+    // Replace asset paths
+    // Root file (dev): use dev paths for Vite dev server
+    // Dist file (production): use production paths if available
     
-    // Replace old production CSS paths with dev path first
-    listingHTML = listingHTML.replace(
-      /href="\/assets\/main-[^"]+\.css"/g,
-      'href="/src/styles/main.css"'
+    // Create dev version (for root)
+    let devHTML = listingHTML
+    // Replace old production CSS paths - remove entirely in dev mode (imported via JS)
+    devHTML = devHTML.replace(
+      /<link rel="stylesheet" href="\/assets\/main-[^"]+\.css">\s*/g,
+      '' // Remove CSS link in dev mode (imported via JS)
     )
-    
-    // Replace old production JS paths with dev path first
-    listingHTML = listingHTML.replace(
+    // Also remove any empty stylesheet link tags
+    devHTML = devHTML.replace(
+      /<link rel="stylesheet"\s*>\s*/g,
+      '' // Remove empty CSS link tag
+    )
+    // Replace old production JS paths with dev path
+    devHTML = devHTML.replace(
       /src="\/assets\/main-[^"]+\.js"/g,
       'src="/src/scripts/main.js"'
     )
+    // Ensure dev path is set (in case file was already using dev path)
+    if (!devHTML.includes('src="/src/scripts/main.js"')) {
+      devHTML = devHTML.replace(
+        /<script type="module" src="[^"]+"><\/script>/,
+        '<script type="module" src="/src/scripts/main.js"></script>'
+      )
+    }
     
-    // Now replace dev paths with production paths (if available)
+    // Create production version (for dist)
+    let prodHTML = listingHTML
+    // Replace old production paths with dev paths first
+    prodHTML = prodHTML.replace(
+      /href="\/assets\/main-[^"]+\.css"/g,
+      viteAssets.mainCss ? `href="${viteAssets.mainCss}"` : ''
+    )
+    prodHTML = prodHTML.replace(
+      /src="\/assets\/main-[^"]+\.js"/g,
+      viteAssets.mainJs ? `src="${viteAssets.mainJs}"` : 'src="/src/scripts/main.js"'
+    )
+    // Replace dev paths with production paths (if available)
     if (viteAssets.mainCss) {
-      listingHTML = listingHTML.replace(
+      prodHTML = prodHTML.replace(
         /href="\/src\/styles\/main\.css"/g,
         `href="${viteAssets.mainCss}"`
       )
     }
-    
     if (viteAssets.mainJs) {
-      listingHTML = listingHTML.replace(
+      prodHTML = prodHTML.replace(
         /src="\/src\/scripts\/main\.js"/g,
         `src="${viteAssets.mainJs}"`
       )
     }
     
-    // Write updated listing page to both root (for dev) and dist (for production)
-    await writeFile(listingPageSourcePath, listingHTML, 'utf-8')
-    await writeFile(listingPageDistPath, listingHTML, 'utf-8')
+    // Write dev version to root, production version to dist
+    await writeFile(listingPageSourcePath, devHTML, 'utf-8')
+    await writeFile(listingPageDistPath, prodHTML, 'utf-8')
     
     console.log('✓ Generated listing page: love-letters.html (root and dist)')
   } catch (error) {
@@ -638,36 +825,56 @@ async function buildBlog() {
       return []
     }
     
-    // Build all posts
-    const posts = []
+    // Step 1: Parse metadata for all posts (lightweight, just frontmatter)
     console.log(`Found ${markdownFiles.length} markdown file(s)`)
+    const postMetadatas = []
     for (const file of markdownFiles) {
       const filePath = join(contentDir, file)
-      console.log(`Processing: ${file}`)
       try {
-        const post = await buildPost(filePath, file)
-        if (post) {
-          posts.push(post)
-          console.log(`✓ Built: ${post.title}`)
-        } else {
-          console.error(`✗ Failed to build: ${file} (buildPost returned null)`)
+        const metadata = await parsePostMetadata(filePath, file)
+        if (metadata) {
+          postMetadatas.push(metadata)
         }
       } catch (error) {
-        console.error(`✗ Error building ${file}:`, error.message)
+        console.error(`✗ Error parsing metadata for ${file}:`, error.message)
       }
     }
     
-    // Sort by date (newest first)
-    posts.sort((a, b) => new Date(b.date) - new Date(a.date))
+    // Step 2: Sort by date (newest first)
+    postMetadatas.sort((a, b) => new Date(b.date) - new Date(a.date))
     
-    // Log posts before generating listing page
-    console.log(`\nGenerating listing page with ${posts.length} post(s):`)
-    posts.forEach((post, index) => {
-      console.log(`  ${index + 1}. ${post.title} (date: ${post.date}, slug: ${post.slug})`)
+    // Step 3: Assign colors (respects explicit colors from Decap, auto-assigns others)
+    const postsWithColors = assignPostColors(postMetadatas)
+    
+    // Log color assignments
+    console.log(`\nColor assignments:`)
+    postsWithColors.forEach((post, index) => {
+      const colorSource = post.imageColor && post.imageColor !== 'chuparosa-600' && postMetadatas[index].imageColor 
+        ? '(from metadata)' 
+        : '(auto-assigned)'
+      console.log(`  ${index + 1}. ${post.title}: ${post.imageColor} ${colorSource}`)
     })
     
-    // Generate listing page
-    await generateListingPage(posts)
+    // Step 4: Build posts with assigned colors (ensures hero and card match)
+    const posts = []
+    for (const postWithColor of postsWithColors) {
+      console.log(`Building: ${postWithColor.fileName}`)
+      try {
+        const builtPost = await buildPost(postWithColor.filePath, postWithColor.fileName, postWithColor.imageColor)
+        if (builtPost) {
+          posts.push(builtPost)
+          console.log(`✓ Built: ${builtPost.title}`)
+        } else {
+          console.error(`✗ Failed to build: ${postWithColor.fileName} (buildPost returned null)`)
+        }
+      } catch (error) {
+        console.error(`✗ Error building ${postWithColor.fileName}:`, error.message)
+      }
+    }
+    
+    // Step 5: Generate listing page with assigned colors
+    // Use postsWithColors (metadata objects with assigned colors) for listing page
+    await generateListingPage(postsWithColors)
     
     console.log(`\n✓ Built ${posts.length} blog post(s)`)
     return posts

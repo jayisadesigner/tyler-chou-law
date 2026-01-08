@@ -78,7 +78,9 @@ export function initHeroParallax(reducedMotion = false) {
     }
     
     // Find parent section for trigger (hero or content-section with parallax)
-    const heroSection = img.closest('.hero--inner-page') || img.closest('.hero')
+    const heroSection = img.closest('.hero--inner-page') || 
+                        img.closest('.hero--blog-post') || 
+                        img.closest('.hero')
     const contentSection = img.closest('.content-section--parallax')
     const triggerSection = heroSection || contentSection
     
@@ -125,30 +127,28 @@ export function initHeroParallax(reducedMotion = false) {
     }
     
     // Find parent section for trigger (hero or content-section with parallax)
-    const heroSection = video.closest('.hero--inner-page') || video.closest('.hero')
+    const heroSection = video.closest('.hero--inner-page') || 
+                        video.closest('.hero--blog-post') || 
+                        video.closest('.hero')
     const contentSection = video.closest('.content-section--parallax')
     const triggerSection = heroSection || contentSection
     
     if (!triggerSection) return
     
-    // Initialize video loading - wait for video to be ready before showing
+    // Initialize video loading - show video immediately, enhance with player API when ready
+    const backgroundImage = video.closest('.background-image')
+    if (backgroundImage) {
+      // Show video container immediately (video will start loading via iframe src)
+      backgroundImage.classList.add('is-ready')
+      video.classList.add('is-ready')
+    }
+    
+    // Initialize player API in background (for potential future control, but don't block display)
     initVimeoPlayer(video).then(() => {
-      video.classList.add('is-ready')
-      // Small delay to ensure video is playing before showing container
-      setTimeout(() => {
-        const backgroundImage = video.closest('.background-image')
-        if (backgroundImage) {
-          backgroundImage.classList.add('is-ready')
-        }
-      }, 200)
+      // Player is ready - video should already be playing
     }).catch(error => {
-      console.error('Failed to load background video:', error)
-      // Fallback: show anyway
-      video.classList.add('is-ready')
-      const backgroundImage = video.closest('.background-image')
-      if (backgroundImage) {
-        backgroundImage.classList.add('is-ready')
-      }
+      // Silently fail - video will still play via iframe
+      console.warn('Vimeo Player API not available, video will still play:', error)
     })
     
     // For videos, use scale and yPercent movement for parallax effect

@@ -335,31 +335,64 @@ body.bg-bone .hero-subheadline--inner-page {
   text-align: var(--text-align-center);
 }
 
-/* Blog Post Hero - 80vh height */
-.hero--blog-post {
-  min-height: 80vh; /* 80vh on all screen sizes */
-  padding: var(--space-4xl) 0 var(--space-2xl) 0;
-  background-color: var(--chuparosa-600);
-  margin-top: 0; /* No negative margin for blog posts */
-  padding-top: var(--space-4xl);
+/* CreatorArq page: add obsidian overlay and noise overlay to hero background image */
+
+/* Apply blur filter - optimized for performance */
+body.page-creatorarq .hero .background-image__img {
+  filter: blur(0.5px);
+  transition: filter 0.3s ease;
 }
 
-.hero-content--blog-post {
+/* Obsidian color multiply layer - matches blog image treatment */
+body.page-creatorarq .hero .background-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-color: var(--obsidian);
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+}
+
+/* Noise overlay - matches blog image treatment */
+body.page-creatorarq .hero .background-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2; /* Above color overlay */
+  pointer-events: none;
+  background-image: url('/src/assets/images/blog/seamless-noise-texture.png');
+  background-repeat: repeat;
+  background-size: 200px 200px; /* Tile size for noise texture */
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+}
+
+/* Reduce blur on mobile for performance */
+@media (max-width: 767px) {
+  body.page-creatorarq .hero .background-image__img {
+    filter: blur(0.3px);
+  }
+}
+
+/* Blog Post Hero - 80vh height */
+.hero--blog-post {
   position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 960px; /* Match container-narrow */
-  padding: 0 var(--space-md);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  min-height: 80vh; /* 80vh on all screen sizes */
+  padding: 0; /* Remove all padding */
+  padding-top: 0; /* Override base hero padding-top */
+  margin-top: 0; /* No top margin */
+  margin-bottom: 0; /* No bottom margin */
+  background-color: var(--chuparosa-600); /* Fallback background */
+  overflow: visible; /* Allow content to overflow if needed */
 }
 
 .hero-headline--blog-post {
   font-family: var(--font-headline);
   font-weight: var(--font-weight-headline);
-  font-size: var(--text-h3-size); /* Bumped down 2 notches from h1 */
-  line-height: var(--text-h3-line-height);
+  font-size: var(--text-h2-size); /* Bumped up from h3 to h2 */
+  line-height: var(--text-h2-line-height);
   color: var(--text-headline-on-obsidian);
   text-transform: none; /* Blog titles not uppercase */
   text-align: var(--text-align-left);
@@ -397,7 +430,7 @@ body.bg-bone .hero-subheadline--inner-page {
 @media (min-width: 768px) {
   .hero--blog-post {
     min-height: 80vh; /* Maintain 80vh on tablet */
-    padding: var(--space-4xl) 0 var(--space-3xl) 0;
+    padding: 0; /* No padding */
   }
   
   .hero-content--blog-post {
@@ -409,7 +442,7 @@ body.bg-bone .hero-subheadline--inner-page {
 @media (min-width: 1024px) {
   .hero--blog-post {
     min-height: 80vh; /* Maintain 80vh on desktop */
-    padding: var(--space-4xl) 0 var(--space-4xl) 0;
+    padding: 0; /* No padding */
   }
 }
 

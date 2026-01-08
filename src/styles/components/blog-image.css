@@ -1,0 +1,216 @@
+/* ========================================
+   Blog Image Component
+   CSS-based image treatment system for blog post images
+   Abstracts images into textural, not literal visual elements
+   ======================================== */
+
+.blog-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate; /* Create new stacking context */
+}
+
+/* Image element - targets background-image__img when inside blog-image */
+/* For hero images: preserves parallax positioning while applying blog image effects */
+/* For blog cards: applies blog image effects with standard positioning */
+.blog-image .background-image__img {
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transform-origin: center center;
+  will-change: transform, filter;
+}
+
+/* Hero images: preserve parallax positioning (from background-image.css) */
+.hero .blog-image .background-image__img {
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 120%;
+}
+
+/* Blog cards: standard positioning */
+.blog-card .blog-image .background-image__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Base treatment: Grayscale + Motion Blur Effect */
+/* Applied on top of parallax transforms for hero, standalone for cards */
+.blog-image .background-image__img {
+  /* Fake motion blur: scale + blur + slight skew for directional movement */
+  filter: grayscale(100%) blur(0.5px);
+  /* Note: transform will be overridden by GSAP parallax on hero, but initial state is set */
+  transform: scale(1.05) translateX(2px) skew(-1deg);
+}
+
+/* Color multiply layer - applied via pseudo-element */
+.blog-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* Default color - will be overridden by data-color */
+  background-color: var(--chuparosa-500);
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+}
+
+/* Noise overlay - using seamless noise texture */
+.blog-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: url('/src/assets/images/blog/seamless-noise-texture.png');
+  background-repeat: repeat;
+  background-size: 200px 200px; /* Tile size for noise texture */
+  opacity: 0.5; /* Increased from 0.3 to darken noise */
+  mix-blend-mode: overlay;
+}
+
+/* ========================================
+   Color Variants via data-color attribute
+   Maps to existing color tokens in variables.css
+   ======================================== */
+
+/* Chuparosa (Red) */
+.blog-image[data-color="chuparosa"]::before,
+.blog-image[data-color="chuparosa-500"]::before {
+  background-color: var(--chuparosa-500);
+}
+
+.blog-image[data-color="chuparosa-400"]::before {
+  background-color: var(--chuparosa-400);
+}
+
+.blog-image[data-color="chuparosa-600"]::before {
+  background-color: var(--chuparosa-600);
+}
+
+.blog-image[data-color="chuparosa-700"]::before {
+  background-color: var(--chuparosa-700);
+}
+
+/* Lupine (Purple) */
+.blog-image[data-color="lupine"]::before,
+.blog-image[data-color="lupine-500"]::before {
+  background-color: var(--lupine-500);
+}
+
+.blog-image[data-color="lupine-400"]::before {
+  background-color: var(--lupine-400);
+}
+
+.blog-image[data-color="lupine-600"]::before {
+  background-color: var(--lupine-600);
+}
+
+.blog-image[data-color="lupine-700"]::before {
+  background-color: var(--lupine-700);
+}
+
+/* Palo Verde (Green) */
+.blog-image[data-color="palo-verde"]::before,
+.blog-image[data-color="palo-verde-500"]::before {
+  background-color: var(--palo-verde-500);
+}
+
+.blog-image[data-color="palo-verde-400"]::before {
+  background-color: var(--palo-verde-400);
+}
+
+.blog-image[data-color="palo-verde-600"]::before {
+  background-color: var(--palo-verde-600);
+}
+
+.blog-image[data-color="palo-verde-700"]::before {
+  background-color: var(--palo-verde-700);
+}
+
+/* Desert Gold (Yellow/Gold) */
+.blog-image[data-color="desert-gold"]::before,
+.blog-image[data-color="desert-gold-500"]::before {
+  background-color: var(--desert-gold-500);
+}
+
+.blog-image[data-color="desert-gold-400"]::before {
+  background-color: var(--desert-gold-400);
+}
+
+.blog-image[data-color="desert-gold-600"]::before {
+  background-color: var(--desert-gold-600);
+}
+
+.blog-image[data-color="desert-gold-700"]::before {
+  background-color: var(--desert-gold-700);
+}
+
+/* Obsidian (Black) */
+.blog-image[data-color="obsidian"]::before {
+  background-color: var(--obsidian);
+}
+
+/* Bone (Off-white) */
+.blog-image[data-color="bone"]::before {
+  background-color: var(--bone);
+  mix-blend-mode: screen; /* Use screen blend for light colors */
+}
+
+/* ========================================
+   Intensity Modifiers
+   ======================================== */
+
+/* Subtle: Lighter abstraction, image still somewhat readable */
+.blog-image--subtle .background-image__img {
+  filter: grayscale(60%) blur(0.3px);
+  transform: scale(1.02) translateX(1px) skew(-0.5deg);
+}
+
+.blog-image--subtle::before {
+  opacity: 0.3;
+}
+
+.blog-image--subtle::after {
+  opacity: 0.15;
+}
+
+/* Heavy: Stronger blur, more noise, fully abstract */
+.blog-image--heavy .background-image__img {
+  filter: grayscale(100%) blur(1.5px);
+  transform: scale(1.1) translateX(4px) skew(-2deg);
+}
+
+.blog-image--heavy::before {
+  opacity: 0.8;
+}
+
+.blog-image--heavy::after {
+  opacity: 0.5;
+  background-size: 150px 150px; /* Smaller tiles = more noise density */
+}
+
+/* ========================================
+   Responsive Considerations
+   ======================================== */
+
+/* Reduce blur intensity on mobile for performance */
+@media (max-width: 767px) {
+  .blog-image .background-image__img {
+    filter: grayscale(100%) blur(0.3px);
+    transform: scale(1.03) translateX(1px) skew(-0.5deg);
+  }
+  
+  .blog-image--heavy .background-image__img {
+    filter: grayscale(100%) blur(1px);
+    transform: scale(1.08) translateX(3px) skew(-1.5deg);
+  }
+}

@@ -474,8 +474,25 @@
     
     <main id="main-content">
       <section class="hero hero--inner-page section">
-  <!-- Background Image Component -->
-  
+  <!-- Background Video Component -->
+  <div class="background-image" aria-hidden="true">
+    <iframe 
+      class="background-image__video"
+      src="https://player.vimeo.com/video/1152434777?h=e95b177995&autoplay=1&muted=1&loop=1&background=1&controls=0&title=0&byline=0&portrait=0"
+      frameborder="0"
+      allow="autoplay; fullscreen; picture-in-picture"
+      loading="eager"
+      title="Tyler Chou Law Services Hero Video"
+    ></iframe>
+    <!-- Overlay Layer 1: Crimson to Purple gradient with soft-light blend -->
+    <div class="background-image__overlay background-image__overlay-gradient-1"></div>
+    <!-- Overlay Layer 2: Dark brown to gold gradient with hue blend -->
+    <div class="background-image__overlay background-image__overlay-gradient-2"></div>
+    <!-- Overlay Layer 3: Dark overlay with difference blend -->
+    <div class="background-image__overlay background-image__overlay-dark"></div>
+    <!-- Overlay Layer 4: Final opacity overlay -->
+    <div class="background-image__overlay background-image__overlay-opacity"></div>
+  </div>
   
   <!-- Hero Content Grid -->
   <div class="hero-content hero-content--inner-page container-wide">
@@ -543,7 +560,14 @@
           <!-- Media Area (Right on desktop) -->
           <div class="content-section__media">
             <div class="background-image">
-              <img src="https://images.unsplash.com/photo-1604881991664-593b31b88488?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Strategic Legal Counsel" class="background-image__img">
+              <iframe 
+                class="background-image__video"
+                src="https://player.vimeo.com/video/1152442505?h=cf3787fc23&autoplay=1&muted=1&loop=1&background=1&controls=0&title=0&byline=0&portrait=0"
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                loading="eager"
+                title="Strategic Legal Counsel"
+              ></iframe>
               <div class="background-image__overlay background-image__overlay-gradient-1"></div>
               <div class="background-image__overlay background-image__overlay-gradient-2"></div>
               <div class="background-image__overlay background-image__overlay-dark"></div>
@@ -573,7 +597,7 @@
           <!-- Media Area (Left on desktop) -->
           <div class="content-section__media">
             <div class="background-image">
-              <img src="https://images.unsplash.com/photo-1759375498334-6327d54b8c5f?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Business Architecture" class="background-image__img">
+              <img src="/src/assets/images/services/tyler-chou-for-law-arms-crossed-smiling.jpeg" alt="Business Architecture" class="background-image__img">
               <div class="background-image__overlay background-image__overlay-gradient-1"></div>
               <div class="background-image__overlay background-image__overlay-gradient-2"></div>
               <div class="background-image__overlay background-image__overlay-dark"></div>
@@ -962,6 +986,7 @@
 
     
     <script type="module" src="/src/scripts/main.js"></script>
+    <script src="https://player.vimeo.com/api/player.js"></script>
   </body>
 </html>
 

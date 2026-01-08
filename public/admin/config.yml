@@ -17,7 +17,9 @@ collections:
       - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: "Author", name: "author", widget: "string", default: "Tyler Chou" }
       - { label: "Excerpt", name: "excerpt", widget: "text" }
-      - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+      - { label: "Featured Image", name: "featured_image", widget: "image", required: false, allow_multiple: false, media_library: { config: { multiple: false } } }
+      - { label: "Image Treatment Color", name: "image_color", widget: "select", required: false, default: "chuparosa-500", options: ["chuparosa", "chuparosa-400", "chuparosa-500", "chuparosa-600", "chuparosa-700", "lupine", "lupine-400", "lupine-500", "lupine-600", "lupine-700", "palo-verde", "palo-verde-400", "palo-verde-500", "palo-verde-600", "palo-verde-700", "desert-gold", "desert-gold-400", "desert-gold-500", "desert-gold-600", "desert-gold-700", "obsidian", "bone"], hint: "Color overlay applied to featured image" }
+      - { label: "Image Treatment Intensity", name: "image_intensity", widget: "select", required: false, default: "", options: ["", "subtle", "heavy"], hint: "Image abstraction level: subtle (readable) or heavy (fully abstract)" }
       - { label: "Tags", name: "tags", widget: "string", hint: "Comma-separated list of tags" }
       - { label: "Slug", name: "slug", widget: "string", hint: "URL-friendly version of title (auto-generated if left blank)" }
       - { label: "Body", name: "body", widget: "markdown" }

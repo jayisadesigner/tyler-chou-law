@@ -15,14 +15,10 @@
   opacity: 1; /* Progressive enhancement: Visible by default, JS can enhance with animations */
 }
 
-/* Hide background-image container (including overlays) until video is ready */
-.background-image:has(.background-image__video):not(.is-ready) {
-  visibility: hidden; /* Hide until video is ready - no fade, just prevent flash */
-}
-
-.background-image:has(.background-image__video.is-ready),
-.background-image.is-ready {
-  visibility: visible; /* Show immediately when ready - no fade */
+/* Videos are visible immediately - they start loading via iframe src */
+/* The is-ready class is still used for parallax initialization but doesn't block visibility */
+.background-image:has(.background-image__video) {
+  visibility: visible; /* Show immediately - video iframe loads independently */
 }
 
 /* Image-specific styles */
@@ -66,6 +62,16 @@
     max-width: none; /* Remove constraint on desktop */
   }
 }
+
+/* Hide Vimeo loader and UI elements */
+.background-image__video {
+  /* Hide Vimeo's default UI elements via iframe styling */
+  color-scheme: none;
+}
+
+/* Hide Vimeo player UI elements that appear inside the iframe */
+/* Note: These selectors target elements inside the Vimeo iframe, which may have limited effect due to iframe security */
+/* The best approach is to use Vimeo URL parameters to hide UI */
 
 /* Overlay effects - applied to background images */
 /* All overlays are stacked to match Figma design exactly */
