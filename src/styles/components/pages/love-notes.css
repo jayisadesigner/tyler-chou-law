@@ -87,8 +87,7 @@
   /* Prevent horizontal scroll chaining but allow vertical scrolling to pass through */
   overscroll-behavior-x: contain;
   overscroll-behavior-y: auto;
-  /* Prioritize horizontal scrolling - browser will still allow vertical if gesture is more vertical */
-  touch-action: pan-x;
+  /* Removed touch-action - let browser handle gesture direction naturally */
 }
 
 /* Hide scrollbar for WebKit browsers */
