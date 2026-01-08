@@ -992,7 +992,8 @@ body.bg-palo-verde .btn--ghost:disabled {
 /* Handle page-level backgrounds (body.page-services, etc.) */
 body.page-services .btn--primary,
 body.page-about .btn--primary,
-body.page-roster .btn--primary {
+body.page-roster .btn--primary,
+body.page-creator .btn--primary {
   padding: var(--space-sm) var(--space-xl);
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
@@ -1002,23 +1003,27 @@ body.page-roster .btn--primary {
 
 body.page-services .btn--primary:hover,
 body.page-about .btn--primary:hover,
-body.page-roster .btn--primary:hover {
+body.page-roster .btn--primary:hover,
+body.page-creator .btn--primary:hover {
   opacity: 0.8;
 }
 
 body.page-services .btn--primary:focus,
 body.page-about .btn--primary:focus,
 body.page-roster .btn--primary:focus,
+body.page-creator .btn--primary:focus,
 body.page-services .btn--primary:focus-visible,
 body.page-about .btn--primary:focus-visible,
-body.page-roster .btn--primary:focus-visible {
+body.page-roster .btn--primary:focus-visible,
+body.page-creator .btn--primary:focus-visible {
   border: 5px solid var(--focus-color);
   outline: none;
 }
 
 body.page-services .btn--secondary,
 body.page-about .btn--secondary,
-body.page-roster .btn--secondary {
+body.page-roster .btn--secondary,
+body.page-creator .btn--secondary {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
   color: var(--button-border-color);
@@ -1029,7 +1034,8 @@ body.page-roster .btn--secondary {
 
 body.page-services .btn--secondary:hover,
 body.page-about .btn--secondary:hover,
-body.page-roster .btn--secondary:hover {
+body.page-roster .btn--secondary:hover,
+body.page-creator .btn--secondary:hover {
   background-color: var(--button-border-color);
   color: var(--page-bg-color);
   border-color: var(--button-border-color);
@@ -1038,17 +1044,21 @@ body.page-roster .btn--secondary:hover {
 body.page-services .btn--tertiary,
 body.page-about .btn--tertiary,
 body.page-roster .btn--tertiary,
+body.page-creator .btn--tertiary,
 body.page-services .btn--ghost,
 body.page-about .btn--ghost,
-body.page-roster .btn--ghost {
+body.page-roster .btn--ghost,
+body.page-creator .btn--ghost {
   color: var(--button-border-color);
 }
 
 body.page-services .btn--tertiary:hover,
 body.page-about .btn--tertiary:hover,
 body.page-roster .btn--tertiary:hover,
+body.page-creator .btn--tertiary:hover,
 body.page-services .btn--ghost:hover,
 body.page-about .btn--ghost:hover,
-body.page-roster .btn--ghost:hover {
+body.page-roster .btn--ghost:hover,
+body.page-creator .btn--ghost:hover {
   opacity: 0.8;
 }

@@ -29,7 +29,8 @@
   }
 
   /* Content side: normal flow, scrolls independently */
-  .page-creator .content-section__content {
+  /* Target only the main content section (with media-bleed), not centered sections like CTA */
+  .page-creator .content-section--media-bleed .content-section__content {
     width: 50%;
     margin-right: 0; /* Remove auto margin */
     margin-bottom: 0; /* Remove bottom margin */
@@ -51,7 +52,7 @@
   font-size: var(--text-h3-size);
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h3-line-height);
-  color: var(--bone);
+  color: var(--text-headline-color);
   text-transform: var(--text-transform-ui);
   margin: 0;
   z-index: 10; /* Higher than right side content to ensure handle overflow is visible */
@@ -85,7 +86,7 @@
   font-size: var(--text-h4-size);
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h4-line-height);
-  color: var(--bone);
+  color: var(--text-headline-color);
   text-transform: var(--text-transform-ui);
   margin: 0;
 }
@@ -94,7 +95,7 @@
   font-family: var(--font-headline);
   font-size: var(--text-h6-size);
   font-weight: var(--font-weight-headline);
-  color: var(--bone);
+  color: var(--text-body-color);
   text-transform: var(--text-transform-ui);
   margin: 0;
   line-height: var(--text-h6-line-height);
@@ -115,7 +116,7 @@
   font-family: var(--font-paragraph);
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
-  color: var(--bone);
+  color: var(--text-body-color);
   margin-bottom: var(--space-2xl);
   width: 100%;
 }
@@ -142,7 +143,7 @@
 
 /* Videos */
 .creator-videos {
-  margin-top: var(--space-2xl);
+  margin-top: var(--space-xl); /* Reduced from var(--space-2xl) */
   width: 100%;
 }
 
@@ -151,11 +152,35 @@
   font-size: var(--text-h4-size);
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h4-line-height);
-  color: var(--bone);
+  color: var(--text-headline-color);
   margin: 0 0 var(--space-lg) 0;
   width: 100%;
 }
 
+/* Keep YouTube videos single column on roster pages */
+.creator-videos .youtube-videos-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Always single column on roster pages */
+  gap: var(--space-xl); /* Increased from var(--space-md) */
+  width: 100%;
+  margin-top: 0; /* Remove default margin-top from base class */
+}
+
+/* Override responsive grid rules to keep single column at all breakpoints */
+@media (min-width: 640px) {
+  .creator-videos .youtube-videos-grid {
+    grid-template-columns: 1fr; /* Stay single column */
+  }
+}
+
+@media (min-width: 1024px) {
+  .creator-videos .youtube-videos-grid {
+    grid-template-columns: 1fr; /* Stay single column */
+    gap: var(--space-xl); /* Keep increased gap consistent */
+  }
+}
+
+/* Legacy grid class - keep for backwards compatibility */
 .creator-videos-grid {
   display: flex;
   flex-direction: column;
@@ -189,4 +214,31 @@
   height: 100%;
 }
 
+/* Creator pages: add obsidian overlay and noise overlay to background images */
+
+/* Apply blur filter - optimized for performance */
+body.page-creator .content-section .background-image__img {
+  filter: blur(0.5px);
+  transition: filter 0.3s ease;
+}
+
+/* Obsidian color multiply layer - matches blog image treatment */
+body.page-creator .content-section .background-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-color: var(--obsidian);
+  mix-blend-mode: multiply;
+  opacity: 0.3;
+}
+
+
+/* Reduce blur on mobile for performance */
+@media (max-width: 767px) {
+  body.page-creator .content-section .background-image__img {
+    filter: blur(0.3px);
+  }
+}
 

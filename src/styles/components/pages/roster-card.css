@@ -225,3 +225,84 @@ body.page-creator .roster-card__handle {
   }
 }
 
+<<<<<<< HEAD
+/* ========================================
+   Roster List Component
+   Full roster list in footer-style layout
+   ======================================== */
+
+.roster-list__headline {
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  font-size: var(--text-h4-size); /* One step below h3 */
+  line-height: var(--text-h4-line-height);
+  color: var(--text-headline-on-obsidian);
+  margin: var(--space-xl) 0 var(--space-lg) 0;
+  text-align: left;
+}
+
+/* Roster list container - mobile: single column, desktop: 3 columns */
+.roster-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Desktop: 2 columns layout */
+@media (min-width: 768px) {
+  .roster-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: var(--space-md) var(--space-xl);
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  .roster-list__item {
+    flex: 0 0 calc(50% - var(--space-xl) / 2);
+    min-width: 0; /* Allow flex items to shrink */
+    text-align: left;
+  }
+}
+
+.roster-list__item {
+  text-decoration: none;
+  text-align: left;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.roster-list__item:hover,
+.roster-list__item:focus {
+  opacity: 0.7;
+}
+
+.roster-list__item:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.roster-list__handle {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-p-large-size);
+  font-weight: var(--font-weight-paragraph);
+  line-height: var(--text-p-large-line-height);
+  color: var(--text-body-on-obsidian);
+  display: block;
+}
+
+.roster-list__name {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-p-size);
+  font-weight: var(--font-weight-paragraph);
+  line-height: var(--text-p-line-height);
+  color: var(--text-body-on-obsidian);
+  display: block;
+}
+

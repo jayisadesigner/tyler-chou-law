@@ -99,20 +99,16 @@ body:not(.intro-active) .hero-content {
 /* Love Letters page: uses --text-body-color set by body.page-love-letters */
 
 /* Hero Headline Wrapper - Mobile: Row 2, contains nested subheadline */
+/* Centered by default for all pages */
 .hero-headline-wrapper {
   grid-column: 1;
   grid-row: 2;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center; /* Center by default */
   padding-top: 0;
   width: 100%;
   gap: var(--hero-headline-subheadline-gap); /* Responsive spacing between headline and subheadline */
-}
-
-/* CreatorArq page: center hero content */
-.page-creatorarq .hero-headline-wrapper {
-  align-items: center;
   text-align: var(--text-align-center);
 }
 
@@ -123,11 +119,11 @@ body:not(.intro-active) .hero-content {
   line-height: var(--text-h1-line-height);
   /* Use CSS variable that adapts to page background - set by body.page-* classes */
   color: var(--text-headline-color);
-  text-align: var(--text-align-headline);
-  text-align-last: var(--text-align-headline);
+  text-align: var(--text-align-center); /* Centered by default */
+  text-align-last: var(--text-align-center);
   width: fit-content;
   min-width: fit-content;
-  margin: 0;
+  margin: 0 auto; /* Center the element */
   text-wrap: balance; /* Balance lines to avoid widows */
 }
 
@@ -154,11 +150,11 @@ body:not(.intro-active) .hero-content {
   line-height: var(--text-h2-line-height);
   /* Use CSS variable that adapts to page background - set by body.page-* classes */
   color: var(--text-headline-color);
-  text-align: var(--text-align-left);
-  text-align-last: var(--text-align-left);
+  text-align: var(--text-align-center); /* Centered by default */
+  text-align-last: var(--text-align-center);
   width: 100%;
   max-width: 100%;
-  margin: 0;
+  margin: 0 auto; /* Center the element */
 }
 
 /* Hero text adapts to page background via CSS variables set on body */
@@ -250,12 +246,7 @@ body.bg-bone .hero-subheadline--inner-page {
     grid-row: 1;
     padding-top: var(--space-xl);
     margin-bottom: var(--hero-headline-subheadline-gap); /* Responsive spacing between headline and subheadline */
-  }
-  
-  /* CreatorArq page: center hero content on desktop */
-  .page-creatorarq .hero-headline-wrapper {
-    align-items: center;
-    text-align: var(--text-align-center);
+    align-items: center; /* Center on desktop */
     gap: 0; /* Remove gap on desktop - subheadline is in separate row */
   }
   
@@ -272,10 +263,7 @@ body.bg-bone .hero-subheadline--inner-page {
     margin-top: 0;
   }
   
-  /* CreatorArq page: center subheadline wrapper */
-  .page-creatorarq .hero-subheadline-wrapper {
-    text-align: var(--text-align-center);
-  }
+  /* Subheadline wrapper is already centered by default */
   
   /* Show desktop subheadline on desktop */
   .hero-subheadline--desktop {
@@ -323,16 +311,46 @@ body.bg-bone .hero-subheadline--inner-page {
   line-height: var(--text-h3-line-height);
   /* Use CSS variable that adapts to background - set by body.bg-* classes */
   color: var(--text-body-color);
-  text-align: var(--text-align-left);
+  text-align: var(--text-align-center); /* Centered by default */
+  text-align-last: var(--text-align-center);
   text-wrap: balance;
   margin: 0;
 }
 
 /* Love Letters page: uses --text-body-color set by body.page-love-letters */
 
-/* CreatorArq page: center subheadline */
-.page-creatorarq .hero-subheadline--inner-page {
-  text-align: var(--text-align-center);
+/* CreatorArq page: add obsidian overlay and noise overlay to hero background image */
+
+/* Apply blur filter - optimized for performance */
+body.page-creatorarq .hero .background-image__img {
+  filter: blur(0.5px);
+  transition: filter 0.3s ease;
+}
+
+/* Obsidian color multiply layer - matches blog image treatment */
+body.page-creatorarq .hero .background-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-color: var(--obsidian);
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+}
+
+/* Noise overlay - matches blog image treatment */
+body.page-creatorarq .hero .background-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2; /* Above color overlay */
+  pointer-events: none;
+  background-image: url('/src/assets/images/blog/seamless-noise-texture.png');
+  background-repeat: repeat;
+  background-size: 200px 200px; /* Tile size for noise texture */
+  opacity: 0.5;
+  mix-blend-mode: overlay;
 }
 
 /* CreatorArq page: add obsidian overlay and noise overlay to hero background image */
@@ -375,17 +393,19 @@ body.page-creatorarq .hero .background-image::after {
     filter: blur(0.3px);
   }
 }
-
 /* Blog Post Hero - 80vh height */
 .hero--blog-post {
   position: relative;
   min-height: 80vh; /* 80vh on all screen sizes */
   padding: 0; /* Remove all padding */
   padding-top: 0; /* Override base hero padding-top */
-  margin-top: 0; /* No top margin */
+  margin-top: 0; /* No top margin - prevents red strip */
   margin-bottom: 0; /* No bottom margin */
   background-color: var(--chuparosa-600); /* Fallback background */
   overflow: visible; /* Allow content to overflow if needed */
+  /* Override base hero safe-area handling to prevent red strip */
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .hero-headline--blog-post {
@@ -402,28 +422,16 @@ body.page-creatorarq .hero .background-image::after {
   text-wrap: balance;
 }
 
-/* Home page hero: center line spans on mobile */
-.page-index .hero-headline[js-line-animation] {
+/* Hero headlines with line animation: center line spans */
+.hero-headline[js-line-animation] {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.page-index .hero-headline[js-line-animation] .line {
+.hero-headline[js-line-animation] .line {
   margin-left: auto;
   margin-right: auto;
-}
-
-/* Desktop: left-align line spans */
-@media (min-width: 1024px) {
-  .page-index .hero-headline[js-line-animation] {
-    align-items: flex-start;
-  }
-  
-  .page-index .hero-headline[js-line-animation] .line {
-    margin-left: 0;
-    margin-right: auto;
-  }
 }
 
 /* Tablet+ (768px) */

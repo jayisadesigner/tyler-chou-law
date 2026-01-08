@@ -40,27 +40,45 @@
   transition: color 0.3s ease;
 }
 
+.footer-link {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.footer-link:hover,
+.footer-link:focus {
+  opacity: 0.7;
+}
+
+.footer-link:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
 /* Footer color adjustments for different backgrounds */
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-roster) .site-footer {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-roster):not(.page-creator) .site-footer {
   background-color: var(--page-bg-color);
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-roster) .footer-item {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-roster):not(.page-creator) .footer-item {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
 /* Services and Roster pages: bone text on obsidian background */
 body.page-services .site-footer,
-body.page-roster .site-footer {
+body.page-roster .site-footer,
+body.page-creator .site-footer {
   background-color: var(--obsidian);
   color: var(--bone);
 }
 
 body.page-services .footer-item,
-body.page-roster .footer-item {
+body.page-roster .footer-item,
+body.page-creator .footer-item {
   color: var(--bone);
 }
 

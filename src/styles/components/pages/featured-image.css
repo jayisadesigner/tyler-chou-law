@@ -121,7 +121,8 @@
 /* Page-level overrides for featured image headline */
 body.page-services .section--featured-image__headline,
 body.page-about .section--featured-image__headline,
-body.page-roster .section--featured-image__headline {
+body.page-roster .section--featured-image__headline,
+body.page-creator .section--featured-image__headline {
   color: var(--text-headline-on-obsidian);
 }
 
@@ -159,7 +160,8 @@ body.page-love-letters .section--featured-image__headline {
 /* Page-level overrides for featured image body */
 body.page-services .section--featured-image__body,
 body.page-about .section--featured-image__body,
-body.page-roster .section--featured-image__body {
+body.page-roster .section--featured-image__body,
+body.page-creator .section--featured-image__body {
   color: var(--text-body-on-obsidian);
 }
 
