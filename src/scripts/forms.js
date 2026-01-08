@@ -160,7 +160,7 @@ function handleFormSubmit(e) {
   submitButton.textContent = 'Sending...'
   
   // Submit to Netlify using XMLHttpRequest to bypass service worker issues
-  const formAction = form.getAttribute('action') || '/'
+  const formAction = form.getAttribute('action') || '/thank-you'
   const xhr = new XMLHttpRequest()
   xhr.open('POST', formAction, true)
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
@@ -169,15 +169,8 @@ function handleFormSubmit(e) {
     // Netlify returns 200 on success, or 302 redirect
     // If we get here, the form was submitted successfully
     if (xhr.status >= 200 && xhr.status < 400) {
-      // Show success message
-      form.innerHTML = `
-        <div class="form-success">
-          <h3>Thank you for reaching out!</h3>
-          <p>Your message has been received. Tyler will get back to you within 24-48 hours.</p>
-        </div>
-      `
-      // Scroll to form
-      form.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      // Redirect to thank you page
+      window.location.href = formAction
     } else {
       submitButton.disabled = false
       submitButton.textContent = originalText
