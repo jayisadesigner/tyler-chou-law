@@ -1,7 +1,7 @@
 /* ========================================
    Blog Image Component
    CSS-based image treatment system for blog post images
-   Abstracts images into textural, non-literal visual elements
+   Abstracts images into textural, not literal visual elements
    ======================================== */
 
 .blog-image {
@@ -12,10 +12,10 @@
   isolation: isolate; /* Create new stacking context */
 }
 
-/* Image element */
-.blog-image__img {
-  width: 100%;
-  height: 100%;
+/* Image element - targets background-image__img when inside blog-image */
+/* For hero images: preserves parallax positioning while applying blog image effects */
+/* For blog cards: applies blog image effects with standard positioning */
+.blog-image .background-image__img {
   object-fit: cover;
   object-position: center;
   display: block;
@@ -23,10 +23,30 @@
   will-change: transform, filter;
 }
 
+/* Hero images: preserve parallax positioning (from background-image.css) */
+.hero .blog-image .background-image__img {
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 120%;
+}
+
+/* Blog cards: standard positioning */
+.blog-card .blog-image .background-image__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 /* Base treatment: Grayscale + Motion Blur Effect */
-.blog-image__img {
+/* Applied on top of parallax transforms for hero, standalone for cards */
+.blog-image .background-image__img {
   /* Fake motion blur: scale + blur + slight skew for directional movement */
   filter: grayscale(100%) blur(0.5px);
+  /* Note: transform will be overridden by GSAP parallax on hero, but initial state is set */
   transform: scale(1.05) translateX(2px) skew(-1deg);
 }
 
@@ -150,7 +170,7 @@
    ======================================== */
 
 /* Subtle: Lighter abstraction, image still somewhat readable */
-.blog-image--subtle .blog-image__img {
+.blog-image--subtle .background-image__img {
   filter: grayscale(60%) blur(0.3px);
   transform: scale(1.02) translateX(1px) skew(-0.5deg);
 }
@@ -164,7 +184,7 @@
 }
 
 /* Heavy: Stronger blur, more noise, fully abstract */
-.blog-image--heavy .blog-image__img {
+.blog-image--heavy .background-image__img {
   filter: grayscale(100%) blur(1.5px);
   transform: scale(1.1) translateX(4px) skew(-2deg);
 }
@@ -184,14 +204,13 @@
 
 /* Reduce blur intensity on mobile for performance */
 @media (max-width: 767px) {
-  .blog-image__img {
+  .blog-image .background-image__img {
     filter: grayscale(100%) blur(0.3px);
     transform: scale(1.03) translateX(1px) skew(-0.5deg);
   }
   
-  .blog-image--heavy .blog-image__img {
+  .blog-image--heavy .background-image__img {
     filter: grayscale(100%) blur(1px);
     transform: scale(1.08) translateX(3px) skew(-1.5deg);
   }
 }
-
