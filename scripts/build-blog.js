@@ -347,7 +347,7 @@ function generateAuthorHeadshot() {
   return `
             <div class="hero--blog-post__author-image-wrapper">
               <img 
-                src="/tyler-chou-headshot.jpeg" 
+                src="/src/assets/images/about/tyler-chou-headshot.jpeg" 
                 alt="Tyler Chou" 
                 class="hero--blog-post__author-image background-image__img"
                 width="354"
@@ -660,7 +660,7 @@ async function generateListingPage(posts) {
               <h3 class="blog-card__title">${post.title}</h3>
               <div class="blog-card__byline">
                 <div class="blog-card__author-avatar">
-                  <img src="/tyler-chou-headshot.jpeg" alt="Tyler Chou" class="blog-card__author-image" />
+                  <img src="/src/assets/images/about/tyler-chou-headshot.jpeg" alt="Tyler Chou" class="blog-card__author-image" />
                 </div>
                 <p class="blog-card__author-text">Written by Tyler Chou</p>
               </div>
@@ -840,6 +840,7 @@ async function generateListingPage(posts) {
       )
     }
     
+<<<<<<< HEAD
     // Add CSS link if it doesn't exist (for production)
     if (viteAssets.mainCss && !prodHTML.includes('rel="stylesheet"')) {
       prodHTML = prodHTML.replace(
@@ -848,6 +849,8 @@ async function generateListingPage(posts) {
       )
     }
     
+=======
+>>>>>>> origin/main
     // Write dev version to root, production version to dist
     await writeFile(listingPageSourcePath, devHTML, 'utf-8')
     await writeFile(listingPageDistPath, prodHTML, 'utf-8')

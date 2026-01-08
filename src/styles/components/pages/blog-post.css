@@ -161,11 +161,12 @@
 }
 
 /* Content area (text) - has background image behind it */
-/* Mobile-first: 80vh height */
+<<<<<<< HEAD
 .hero--blog-post__content {
   position: relative;
   overflow: hidden;
-  height: 80vh; /* Mobile: 80vh height */
+  /* Mobile: Give content container height for absolutely positioned background-image */
+  aspect-ratio: 4 / 5;
   padding: 0 var(--space-xl); /* Increased horizontal padding */
   display: flex;
   flex-direction: column;
