@@ -78,7 +78,9 @@ export function initHeroParallax(reducedMotion = false) {
     }
     
     // Find parent section for trigger (hero or content-section with parallax)
-    const heroSection = img.closest('.hero--inner-page') || img.closest('.hero')
+    const heroSection = img.closest('.hero--inner-page') || 
+                        img.closest('.hero--blog-post') || 
+                        img.closest('.hero')
     const contentSection = img.closest('.content-section--parallax')
     const triggerSection = heroSection || contentSection
     
@@ -125,7 +127,9 @@ export function initHeroParallax(reducedMotion = false) {
     }
     
     // Find parent section for trigger (hero or content-section with parallax)
-    const heroSection = video.closest('.hero--inner-page') || video.closest('.hero')
+    const heroSection = video.closest('.hero--inner-page') || 
+                        video.closest('.hero--blog-post') || 
+                        video.closest('.hero')
     const contentSection = video.closest('.content-section--parallax')
     const triggerSection = heroSection || contentSection
     

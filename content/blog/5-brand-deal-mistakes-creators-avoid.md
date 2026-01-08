@@ -5,7 +5,7 @@ date: 2025-09-29
 author: "Tyler Chou"
 description: "Most creators make all 5 mistakes. Tyler Chou breaks down the biggest brand deal traps and how to negotiate like a pro."
 tags: ["brand deals", "sponsorships", "negotiation", "creator business", "contracts"]
-featured_image: "https://images.unsplash.com/photo-1635859890085-ec8cb5466806?w=1600&h=900&fit=crop&q=80"
+featured_image: "https://images.unsplash.com/photo-1691164094808-bb812af230e0?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ---
 
 Most creators make all 5 mistakes. Here's how to fix them.

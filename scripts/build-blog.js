@@ -47,17 +47,19 @@ function assignPostColors(posts) {
   let previousColor = null
   
   return posts.map((post, index) => {
-    // Check if post has explicit color in metadata (not just default)
-    // We need to check the original metadata, not the post.imageColor which might be default
+    // Check if post has explicit color in metadata (from Decap or manual edit)
+    // imageColor is null if not set, or the actual color value if set
     const hasExplicitColor = post.imageColor && 
       post.imageColor !== 'chuparosa-600' && 
       colorOptions.includes(post.imageColor)
     
+    // If explicit color exists, use it (respects Decap uploads)
     if (hasExplicitColor) {
       previousColor = post.imageColor
       return { ...post, imageColor: post.imageColor }
     }
     
+    // Only auto-assign if no explicit color was set
     // Start with index-based color
     let colorIndex = index % colorOptions.length
     let color = colorOptions[colorIndex]
@@ -319,13 +321,13 @@ function generateFeaturedImageHero(imageData, imageColor = 'chuparosa-500', imag
   return `
         <div class="background-image" aria-hidden="true">
             <div class="blog-image${intensityClass}" data-color="${imageColor}">
-                <img 
-                  src="${imageSrc}" 
-                  alt="{{title}}" 
-                  class="background-image__img"
-                  loading="eager"
-                  fetchpriority="high"
-                />
+            <img 
+              src="${imageSrc}" 
+              alt="{{title}}" 
+              class="background-image__img"
+              loading="eager"
+              fetchpriority="high"
+            />
             </div>
             <!-- Overlay Layer 1: Crimson to Purple gradient with soft-light blend -->
             <div class="background-image__overlay background-image__overlay-gradient-1"></div>
@@ -336,6 +338,22 @@ function generateFeaturedImageHero(imageData, imageColor = 'chuparosa-500', imag
             <!-- Overlay Layer 4: Final opacity overlay -->
             <div class="background-image__overlay background-image__overlay-opacity"></div>
         </div>`
+}
+
+/**
+ * Generate author headshot HTML for blog post hero
+ */
+function generateAuthorHeadshot() {
+  return `
+            <div class="hero--blog-post__author-image-wrapper">
+              <img 
+                src="/src/assets/images/about/tyler-chou-headshot.jpeg" 
+                alt="Tyler Chou" 
+                class="hero--blog-post__author-image background-image__img"
+                width="354"
+                height="442"
+              />
+            </div>`
 }
 
 /**
@@ -386,9 +404,51 @@ async function loadComponentTemplate(name) {
 }
 
 /**
+ * Parse post metadata (lightweight, for color assignment)
+ */
+async function parsePostMetadata(filePath, fileName) {
+  try {
+    const content = await readFile(filePath, 'utf-8')
+    const { metadata, body } = parseFrontmatter(content)
+    const slug = metadata.slug || slugify(metadata.title || fileName.replace('.md', ''))
+    
+    // Calculate reading time (needed for listing page)
+    const readingTime = calculateReadingTime(body)
+    
+    // Format dates (needed for listing page)
+    const dateDisplay = formatDate(metadata.date)
+    const dateISO = formatDateISO(metadata.date)
+    
+    // Resolve featured image URL (needed for listing page)
+    const featuredImage = metadata.featured_image || null
+    const imageData = await resolveFeaturedImage(featuredImage)
+    
+    return {
+      filePath,
+      fileName,
+      slug,
+      date: metadata.date,
+      dateDisplay,
+      dateISO,
+      title: metadata.title,
+      excerpt: metadata.excerpt || '',
+      author: metadata.author || 'Tyler Chou',
+      readingTime,
+      tags: metadata.tags ? (Array.isArray(metadata.tags) ? metadata.tags : metadata.tags.split(',').map(t => t.trim())) : [],
+      featuredImage: imageData.url,
+      imageColor: metadata.image_color || null, // Preserve original or null
+      imageIntensity: metadata.image_intensity || '',
+    }
+  } catch (error) {
+    console.error(`Error parsing metadata for ${fileName}:`, error)
+    return null
+  }
+}
+
+/**
  * Build a single blog post
  */
-async function buildPost(filePath, fileName) {
+async function buildPost(filePath, fileName, assignedColor = null) {
   try {
     const content = await readFile(filePath, 'utf-8')
     const { metadata, body } = parseFrontmatter(content)
@@ -414,12 +474,13 @@ async function buildPost(filePath, fileName) {
     const featuredImage = metadata.featured_image || null
     const imageData = await resolveFeaturedImage(featuredImage)
     const imageMeta = generateFeaturedImageMeta(imageData)
-    // Get image treatment settings from metadata (with defaults)
-    // Default to chuparosa-600 if not specified (will be overridden by assignPostColors for listing)
+    // Get image treatment settings: use assigned color if provided, otherwise metadata color, otherwise default
+    // This ensures hero and card use the same color
     const defaultColor = 'chuparosa-600'
-    const imageColor = metadata.image_color || defaultColor
+    const imageColor = assignedColor || metadata.image_color || defaultColor
     const imageIntensity = metadata.image_intensity || ''
     const featuredImageHero = generateFeaturedImageHero(imageData, imageColor, imageIntensity)
+    const authorHeadshot = generateAuthorHeadshot()
     
     // Format dates
     const dateDisplay = formatDate(metadata.date)
@@ -450,6 +511,7 @@ async function buildPost(filePath, fileName) {
       .replace(/\{\{excerpt\}\}/g, metadata.excerpt || '')
       .replace(/\{\{tagsHTML\}\}/g, tagsHTML)
       .replace(/\{\{featuredImageHero\}\}/g, featuredImageHero)
+      .replace(/\{\{authorHeadshot\}\}/g, authorHeadshot)
       .replace(/\{\{ogImage\}\}/g, imageMeta.ogImage)
       .replace(/\{\{twitterImage\}\}/g, imageMeta.twitterImage)
       .replace(/\{\{featuredImageSchema\}\}/g, imageMeta.schemaImage)
@@ -565,6 +627,12 @@ async function generateListingPage(posts) {
             ${featuredImageHTML ? `<div class="blog-card__image-wrapper">${featuredImageHTML}</div>` : ''}
             <div class="blog-card__content">
               <h3 class="blog-card__title">${post.title}</h3>
+              <div class="blog-card__byline">
+                <div class="blog-card__author-avatar">
+                  <img src="/src/assets/images/about/tyler-chou-headshot.jpeg" alt="Tyler Chou" class="blog-card__author-image" />
+                </div>
+                <p class="blog-card__author-text">Written by Tyler Chou</p>
+              </div>
               <p class="blog-card__excerpt">${post.excerpt || ''}</p>
               <div class="blog-card__meta">
                 <span class="blog-card__love-letter-number">Love Letter #${loveLetterNumber}</span>
@@ -757,38 +825,55 @@ async function buildBlog() {
       return []
     }
     
-    // Build all posts
-    const posts = []
+    // Step 1: Parse metadata for all posts (lightweight, just frontmatter)
     console.log(`Found ${markdownFiles.length} markdown file(s)`)
+    const postMetadatas = []
     for (const file of markdownFiles) {
       const filePath = join(contentDir, file)
-      console.log(`Processing: ${file}`)
       try {
-        const post = await buildPost(filePath, file)
-        if (post) {
-          posts.push(post)
-          console.log(`✓ Built: ${post.title}`)
-        } else {
-          console.error(`✗ Failed to build: ${file} (buildPost returned null)`)
+        const metadata = await parsePostMetadata(filePath, file)
+        if (metadata) {
+          postMetadatas.push(metadata)
         }
       } catch (error) {
-        console.error(`✗ Error building ${file}:`, error.message)
+        console.error(`✗ Error parsing metadata for ${file}:`, error.message)
       }
     }
     
-    // Sort by date (newest first)
-    posts.sort((a, b) => new Date(b.date) - new Date(a.date))
+    // Step 2: Sort by date (newest first)
+    postMetadatas.sort((a, b) => new Date(b.date) - new Date(a.date))
     
-    // Assign colors to posts ensuring no consecutive duplicates
-    const postsWithColors = assignPostColors(posts)
+    // Step 3: Assign colors (respects explicit colors from Decap, auto-assigns others)
+    const postsWithColors = assignPostColors(postMetadatas)
     
-    // Log posts before generating listing page
-    console.log(`\nGenerating listing page with ${postsWithColors.length} post(s):`)
+    // Log color assignments
+    console.log(`\nColor assignments:`)
     postsWithColors.forEach((post, index) => {
-      console.log(`  ${index + 1}. ${post.title} (date: ${post.date}, slug: ${post.slug}, color: ${post.imageColor})`)
+      const colorSource = post.imageColor && post.imageColor !== 'chuparosa-600' && postMetadatas[index].imageColor 
+        ? '(from metadata)' 
+        : '(auto-assigned)'
+      console.log(`  ${index + 1}. ${post.title}: ${post.imageColor} ${colorSource}`)
     })
     
-    // Generate listing page
+    // Step 4: Build posts with assigned colors (ensures hero and card match)
+    const posts = []
+    for (const postWithColor of postsWithColors) {
+      console.log(`Building: ${postWithColor.fileName}`)
+      try {
+        const builtPost = await buildPost(postWithColor.filePath, postWithColor.fileName, postWithColor.imageColor)
+        if (builtPost) {
+          posts.push(builtPost)
+          console.log(`✓ Built: ${builtPost.title}`)
+        } else {
+          console.error(`✗ Failed to build: ${postWithColor.fileName} (buildPost returned null)`)
+        }
+      } catch (error) {
+        console.error(`✗ Error building ${postWithColor.fileName}:`, error.message)
+      }
+    }
+    
+    // Step 5: Generate listing page with assigned colors
+    // Use postsWithColors (metadata objects with assigned colors) for listing page
     await generateListingPage(postsWithColors)
     
     console.log(`\n✓ Built ${posts.length} blog post(s)`)
