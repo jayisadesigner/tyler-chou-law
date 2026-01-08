@@ -28,7 +28,7 @@
   padding-bottom: 0;
 }
 
-/* Mobile: Stacked layout (content first, then media) */
+/* Mobile: Stacked layout (image first, then content) */
 .content-section__content,
 .content-section__media {
   width: 100%;
@@ -36,6 +36,7 @@
 
 .content-section__content {
   margin-bottom: var(--space-xl);
+  order: 2; /* Content appears second on mobile */
 }
 
 .content-section__media {
@@ -43,6 +44,7 @@
   overflow: hidden;
   /* Mobile: Give media container height for absolutely positioned background-image */
   aspect-ratio: 4 / 5;
+  order: 1; /* Media appears first on mobile */
 }
 
 /* Allow overflow on creator pages for roster card handles and creator names */
@@ -142,11 +144,13 @@ body.page-creator .content-section__content {
     align-self: center;
     justify-items: center;
     padding: var(--space-4xl) var(--space-xl); /* Desktop padding */
+    order: unset; /* Reset order - use HTML order on desktop */
   }
 
   /* Base: Fixed height for all desktop media sections */
   .content-section__media {
     height: 100vh;
+    order: unset; /* Reset order - use HTML order on desktop */
   }
 
   .content-section:not(.content-section--media-bleed):not(.content-section--full-width):not(.content-section--stacked):not(.content-section--centered) .content-section__media {
