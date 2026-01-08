@@ -105,6 +105,11 @@
   min-width: 100%; /* Ensure track is at least full width for proper scrolling */
 }
 
+/* Allow horizontal scrolling through cards in carousel */
+.love-notes__carousel .roster-card--testimonial {
+  touch-action: pan-x pan-y;
+}
+
 /* Desktop: Grid-based scattered layout with depth */
 @media (min-width: 1280px) {
   .love-notes--full-height {
