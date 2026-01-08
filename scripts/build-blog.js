@@ -840,7 +840,6 @@ async function generateListingPage(posts) {
       )
     }
     
-<<<<<<< HEAD
     // Add CSS link if it doesn't exist (for production)
     if (viteAssets.mainCss && !prodHTML.includes('rel="stylesheet"')) {
       prodHTML = prodHTML.replace(
@@ -849,8 +848,6 @@ async function generateListingPage(posts) {
       )
     }
     
-=======
->>>>>>> origin/main
     // Write dev version to root, production version to dist
     await writeFile(listingPageSourcePath, devHTML, 'utf-8')
     await writeFile(listingPageDistPath, prodHTML, 'utf-8')
