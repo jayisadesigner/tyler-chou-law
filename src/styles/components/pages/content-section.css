@@ -186,7 +186,7 @@ body.page-creator .content-section__content {
     order: unset; /* Reset order - use HTML order on desktop */
   }
 
-  .content-section:not(.content-section--media-bleed):not(.content-section--full-width):not(.content-section--stacked):not(.content-section--centered) .content-section__media {
+  .content-section:not(.content-section--media-bleed):not(.content-section--full-width):not(.content-section--stacked):not(.content-section--centered):not(.content-section--form) .content-section__media {
     width: 50%;
     flex-shrink: 0;
     position: relative;
@@ -253,17 +253,34 @@ body.page-creator .content-section__content {
 }
 
 /* Form in media area modifier - leverages existing 50/50 layout */
-/* .content-section--form .content-section__content inherits padding from base */
+/* Uses CSS custom properties for header clearance to maintain consistency */
+
+.content-section--form {
+  /* Define header clearance values as local custom properties */
+  --form-header-clearance-mobile: 100px;
+  --form-header-clearance-desktop: 120px;
+  --form-padding-top-mobile: calc(var(--space-2xl) + var(--form-header-clearance-mobile));
+  --form-padding-top-desktop: calc(var(--space-4xl) + var(--form-header-clearance-desktop));
+}
+
+/* Mobile: Content appears above form */
+.content-section--form .content-section__container {
+  flex-direction: column;
+}
+
+.content-section--form .content-section__content {
+  order: 1; /* Content first on mobile */
+}
 
 .content-section--form .content-section__media {
-  /* Remove image-specific positioning */
+  order: 2; /* Form second on mobile */
   overflow: visible;
-  /* Mobile: match base content section padding exactly */
   padding: var(--space-2xl) var(--space-md);
+  padding-top: var(--form-padding-top-mobile);
 }
 
 .content-section--form .content-section__media .background-image {
-  display: none; /* Hide if there was a background image */
+  display: none;
 }
 
 .content-section--form .contact-form {
@@ -271,20 +288,31 @@ body.page-creator .content-section__content {
   width: 100%;
 }
 
-/* Tablet (768px+): Layout for form with GSAP pin (sticky removed due to Lenis conflict) */
+/* Tablet (768px+): Side-by-side 50/50 layout with pinning */
 @media (min-width: 768px) {
+  .content-section--form .content-section__container {
+    flex-direction: row;
+  }
+  
   .content-section--form .content-section__content {
+    order: unset;
+    width: 50%;
+    flex-shrink: 0;
     align-self: flex-start;
     max-height: calc(100vh - var(--space-xl) * 2);
-    padding-top: var(--space-4xl);
+    padding-top: var(--form-padding-top-desktop);
   }
   
   .content-section--form .content-section__media {
+    order: unset;
+    width: 50%;
+    flex-shrink: 0;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     padding: var(--space-4xl) var(--space-2xl) var(--space-2xl) var(--space-2xl);
-    height: auto; /* Override 100vh constraint to allow scrolling */
+    padding-top: var(--form-padding-top-desktop);
+    height: auto;
   }
 }
 
@@ -292,6 +320,7 @@ body.page-creator .content-section__content {
 @media (min-width: 1024px) {
   .content-section--form .content-section__media {
     padding: var(--space-4xl) var(--space-3xl) var(--space-3xl) var(--space-2xl);
+    padding-top: var(--form-padding-top-desktop);
   }
 }
 
