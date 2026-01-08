@@ -225,19 +225,18 @@ body.page-creator .roster-card__handle {
   }
 }
 
-<<<<<<< HEAD
 /* ========================================
    Roster List Component
    Full roster list in footer-style layout
    ======================================== */
 
-.roster-list__headline {
+h3.roster-list__headline {
   font-family: var(--font-headline);
   font-weight: var(--font-weight-headline);
-  font-size: var(--text-h4-size); /* One step below h3 */
+  font-size: var(--text-h4-size); /* h4 size with increased specificity */
   line-height: var(--text-h4-line-height);
   color: var(--text-headline-on-obsidian);
-  margin: var(--space-xl) 0 var(--space-lg) 0;
+  margin: var(--space-2xl) 0 var(--space-lg) 0;
   text-align: left;
 }
 
