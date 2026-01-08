@@ -1,7 +1,7 @@
 ---
 title: "The Biggest Creator Pain Points from 0 Subs to 10M+ Subs"
 slug: "biggest-creator-pain-points-0-to-10m-subs"
-date: 2025-10-11
+date: 2025-10-09
 author: "Tyler Chou"
 description: "Tyler Chou has advised over 1000 creators in 18 months. Here are the top issues she sees across every stage of the creator journey."
 tags: ["creator business", "pain points", "case studies", "YouTube", "creator economy"]

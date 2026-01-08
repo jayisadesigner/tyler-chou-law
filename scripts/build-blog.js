@@ -633,7 +633,9 @@ async function generateListingPage(posts) {
     console.log(`Generating HTML for ${posts.length} post(s)`)
     const postsHTML = posts.map((post, index) => {
       const dateDisplay = formatDate(post.date)
-      const loveLetterNumber = posts.length - index
+      // Extract Love Letter number from title if present (e.g., "Love Letter #4"), otherwise calculate from position
+      const titleMatch = post.title.match(/Love Letter #(\d+)/i)
+      const loveLetterNumber = titleMatch ? parseInt(titleMatch[1], 10) : (posts.length - index)
       // Handle both local and external URLs
       const imageSrc = post.featuredImage 
         ? (post.featuredImage.startsWith('https://tylerchoulaw.com') 
