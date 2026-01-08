@@ -87,7 +87,8 @@
 /* Services, About, Roster pages: obsidian background */
 body.page-services .section-grid__headline .content-section__headline-text,
 body.page-about .section-grid__headline .content-section__headline-text,
-body.page-roster .section-grid__headline .content-section__headline-text {
+body.page-roster .section-grid__headline .content-section__headline-text,
+body.page-creator .section-grid__headline .content-section__headline-text {
   color: var(--text-headline-on-obsidian);
 }
 

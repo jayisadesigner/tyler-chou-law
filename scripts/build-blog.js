@@ -470,6 +470,11 @@ async function buildPost(filePath, fileName, assignedColor = null) {
     const footerTemplate = await loadComponentTemplate('footer')
     const disclaimerTemplate = await loadComponentTemplate('disclaimer')
     
+    // Extract curtain from header template (everything before <header> tag)
+    const curtainMatch = headerTemplate.match(/^([\s\S]*?)(<header)/)
+    const curtainHtml = curtainMatch ? curtainMatch[1].trim() : ''
+    const headerOnly = headerTemplate.replace(/^[\s\S]*?(<header)/, '$1')
+    
     // Handle featured image
     const featuredImage = metadata.featured_image || null
     const imageData = await resolveFeaturedImage(featuredImage)
@@ -518,9 +523,30 @@ async function buildPost(filePath, fileName, assignedColor = null) {
       .replace(/\{\{articleBody\}\}/g, articleBody)
       .replace(/\{\{mainCss\}\}/g, viteAssets.mainCss || '')
     
-    // Replace header and footer placeholders
-    template = template.replace(/<header[^>]*>[\s\S]*?<\/header>/g, headerTemplate)
-    template = template.replace(/<footer[^>]*>[\s\S]*?<\/footer>/g, footerTemplate)
+    // Remove any existing curtain divs
+    template = template.replace(/<div[^>]*class="[^"]*curtain[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
+    template = template.replace(/<!--\s*Page Load Curtain[^>]*-->[\s\S]*?<\/div>/gi, '')
+    
+    // Insert curtain before header (or before body content if no header)
+    if (curtainHtml) {
+      const headerIndex = template.indexOf('<header')
+      if (headerIndex !== -1) {
+        template = template.substring(0, headerIndex) + curtainHtml + '\n    ' + template.substring(headerIndex)
+      } else {
+        // Fallback: insert after <body> tag
+        const bodyIndex = template.indexOf('<body')
+        if (bodyIndex !== -1) {
+          const bodyTagEnd = template.indexOf('>', bodyIndex) + 1
+          template = template.substring(0, bodyTagEnd) + '\n    ' + curtainHtml + template.substring(bodyTagEnd)
+        }
+      }
+    }
+    
+    // Replace header - use a more robust regex that matches any header tag and its content
+    // This handles both the placeholder <header><!-- Navigation will be injected here --></header>
+    // and any existing full header structure
+    template = template.replace(/<header[^>]*>[\s\S]*?<\/header>/gs, headerOnly)
+    template = template.replace(/<footer[^>]*>[\s\S]*?<\/footer>/gs, footerTemplate)
     
     // Remove all existing disclaimer sections
     template = template.replace(/<section[^>]*class="[^"]*site-disclaimer[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')
@@ -597,6 +623,11 @@ async function generateListingPage(posts) {
     const headerTemplate = await loadComponentTemplate('header')
     const footerTemplate = await loadComponentTemplate('footer')
     const disclaimerTemplate = await loadComponentTemplate('disclaimer')
+    
+    // Extract curtain from header template (everything before <header> tag)
+    const curtainMatch = headerTemplate.match(/^([\s\S]*?)(<header)/)
+    const curtainHtml = curtainMatch ? curtainMatch[1].trim() : ''
+    const headerOnly = headerTemplate.replace(/^[\s\S]*?(<header)/, '$1')
     
     // Generate blog post cards HTML
     console.log(`Generating HTML for ${posts.length} post(s)`)
@@ -719,9 +750,28 @@ async function generateListingPage(posts) {
       return match
     })
     
-    // Replace header and footer
-    listingHTML = listingHTML.replace(/<header[^>]*>[\s\S]*?<\/header>/g, headerTemplate)
-    listingHTML = listingHTML.replace(/<footer[^>]*>[\s\S]*?<\/footer>/g, footerTemplate)
+    // Remove any existing curtain divs
+    listingHTML = listingHTML.replace(/<div[^>]*class="[^"]*curtain[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
+    listingHTML = listingHTML.replace(/<!--\s*Page Load Curtain[^>]*-->[\s\S]*?<\/div>/gi, '')
+    
+    // Insert curtain before header (or before body content if no header)
+    if (curtainHtml) {
+      const headerIndex = listingHTML.indexOf('<header')
+      if (headerIndex !== -1) {
+        listingHTML = listingHTML.substring(0, headerIndex) + curtainHtml + '\n    ' + listingHTML.substring(headerIndex)
+      } else {
+        // Fallback: insert after <body> tag
+        const bodyIndex = listingHTML.indexOf('<body')
+        if (bodyIndex !== -1) {
+          const bodyTagEnd = listingHTML.indexOf('>', bodyIndex) + 1
+          listingHTML = listingHTML.substring(0, bodyTagEnd) + '\n    ' + curtainHtml + listingHTML.substring(bodyTagEnd)
+        }
+      }
+    }
+    
+    // Replace header and footer - use dotall flag (s) to match across newlines
+    listingHTML = listingHTML.replace(/<header[^>]*>[\s\S]*?<\/header>/gs, headerOnly)
+    listingHTML = listingHTML.replace(/<footer[^>]*>[\s\S]*?<\/footer>/gs, footerTemplate)
     
     // Remove existing disclaimer sections
     listingHTML = listingHTML.replace(/<section[^>]*class="[^"]*site-disclaimer[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')

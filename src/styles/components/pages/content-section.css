@@ -316,7 +316,8 @@ body.page-creator .content-section__content {
 
 /* Page-level overrides (when section doesn't have .bg-* class) */
 body.page-services .content-section__headline-text,
-body.page-roster .content-section__headline-text {
+body.page-roster .content-section__headline-text,
+body.page-creator .content-section__headline-text {
   color: var(--text-headline-on-obsidian);
 }
 
@@ -329,7 +330,8 @@ body.page-love-letters .content-section__headline-text {
 }
 
 body.page-services .content-section__eyebrow-text,
-body.page-roster .content-section__eyebrow-text {
+body.page-roster .content-section__eyebrow-text,
+body.page-creator .content-section__eyebrow-text {
   color: var(--text-body-on-obsidian);
 }
 
@@ -361,7 +363,8 @@ body.page-creatorarq .content-section__eyebrow-text {
 
 /* Page-level overrides for body text */
 body.page-services .content-section__body,
-body.page-roster .content-section__body {
+body.page-roster .content-section__body,
+body.page-creator .content-section__body {
   color: var(--text-body-on-obsidian);
 }
 
@@ -587,6 +590,7 @@ body.bg-bone .content-section__body {
 /* Tablet: Add max-width for better readability */
 @media (min-width: 768px) {
   .content-section--centered .content-section__content {
+    width: 100%; /* Override the 50% width from desktop layout */
     max-width: 640px;
   }
 }
@@ -681,8 +685,10 @@ body.bg-bone .content-section__body {
 @media (min-width: 768px) {
   .content-section--centered .content-section__container {
     display: flex; /* Maintain flex */
+    flex-direction: column; /* Override desktop row layout */
     justify-content: center;
     align-items: center; /* Vertically center */
+    max-width: 1512px; /* Restore max-width that desktop layout removes */
   }
   
 }

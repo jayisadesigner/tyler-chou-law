@@ -4,7 +4,7 @@
  * Simplified: Page content is hand-written in HTML files, not templated
  */
 
-import { readFile, writeFile } from 'fs/promises'
+import { readFile, writeFile, readdir } from 'fs/promises'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -15,6 +15,7 @@ const projectRoot = join(__dirname, '..')
 // Paths
 const componentsDir = join(projectRoot, 'src', 'components')
 const pagesToBuild = ['index', 'about', 'services', 'contact', 'creatorarq', 'love-letters', 'roster', 'thank-you']
+const rosterDir = join(projectRoot, 'roster')
 
 /**
  * Load component template
@@ -33,9 +34,9 @@ async function loadComponentTemplate(name) {
  * Build a single page
  * Injects header and footer templates into the page HTML
  */
-async function buildPage(pageName) {
+async function buildPage(pageName, customPath = null) {
   try {
-    const pagePath = join(projectRoot, `${pageName}.html`)
+    const pagePath = customPath || join(projectRoot, `${pageName}.html`)
     
     // Read page HTML
     let html = await readFile(pagePath, 'utf-8')
@@ -129,6 +130,55 @@ async function buildPage(pageName) {
 }
 
 /**
+ * Build a roster page (same as buildPage but with roster path and CTA injection)
+ */
+async function buildRosterPage(fileName) {
+  try {
+    const pagePath = join(rosterDir, fileName)
+    
+    // First build the page normally
+    const result = await buildPage(fileName.replace('.html', ''), pagePath)
+    
+    if (!result.success) {
+      return result
+    }
+    
+    // Read the built page
+    let html = await readFile(pagePath, 'utf-8')
+    
+    // Load CTA component
+    const ctaTemplate = await loadComponentTemplate('cta')
+    
+    // Remove any existing CTA sections (in case of rebuild)
+    html = html.replace(/<section[^>]*class="[^"]*content-section[^"]*content-section--centered[^"]*content-section--full-height[^"]*content-section--large-text[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')
+    
+    // Insert CTA before </main> tag
+    const mainEndIndex = html.indexOf('</main>')
+    if (mainEndIndex !== -1) {
+      html = html.substring(0, mainEndIndex) + '\n      ' + ctaTemplate + '\n    ' + html.substring(mainEndIndex)
+    } else {
+      // Fallback: insert before footer
+      const footerIndex = html.indexOf('<footer')
+      if (footerIndex !== -1) {
+        html = html.substring(0, footerIndex) + ctaTemplate + '\n    ' + html.substring(footerIndex)
+      }
+    }
+    
+    // Write updated HTML back to file
+    await writeFile(pagePath, html, 'utf-8')
+    
+    return result
+  } catch (error) {
+    console.error(`Error building roster page ${fileName}:`, error)
+    return {
+      pageName: fileName,
+      success: false,
+      error: error.message
+    }
+  }
+}
+
+/**
  * Build all pages
  */
 async function buildPages() {
@@ -136,6 +186,7 @@ async function buildPages() {
     console.log('Building pages...')
     
     const results = []
+    // Build main pages
     for (const pageName of pagesToBuild) {
       const result = await buildPage(pageName)
       if (result) {
@@ -146,6 +197,26 @@ async function buildPages() {
           console.error(`✗ Failed: ${pageName}.html - ${result.error}`)
         }
       }
+    }
+    
+    // Build roster pages
+    try {
+      const rosterFiles = await readdir(rosterDir)
+      const htmlFiles = rosterFiles.filter(f => f.endsWith('.html'))
+      
+      for (const fileName of htmlFiles) {
+        const result = await buildRosterPage(fileName)
+        if (result) {
+          results.push(result)
+          if (result.success) {
+            console.log(`✓ Built: roster/${fileName}`)
+          } else {
+            console.error(`✗ Failed: roster/${fileName} - ${result.error}`)
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('Could not read roster directory:', error.message)
     }
     
     const successCount = results.filter(r => r.success).length

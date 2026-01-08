@@ -19,13 +19,20 @@ export const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: 
 export let viewportWidth = window.innerWidth
 export let viewportHeight = window.innerHeight
 
+// Breakpoints - match CSS variables for consistency
+// Note: CSS variables can't be used in @media queries, so we maintain JS constants
+const BREAKPOINTS = {
+  tablet: 768,   // --breakpoint-md
+  desktop: 1024, // --breakpoint-lg
+}
+
 // Initialize Lenis for smooth scrolling
 let lenis = null
 
 function initLenis() {
   // Skip Lenis on mobile — causes issues with ScrollTrigger pins on iOS Safari
   // The scroller proxy and smooth scroll conflict with position:fixed pinning
-  if (window.innerWidth < 768) {
+  if (window.innerWidth < BREAKPOINTS.tablet) {
     window.lenis = null
     return null
   }
@@ -395,25 +402,30 @@ export function initAnimations() {
   initMouseTrail(prefersReducedMotion)
   
   // Creator page: Pin media while content scrolls (GSAP ScrollTrigger works with Lenis)
-  if (document.body.classList.contains('page-creator')) {
-    const container = document.querySelector('.page-creator .content-section__container')
-    const media = document.querySelector('.page-creator .content-section--media-bleed .content-section__media')
-    
-    if (container && media) {
-      ScrollTrigger.create({
-        trigger: container,
-        start: "top top",
-        end: "bottom bottom",
-        pin: media,
-        pinSpacing: false
-      })
+  // Only on tablet+ where we have side-by-side layout
+  ScrollTrigger.matchMedia({
+    [`(min-width: ${BREAKPOINTS.tablet}px)`]: function() {
+      if (document.body.classList.contains('page-creator')) {
+        const container = document.querySelector('.page-creator .content-section__container')
+        const media = document.querySelector('.page-creator .content-section--media-bleed .content-section__media')
+        
+        if (container && media) {
+          ScrollTrigger.create({
+            trigger: container,
+            start: "top top",
+            end: "bottom bottom",
+            pin: media,
+            pinSpacing: false
+          })
+        }
+      }
     }
-  }
+  })
   
   // Form sections: Pin content while form scrolls (GSAP ScrollTrigger works with Lenis)
   // Only on tablet+ where we have side-by-side layout
   ScrollTrigger.matchMedia({
-    "(min-width: 768px)": function() {
+    [`(min-width: ${BREAKPOINTS.tablet}px)`]: function() {
       const formSections = document.querySelectorAll('.content-section--form')
       
       formSections.forEach(section => {

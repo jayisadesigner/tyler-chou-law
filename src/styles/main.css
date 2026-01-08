@@ -35,7 +35,7 @@
 /* Base Layout */
 html {
   /* scroll-behavior handled by Lenis */
-  background-color: var(--chuparosa-600); /* Prevent white flash on page load */
+  background-color: var(--page-bg-color, var(--obsidian)); /* Match page background, fallback to obsidian */
   overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
 }
 
@@ -57,7 +57,6 @@ body.page-creatorarq {
 
 body.page-index,
 body.page-contact,
-body.page-creator,
 body.page-blog-post,
 body.page-thank-you {
   background-color: var(--chuparosa-600);
@@ -74,7 +73,8 @@ body.page-love-letters {
 }
 
 body.page-services,
-body.page-roster {
+body.page-roster,
+body.page-creator {
   background-color: var(--obsidian);
   --page-bg-color: var(--obsidian);
   --text-headline-color: var(--text-headline-on-obsidian);
