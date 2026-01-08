@@ -5,7 +5,7 @@ date: 2025-11-01
 author: "Tyler Chou"
 description: "I haven't written to you in six weeks. I haven't posted a video in three months. Honestly? I hit a wall. I was wrong about building 15 revenue streams."
 tags: ["business", "creator economy", "CreatorArq", "M&A", "exit strategy", "Tier 1 creator"]
-featured_image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+featured_image: "https://images.unsplash.com/photo-1532936991818-d0611467fbee?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ---
 
 Dear Creator,
