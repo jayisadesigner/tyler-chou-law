@@ -1,7 +1,7 @@
 ---
 title: "Love Letter #4: Which Creator Products Make Money?"
 slug: "which-creator-products-make-money"
-date: 2025-10-11
+date: 2025-10-10
 author: "Tyler Chou"
 description: "What makes creators more money: a physical product or a technical product? Tyler Chou breaks down the real answer from The Lighthouse x Slow Ventures Creator event."
 tags: ["products", "business", "creator economy", "technical products", "physical products"]

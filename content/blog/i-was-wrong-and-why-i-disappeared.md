@@ -1,7 +1,7 @@
 ---
-title: "Love Letter #9: I was wrong. (And why I disappeared)"
+title: "I was wrong. (And why I disappeared)"
 slug: "i-was-wrong-and-why-i-disappeared"
-date: 2025-09-10
+date: 2025-11-01
 author: "Tyler Chou"
 description: "I haven't written to you in six weeks. I haven't posted a video in three months. Honestly? I hit a wall. I was wrong about building 15 revenue streams."
 tags: ["business", "creator economy", "CreatorArq", "M&A", "exit strategy", "Tier 1 creator"]
