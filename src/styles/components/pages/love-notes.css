@@ -78,10 +78,8 @@
   overflow-x: auto;
   overflow-y: hidden;
   position: relative;
-  /* Remove flex/justify-content to allow proper horizontal scrolling */
   /* Smooth momentum scrolling for iOS */
   -webkit-overflow-scrolling: touch;
-  /* Snap scrolling disabled to allow free swiping */
   scroll-behavior: smooth;
   /* Hide scrollbar while maintaining functionality */
   scrollbar-width: none; /* Firefox */
@@ -89,6 +87,8 @@
   /* Prevent horizontal scroll chaining but allow vertical scrolling to pass through */
   overscroll-behavior-x: contain;
   overscroll-behavior-y: auto;
+  /* Prioritize horizontal scrolling - browser will still allow vertical if gesture is more vertical */
+  touch-action: pan-x;
 }
 
 /* Hide scrollbar for WebKit browsers */
@@ -100,11 +100,9 @@
 .love-notes__carousel-track {
   display: flex;
   gap: var(--space-md);
-  padding: 1px var(--space-md); /* Small vertical padding to make vertical scrolling easier */
+  padding: 0 var(--space-md);
   width: fit-content;
   min-width: 100%; /* Ensure track is at least full width for proper scrolling */
-  /* Allow both horizontal and vertical gestures - browser will handle based on gesture direction */
-  touch-action: pan-x pan-y;
 }
 
 /* Desktop: Grid-based scattered layout with depth */
