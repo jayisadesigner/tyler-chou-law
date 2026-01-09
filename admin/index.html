@@ -15,17 +15,18 @@
     <!-- Initialize Netlify Identity -->
     <script>
       if (window.netlifyIdentity) {
-        // For custom domains, we need to use the Netlify subdomain for Identity API
-        // This ensures OAuth callbacks work correctly
-        // Try to detect the Netlify site name from the current domain
+        // For custom domains, Identity needs to use the site's Netlify subdomain
+        // Replace 'tyler-chou-law' with your actual Netlify site name
+        // You can find this in your Netlify dashboard - it's the [site-name] in [site-name].netlify.app
         const currentHost = window.location.hostname;
         let identityApiUrl = window.location.origin;
         
-        // If on custom domain, try to use Netlify subdomain for Identity
-        // You may need to replace 'tyler-chou-law' with your actual Netlify site name
+        // If on custom domain, use the Netlify subdomain for Identity API
+        // TODO: Replace 'tyler-chou-law' with your actual Netlify site name
         if (!currentHost.includes('.netlify.app') && !currentHost.includes('localhost')) {
-          // Use the Netlify Identity service directly for custom domains
-          identityApiUrl = 'https://identity.netlify.com/v1';
+          // Use your Netlify subdomain for Identity - this is what worked before
+          identityApiUrl = 'https://tyler-chou-law.netlify.app';
+          console.log('Using Netlify subdomain for Identity:', identityApiUrl);
         }
         
         // Initialize Identity with explicit API URL
@@ -54,17 +55,26 @@
         
         // Set up login handler
         window.netlifyIdentity.on("init", user => {
+          console.log('Identity initialized, user:', user);
           if (user) {
             // User is already logged in
             console.log('User logged in:', user.email);
           } else {
             // User not logged in - login button will show
+            console.log('No user, waiting for login...');
             window.netlifyIdentity.on("login", (user) => {
-              console.log('Login successful:', user.email);
-              // Reload to show CMS interface
-              window.location.reload();
+              console.log('Login successful:', user);
+              // Small delay to ensure token is stored
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
             });
           }
+        });
+        
+        // Log any errors
+        window.netlifyIdentity.on("error", (err) => {
+          console.error('Identity error:', err);
         });
       }
     </script>
