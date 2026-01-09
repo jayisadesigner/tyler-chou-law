@@ -15,6 +15,20 @@
   status = 200
   force = true
 
+# Netlify Identity API endpoints - route to Identity service
+# Identity widget may call these directly, need to route to /.netlify/identity/*
+[[redirects]]
+  from = "/user"
+  to = "/.netlify/identity/user"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/settings"
+  to = "/.netlify/identity/settings"
+  status = 200
+  force = true
+
 # Exclude admin folder from catch-all redirect
 # This allows config.yml and other admin files to be served directly
 [[redirects]]
