@@ -59,6 +59,7 @@
 }
 
 /* Ensure media-first order on mobile ONLY when media is present */
+/* EXCEPT for form sections which should have content first */
 @media (max-width: 767px) {
   .content-section__container:has(.content-section__media) .content-section__media {
     order: 1; /* Force image first on mobile */
@@ -66,6 +67,15 @@
   
   .content-section__container:has(.content-section__media) .content-section__content {
     order: 2; /* Force content second on mobile */
+  }
+  
+  /* Override: Form sections have content first */
+  .content-section--form .content-section__container .content-section__content {
+    order: 1 !important; /* Content first on mobile - override general rule */
+  }
+  
+  .content-section--form .content-section__container .content-section__media {
+    order: 2 !important; /* Form second on mobile - override general rule */
   }
 }
 
@@ -266,15 +276,18 @@ body.page-creator .content-section__content {
   flex-direction: column;
 }
 
-.content-section--form .content-section__content {
-  order: 1; /* Content first on mobile */
-}
-
-.content-section--form .content-section__media {
-  order: 2; /* Form second on mobile */
-  overflow: visible;
-  padding: var(--space-2xl) var(--space-md);
-  padding-top: var(--form-padding-top-mobile);
+@media (max-width: 767px) {
+  /* Content gets header clearance padding on mobile */
+  .content-section--form .content-section__content {
+    padding-top: var(--form-padding-top-mobile);
+  }
+  
+  /* Form gets simple padding on mobile */
+  .content-section--form .content-section__media {
+    overflow: visible;
+    padding: var(--space-2xl) var(--space-md);
+    padding-top: var(--space-3xl); /* Match default content padding */
+  }
 }
 
 .content-section--form .content-section__media .background-image {
