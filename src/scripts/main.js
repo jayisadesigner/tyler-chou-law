@@ -5,18 +5,50 @@
 
 // Global error handler to suppress Netlify service worker errors
 // This catches the "Response with null body status cannot have body" error from cnm-sw.js
+
+// Helper function to check if error is from Netlify service worker
+function isNetlifySWError(message, stack) {
+  if (!message && !stack) return false
+  const errorText = (message || '') + (stack || '')
+  return errorText.includes('Response with null body status') ||
+         errorText.includes('cnm-sw.js') ||
+         (errorText.includes('Failed to construct \'Response\'') && errorText.includes('null body status'))
+}
+
+// Intercept console.error to filter Netlify SW errors (if not already intercepted)
+if (!window.__netlifySWErrorSuppressed) {
+  const originalConsoleError = console.error
+  console.error = function(...args) {
+    const errorText = args.map(arg => 
+      typeof arg === 'string' ? arg : 
+      (arg?.message || arg?.toString() || '')
+    ).join(' ')
+    
+    if (isNetlifySWError(errorText, args.find(arg => arg?.stack)?.stack)) {
+      // Silently suppress Netlify service worker errors
+      return
+    }
+    originalConsoleError.apply(console, args)
+  }
+  window.__netlifySWErrorSuppressed = true
+}
+
+// Catch global errors
 window.addEventListener('error', function(event) {
-  // Suppress Netlify service worker errors that we can't control
-  if (event.message && event.message.includes('Response with null body status')) {
+  if (isNetlifySWError(event.message, event.error?.stack)) {
     event.preventDefault()
     event.stopPropagation()
     return false
   }
 }, true)
 
-// Also catch unhandled promise rejections from service worker
+// Catch unhandled promise rejections from service worker
 window.addEventListener('unhandledrejection', function(event) {
-  if (event.reason && event.reason.message && event.reason.message.includes('Response with null body status')) {
+  const reason = event.reason
+  const message = reason?.message || reason?.toString() || ''
+  const stack = reason?.stack || ''
+  
+  if (isNetlifySWError(message, stack)) {
     event.preventDefault()
     return false
   }

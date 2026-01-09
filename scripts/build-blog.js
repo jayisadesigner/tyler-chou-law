@@ -208,7 +208,7 @@ function parseFrontmatter(content) {
 
 /**
  * Resolve featured image path
- * Handles direct URLs (external images) and local files in src/assets/images/blog/
+ * Handles direct URLs (external images) and local files in src/assets/images/blog/ or public/assets/images/blog/
  */
 async function resolveFeaturedImage(featuredImage) {
   // If no featured image provided, return null
@@ -224,26 +224,52 @@ async function resolveFeaturedImage(featuredImage) {
   // Check if local file exists
   let filename
   let localPath
+  let publicPath
   
-  if (featuredImage.startsWith('/')) {
-    // Path like "/images/blog/filename.jpg"
+  if (featuredImage.startsWith('/assets/')) {
+    // Path like "/assets/images/blog/filename.jpg" (public folder)
+    filename = basename(featuredImage)
+    localPath = join(projectRoot, 'public', 'assets', 'images', 'blog', filename)
+    publicPath = featuredImage // Use the path as-is for public folder
+  } else if (featuredImage.startsWith('/src/assets/')) {
+    // Path like "/src/assets/images/blog/filename.jpg" (src folder)
     filename = basename(featuredImage)
     localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
+    publicPath = featuredImage // Use the path as-is
+  } else if (featuredImage.startsWith('/')) {
+    // Path like "/images/blog/filename.jpg" - assume src/assets
+    filename = basename(featuredImage)
+    localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
+    publicPath = `/src/assets/images/blog/${filename}`
   } else {
-    // Just filename or relative path
+    // Just filename or relative path - check both locations
     filename = basename(featuredImage)
-    localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
+    // First check public folder (production)
+    const publicLocalPath = join(projectRoot, 'public', 'assets', 'images', 'blog', filename)
+    // Then check src folder (dev)
+    const srcLocalPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
+    
+    try {
+      await stat(publicLocalPath)
+      // File exists in public folder, use /assets/ path
+      return { url: `/assets/images/blog/${filename}` }
+    } catch {
+      try {
+        await stat(srcLocalPath)
+        // File exists in src folder, use /src/assets/ path
+        return { url: `/src/assets/images/blog/${filename}` }
+      } catch {
+        // File doesn't exist in either location
+        console.warn(`  ⚠ Local image not found: ${filename}`)
+        return { url: null }
+      }
+    }
   }
   
-  // Check if file exists
+  // Check if file exists at the determined path
   try {
     await stat(localPath)
-    // File exists, use it
-    // Use /src/assets/images/blog/ path to match pattern used elsewhere in codebase
-    // This works with Vite dev server and will be processed by Vite in production
-    const publicPath = featuredImage.startsWith('/src/assets/')
-      ? featuredImage
-      : `/src/assets/images/blog/${filename}`
+    // File exists, use the determined public path
     return { url: publicPath }
   } catch {
     // File doesn't exist, log warning
