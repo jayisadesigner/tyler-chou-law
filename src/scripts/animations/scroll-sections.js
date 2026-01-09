@@ -158,12 +158,27 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
         gsap.set(headline, { opacity: 1 })
       }
       
+      // Cards move through viewport based on depth (batch DOM reads)
+      const cardDepths = Array.from(cards).map(card => ({
+        card,
+        depth: parseInt(getComputedStyle(card).getPropertyValue('--depth').trim() || '2')
+      }))
+      
+      // Calculate maximum movement distance needed
+      const depthMultipliers = { 1: 1.5, 2: 2.0, 3: 2.5 }
+      const maxMovement = Math.max(...cardDepths.map(({ depth }) => depthMultipliers[depth] || 2.0))
+      
+      // Calculate scroll duration based on maximum movement + buffer
+      // Use max movement * 2.0 to ensure all cards fully exit viewport
+      const scrollMultiplier = maxMovement * 2.0
+      const scrollEnd = `+=${scrollMultiplier * 100}%`
+      
       // Create a pinned scroll-through effect
       const desktopTl = gsap.timeline({
         scrollTrigger: createPinnedScrollConfig({
           trigger: loveNotesSection,
           start: 'top top',
-          end: '+=400%', // Pin for 4x viewport height - faster scroll while ensuring all cards fully scroll through
+          end: scrollEnd,
           scrub: 1,
           callbacks: {
             id: 'love-notes-desktop',
@@ -172,20 +187,11 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
         }),
       })
       
-      // Cards move through viewport based on depth (batch DOM reads)
-      const cardDepths = Array.from(cards).map(card => ({
-        card,
-        depth: parseInt(getComputedStyle(card).getPropertyValue('--depth').trim() || '2')
-      }))
-      
       cardDepths.forEach(({ card, depth }) => {
-        
         // Movement distance based on depth - all cards scroll through and off screen
         // depth 1 (back) = slower movement (less distance)
         // depth 2 (mid) = normal movement
         // depth 3 (front) = faster movement (more distance)
-        // Increased multipliers to ensure all cards fully scroll through viewport
-        const depthMultipliers = { 1: 1.5, 2: 2.0, 3: 2.5 }
         const yMovement = -viewportHeight * (depthMultipliers[depth] || 2.0)
         
         desktopTl.to(card, {
