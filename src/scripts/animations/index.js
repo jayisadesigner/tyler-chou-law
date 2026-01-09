@@ -431,10 +431,12 @@ export function initAnimations() {
       formSections.forEach(section => {
         const container = section.querySelector('.content-section__container')
         const content = section.querySelector('.content-section__content')
+        const media = section.querySelector('.content-section__media')
         
-        if (container && content) {
+        // Use media (form) element as trigger so scroll duration matches form height
+        if (container && content && media) {
           ScrollTrigger.create({
-            trigger: container,
+            trigger: media, // Use form area as trigger for accurate height calculation
             start: "top top",
             end: "bottom bottom",
             pin: content,
