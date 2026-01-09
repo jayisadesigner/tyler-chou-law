@@ -15,20 +15,13 @@
     <!-- Initialize Netlify Identity -->
     <script>
       if (window.netlifyIdentity) {
-        // For custom domains, Identity needs to use the site's Netlify subdomain
-        // Replace 'tyler-chou-law' with your actual Netlify site name
-        // You can find this in your Netlify dashboard - it's the [site-name] in [site-name].netlify.app
-        const currentHost = window.location.hostname;
-        let identityApiUrl = window.location.origin;
+        // Use the current origin (custom domain) for Identity API calls
+        // Netlify automatically routes /.netlify/identity/* endpoints on custom domains
+        // This avoids CORS issues that occur when trying to call the Netlify subdomain
+        const identityApiUrl = window.location.origin;
+        console.log('Using current origin for Identity:', identityApiUrl);
         
-        // If on custom domain, use the Netlify subdomain for Identity API
-        if (!currentHost.includes('.netlify.app') && !currentHost.includes('localhost')) {
-          // Use your Netlify subdomain for Identity - this is what worked before
-          identityApiUrl = 'https://tylerchoulaw.netlify.app';
-          console.log('Using Netlify subdomain for Identity:', identityApiUrl);
-        }
-        
-        // Initialize Identity with explicit API URL
+        // Initialize Identity with current origin
         window.netlifyIdentity.init({
           APIUrl: identityApiUrl
         });
