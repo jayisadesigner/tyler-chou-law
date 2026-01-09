@@ -15,16 +15,10 @@
     <!-- Initialize Netlify Identity -->
     <script>
       if (window.netlifyIdentity) {
-        // Use the current origin (custom domain) for Identity API calls
-        // Netlify automatically routes /.netlify/identity/* endpoints on custom domains
-        // This avoids CORS issues that occur when trying to call the Netlify subdomain
-        const identityApiUrl = window.location.origin;
-        console.log('Using current origin for Identity:', identityApiUrl);
-        
-        // Initialize Identity with current origin
-        window.netlifyIdentity.init({
-          APIUrl: identityApiUrl
-        });
+        // Initialize Identity - let it auto-detect the correct configuration
+        // Netlify Identity should automatically work with custom domains
+        // The widget will use /.netlify/identity/* endpoints automatically
+        window.netlifyIdentity.init();
         
         // Handle OAuth callback - check URL for callback parameters
         const urlParams = new URLSearchParams(window.location.search);
