@@ -40,10 +40,9 @@ export function initPinnedSections() {
 
 /**
  * Love Letters section scroll animations
- * Mobile: Horizontal parallax effect on carousel cards (scale: 1)
+ * Mobile/Tablet: Native horizontal scroll (no JS transforms)
  * Desktop: Pinned section with cards scrolling through viewport, parallax by depth (scale from CSS --scale)
  * Uses matchMedia for responsive behavior - animations update automatically on resize
- * GSAP handles all transforms to avoid CSS/JS conflicts
  * @param {boolean} reducedMotion - If true, skip animations
  * @param {number} viewportHeight - Current viewport height
  */
@@ -62,82 +61,11 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
   
   // Use matchMedia for responsive animations that update on resize
   ScrollTrigger.matchMedia({
-    // Mobile: Horizontal parallax (subtle opposite direction scrolling)
-    // Top row moves right, bottom row moves left on scroll
-    "(max-width: 767px)": function() {
-      const topCards = loveNotesSection.querySelectorAll('.love-notes__carousel--top .roster-card--testimonial')
-      const bottomCards = loveNotesSection.querySelectorAll('.love-notes__carousel--bottom .roster-card--testimonial')
-      
-      // Reset cards to base state
+    // Mobile & Tablet: No JS animations - use native horizontal scroll
+    "(max-width: 1279px)": function() {
+      // Reset cards to base state - let native scrolling handle it
       gsap.set(cards, { x: 0, y: 0, scale: 1, opacity: 1 })
-      
-      // Create timeline with scrub for smooth scroll-linked animation
-      const mobileTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: loveNotesSection,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-          id: 'love-notes-mobile',
-          invalidateOnRefresh: true,
-        },
-      })
-      
-      // Top carousel - moves right on scroll
-      topCards.forEach((card, index) => {
-        const speed = 0.6 + (index * 0.15)
-        mobileTl.to(card, {
-          x: 60 * speed,
-          ease: 'none',
-        }, 0)
-      })
-      
-      // Bottom carousel - moves left on scroll
-      bottomCards.forEach((card, index) => {
-        const speed = 0.6 + (index * 0.15)
-        mobileTl.to(card, {
-          x: -60 * speed,
-          ease: 'none',
-        }, 0)
-      })
-    },
-    
-    // Tablet: Horizontal parallax (safe scrub without pin)
-    "(min-width: 768px) and (max-width: 1279px)": function() {
-      const topCards = loveNotesSection.querySelectorAll('.love-notes__carousel--top .roster-card--testimonial')
-      const bottomCards = loveNotesSection.querySelectorAll('.love-notes__carousel--bottom .roster-card--testimonial')
-      
-      // Reset cards to base state for tablet (no scale)
-      gsap.set(cards, { x: 0, y: 0, scale: 1 })
-      
-      const tabletTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: loveNotesSection,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-          id: 'love-notes-tablet',
-          invalidateOnRefresh: true,
-        },
-      })
-      
-      // Top carousel - moves right
-      topCards.forEach((card, index) => {
-        const speed = 0.6 + (index * 0.15)
-        tabletTl.to(card, {
-          x: 60 * speed,
-          ease: 'none',
-        }, 0)
-      })
-      
-      // Bottom carousel - moves left
-      bottomCards.forEach((card, index) => {
-        const speed = 0.6 + (index * 0.15)
-        tabletTl.to(card, {
-          x: -60 * speed,
-          ease: 'none',
-        }, 0)
-      })
+      return
     },
     
     // Desktop: Pin section and scroll cards through viewport with parallax

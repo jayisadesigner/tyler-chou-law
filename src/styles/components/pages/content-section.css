@@ -44,7 +44,7 @@
 
 .content-section__content {
   margin-bottom: 0; /* Removed margin-bottom to match top/bottom padding */
-  order: 2; /* Content appears second on mobile - always after image */
+  /* Order only applied when media exists - see mobile media query below */
   /* Padding is handled in Content Section Content Structure section below */
 }
 
@@ -53,18 +53,18 @@
   overflow: hidden;
   /* Mobile: Give media container height for absolutely positioned background-image */
   aspect-ratio: 4 / 5;
-  order: 1; /* Media appears first on mobile - always before content */
+  /* Order only applied when actually used - see mobile media query below */
   padding-top: var(--space-3xl); /* Top padding inside container - responsive: 48px mobile */
   padding-bottom: var(--space-3xl); /* Bottom padding inside container - responsive: 48px mobile */
 }
 
-/* Ensure media-first order on mobile regardless of modifiers */
+/* Ensure media-first order on mobile ONLY when media is present */
 @media (max-width: 767px) {
-  .content-section__media {
+  .content-section__container:has(.content-section__media) .content-section__media {
     order: 1; /* Force image first on mobile */
   }
   
-  .content-section__content {
+  .content-section__container:has(.content-section__media) .content-section__content {
     order: 2; /* Force content second on mobile */
   }
 }
