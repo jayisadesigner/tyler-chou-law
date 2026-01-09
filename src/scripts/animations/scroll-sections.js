@@ -102,9 +102,8 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
       })
     },
     
-    // Tablet and Desktop: Horizontal parallax (use mobile carousel version)
-    // TODO: Re-enable desktop pinned scroll-through animation later
-    "(min-width: 768px)": function() {
+    // Tablet: Horizontal parallax (safe scrub without pin)
+    "(min-width: 768px) and (max-width: 1279px)": function() {
       const topCards = loveNotesSection.querySelectorAll('.love-notes__carousel--top .roster-card--testimonial')
       const bottomCards = loveNotesSection.querySelectorAll('.love-notes__carousel--bottom .roster-card--testimonial')
       
@@ -141,10 +140,7 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
       })
     },
     
-    // TODO: Re-enable desktop pinned scroll-through animation
     // Desktop: Pin section and scroll cards through viewport with parallax
-    // DISABLED: Using mobile carousel version on desktop for now
-    /*
     "(min-width: 1280px)": function() {
       if (!cards.length) return
       
@@ -163,31 +159,25 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
       }
       
       // Cards move through viewport based on depth (batch DOM reads)
+      // Need to account for starting position - cards at bottom need more movement
       const cardDepths = Array.from(cards).map(card => {
         const depth = parseInt(getComputedStyle(card).getPropertyValue('--depth').trim() || '2')
-        // Get card's starting position relative to viewport top
+        // Get card's starting position relative to section top
         const rect = card.getBoundingClientRect()
         const sectionRect = loveNotesSection.getBoundingClientRect()
         const relativeTop = rect.top - sectionRect.top // Position within section (0 to 100vh)
         return { card, depth, relativeTop }
       })
       
-      // Calculate scroll duration needed for each card to fully exit
-      // Card needs: starting position + movement distance + buffer to clear viewport
+      // Calculate scroll duration based on worst-case card
+      // Card at bottom (100vh) needs to move up to top (0vh) then exit
       const depthMultipliers = { 1: 1.5, 2: 2.0, 3: 2.5 }
-      
-      // For each card, calculate total distance needed:
-      // - Starting position (as fraction of viewport: 0 to 1)
-      // - Movement distance (depth multiplier)
-      // - Buffer to fully exit (1.0 viewport height)
-      const maxScrollNeeded = Math.max(...cardDepths.map(({ depth, relativeTop }) => {
-        const startPosition = relativeTop / viewportHeight // 0 to 1
-        const movement = depthMultipliers[depth] || 2.0
-        const buffer = 1.0 // Full viewport to ensure exit
-        return startPosition + movement + buffer
-      }))
-      
-      const scrollEnd = `+=${maxScrollNeeded * 100}%`
+      const maxStartPosition = Math.max(...cardDepths.map(({ relativeTop }) => relativeTop))
+      const maxDepth = Math.max(...cardDepths.map(({ depth }) => depth))
+      const maxMovement = depthMultipliers[maxDepth] || 2.0
+      // Scroll needed: from bottom position to top (maxStartPosition) + movement distance + buffer
+      const scrollNeeded = (maxStartPosition / viewportHeight) + maxMovement + 1.0
+      const scrollEnd = `+=${scrollNeeded * 100}%`
       
       // Create a pinned scroll-through effect
       const desktopTl = gsap.timeline({
@@ -203,12 +193,16 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
         }),
       })
       
-      cardDepths.forEach(({ card, depth }) => {
+      cardDepths.forEach(({ card, depth, relativeTop }) => {
         // Movement distance based on depth - all cards scroll through and off screen
         // depth 1 (back) = slower movement (less distance)
         // depth 2 (mid) = normal movement
         // depth 3 (front) = faster movement (more distance)
-        const yMovement = -viewportHeight * (depthMultipliers[depth] || 2.0)
+        // Cards starting lower need more movement to reach top and exit
+        const baseMovement = depthMultipliers[depth] || 2.0
+        // Add extra movement for cards starting below viewport center
+        const startOffset = relativeTop > viewportHeight * 0.5 ? (relativeTop - viewportHeight * 0.5) : 0
+        const yMovement = -(baseMovement * viewportHeight + startOffset)
         
         desktopTl.to(card, {
           y: yMovement,
@@ -216,7 +210,6 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
         }, 0) // All animations start at the same time for parallax effect
       })
     }
-    */
   })
 }
 

@@ -110,8 +110,114 @@
   touch-action: pan-x pan-y;
 }
 
-/* TODO: Re-enable desktop grid layout later
-   Desktop: Grid-based scattered layout with depth
-   DISABLED: Using mobile carousel layout on desktop for now
-   Desktop CSS block removed - can be restored from git history if needed */
+/* Desktop: Grid-based scattered layout with depth */
+@media (min-width: 1280px) {
+  .love-notes--full-height {
+    height: 100vh; /* Viewport height frame */
+    min-height: auto;
+    position: relative;
+    overflow: hidden; /* Contain headline within section bounds */
+  }
+  
+  .love-notes__container {
+    height: 100%;
+    position: relative;
+  }
+  
+  .love-notes__carousels {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    min-height: 100vh; /* Allow natural grid height */
+    padding: var(--space-2xl) var(--space-xl);
+    gap: var(--space-lg);
+  }
+  
+  /* Flatten carousel structure for grid - disable mobile scroll behavior */
+  .love-notes__carousel {
+    display: contents;
+    overflow: visible;
+  }
+  
+  .love-notes__carousel-track {
+    display: contents;
+  }
+  
+  /* Cards positioned by grid with depth system */
+  .roster-card--testimonial {
+    width: 240px; /* Reduced from 280px to prevent overflow when scaled */
+    justify-self: center;
+    align-self: center;
+    /* Scale applied via GSAP to avoid transform conflicts */
+  }
+  
+  /* Card 1 - Large, top left (Jenny Hoyos) */
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(1) {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3; /* Top rows */
+    --scale: 1.25;
+    --depth: 3;
+  }
+  
+  /* Card 2 - Medium, top middle-right (Carolyn) */
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(2) {
+    grid-column: 8 / 10;
+    grid-row: 1 / 3; /* Top rows */
+    --scale: 0.9;
+    --depth: 2;
+  }
+  
+  /* Card 3 - Medium, left middle-bottom (Steve Hyunh) */
+  .love-notes__carousel--top .roster-card--testimonial:nth-child(3) {
+    grid-column: 3 / 5;
+    grid-row: 3 / 5; /* Middle-bottom rows */
+    --scale: 0.9;
+    --depth: 1;
+  }
+  
+  /* Card 4 - REMOVED: No longer exists */
+  
+  /* Card 5 - Large, center left (James) */
+  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(1) {
+    grid-column: 4 / 6;
+    grid-row: 2 / 4; /* Center vertically */
+    --scale: 1.25;
+    --depth: 3;
+  }
+  
+  /* Card 6 - Small, right bottom (Jennifer Brick) */
+  .love-notes__carousel--bottom .roster-card--testimonial:nth-child(2) {
+    grid-column: 9 / 11;
+    grid-row: 4 / 5; /* Bottom row */
+    --scale: 0.75;
+    --depth: 1;
+  }
+  
+  /* Card 7 & 8 - REMOVED: No longer exist */
+  
+  /* Headline centered in section - stays only within section bounds */
+  .love-notes__headline {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5; /* Back layer - only small cards behind, medium and large cards in front */
+    pointer-events: none; /* Don't block interaction with scrollable content */
+    text-align: var(--text-align-center);
+    width: auto;
+    max-width: 80%;
+    font-size: var(--text-h1-size); /* 128px at 1280px+ */
+    line-height: var(--text-h1-line-height); /* 0.85 at 1280px+ */
+  }
+  
+  /* Default: all testimonial cards below headline (z-index: 5) */
+  .love-notes .roster-card--testimonial {
+    z-index: 1; /* Below headline by default */
+  }
+  
+  /* On hover, all testimonial cards should be above the headline (z-index: 5) */
+  .love-notes .roster-card--testimonial:hover {
+    z-index: 20; /* Higher than headline (5) */
+  }
+}
 
