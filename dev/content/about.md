@@ -3,7 +3,7 @@
 ## Hero
 - **Eyebrow:** about
 - **Headline:** 20 Years in Hollywood. Now for Creators.
-- **Subheadline:** Entertainment law veteran turned creator advocate.
+- **Subheadline:** Entertainment law attorney turned creator architect.
 
 ---
 
@@ -45,7 +45,7 @@ The attorney venture funds trust to identify which creators deserve funding. The
 
 ## Expertise Section
 - **Eyebrow:** expertise
-- **Headline:** Studio Insider. Creator Advocate.
+- **Headline:** Studio Insider. Creator Architect.
 - **Body:**
 Tyler's career path gives her an unfair advantage. She knows how studios think, how they negotiate, and where the traps hide in every contract.
 
