@@ -1,0 +1,4 @@
+# Netlify redirects file (backup to netlify.toml)
+# Ensure admin files are served correctly
+/admin/* /admin/:splat 200
+
