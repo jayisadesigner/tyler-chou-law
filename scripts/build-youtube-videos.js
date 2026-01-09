@@ -1,7 +1,7 @@
 /**
  * YouTube Videos Build Script
- * Fetches latest or most popular videos from YouTube channel using Data API v3
- * Generates HTML for video grid
+ * Generates HTML for video grid from config file or YouTube API
+ * Supports manual curation (config file) or automatic fetching (API)
  */
 
 import { readFile, writeFile } from 'fs/promises'
@@ -16,19 +16,27 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const projectRoot = join(__dirname, '..')
 
-// YouTube channel handle
+// YouTube channel handle (for API mode)
 const YOUTUBE_CHANNEL = 'TheCreatorsAttorney'
-
-// YouTube Data API v3 configuration
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3'
 
-// Video sort order: 'date' for latest, 'viewCount' for most popular, 'rating' for highest rated
-const VIDEO_ORDER = process.env.YOUTUBE_VIDEO_ORDER || 'date' // 'date' | 'viewCount' | 'rating'
-const MAX_VIDEOS = 6
+/**
+ * Load config file
+ */
+async function loadConfig() {
+  try {
+    const configPath = join(projectRoot, 'config', 'youtube-videos.json')
+    const configContent = await readFile(configPath, 'utf-8')
+    return JSON.parse(configContent)
+  } catch (error) {
+    console.error('Error loading config file:', error)
+    throw new Error('Could not load youtube-videos.json config file')
+  }
+}
 
 /**
- * Get channel ID from channel handle
+ * Get channel ID from channel handle (for API mode)
  */
 async function getChannelId() {
   try {
@@ -70,33 +78,38 @@ async function getChannelId() {
 }
 
 /**
- * Fetch videos from YouTube Data API v3
+ * Fetch videos from YouTube Data API v3 (for auto mode)
  */
-async function fetchYouTubeVideos(channelId) {
+async function fetchYouTubeVideosFromAPI(channelId, config) {
   if (!YOUTUBE_API_KEY) {
     throw new Error('YOUTUBE_API_KEY environment variable is not set')
   }
   
+  const autoConfig = config.autoConfig
+  const order = autoConfig.order || 'date'
+  const maxVideos = autoConfig.maxVideos || 6
+  
   try {
-    const orderType = VIDEO_ORDER === 'viewCount' ? 'most popular' : 
-                     VIDEO_ORDER === 'rating' ? 'highest rated' : 'latest'
-    const dateFilter = VIDEO_ORDER === 'viewCount' ? ' from the last year' : ''
+    const orderType = order === 'viewCount' ? 'most popular' : 
+                     order === 'rating' ? 'highest rated' : 'latest'
+    const dateFilter = (order === 'viewCount' && autoConfig.dateFilter?.enabled) 
+                      ? ` from the last ${autoConfig.dateFilter.years || 1} year(s)` 
+                      : ''
     console.log(`Fetching ${orderType} videos${dateFilter}...`)
     
-    // Use search endpoint to get videos from channel
     const searchUrl = new URL(`${YOUTUBE_API_BASE}/search`)
     searchUrl.searchParams.set('part', 'snippet')
     searchUrl.searchParams.set('channelId', channelId)
-    searchUrl.searchParams.set('order', VIDEO_ORDER)
-    searchUrl.searchParams.set('maxResults', MAX_VIDEOS.toString())
+    searchUrl.searchParams.set('order', order)
+    searchUrl.searchParams.set('maxResults', maxVideos.toString())
     searchUrl.searchParams.set('type', 'video')
     searchUrl.searchParams.set('key', YOUTUBE_API_KEY)
     
-    // For most popular videos, filter to last year for more relevant results
-    if (VIDEO_ORDER === 'viewCount') {
-      const oneYearAgo = new Date()
-      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1)
-      searchUrl.searchParams.set('publishedAfter', oneYearAgo.toISOString())
+    // Add date filter if enabled
+    if (autoConfig.dateFilter?.enabled) {
+      const yearsAgo = new Date()
+      yearsAgo.setFullYear(yearsAgo.getFullYear() - (autoConfig.dateFilter.years || 1))
+      searchUrl.searchParams.set('publishedAfter', yearsAgo.toISOString())
     }
     
     const response = await fetch(searchUrl.toString())
@@ -112,17 +125,45 @@ async function fetchYouTubeVideos(channelId) {
       throw new Error('No videos found')
     }
     
-    const videos = data.items.map(item => ({
+    let videos = data.items.map(item => ({
       id: item.id.videoId,
       title: item.snippet.title,
       publishedAt: item.snippet.publishedAt
     }))
+    
+    // Sort by published date (newest first) to ensure correct order
+    if (order === 'date') {
+      videos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+    }
     
     console.log(`✓ Found ${videos.length} videos`)
     return videos
   } catch (error) {
     console.error('Error fetching YouTube videos:', error)
     throw error
+  }
+}
+
+/**
+ * Get videos from config or API
+ */
+async function getVideos() {
+  const config = await loadConfig()
+  
+  if (config.mode === 'manual') {
+    console.log('Using manual video list from config...')
+    return config.manualVideos || []
+  } else if (config.mode === 'auto') {
+    if (!YOUTUBE_API_KEY) {
+      console.warn('⚠ API mode enabled but YOUTUBE_API_KEY not set. Falling back to manual videos.')
+      return config.manualVideos || []
+    }
+    
+    console.log('Using automatic video fetching from YouTube API...')
+    const channelId = await getChannelId()
+    return await fetchYouTubeVideosFromAPI(channelId, config)
+  } else {
+    throw new Error(`Unknown mode: ${config.mode}. Use 'manual' or 'auto'.`)
   }
 }
 
@@ -143,8 +184,8 @@ function escapeHtml(text) {
  */
 function generateVideoGridHTML(videos) {
   if (videos.length === 0) {
-    console.warn('No videos found, using fallback')
-    return '' // Return empty, will use existing hardcoded videos
+    console.warn('No videos found')
+    return ''
   }
   
   return videos.map(video => `
@@ -159,7 +200,7 @@ function generateVideoGridHTML(videos) {
 }
 
 /**
- * Update index.html with latest videos
+ * Update index.html with videos
  */
 async function updateIndexHTML(videoGridHTML) {
   try {
@@ -193,7 +234,7 @@ async function updateIndexHTML(videoGridHTML) {
            afterGrid
     
     await writeFile(indexPath, html, 'utf-8')
-    console.log('✓ Updated index.html with latest YouTube videos')
+    console.log('✓ Updated index.html with YouTube videos')
   } catch (error) {
     console.error('Error updating index.html:', error)
     throw error
@@ -207,20 +248,11 @@ async function buildYouTubeVideos() {
   try {
     console.log('Building YouTube videos grid...')
     
-    if (!YOUTUBE_API_KEY) {
-      console.warn('⚠ YOUTUBE_API_KEY not set. Skipping YouTube video fetch.')
-      console.warn('Set YOUTUBE_API_KEY environment variable to enable automatic video updates.')
-      return
-    }
-    
-    // Get channel ID
-    const channelId = await getChannelId()
-    
-    // Fetch videos from API
-    const videos = await fetchYouTubeVideos(channelId)
+    // Get videos from config or API
+    const videos = await getVideos()
     
     if (videos.length === 0) {
-      console.warn('No videos found. Keeping existing hardcoded videos.')
+      console.warn('No videos found. Check your config file.')
       return
     }
     
@@ -230,11 +262,11 @@ async function buildYouTubeVideos() {
     // Update index.html
     await updateIndexHTML(videoGridHTML)
     
-    console.log('✓ YouTube videos grid built successfully')
+    console.log(`✓ YouTube videos grid built successfully (${videos.length} videos)`)
   } catch (error) {
     console.error('Error building YouTube videos:', error)
-    // Don't throw - allow build to continue with existing videos
-    console.warn('Continuing with existing hardcoded videos...')
+    // Don't throw - allow build to continue
+    console.warn('Continuing with existing videos...')
   }
 }
 

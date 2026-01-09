@@ -1,0 +1,39 @@
+{
+  "mode": "manual",
+  "manualVideos": [
+    {
+      "id": "eGmSdMjI8UE",
+      "title": "$100M YouTube Exit"
+    },
+    {
+      "id": "sdRd5LbnTt0",
+      "title": "YouTube Channels Are Getting Deleted Overnight"
+    },
+    {
+      "id": "bVE49b2IifY",
+      "title": "EXPOSING The Truth About Brand Deals"
+    },
+    {
+      "id": "24zeFwMgAvE",
+      "title": "Make REAL Money as Creators (Attorney Explains)"
+    },
+    {
+      "id": "8queRjX3Ifk",
+      "title": "3 Legal Mistakes DESTROYING Creators (Attorney Explains)"
+    },
+    {
+      "id": "IxHWVlG6S5k",
+      "title": "7-Figure Creator Products"
+    }
+  ],
+  "autoConfig": {
+    "enabled": false,
+    "order": "date",
+    "maxVideos": 6,
+    "dateFilter": {
+      "enabled": false,
+      "years": 1
+    }
+  }
+}
+
