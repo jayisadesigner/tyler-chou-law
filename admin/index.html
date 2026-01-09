@@ -14,14 +14,26 @@
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <!-- Initialize Netlify Identity -->
     <script>
+      // Handle OAuth callback - check for token in URL
+      if (window.location.hash) {
+        const hash = window.location.hash;
+        if (hash.includes('access_token') || hash.includes('token')) {
+          // OAuth callback detected, let Identity handle it
+          window.netlifyIdentity.on('login', () => {
+            // Remove hash from URL and reload
+            window.location.hash = '';
+            window.location.reload();
+          });
+        }
+      }
+      
       if (window.netlifyIdentity) {
-        // For custom domains, Identity API should use the site's Netlify subdomain
-        // But we can also try using the custom domain with proper endpoint paths
-        // Let Identity auto-detect the correct API URL
+        // Initialize Identity - it will auto-detect the correct API URL
         window.netlifyIdentity.on("init", user => {
           if (!user) {
             window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
+              // Don't redirect on login - let the page handle it naturally
+              // The CMS will detect the user and load
             });
           }
         });
