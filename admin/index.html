@@ -16,6 +16,7 @@
     <script>
       if (window.netlifyIdentity) {
         // Initialize with current site URL (works with custom domain tylerchoulaw.com)
+        // This ensures Identity API endpoints work with custom domain
         window.netlifyIdentity.init({
           APIUrl: window.location.origin
         });
