@@ -61,6 +61,7 @@
 /* Ensure media-first order on mobile ONLY when media is present */
 /* EXCEPT for form sections which should have content first */
 @media (max-width: 767px) {
+  /* General rule: apply to all sections with media, form sections will override below */
   .content-section__container:has(.content-section__media) .content-section__media {
     order: 1; /* Force image first on mobile */
   }
@@ -69,13 +70,13 @@
     order: 2; /* Force content second on mobile */
   }
   
-  /* Override: Form sections have content first */
-  .content-section--form .content-section__container .content-section__content {
-    order: 1 !important; /* Content first on mobile - override general rule */
+  /* Form sections: content first, form second - more specific to override general rule */
+  .content-section--form .content-section__container:has(.content-section__media) .content-section__content {
+    order: 1; /* Content first on mobile */
   }
   
-  .content-section--form .content-section__container .content-section__media {
-    order: 2 !important; /* Form second on mobile - override general rule */
+  .content-section--form .content-section__container:has(.content-section__media) .content-section__media {
+    order: 2; /* Form second on mobile */
   }
 }
 
@@ -188,8 +189,8 @@ body.page-creator .content-section__content {
     order: unset; /* Reset order - use HTML order on desktop */
   }
 
-  /* Base: Fixed height for all desktop media sections */
-  .content-section__media {
+  /* Base: Fixed height for all desktop media sections (except form sections) */
+  .content-section:not(.content-section--form) .content-section__media {
     height: 100vh;
     order: unset; /* Reset order - use HTML order on desktop */
   }
@@ -269,6 +270,9 @@ body.page-creator .content-section__content {
   --form-header-clearance-desktop: 120px;
   --form-padding-top-mobile: calc(var(--space-2xl) + var(--form-header-clearance-mobile));
   --form-padding-top-desktop: calc(var(--space-4xl) + var(--form-header-clearance-desktop));
+  /* Allow section to grow beyond viewport to fit full form height */
+  height: auto; /* Section height determined by container */
+  min-height: fit-content;
 }
 
 /* Mobile: Content appears above form */
@@ -287,6 +291,7 @@ body.page-creator .content-section__content {
     overflow: visible;
     padding: var(--space-2xl) var(--space-md);
     padding-top: var(--space-3xl); /* Match default content padding */
+    aspect-ratio: auto; /* Remove aspect-ratio constraint to allow form to determine height */
   }
 }
 
@@ -303,15 +308,19 @@ body.page-creator .content-section__content {
 @media (min-width: 768px) {
   .content-section--form .content-section__container {
     flex-direction: row;
+    /* Use stretch so container height matches tallest child (form wrapper) */
+    /* Content has align-self: flex-start to prevent stretching */
+    align-items: stretch; /* Inherits from general desktop rule - container matches tallest child */
   }
   
   .content-section--form .content-section__content {
     order: unset;
     width: 50%;
     flex-shrink: 0;
-    align-self: flex-start;
-    max-height: calc(100vh - var(--space-xl) * 2);
-    padding-top: var(--form-padding-top-desktop);
+    align-self: flex-start; /* Don't stretch - keep content at natural height */
+    padding-top: var(--space-4xl); /* Original desktop padding - no header clearance */
+    height: auto; /* Content height determined by its content */
+    max-height: none; /* Remove any max-height constraints */
   }
   
   .content-section--form .content-section__media {
@@ -322,8 +331,10 @@ body.page-creator .content-section__content {
     align-items: flex-start;
     justify-content: center;
     padding: var(--space-4xl) var(--space-2xl) var(--space-2xl) var(--space-2xl);
-    padding-top: var(--form-padding-top-desktop);
-    height: auto;
+    padding-top: var(--space-4xl); /* Original desktop padding - no header clearance */
+    height: auto; /* Override 100vh constraint - height determined by form content */
+    aspect-ratio: auto; /* Remove aspect-ratio constraint - height determined by form content */
+    /* With align-items: stretch on container, container height will match this element (tallest child) */
   }
 }
 
@@ -331,7 +342,7 @@ body.page-creator .content-section__content {
 @media (min-width: 1024px) {
   .content-section--form .content-section__media {
     padding: var(--space-4xl) var(--space-3xl) var(--space-3xl) var(--space-2xl);
-    padding-top: var(--form-padding-top-desktop);
+    padding-top: var(--space-4xl); /* Original desktop padding - no header clearance */
   }
 }
 
