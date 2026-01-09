@@ -15,27 +15,6 @@
   status = 200
   force = true
 
-# Netlify Identity API endpoints - route to Identity service
-# These endpoints are accessed by Decap CMS for user authentication
-[[redirects]]
-  from = "/.netlify/identity/*"
-  to = "https://identity.netlify.com/v1/:splat"
-  status = 200
-  force = true
-
-# Redirect root-level Identity API calls (Decap CMS may try these)
-[[redirects]]
-  from = "/user"
-  to = "/.netlify/identity/user"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/settings"
-  to = "/.netlify/identity/settings"
-  status = 200
-  force = true
-
 # Exclude admin folder from catch-all redirect
 # This allows config.yml and other admin files to be served directly
 [[redirects]]

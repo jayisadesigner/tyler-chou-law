@@ -15,12 +15,9 @@
     <!-- Initialize Netlify Identity -->
     <script>
       if (window.netlifyIdentity) {
-        // Initialize with current site URL (works with custom domain tylerchoulaw.com)
-        // This ensures Identity API endpoints work with custom domain
-        window.netlifyIdentity.init({
-          APIUrl: window.location.origin
-        });
-        
+        // For custom domains, Identity API should use the site's Netlify subdomain
+        // But we can also try using the custom domain with proper endpoint paths
+        // Let Identity auto-detect the correct API URL
         window.netlifyIdentity.on("init", user => {
           if (!user) {
             window.netlifyIdentity.on("login", () => {
@@ -28,6 +25,8 @@
             });
           }
         });
+        // Initialize after setting up event handlers
+        window.netlifyIdentity.init();
       }
     </script>
   </body>
