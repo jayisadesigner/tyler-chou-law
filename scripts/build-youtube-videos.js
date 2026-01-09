@@ -1,13 +1,12 @@
 /**
  * YouTube Videos Build Script
- * Fetches latest 6 videos from YouTube channel and generates HTML for video grid
- * Uses YouTube RSS feed (no API key required)
+ * Fetches latest or most popular videos from YouTube channel using Data API v3
+ * Generates HTML for video grid
  */
 
 import { readFile, writeFile } from 'fs/promises'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { parseStringPromise } from 'xml2js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -16,124 +15,99 @@ const projectRoot = join(__dirname, '..')
 // YouTube channel handle
 const YOUTUBE_CHANNEL = 'TheCreatorsAttorney'
 
+// YouTube Data API v3 configuration
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
+const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3'
+
+// Video sort order: 'date' for latest, 'viewCount' for most popular, 'rating' for highest rated
+const VIDEO_ORDER = process.env.YOUTUBE_VIDEO_ORDER || 'date' // 'date' | 'viewCount' | 'rating'
+const MAX_VIDEOS = 6
+
 /**
- * Fetch YouTube RSS feed
- * Uses channel handle to construct RSS URL
- * Note: YouTube RSS feeds work with channel IDs, but we can try the handle format
+ * Get channel ID from channel handle
  */
-async function fetchYouTubeVideos() {
+async function getChannelId() {
   try {
-    // Try multiple RSS feed formats
-    const rssUrls = [
-      // Format 1: Direct channel handle (may not work for all channels)
-      `https://www.youtube.com/feeds/videos.xml?channel_id=UC${YOUTUBE_CHANNEL}`,
-      // Format 2: User-based (legacy, may still work)
-      `https://www.youtube.com/feeds/videos.xml?user=${YOUTUBE_CHANNEL}`,
+    console.log(`Fetching channel ID for @${YOUTUBE_CHANNEL}...`)
+    const response = await fetch(`https://www.youtube.com/@${YOUTUBE_CHANNEL}`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      }
+    })
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch channel page: ${response.status}`)
+    }
+    
+    const html = await response.text()
+    
+    // Try multiple patterns to find channel ID
+    const patterns = [
+      /"channelId":"([^"]+)"/,
+      /"externalId":"([^"]+)"/,
+      /<link[^>]+channelId=([^"'\s&]+)/,
+      /channelId["']\s*:\s*["']([^"']+)["']/,
+      /"browseId":"([^"]+)"/,
     ]
     
-    // First, try to get channel ID from the channel page
-    console.log(`Attempting to fetch channel ID for @${YOUTUBE_CHANNEL}...`)
-    try {
-      const channelResponse = await fetch(`https://www.youtube.com/@${YOUTUBE_CHANNEL}`, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        }
-      })
-      
-      if (channelResponse.ok) {
-        const channelHtml = await channelResponse.text()
-        
-        // Try multiple patterns to find channel ID
-        const patterns = [
-          /"channelId":"([^"]+)"/,
-          /"externalId":"([^"]+)"/,
-          /<link[^>]+channelId=([^"'\s&]+)/,
-          /channelId["']\s*:\s*["']([^"']+)["']/,
-          /"browseId":"([^"]+)"/,
-        ]
-        
-        for (const pattern of patterns) {
-          const match = channelHtml.match(pattern)
-          if (match && match[1] && match[1].startsWith('UC')) {
-            const channelId = match[1]
-            rssUrls.unshift(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`)
-            console.log(`Found channel ID: ${channelId}`)
-            break
-          }
-        }
-      }
-    } catch (e) {
-      console.log('Could not extract channel ID, trying direct RSS URLs...')
-    }
-    
-    // Try each RSS URL until one works
-    for (const rssUrl of rssUrls) {
-      try {
-        console.log(`Trying RSS URL: ${rssUrl}`)
-        const rssResponse = await fetch(rssUrl, {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-          }
-        })
-        
-        if (rssResponse.ok) {
-          const xml = await rssResponse.text()
-          // Check if we got valid XML (not an error page)
-          if (xml.includes('<feed') || xml.includes('<rss')) {
-            console.log(`✓ Successfully fetched RSS feed`)
-            return xml
-          }
-        }
-      } catch (e) {
-        // Try next URL
-        continue
+    for (const pattern of patterns) {
+      const match = html.match(pattern)
+      if (match && match[1] && match[1].startsWith('UC')) {
+        console.log(`✓ Found channel ID: ${match[1]}`)
+        return match[1]
       }
     }
     
-    throw new Error('Could not fetch YouTube RSS feed from any URL')
+    throw new Error('Could not extract channel ID from YouTube page')
   } catch (error) {
-    console.error('Error fetching YouTube videos:', error)
+    console.error('Error getting channel ID:', error)
     throw error
   }
 }
 
 /**
- * Parse RSS XML and extract video data
+ * Fetch videos from YouTube Data API v3
  */
-async function parseRSSFeed(xml) {
+async function fetchYouTubeVideos(channelId) {
+  if (!YOUTUBE_API_KEY) {
+    throw new Error('YOUTUBE_API_KEY environment variable is not set')
+  }
+  
   try {
-    const result = await parseStringPromise(xml)
-    const entries = result.feed?.entry || []
+    console.log(`Fetching ${VIDEO_ORDER === 'viewCount' ? 'most popular' : VIDEO_ORDER === 'rating' ? 'highest rated' : 'latest'} videos...`)
     
-    const videos = entries.slice(0, 6).map(entry => {
-      // Extract video ID from various possible locations
-      const videoId = entry['yt:videoId']?.[0] || 
-                     entry['media:group']?.[0]?.['yt:videoId']?.[0] ||
-                     entry.id?.[0]?.split(':').pop() ||
-                     entry.link?.[0]?.$.href?.split('v=')[1]?.split('&')[0]
-      
-      const title = entry.title?.[0] || 
-                   entry['media:group']?.[0]?.['media:title']?.[0] || 
-                   'Video'
-      
-      // Decode HTML entities from RSS feed
-      const decodedTitle = title
-        .replace(/&amp;/g, '&')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/&apos;/g, "'")
-      
-      return {
-        id: videoId,
-        title: decodedTitle
-      }
-    }).filter(video => video.id) // Filter out any invalid entries
+    // Use search endpoint to get videos from channel
+    const searchUrl = new URL(`${YOUTUBE_API_BASE}/search`)
+    searchUrl.searchParams.set('part', 'snippet')
+    searchUrl.searchParams.set('channelId', channelId)
+    searchUrl.searchParams.set('order', VIDEO_ORDER)
+    searchUrl.searchParams.set('maxResults', MAX_VIDEOS.toString())
+    searchUrl.searchParams.set('type', 'video')
+    searchUrl.searchParams.set('key', YOUTUBE_API_KEY)
     
+    const response = await fetch(searchUrl.toString())
+    
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(`YouTube API error: ${error.error?.message || response.statusText}`)
+    }
+    
+    const data = await response.json()
+    
+    if (!data.items || data.items.length === 0) {
+      throw new Error('No videos found')
+    }
+    
+    const videos = data.items.map(item => ({
+      id: item.id.videoId,
+      title: item.snippet.title,
+      publishedAt: item.snippet.publishedAt
+    }))
+    
+    console.log(`✓ Found ${videos.length} videos`)
     return videos
   } catch (error) {
-    console.error('Error parsing RSS feed:', error)
+    console.error('Error fetching YouTube videos:', error)
     throw error
   }
 }
@@ -179,19 +153,33 @@ async function updateIndexHTML(videoGridHTML) {
     let html = await readFile(indexPath, 'utf-8')
     
     // Find the youtube-videos-grid section and replace its content
-    // Match from opening div to closing div of youtube-videos-grid
-    const gridRegex = /(<div class="youtube-videos-grid">)[\s\S]*?(<\/div>\s*<\/div>\s*<\/section>)/
-    
-    if (gridRegex.test(html)) {
-      html = html.replace(
-        gridRegex,
-        `$1\n${videoGridHTML}\n          $2`
-      )
-      await writeFile(indexPath, html, 'utf-8')
-      console.log('✓ Updated index.html with latest YouTube videos')
-    } else {
+    const gridStart = html.indexOf('<div class="youtube-videos-grid">')
+    if (gridStart === -1) {
       console.warn('Could not find youtube-videos-grid in index.html')
+      return
     }
+    
+    // Find the closing div of youtube-videos-grid (before the closing section)
+    const afterGridStart = html.substring(gridStart)
+    const gridEndMatch = afterGridStart.match(/<\/div>\s*<\/div>\s*<\/section>/)
+    
+    if (!gridEndMatch) {
+      console.warn('Could not find closing tags for youtube-videos-grid')
+      return
+    }
+    
+    const gridEnd = gridStart + gridEndMatch.index
+    const beforeGrid = html.substring(0, gridStart)
+    const afterGrid = html.substring(gridEnd)
+    
+    // Reconstruct with new video grid
+    html = beforeGrid + 
+           '<div class="youtube-videos-grid">\n' + 
+           videoGridHTML + '\n          ' + 
+           afterGrid
+    
+    await writeFile(indexPath, html, 'utf-8')
+    console.log('✓ Updated index.html with latest YouTube videos')
   } catch (error) {
     console.error('Error updating index.html:', error)
     throw error
@@ -205,16 +193,22 @@ async function buildYouTubeVideos() {
   try {
     console.log('Building YouTube videos grid...')
     
-    // Fetch and parse videos
-    const xml = await fetchYouTubeVideos()
-    const videos = await parseRSSFeed(xml)
+    if (!YOUTUBE_API_KEY) {
+      console.warn('⚠ YOUTUBE_API_KEY not set. Skipping YouTube video fetch.')
+      console.warn('Set YOUTUBE_API_KEY environment variable to enable automatic video updates.')
+      return
+    }
+    
+    // Get channel ID
+    const channelId = await getChannelId()
+    
+    // Fetch videos from API
+    const videos = await fetchYouTubeVideos(channelId)
     
     if (videos.length === 0) {
       console.warn('No videos found. Keeping existing hardcoded videos.')
       return
     }
-    
-    console.log(`Found ${videos.length} videos`)
     
     // Generate HTML
     const videoGridHTML = generateVideoGridHTML(videos)
@@ -236,4 +230,3 @@ if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith
 }
 
 export { buildYouTubeVideos }
-

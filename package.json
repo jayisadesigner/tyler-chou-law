@@ -16,8 +16,7 @@
   },
   "devDependencies": {
     "sharp": "^0.34.5",
-    "vite": "^7.2.4",
-    "xml2js": "^0.6.2"
+    "vite": "^7.2.4"
   },
   "dependencies": {
     "decap-cms": "^3.9.0",

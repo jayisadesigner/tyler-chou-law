@@ -92,6 +92,27 @@ image_keywords: "business, entrepreneur, success, startup"  # Optional: manual c
 
 **Note:** The script works without an API key, but will skip automatic image fetching and show a warning.
 
+## YouTube Video Grid
+
+The homepage video grid automatically fetches the latest or most popular videos from the YouTube channel using YouTube Data API v3.
+
+**Setup:**
+See [YOUTUBE_API_SETUP.md](./YOUTUBE_API_SETUP.md) for detailed instructions.
+
+**Quick setup:**
+1. Get API key from [Google Cloud Console](https://console.cloud.google.com/)
+2. Enable "YouTube Data API v3"
+3. Set environment variable:
+   - Local: Create `.env` file with `YOUTUBE_API_KEY=your_key`
+   - Netlify: Add `YOUTUBE_API_KEY` in site settings > Environment variables
+
+**Options:**
+- `YOUTUBE_VIDEO_ORDER=date` - Latest videos (default)
+- `YOUTUBE_VIDEO_ORDER=viewCount` - Most popular videos
+- `YOUTUBE_VIDEO_ORDER=rating` - Highest rated videos
+
+**Note:** The script works without an API key, but will skip video updates and use existing hardcoded videos.
+
 ## Design System
 
 See `src/styles/variables.css` for design tokens (colors, typography, spacing).
