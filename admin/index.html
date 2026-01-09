@@ -22,10 +22,9 @@
         let identityApiUrl = window.location.origin;
         
         // If on custom domain, use the Netlify subdomain for Identity API
-        // TODO: Replace 'tyler-chou-law' with your actual Netlify site name
         if (!currentHost.includes('.netlify.app') && !currentHost.includes('localhost')) {
           // Use your Netlify subdomain for Identity - this is what worked before
-          identityApiUrl = 'https://tyler-chou-law.netlify.app';
+          identityApiUrl = 'https://tylerchoulaw.netlify.app';
           console.log('Using Netlify subdomain for Identity:', identityApiUrl);
         }
         
