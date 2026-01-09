@@ -471,6 +471,24 @@
   padding: 0;
 }
 
+/* Compact - Same text size as medium, reduced padding by one step */
+.btn--compact {
+  font-size: var(--text-button-md); /* Same text size as medium */
+}
+
+.btn--primary.btn--compact {
+  padding: var(--space-xs) var(--space-lg); /* Step down from md: sm→xs, xl→lg */
+}
+
+.btn--secondary.btn--compact {
+  padding: var(--space-sm) var(--space-md); /* Step down from md: md→sm, lg→md */
+}
+
+.btn--tertiary.btn--compact,
+.btn--ghost.btn--compact {
+  padding: 0; /* Tertiary and ghost buttons have no padding */
+}
+
 /* ============================================
    ALIGNMENT UTILITIES
    ============================================ */
@@ -617,6 +635,21 @@ body.bg-bone .btn--secondary {
   color: var(--button-border-color);
   border: 2px solid var(--button-border-color);
   border-radius: 1000px;
+}
+
+/* Compact variant overrides for background adaptation */
+.bg-obsidian .btn--primary.btn--compact,
+body.bg-obsidian .btn--primary.btn--compact,
+.bg-bone .btn--primary.btn--compact,
+body.bg-bone .btn--primary.btn--compact {
+  padding: var(--space-xs) var(--space-lg);
+}
+
+.bg-obsidian .btn--secondary.btn--compact,
+body.bg-obsidian .btn--secondary.btn--compact,
+.bg-bone .btn--secondary.btn--compact,
+body.bg-bone .btn--secondary.btn--compact {
+  padding: var(--space-sm) var(--space-md);
 }
 
 .bg-bone .btn--secondary:hover,
@@ -872,6 +905,17 @@ body.bg-palo-verde .btn--secondary {
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
+/* Compact variant for palo verde background */
+.bg-palo-verde .btn--primary.btn--compact,
+body.bg-palo-verde .btn--primary.btn--compact {
+  padding: var(--space-xs) var(--space-lg);
+}
+
+.bg-palo-verde .btn--secondary.btn--compact,
+body.bg-palo-verde .btn--secondary.btn--compact {
+  padding: var(--space-sm) var(--space-md);
+}
+
 .bg-palo-verde .btn--secondary:hover,
 body.bg-palo-verde .btn--secondary:hover {
   background-color: var(--button-bg-color);
@@ -1030,6 +1074,21 @@ body.page-creator .btn--secondary {
   border: 2px solid var(--button-border-color);
   border-radius: 1000px;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Compact variant for page-level backgrounds */
+body.page-services .btn--primary.btn--compact,
+body.page-about .btn--primary.btn--compact,
+body.page-roster .btn--primary.btn--compact,
+body.page-creator .btn--primary.btn--compact {
+  padding: var(--space-xs) var(--space-lg);
+}
+
+body.page-services .btn--secondary.btn--compact,
+body.page-about .btn--secondary.btn--compact,
+body.page-roster .btn--secondary.btn--compact,
+body.page-creator .btn--secondary.btn--compact {
+  padding: var(--space-sm) var(--space-md);
 }
 
 body.page-services .btn--secondary:hover,

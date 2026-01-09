@@ -213,12 +213,14 @@ body.page-creator .section-grid {
 
 .section-grid--services .section-grid__grid {
   grid-template-columns: 1fr; /* Mobile: single column */
+  gap: var(--space-xl); /* Spacing between cards on mobile */
 }
 
 /* Tablet: 2 columns */
 @media (min-width: 768px) {
   .section-grid--services .section-grid__grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2xl); /* Increased spacing on tablet+ */
   }
 }
 
