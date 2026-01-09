@@ -78,7 +78,10 @@ async function fetchYouTubeVideos(channelId) {
   }
   
   try {
-    console.log(`Fetching ${VIDEO_ORDER === 'viewCount' ? 'most popular' : VIDEO_ORDER === 'rating' ? 'highest rated' : 'latest'} videos...`)
+    const orderType = VIDEO_ORDER === 'viewCount' ? 'most popular' : 
+                     VIDEO_ORDER === 'rating' ? 'highest rated' : 'latest'
+    const dateFilter = VIDEO_ORDER === 'viewCount' ? ' from the last year' : ''
+    console.log(`Fetching ${orderType} videos${dateFilter}...`)
     
     // Use search endpoint to get videos from channel
     const searchUrl = new URL(`${YOUTUBE_API_BASE}/search`)
@@ -88,6 +91,13 @@ async function fetchYouTubeVideos(channelId) {
     searchUrl.searchParams.set('maxResults', MAX_VIDEOS.toString())
     searchUrl.searchParams.set('type', 'video')
     searchUrl.searchParams.set('key', YOUTUBE_API_KEY)
+    
+    // For most popular videos, filter to last year for more relevant results
+    if (VIDEO_ORDER === 'viewCount') {
+      const oneYearAgo = new Date()
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1)
+      searchUrl.searchParams.set('publishedAfter', oneYearAgo.toISOString())
+    }
     
     const response = await fetch(searchUrl.toString())
     
