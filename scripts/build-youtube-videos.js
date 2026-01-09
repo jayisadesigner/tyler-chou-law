@@ -116,17 +116,14 @@ async function parseRSSFeed(xml) {
                    entry['media:group']?.[0]?.['media:title']?.[0] || 
                    'Video'
       
-      // Decode HTML entities from RSS feed and strip any HTML tags
-      let decodedTitle = title
+      // Decode HTML entities from RSS feed
+      const decodedTitle = title
         .replace(/&amp;/g, '&')
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
         .replace(/&quot;/g, '"')
         .replace(/&#39;/g, "'")
         .replace(/&apos;/g, "'")
-      
-      // Strip any HTML tags that might be in the title
-      decodedTitle = decodedTitle.replace(/<[^>]*>/g, '').trim()
       
       return {
         id: videoId,
@@ -183,34 +180,18 @@ async function updateIndexHTML(videoGridHTML) {
     
     // Find the youtube-videos-grid section and replace its content
     // Match from opening div to closing div of youtube-videos-grid
-    // Use a more specific pattern to avoid matching incorrectly
-    const gridStart = html.indexOf('<div class="youtube-videos-grid">')
-    if (gridStart === -1) {
+    const gridRegex = /(<div class="youtube-videos-grid">)[\s\S]*?(<\/div>\s*<\/div>\s*<\/section>)/
+    
+    if (gridRegex.test(html)) {
+      html = html.replace(
+        gridRegex,
+        `$1\n${videoGridHTML}\n          $2`
+      )
+      await writeFile(indexPath, html, 'utf-8')
+      console.log('✓ Updated index.html with latest YouTube videos')
+    } else {
       console.warn('Could not find youtube-videos-grid in index.html')
-      return
     }
-    
-    // Find the closing div of youtube-videos-grid (before the closing section)
-    const afterGridStart = html.substring(gridStart)
-    const gridEndMatch = afterGridStart.match(/<\/div>\s*<\/div>\s*<\/section>/)
-    
-    if (!gridEndMatch) {
-      console.warn('Could not find closing tags for youtube-videos-grid')
-      return
-    }
-    
-    const gridEnd = gridStart + gridEndMatch.index
-    const beforeGrid = html.substring(0, gridStart)
-    const afterGrid = html.substring(gridEnd)
-    
-    // Reconstruct with new video grid
-    html = beforeGrid + 
-           '<div class="youtube-videos-grid">\n' + 
-           videoGridHTML + '\n          ' + 
-           afterGrid
-    
-    await writeFile(indexPath, html, 'utf-8')
-    console.log('✓ Updated index.html with latest YouTube videos')
   } catch (error) {
     console.error('Error updating index.html:', error)
     throw error
