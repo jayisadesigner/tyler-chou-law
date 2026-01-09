@@ -94,24 +94,28 @@ image_keywords: "business, entrepreneur, success, startup"  # Optional: manual c
 
 ## YouTube Video Grid
 
-The homepage video grid automatically fetches the latest or most popular videos from the YouTube channel using YouTube Data API v3.
+The homepage video grid supports two modes:
 
-**Setup:**
-See [YOUTUBE_API_SETUP.md](./YOUTUBE_API_SETUP.md) for detailed instructions.
+### Manual Mode (Default - Recommended)
+
+Videos are curated manually in `config/youtube-videos.json`. No API key needed!
+
+**To add/remove/reorder videos:**
+1. Edit `config/youtube-videos.json`
+2. Add video IDs and titles to the `manualVideos` array
+3. Run `npm run build:youtube` to update
+
+### Auto Mode (Optional)
+
+Automatically fetches videos from YouTube API. See [YOUTUBE_API_SETUP.md](./YOUTUBE_API_SETUP.md) for setup.
 
 **Quick setup:**
-1. Get API key from [Google Cloud Console](https://console.cloud.google.com/)
-2. Enable "YouTube Data API v3"
-3. Set environment variable:
+1. Set `"mode": "auto"` in `config/youtube-videos.json`
+2. Get API key from [Google Cloud Console](https://console.cloud.google.com/)
+3. Enable "YouTube Data API v3"
+4. Set environment variable:
    - Local: Create `.env` file with `YOUTUBE_API_KEY=your_key`
    - Netlify: Add `YOUTUBE_API_KEY` in site settings > Environment variables
-
-**Options:**
-- `YOUTUBE_VIDEO_ORDER=date` - Latest videos (default)
-- `YOUTUBE_VIDEO_ORDER=viewCount` - Most popular videos
-- `YOUTUBE_VIDEO_ORDER=rating` - Highest rated videos
-
-**Note:** The script works without an API key, but will skip video updates and use existing hardcoded videos.
 
 ## Design System
 

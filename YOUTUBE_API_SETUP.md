@@ -1,8 +1,72 @@
-# YouTube API Setup
+# YouTube Videos Configuration
 
-This project uses YouTube Data API v3 to automatically fetch the latest or most popular videos for the homepage video grid.
+This project supports two modes for managing the homepage video grid:
 
-## Getting Your API Key
+1. **Manual Mode (Default)**: Videos are curated manually in a config file
+2. **Auto Mode**: Videos are automatically fetched from YouTube API
+
+## Manual Mode (Recommended)
+
+The default mode uses a config file for manual video curation. No API key needed!
+
+### Configuration File
+
+Edit `config/youtube-videos.json` to add, remove, or reorder videos:
+
+```json
+{
+  "mode": "manual",
+  "manualVideos": [
+    {
+      "id": "eGmSdMjI8UE",
+      "title": "$100M YouTube Exit"
+    },
+    {
+      "id": "sdRd5LbnTt0",
+      "title": "YouTube Channels Are Getting Deleted Overnight"
+    }
+  ]
+}
+```
+
+**To add a video:**
+1. Get the video ID from the YouTube URL (e.g., `youtube.com/watch?v=VIDEO_ID`)
+2. Add a new entry to the `manualVideos` array
+3. Run `npm run build:youtube` to update the homepage
+
+**To reorder videos:**
+- Simply reorder the entries in the `manualVideos` array
+
+**To remove a video:**
+- Remove the entry from the `manualVideos` array
+
+## Auto Mode (Optional)
+
+For automatic fetching, you'll need a YouTube Data API v3 key.
+
+### Enabling Auto Mode
+
+1. Set `"mode": "auto"` in `config/youtube-videos.json`
+2. Configure `autoConfig` settings
+3. Set up API key (see below)
+
+Example config:
+```json
+{
+  "mode": "auto",
+  "autoConfig": {
+    "enabled": true,
+    "order": "date",
+    "maxVideos": 6,
+    "dateFilter": {
+      "enabled": false,
+      "years": 1
+    }
+  }
+}
+```
+
+### Getting Your API Key
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project (or select an existing one)
