@@ -95,7 +95,7 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   display: block;
   width: auto;
   height: auto;
-  max-height: 80px; /* Mobile first - doubled from 40px */
+  max-height: 65px; /* Mobile first - reduced from 80px */
   flex-shrink: 0;
   transition: opacity 0.3s ease, color 0.3s ease;
   color: var(--nav-text-color, var(--chuparosa-100)); /* Match nav text color */
@@ -378,7 +378,7 @@ body:has(.hero--inner-page:has(.background-image)) {
   }
   
   .logo-image {
-    max-height: 120px; /* Doubled from 60px */
+    max-height: 100px; /* Reduced from 120px */
   }
   
   .logo-line {
