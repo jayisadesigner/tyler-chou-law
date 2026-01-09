@@ -15,6 +15,11 @@
     <!-- Initialize Netlify Identity -->
     <script>
       if (window.netlifyIdentity) {
+        // Initialize with current site URL (works with custom domain tylerchoulaw.com)
+        window.netlifyIdentity.init({
+          APIUrl: window.location.origin
+        });
+        
         window.netlifyIdentity.on("init", user => {
           if (!user) {
             window.netlifyIdentity.on("login", () => {

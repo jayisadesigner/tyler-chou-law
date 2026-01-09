@@ -23,6 +23,13 @@
   status = 200
   force = true
 
+# Headers for admin config.yml - ensure correct Content-Type and CORS
+[[headers]]
+  for = "/admin/config.yml"
+  [headers.values]
+    Content-Type = "text/yaml; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+
 # Cache assets for better performance
 [[headers]]
   for = "/assets/*"

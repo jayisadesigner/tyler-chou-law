@@ -92,6 +92,31 @@ image_keywords: "business, entrepreneur, success, startup"  # Optional: manual c
 
 **Note:** The script works without an API key, but will skip automatic image fetching and show a warning.
 
+## YouTube Video Grid
+
+The homepage video grid supports two modes:
+
+### Manual Mode (Default - Recommended)
+
+Videos are curated manually in `config/youtube-videos.json`. No API key needed!
+
+**To add/remove/reorder videos:**
+1. Edit `config/youtube-videos.json`
+2. Add video IDs and titles to the `manualVideos` array
+3. Run `npm run build:youtube` to update
+
+### Auto Mode (Optional)
+
+Automatically fetches videos from YouTube API. See [YOUTUBE_API_SETUP.md](./YOUTUBE_API_SETUP.md) for setup.
+
+**Quick setup:**
+1. Set `"mode": "auto"` in `config/youtube-videos.json`
+2. Get API key from [Google Cloud Console](https://console.cloud.google.com/)
+3. Enable "YouTube Data API v3"
+4. Set environment variable:
+   - Local: Create `.env` file with `YOUTUBE_API_KEY=your_key`
+   - Netlify: Add `YOUTUBE_API_KEY` in site settings > Environment variables
+
 ## Design System
 
 See `src/styles/variables.css` for design tokens (colors, typography, spacing).

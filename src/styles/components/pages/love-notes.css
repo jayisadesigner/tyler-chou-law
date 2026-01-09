@@ -1,6 +1,6 @@
 /* ========================================
    Love Notes Section (Client Testimonials)
-   Mobile: Two stacked horizontal carousels with parallax
+   Mobile: Two stacked horizontal carousels
    Desktop: Pinned viewport-height section with cards scrolling through, parallax by depth
    ======================================== */
 
@@ -69,6 +69,7 @@
   flex-direction: column;
   gap: var(--space-md);
   width: 100%;
+  padding-top: var(--space-2xl); /* Top padding inside container */
   padding-bottom: var(--space-2xl); /* Bottom padding inside container */
 }
 
@@ -77,37 +78,29 @@
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-  position: relative;
-  /* Smooth momentum scrolling for iOS */
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   scroll-behavior: smooth;
-  /* Hide scrollbar while maintaining functionality */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  /* Allow both horizontal and vertical scrolling - browser detects gesture direction */
+  touch-action: pan-x pan-y;
   /* Prevent horizontal scroll chaining but allow vertical scrolling to pass through */
   overscroll-behavior-x: contain;
   overscroll-behavior-y: auto;
-  /* Allow both directions - horizontal scrolls carousel, vertical bubbles to page */
-  touch-action: pan-x pan-y;
 }
 
-/* Hide scrollbar for WebKit browsers */
 .love-notes__carousel::-webkit-scrollbar {
   display: none;
 }
 
-/* Carousel Track - horizontal scrolling container */
+/* Carousel Track */
 .love-notes__carousel-track {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: var(--space-md);
   padding: 0 var(--space-md);
   width: fit-content;
-  min-width: 100%; /* Ensure track is at least full width for proper scrolling */
-}
-
-/* Allow horizontal scrolling through cards in carousel */
-.love-notes__carousel .roster-card--testimonial {
-  touch-action: pan-x pan-y;
 }
 
 /* Desktop: Grid-based scattered layout with depth */

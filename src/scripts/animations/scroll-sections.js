@@ -40,10 +40,9 @@ export function initPinnedSections() {
 
 /**
  * Love Letters section scroll animations
- * Mobile: Horizontal parallax effect on carousel cards (scale: 1)
+ * Mobile/Tablet: Native horizontal scroll (no JS transforms)
  * Desktop: Pinned section with cards scrolling through viewport, parallax by depth (scale from CSS --scale)
  * Uses matchMedia for responsive behavior - animations update automatically on resize
- * GSAP handles all transforms to avoid CSS/JS conflicts
  * @param {boolean} reducedMotion - If true, skip animations
  * @param {number} viewportHeight - Current viewport height
  */
@@ -62,82 +61,11 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
   
   // Use matchMedia for responsive animations that update on resize
   ScrollTrigger.matchMedia({
-    // Mobile: Horizontal parallax (subtle opposite direction scrolling)
-    // Top row moves right, bottom row moves left on scroll
-    "(max-width: 767px)": function() {
-      const topCards = loveNotesSection.querySelectorAll('.love-notes__carousel--top .roster-card--testimonial')
-      const bottomCards = loveNotesSection.querySelectorAll('.love-notes__carousel--bottom .roster-card--testimonial')
-      
-      // Reset cards to base state
+    // Mobile & Tablet: No JS animations - use native horizontal scroll
+    "(max-width: 1279px)": function() {
+      // Reset cards to base state - let native scrolling handle it
       gsap.set(cards, { x: 0, y: 0, scale: 1, opacity: 1 })
-      
-      // Create timeline with scrub for smooth scroll-linked animation
-      const mobileTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: loveNotesSection,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-          id: 'love-notes-mobile',
-          invalidateOnRefresh: true,
-        },
-      })
-      
-      // Top carousel - moves right on scroll
-      topCards.forEach((card, index) => {
-        const speed = 0.6 + (index * 0.15)
-        mobileTl.to(card, {
-          x: 60 * speed,
-          ease: 'none',
-        }, 0)
-      })
-      
-      // Bottom carousel - moves left on scroll
-      bottomCards.forEach((card, index) => {
-        const speed = 0.6 + (index * 0.15)
-        mobileTl.to(card, {
-          x: -60 * speed,
-          ease: 'none',
-        }, 0)
-      })
-    },
-    
-    // Tablet: Horizontal parallax (safe scrub without pin)
-    "(min-width: 768px) and (max-width: 1279px)": function() {
-      const topCards = loveNotesSection.querySelectorAll('.love-notes__carousel--top .roster-card--testimonial')
-      const bottomCards = loveNotesSection.querySelectorAll('.love-notes__carousel--bottom .roster-card--testimonial')
-      
-      // Reset cards to base state for tablet (no scale)
-      gsap.set(cards, { x: 0, y: 0, scale: 1 })
-      
-      const tabletTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: loveNotesSection,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-          id: 'love-notes-tablet',
-          invalidateOnRefresh: true,
-        },
-      })
-      
-      // Top carousel - moves right
-      topCards.forEach((card, index) => {
-        const speed = 0.6 + (index * 0.15)
-        tabletTl.to(card, {
-          x: 60 * speed,
-          ease: 'none',
-        }, 0)
-      })
-      
-      // Bottom carousel - moves left
-      bottomCards.forEach((card, index) => {
-        const speed = 0.6 + (index * 0.15)
-        tabletTl.to(card, {
-          x: -60 * speed,
-          ease: 'none',
-        }, 0)
-      })
+      return
     },
     
     // Desktop: Pin section and scroll cards through viewport with parallax
@@ -158,12 +86,33 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
         gsap.set(headline, { opacity: 1 })
       }
       
+      // Cards move through viewport based on depth (batch DOM reads)
+      // Need to account for starting position - cards at bottom need more movement
+      const cardDepths = Array.from(cards).map(card => {
+        const depth = parseInt(getComputedStyle(card).getPropertyValue('--depth').trim() || '2')
+        // Get card's starting position relative to section top
+        const rect = card.getBoundingClientRect()
+        const sectionRect = loveNotesSection.getBoundingClientRect()
+        const relativeTop = rect.top - sectionRect.top // Position within section (0 to 100vh)
+        return { card, depth, relativeTop }
+      })
+      
+      // Calculate scroll duration based on worst-case card
+      // Card at bottom (100vh) needs to move up to top (0vh) then exit
+      const depthMultipliers = { 1: 1.5, 2: 2.0, 3: 2.5 }
+      const maxStartPosition = Math.max(...cardDepths.map(({ relativeTop }) => relativeTop))
+      const maxDepth = Math.max(...cardDepths.map(({ depth }) => depth))
+      const maxMovement = depthMultipliers[maxDepth] || 2.0
+      // Scroll needed: from bottom position to top (maxStartPosition) + movement distance + buffer
+      const scrollNeeded = (maxStartPosition / viewportHeight) + maxMovement + 1.0
+      const scrollEnd = `+=${scrollNeeded * 100}%`
+      
       // Create a pinned scroll-through effect
       const desktopTl = gsap.timeline({
         scrollTrigger: createPinnedScrollConfig({
           trigger: loveNotesSection,
           start: 'top top',
-          end: '+=400%', // Pin for 4x viewport height - faster scroll while ensuring all cards fully scroll through
+          end: scrollEnd,
           scrub: 1,
           callbacks: {
             id: 'love-notes-desktop',
@@ -172,21 +121,16 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
         }),
       })
       
-      // Cards move through viewport based on depth (batch DOM reads)
-      const cardDepths = Array.from(cards).map(card => ({
-        card,
-        depth: parseInt(getComputedStyle(card).getPropertyValue('--depth').trim() || '2')
-      }))
-      
-      cardDepths.forEach(({ card, depth }) => {
-        
+      cardDepths.forEach(({ card, depth, relativeTop }) => {
         // Movement distance based on depth - all cards scroll through and off screen
         // depth 1 (back) = slower movement (less distance)
         // depth 2 (mid) = normal movement
         // depth 3 (front) = faster movement (more distance)
-        // Increased multipliers to ensure all cards fully scroll through viewport
-        const depthMultipliers = { 1: 1.5, 2: 2.0, 3: 2.5 }
-        const yMovement = -viewportHeight * (depthMultipliers[depth] || 2.0)
+        // Cards starting lower need more movement to reach top and exit
+        const baseMovement = depthMultipliers[depth] || 2.0
+        // Add extra movement for cards starting below viewport center
+        const startOffset = relativeTop > viewportHeight * 0.5 ? (relativeTop - viewportHeight * 0.5) : 0
+        const yMovement = -(baseMovement * viewportHeight + startOffset)
         
         desktopTl.to(card, {
           y: yMovement,

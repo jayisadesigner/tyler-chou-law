@@ -43,10 +43,9 @@
 }
 
 .content-section__content {
-  margin-bottom: var(--space-xl);
-  order: 2; /* Content appears second on mobile - always after image */
-  padding-top: var(--space-3xl); /* Top padding inside container */
-  padding-bottom: var(--space-3xl); /* Bottom padding inside container */
+  margin-bottom: 0; /* Removed margin-bottom to match top/bottom padding */
+  /* Order only applied when media exists - see mobile media query below */
+  /* Padding is handled in Content Section Content Structure section below */
 }
 
 .content-section__media {
@@ -54,17 +53,18 @@
   overflow: hidden;
   /* Mobile: Give media container height for absolutely positioned background-image */
   aspect-ratio: 4 / 5;
-  order: 1; /* Media appears first on mobile - always before content */
-  padding-top: var(--space-3xl); /* Top padding inside container */
+  /* Order only applied when actually used - see mobile media query below */
+  padding-top: var(--space-3xl); /* Top padding inside container - responsive: 48px mobile */
+  padding-bottom: var(--space-3xl); /* Bottom padding inside container - responsive: 48px mobile */
 }
 
-/* Ensure media-first order on mobile regardless of modifiers */
+/* Ensure media-first order on mobile ONLY when media is present */
 @media (max-width: 767px) {
-  .content-section__media {
+  .content-section__container:has(.content-section__media) .content-section__media {
     order: 1; /* Force image first on mobile */
   }
   
-  .content-section__content {
+  .content-section__container:has(.content-section__media) .content-section__content {
     order: 2; /* Force content second on mobile */
   }
 }
@@ -151,14 +151,9 @@ body.page-creator .content-section__content {
   }
   
   /* Desktop: padding inside content/media elements */
-  .content-section__content {
-    padding-top: var(--space-4xl); /* Top padding inside container */
-    padding-bottom: var(--space-4xl); /* Bottom padding inside container */
-  }
-  
   .content-section__media {
-    padding-top: var(--space-4xl); /* Top padding inside container */
-    padding-bottom: var(--space-4xl); /* Bottom padding inside container */
+    padding-top: var(--space-4xl); /* Top padding inside container - responsive: 96px tablet, 128px desktop */
+    padding-bottom: var(--space-4xl); /* Bottom padding inside container - responsive: 96px tablet, 128px desktop */
   }
   
   /* Remove gap between history section and stacked expertise section on about page - desktop */
@@ -176,7 +171,10 @@ body.page-creator .content-section__content {
     flex-shrink: 0;
     align-self: center;
     justify-items: center;
-    padding: var(--space-4xl) var(--space-xl); /* Desktop padding */
+    padding-top: var(--space-4xl); /* Top padding - responsive: 96px tablet, 128px desktop */
+    padding-bottom: var(--space-4xl); /* Bottom padding - responsive: 96px tablet, 128px desktop */
+    padding-left: var(--space-xl); /* Left padding - responsive: 32px mobile, 48px desktop */
+    padding-right: var(--space-xl); /* Right padding - responsive: 32px mobile, 48px desktop */
     order: unset; /* Reset order - use HTML order on desktop */
   }
 
@@ -330,7 +328,10 @@ body.page-creator .content-section__content {
   grid-template-columns: 1fr;
   grid-template-rows: repeat(3, fit-content(100%));
   gap: var(--space-sm);
-  padding: var(--space-2xl) var(--space-md); /* Mobile first - vertical 2xl, horizontal md */
+  padding-top: var(--space-3xl); /* Top padding - responsive: 48px mobile, 72px tablet, 96px desktop */
+  padding-bottom: var(--space-3xl); /* Bottom padding - responsive: 48px mobile, 72px tablet, 96px desktop */
+  padding-left: var(--space-md); /* Left padding - 24px fixed */
+  padding-right: var(--space-md); /* Right padding - 24px fixed */
   background-color: var(--page-bg-color);
   overflow: visible; /* Allow headlines to overflow */
   max-width: 576px; /* Container-level constraint */
@@ -519,7 +520,10 @@ body.bg-bone .content-section__body {
     max-width: 640px; /* Match centered sections for better readability */
     margin-left: auto;
     margin-right: auto;
-    padding: var(--space-4xl) var(--space-xl); /* Same as general desktop content sections */
+    padding-top: var(--space-4xl); /* Top padding - responsive: 96px tablet, 128px desktop */
+    padding-bottom: var(--space-4xl); /* Bottom padding - responsive: 96px tablet, 128px desktop */
+    padding-left: var(--space-xl); /* Left padding - responsive: 32px mobile, 48px desktop */
+    padding-right: var(--space-xl); /* Right padding - responsive: 32px mobile, 48px desktop */
   }
 }
 
@@ -593,7 +597,10 @@ body.bg-bone .content-section__body {
 /* Tablet+ (768px): Enhanced content section spacing */
 @media (min-width: 768px) {
   .content-section__content {
-    padding: var(--space-2xl) var(--space-lg); /* Desktop: more horizontal padding */
+    padding-top: var(--space-3xl); /* Top padding - responsive: 72px tablet, 96px desktop */
+    padding-bottom: var(--space-3xl); /* Bottom padding - responsive: 72px tablet, 96px desktop */
+    padding-left: var(--space-lg); /* Left padding - 24px mobile, 32px desktop */
+    padding-right: var(--space-lg); /* Right padding - 24px mobile, 32px desktop */
   }
 }
 
@@ -608,7 +615,10 @@ body.bg-bone .content-section__body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: var(--space-2xl) var(--space-md); /* Keep original vertical padding for CTAs, horizontal spacing */
+  padding-top: var(--space-3xl); /* Top padding - responsive: 48px mobile, 72px tablet, 96px desktop */
+  padding-bottom: var(--space-3xl); /* Bottom padding - responsive: 48px mobile, 72px tablet, 96px desktop */
+  padding-left: var(--space-md); /* Left padding - 24px fixed */
+  padding-right: var(--space-md); /* Right padding - 24px fixed */
 }
 
 .content-section--centered .content-section__content {
