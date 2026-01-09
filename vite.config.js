@@ -60,6 +60,17 @@ export default defineConfig({
       name: 'serve-blog-posts',
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
+          // Serve admin config.yml from public directory
+          if (req.url === '/admin/config.yml') {
+            const configPath = join(__dirname, 'public', 'admin', 'config.yml')
+            if (existsSync(configPath)) {
+              const content = readFileSync(configPath, 'utf-8')
+              res.setHeader('Content-Type', 'text/yaml')
+              res.end(content)
+              return
+            }
+          }
+          
           // Check if request is for a blog post
           if (req.url?.startsWith('/love-letters/') && req.url.endsWith('.html')) {
             const blogPostPath = join(__dirname, 'dist', req.url)
