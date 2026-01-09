@@ -43,7 +43,7 @@
 }
 
 .content-section__content {
-  margin-bottom: var(--space-xl);
+  margin-bottom: 0; /* Removed margin-bottom to match top/bottom padding */
   order: 2; /* Content appears second on mobile - always after image */
   /* Padding is handled in Content Section Content Structure section below */
 }
