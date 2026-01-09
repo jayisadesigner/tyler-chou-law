@@ -81,7 +81,12 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  touch-action: pan-x;
+  scroll-behavior: smooth;
+  /* Allow both horizontal and vertical scrolling - browser detects gesture direction */
+  touch-action: pan-x pan-y;
+  /* Prevent horizontal scroll chaining but allow vertical scrolling to pass through */
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
 }
 
 .love-notes__carousel::-webkit-scrollbar {
@@ -91,6 +96,8 @@
 /* Carousel Track */
 .love-notes__carousel-track {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: var(--space-md);
   padding: 0 var(--space-md);
   width: fit-content;
