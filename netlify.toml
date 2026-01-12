@@ -50,6 +50,14 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Headers for video files - handle large files and HTTP/2 better
+[[headers]]
+  for = "/*.mp4"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Accept-Ranges = "bytes"
+    Content-Type = "video/mp4"
+
 # Permissions-Policy to disable compute-pressure (fixes console violation)
 [[headers]]
   for = "/*"
