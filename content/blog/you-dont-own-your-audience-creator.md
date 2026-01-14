@@ -109,6 +109,15 @@ Build it on your own land.
 
 I just got back from speaking at VidSummit and it is my favorite creator conference because it is full of big creators and their teams. No fans running around. Just deep conversations with creators and big brands and closing big deals. I met new clients—excited to build their empires.
 
+<div class="blog-image" data-color="desert-gold-500">
+  <img 
+    src="/src/assets/images/blog/6-tyler-chou-speaking-at-vidsummit.jpg" 
+    alt="Tyler Chou speaking at VidSummit" 
+    class="background-image__img"
+    loading="lazy"
+  />
+</div>
+
 The coolest thing I encountered was meeting the Head of CreatorVerse at Tubi who is licensing content from YouTubers and the CPM is better than YouTube. I heard from creators on Tubi already who are loving it. This is building out on land other than just YouTube. Non-exclusive and amazing.
 
 ## Do You Own an Email List?
