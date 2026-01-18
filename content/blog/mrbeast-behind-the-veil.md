@@ -13,6 +13,15 @@ I met MrBeast's Head of Development on Monday night at a creator puppy fundraise
 
 Michael Cruz, one of the smartest creator minds in the world.
 
+<div class="blog-image" data-color="chuparosa-500">
+  <img 
+    src="/src/assets/images/blog/8-michael-cruz-tyler-chou-mrbeast.jpg" 
+    alt="Michael Cruz and Tyler Chou discussing MrBeast's operation" 
+    class="background-image__img"
+    loading="lazy"
+  />
+</div>
+
 And I was wrong about everything.
 
 Michael Cruz pulled back the curtain on Jimmy's operation. What I saw changed my entire perspective.

@@ -414,6 +414,32 @@
   }
 }
 
+/* Blog images in content area - override absolute positioning for inline images */
+.blog-post-content .blog-image {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: var(--space-2xl) 0;
+  height: auto;
+  min-height: 300px;
+}
+
+.blog-post-content .blog-image .background-image__img {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  object-fit: cover;
+  transform: none; /* Remove transform for inline images */
+  filter: none; /* Remove filters for inline images */
+}
+
+/* Remove color overlay and noise for inline blog post images */
+.blog-post-content .blog-image::before,
+.blog-post-content .blog-image::after {
+  display: none;
+}
+
 /* Desktop (1024px+) */
 @media (min-width: 1024px) {
   .blog-post-content h2 {

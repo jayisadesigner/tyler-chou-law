@@ -88,7 +88,7 @@ Build these four pillars:
 
 **AI licensing:** The market is emerging and negotiation matters, especially on consent and compensation. AI licensing will hit $10B this year. Yes, with a B.
 
-In the next few emails, I will show you the exact 15 revenue streams that you need to have to grow your creator business.
+In upcoming posts, I will show you the exact 15 revenue streams that you need to have to grow your creator business.
 
 ## Simple Operating Rules That Compound
 

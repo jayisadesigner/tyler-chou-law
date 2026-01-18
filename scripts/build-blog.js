@@ -235,29 +235,32 @@ async function resolveFeaturedImage(featuredImage) {
     // Path like "/src/assets/images/blog/filename.jpg" (src folder)
     filename = basename(featuredImage)
     localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
-    publicPath = featuredImage // Use the path as-is
+    // Prefer /assets/ path for production (images will be copied to public by Vite plugin)
+    publicPath = `/assets/images/blog/${filename}`
   } else if (featuredImage.startsWith('/')) {
     // Path like "/images/blog/filename.jpg" - assume src/assets
     filename = basename(featuredImage)
     localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
-    publicPath = `/src/assets/images/blog/${filename}`
+    // Prefer /assets/ path for production (images will be copied to public by Vite plugin)
+    publicPath = `/assets/images/blog/${filename}`
   } else {
     // Just filename or relative path - check both locations
     filename = basename(featuredImage)
-    // First check public folder (production)
+    // First check public folder (production) - prefer this for production builds
     const publicLocalPath = join(projectRoot, 'public', 'assets', 'images', 'blog', filename)
     // Then check src folder (dev)
     const srcLocalPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
     
     try {
       await stat(publicLocalPath)
-      // File exists in public folder, use /assets/ path
+      // File exists in public folder, use /assets/ path (production-ready)
       return { url: `/assets/images/blog/${filename}` }
     } catch {
       try {
         await stat(srcLocalPath)
-        // File exists in src folder, use /src/assets/ path
-        return { url: `/src/assets/images/blog/${filename}` }
+        // File exists in src folder - use /assets/ path
+        // The Vite plugin will copy it to public/assets/images/ during build
+        return { url: `/assets/images/blog/${filename}` }
       } catch {
         // File doesn't exist in either location
         console.warn(`  ⚠ Local image not found: ${filename}`)
@@ -483,7 +486,20 @@ async function buildPost(filePath, fileName, assignedColor = null) {
     const slug = metadata.slug || slugify(metadata.title || fileName.replace('.md', ''))
     
     // Convert markdown to HTML
-    const htmlContent = marked(body)
+    let htmlContent = marked(body)
+    
+    // Rewrite image paths from /src/assets/images/ to /assets/images/ for production
+    // This ensures images work in production builds (Vite copies them to public/assets/images/)
+    // Handle whitespace around = sign and newlines
+    htmlContent = htmlContent.replace(
+      /src\s*=\s*"\/src\/assets\/images\/([^"]+)"/g,
+      'src="/assets/images/$1"'
+    )
+    // Also handle srcset attributes
+    htmlContent = htmlContent.replace(
+      /srcset\s*=\s*"\/src\/assets\/images\/([^"]+)"/g,
+      'srcset="/assets/images/$1"'
+    )
     
     // Calculate reading time
     const readingTime = calculateReadingTime(body)
@@ -596,6 +612,18 @@ async function buildPost(filePath, fileName, assignedColor = null) {
     if (viteAssets.mainJs) {
       template = template.replace(/src="\/src\/scripts\/main\.js"/g, `src="${viteAssets.mainJs}"`)
     }
+    
+    // Final pass: rewrite any remaining /src/assets/images/ paths to /assets/images/
+    // This catches any images in the template itself or that weren't caught earlier
+    // Handle whitespace around = sign and newlines
+    template = template.replace(
+      /src\s*=\s*"\/src\/assets\/images\/([^"]+)"/g,
+      'src="/assets/images/$1"'
+    )
+    template = template.replace(
+      /srcset\s*=\s*"\/src\/assets\/images\/([^"]+)"/g,
+      'srcset="/assets/images/$1"'
+    )
     
     // Create output directory
     await mkdir(outputDir, { recursive: true })
