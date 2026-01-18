@@ -486,7 +486,20 @@ async function buildPost(filePath, fileName, assignedColor = null) {
     const slug = metadata.slug || slugify(metadata.title || fileName.replace('.md', ''))
     
     // Convert markdown to HTML
-    const htmlContent = marked(body)
+    let htmlContent = marked(body)
+    
+    // Rewrite image paths from /src/assets/images/ to /assets/images/ for production
+    // This ensures images work in production builds (Vite copies them to public/assets/images/)
+    // Handle whitespace around = sign and newlines
+    htmlContent = htmlContent.replace(
+      /src\s*=\s*"\/src\/assets\/images\/([^"]+)"/g,
+      'src="/assets/images/$1"'
+    )
+    // Also handle srcset attributes
+    htmlContent = htmlContent.replace(
+      /srcset\s*=\s*"\/src\/assets\/images\/([^"]+)"/g,
+      'srcset="/assets/images/$1"'
+    )
     
     // Calculate reading time
     const readingTime = calculateReadingTime(body)
@@ -599,6 +612,18 @@ async function buildPost(filePath, fileName, assignedColor = null) {
     if (viteAssets.mainJs) {
       template = template.replace(/src="\/src\/scripts\/main\.js"/g, `src="${viteAssets.mainJs}"`)
     }
+    
+    // Final pass: rewrite any remaining /src/assets/images/ paths to /assets/images/
+    // This catches any images in the template itself or that weren't caught earlier
+    // Handle whitespace around = sign and newlines
+    template = template.replace(
+      /src\s*=\s*"\/src\/assets\/images\/([^"]+)"/g,
+      'src="/assets/images/$1"'
+    )
+    template = template.replace(
+      /srcset\s*=\s*"\/src\/assets\/images\/([^"]+)"/g,
+      'srcset="/assets/images/$1"'
+    )
     
     // Create output directory
     await mkdir(outputDir, { recursive: true })
