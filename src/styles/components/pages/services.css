@@ -113,5 +113,27 @@ body.page-services .service-card__title {
 }
 
 
+/* Lighten hero overlays on services page */
+body.page-services .hero .background-image__overlay-dark,
+body.page-services .hero .background-image__overlay-opacity {
+  background-color: rgba(13, 8, 9, 0.25); /* Lighter: 25% instead of 50% */
+}
+
+body.page-services .hero .background-image__overlay-gradient-1 {
+  background: linear-gradient(
+    to left,
+    rgba(205, 7, 30, 0.12) 3.243%, /* Lighter: 12% instead of 25% */
+    rgba(128, 18, 224, 0.12) 83.581%
+  );
+}
+
+body.page-services .hero .background-image__overlay-gradient-2 {
+  background: linear-gradient(
+    to left,
+    rgba(13, 8, 9, 0.10) 59.932%, /* Lighter: 10% instead of 20% */
+    rgba(194, 122, 4, 0.10) 100%
+  );
+}
+
 /* Videos Section - Now uses background-image component + content-section system */
 

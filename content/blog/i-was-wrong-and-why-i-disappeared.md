@@ -8,9 +8,7 @@ tags: ["business", "creator economy", "CreatorArq", "M&A", "exit strategy", "Tie
 featured_image: "https://images.unsplash.com/photo-1532936991818-d0611467fbee?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ---
 
-Dear Creator,
-
-I haven't written to you in six weeks. I haven't posted a video in three months.
+I haven't written in six weeks. I haven't posted a video in three months.
 
 Honestly? I hit a wall.
 
@@ -44,6 +42,15 @@ I just filmed a brand new video yesterday breaking down how that $100M valuation
 ## See the Strategy Live (Tomorrow)
 
 This Friday at 11 AM PST, my client Jenny Hoyos is joining me live inside my private community for a raw rehearsal of our upcoming documentary. We are mapping out her exit strategy live.
+
+<div class="blog-image" data-color="lupine-500">
+  <img 
+    src="/src/assets/images/blog/5-tyler-chou-jenny-hoyos-vidcon.jpg" 
+    alt="Tyler Chou and Jenny Hoyos at VidCon" 
+    class="background-image__img"
+    loading="lazy"
+  />
+</div>
 
 Join the Community if you want to see Jenny and my conversation live.
 

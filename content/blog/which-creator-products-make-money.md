@@ -8,21 +8,46 @@ tags: ["products", "business", "creator economy", "technical products", "physica
 featured_image: "https://images.unsplash.com/photo-1542906453-02e875f65428?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ---
 
-Dear Creator,
-
 What makes creators more money: a physical product or a technical product?
 
 Last week I was at The Lighthouse x Slow Ventures* Creator event.
 
+<div class="blog-image" data-color="desert-gold-500">
+  <img 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-1.jpg" 
+    alt="The Lighthouse x Slow Ventures Creator event" 
+    class="background-image__img"
+    loading="lazy"
+  />
+</div>
+
 Finally met Kevin Espiritu in person! Love Epic Gardening. That is the model every creator should follow.
 
 Caught up with my client Zach Miller who is President of Bucketsquad is the GOAT growing out Jesser's business. And met Dan Levitt who is MatPat's manager as well as Jesser and Game Grump's former managers—he sold his company LongHaul to Wasserman and is OG and super smart when it comes to 360 growth of a creator.
+
+<div class="blog-image" data-color="lupine-500">
+  <img 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-2.jpg" 
+    alt="Creator conversations at The Lighthouse x Slow Ventures event" 
+    class="background-image__img"
+    loading="lazy"
+  />
+</div>
 
 I saw a great conversation between two creators who have two drastically different businesses.
 
 **Gohar Khan** has a GREAT business where he reviews college application essays by using current college students at the Ivy League.
 
 **Jonathan Katz-Moses** has a woodworking YouTube channel and he sells woodworking tools. He is one of Slow's recent investments and he gave such great insights as to how to work with factories in China and why Chinese factories are just better. He tried manufacturing in the US and it just was not comparable to the speed, the quality and the cost of Chinese factories.
+
+<div class="blog-image" data-color="palo-verde-500">
+  <img 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-3.jpg" 
+    alt="Creator business discussions at The Lighthouse x Slow Ventures event" 
+    class="background-image__img"
+    loading="lazy"
+  />
+</div>
 
 **If you want to get to the punch line: without a doubt, a technical product is going to scale and 10x way faster than physical products.**
 
@@ -41,6 +66,15 @@ Like crawling through broken glass.
 Here's advice if you have money to pay a developer or give equity in cash to a CTO/cofounder: please pay upfront. If you offer a situation where you're going to do a share of revenue, and the app ends up being wildly successful, you might regret the rev-share.
 
 I really leaned towards physical products until two failed product launches with my clients which took a lot of my time and investments, with no returns.
+
+<div class="blog-image" data-color="chuparosa-500">
+  <img 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-4.jpg" 
+    alt="The Lighthouse x Slow Ventures Creator event networking" 
+    class="background-image__img"
+    loading="lazy"
+  />
+</div>
 
 I'm about to launch a product that I've been building for a year and delayed by perfectionism. I have almost 1000 creators on this waitlist and I am excited to launch.
 
@@ -87,15 +121,15 @@ The Creators' Attorney
 
 If you want to read Love Letters #1-3: [https://www.tylerchoulaw.com/love-letters](https://www.tylerchoulaw.com/love-letters)
 
-If you have a question or want to share a pain point—reply to this email and say LOVE LETTER (or contact@tylerchoulaw.com) and I will reply. I read EVERY reply.
+If you have a question or want to share a pain point, [contact me](/contact.html) and say LOVE LETTER. I read every message.
 
 ---
 
 ## I have 3 questions for you:
 
-1. I am experimenting to see if a Sunday newsletter is a good day. Can you let me know? I know some other creators send their newsletters on Sundays. What is the best day of the week for you? I will always be your guinea pig, like this community that I am launching. More on that soon.
+1. I am experimenting with different publishing schedules. What is the best day of the week for you to read new content? I will always be your guinea pig, like this community that I am launching. More on that soon.
 
 2. Also, this was one of my LinkedIn posts from the week. I write there 2-3 times a week, do you follow me there? Did you see the post already from LI? Yesterday I wrote about whether creators should have managers. Please give me a follow on LinkedIn. It is THE most powerful platform to be on right now. Are you on LinkedIn?
 
-3. Would you be interested in a small think tank Zoom session with me before I launch my community? I want an intimate conversation to make the community a great experience for all creators. If yes, reply to this email and share where you are in your creator journey and your 3 biggest pain points.
+3. Would you be interested in a small think tank Zoom session with me before I launch my community? I want an intimate conversation to make the community a great experience for all creators. If yes, [contact me](/contact.html) and share where you are in your creator journey and your 3 biggest pain points.
 

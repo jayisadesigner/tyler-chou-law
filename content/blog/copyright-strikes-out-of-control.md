@@ -129,7 +129,7 @@ And demonetization threatens your entire business.
 
 ## The Fallout of Losing Your Channel
 
-Imagine waking up to the email:
+Imagine waking up to find:
 
 Your channel is gone.
 Years of uploads, deleted.

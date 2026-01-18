@@ -160,9 +160,12 @@ function handleFormSubmit(e) {
   submitButton.textContent = 'Sending...'
   
   // Submit to Netlify using XMLHttpRequest to bypass service worker issues
-  const formAction = form.getAttribute('action') || '/thank-you'
+  // For Netlify forms, POST to the current page URL (where the form exists)
+  // Netlify will intercept the submission and process it
+  const formAction = form.getAttribute('action') || '/thank-you.html'
+  const currentPageUrl = window.location.pathname
   const xhr = new XMLHttpRequest()
-  xhr.open('POST', formAction, true)
+  xhr.open('POST', currentPageUrl, true)
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
   
   xhr.onload = function() {

@@ -129,6 +129,7 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   const rightVideo = document.querySelector('.intro__video--right') // wrapper
   const heroContent = document.querySelector('.hero-content')
   const nameElement = document.querySelector('.intro__name[js-char-animation]')
+  const subtitleElement = document.querySelector('.intro__subtitle[js-char-animation]')
 
   // Skip if no intro element, reduced motion, or early scroll detected
   if (!intro || prefersReducedMotion || earlyScrollDetected) {
@@ -232,6 +233,17 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
     charElements = splitTextIntoChars(nameElement)
     gsap.set(nameElement, { opacity: 0 })
     gsap.set(charElements, {
+      x: '-100%',
+      opacity: 0
+    })
+  }
+
+  // Split subtitle into characters and set initial states
+  let subtitleCharElements = []
+  if (subtitleElement) {
+    subtitleCharElements = splitTextIntoChars(subtitleElement)
+    gsap.set(subtitleElement, { opacity: 0 })
+    gsap.set(subtitleCharElements, {
       x: '-100%',
       opacity: 0
     })
@@ -531,6 +543,25 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
     }, 2.9)
   }
 
+  // Step 4.5: Subtitle reveal (3500ms–4200ms) - appears shortly after name starts animating
+  if (subtitleElement && subtitleCharElements.length > 0) {
+    // Fade in subtitle container
+    tl.to(subtitleElement, {
+      opacity: 1,
+      duration: 0.4,
+      ease: 'power2.out'
+    }, 3.5)
+    
+    // Animate subtitle characters sliding in
+    tl.to(subtitleCharElements, {
+      x: '0%',
+      opacity: 1,
+      duration: 0.7,
+      stagger: 0.03,
+      ease: 'power3.out'
+    }, 3.6)
+  }
+
   // Step 5: Sequential pop out - videos disappear right to left, immediate exit
   
   // Videos pop out sequentially (4700ms–5100ms) - instant opacity changes
@@ -552,13 +583,24 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
     ease: 'none'
   }, 5.1)
   
-  // Name stays alone briefly, then characters slide out in reverse (5300ms–5900ms)
+  // Name and subtitle stay briefly, then slide out in reverse (5300ms–5900ms)
   if (nameElement && charElements.length > 0) {
     tl.to(charElements, {
       x: '-100%', // Exit to the left
       opacity: 0,
       duration: 0.6,
       stagger: -0.03, // Negative stagger = reverse order (right to left)
+      ease: 'power3.in'
+    }, 5.3)
+  }
+
+  // Subtitle exits with name
+  if (subtitleElement && subtitleCharElements.length > 0) {
+    tl.to(subtitleCharElements, {
+      x: '-100%', // Exit to the left
+      opacity: 0,
+      duration: 0.6,
+      stagger: -0.02, // Negative stagger = reverse order (right to left)
       ease: 'power3.in'
     }, 5.3)
   }
