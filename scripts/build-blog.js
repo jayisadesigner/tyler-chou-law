@@ -235,29 +235,32 @@ async function resolveFeaturedImage(featuredImage) {
     // Path like "/src/assets/images/blog/filename.jpg" (src folder)
     filename = basename(featuredImage)
     localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
-    publicPath = featuredImage // Use the path as-is
+    // Prefer /assets/ path for production (images will be copied to public by Vite plugin)
+    publicPath = `/assets/images/blog/${filename}`
   } else if (featuredImage.startsWith('/')) {
     // Path like "/images/blog/filename.jpg" - assume src/assets
     filename = basename(featuredImage)
     localPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
-    publicPath = `/src/assets/images/blog/${filename}`
+    // Prefer /assets/ path for production (images will be copied to public by Vite plugin)
+    publicPath = `/assets/images/blog/${filename}`
   } else {
     // Just filename or relative path - check both locations
     filename = basename(featuredImage)
-    // First check public folder (production)
+    // First check public folder (production) - prefer this for production builds
     const publicLocalPath = join(projectRoot, 'public', 'assets', 'images', 'blog', filename)
     // Then check src folder (dev)
     const srcLocalPath = join(projectRoot, 'src', 'assets', 'images', 'blog', filename)
     
     try {
       await stat(publicLocalPath)
-      // File exists in public folder, use /assets/ path
+      // File exists in public folder, use /assets/ path (production-ready)
       return { url: `/assets/images/blog/${filename}` }
     } catch {
       try {
         await stat(srcLocalPath)
-        // File exists in src folder, use /src/assets/ path
-        return { url: `/src/assets/images/blog/${filename}` }
+        // File exists in src folder - use /assets/ path
+        // The Vite plugin will copy it to public/assets/images/ during build
+        return { url: `/assets/images/blog/${filename}` }
       } catch {
         // File doesn't exist in either location
         console.warn(`  ⚠ Local image not found: ${filename}`)

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
-import { readFileSync, existsSync } from 'fs'
+import { readFileSync, existsSync, readdirSync, statSync, copyFileSync, mkdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
 
 export default defineConfig({
@@ -98,6 +98,120 @@ export default defineConfig({
           }
           next()
         })
+      },
+    },
+    {
+      name: 'copy-src-images-to-public',
+      buildStart() {
+        // Copy images from src/assets/images/ to public/assets/images/ during build
+        // This ensures images referenced with /src/assets/images/ work in production
+        const srcImagesDir = join(__dirname, 'src', 'assets', 'images')
+        const publicImagesDir = join(__dirname, 'public', 'assets', 'images')
+        
+        if (!existsSync(srcImagesDir)) {
+          return
+        }
+        
+        // Recursively copy directory structure
+        function copyDir(src, dest) {
+          if (!existsSync(dest)) {
+            mkdirSync(dest, { recursive: true })
+          }
+          
+          const entries = readdirSync(src, { withFileTypes: true })
+          
+          for (const entry of entries) {
+            const srcPath = join(src, entry.name)
+            const destPath = join(dest, entry.name)
+            
+            if (entry.isDirectory()) {
+              copyDir(srcPath, destPath)
+            } else {
+              // Only copy if destination doesn't exist or source is newer
+              if (!existsSync(destPath) || statSync(srcPath).mtime > statSync(destPath).mtime) {
+                copyFileSync(srcPath, destPath)
+              }
+            }
+          }
+        }
+        
+        try {
+          copyDir(srcImagesDir, publicImagesDir)
+        } catch (error) {
+          console.warn('Warning: Could not copy images from src/assets/images/ to public/assets/images/:', error.message)
+        }
+      },
+    },
+    {
+      name: 'rewrite-image-paths-in-html',
+      generateBundle(options, bundle) {
+        // Rewrite /src/assets/images/ paths to /assets/images/ in HTML files
+        for (const [fileName, chunk] of Object.entries(bundle)) {
+          if (chunk.type === 'asset' && fileName.endsWith('.html')) {
+            let content = chunk.source.toString()
+            
+            // Rewrite image paths from /src/assets/images/ to /assets/images/
+            content = content.replace(
+              /src="\/src\/assets\/images\/([^"]+)"/g,
+              'src="/assets/images/$1"'
+            )
+            
+            // Also handle srcset attributes
+            content = content.replace(
+              /srcset="\/src\/assets\/images\/([^"]+)"/g,
+              'srcset="/assets/images/$1"'
+            )
+            
+            chunk.source = content
+          }
+        }
+      },
+      writeBundle(options, bundle) {
+        // Also process HTML files in the output directory after write
+        const distDir = options.dir || join(__dirname, 'dist')
+        
+        function processHtmlFiles(dir) {
+          try {
+            const entries = readdirSync(dir, { withFileTypes: true })
+            
+            for (const entry of entries) {
+              const fullPath = join(dir, entry.name)
+              
+              if (entry.isDirectory()) {
+                processHtmlFiles(fullPath)
+              } else if (entry.name.endsWith('.html')) {
+                let content = readFileSync(fullPath, 'utf-8')
+                const originalContent = content
+                
+                // Rewrite image paths from /src/assets/images/ to /assets/images/
+                content = content.replace(
+                  /src="\/src\/assets\/images\/([^"]+)"/g,
+                  'src="/assets/images/$1"'
+                )
+                
+                // Also handle srcset attributes
+                content = content.replace(
+                  /srcset="\/src\/assets\/images\/([^"]+)"/g,
+                  'srcset="/assets/images/$1"'
+                )
+                
+                // Only write if content changed
+                if (content !== originalContent) {
+                  writeFileSync(fullPath, content, 'utf-8')
+                }
+              }
+            }
+          } catch (error) {
+            // Ignore errors for directories that don't exist
+            if (error.code !== 'ENOENT') {
+              console.warn(`Warning: Could not process HTML files in ${dir}:`, error.message)
+            }
+          }
+        }
+        
+        if (existsSync(distDir)) {
+          processHtmlFiles(distDir)
+        }
       },
     },
   ],
