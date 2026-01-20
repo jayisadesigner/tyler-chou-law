@@ -14,7 +14,7 @@ Last week I was at The Lighthouse x Slow Ventures* Creator event.
 
 <div class="blog-image" data-color="desert-gold-500">
   <img 
-    src="/src/assets/images/blog/4-lighthouse-slow-ventures-1.jpg" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-intro-selfie.jpg" 
     alt="The Lighthouse x Slow Ventures Creator event" 
     class="background-image__img"
     loading="lazy"
@@ -27,7 +27,7 @@ Caught up with my client Zach Miller who is President of Bucketsquad is the GOAT
 
 <div class="blog-image" data-color="lupine-500">
   <img 
-    src="/src/assets/images/blog/4-lighthouse-slow-ventures-2.jpg" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-conversation.jpg" 
     alt="Creator conversations at The Lighthouse x Slow Ventures event" 
     class="background-image__img"
     loading="lazy"
@@ -42,7 +42,7 @@ I saw a great conversation between two creators who have two drastically differe
 
 <div class="blog-image" data-color="palo-verde-500">
   <img 
-    src="/src/assets/images/blog/4-lighthouse-slow-ventures-3.jpg" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-kevin.jpg" 
     alt="Creator business discussions at The Lighthouse x Slow Ventures event" 
     class="background-image__img"
     loading="lazy"
@@ -69,7 +69,7 @@ I really leaned towards physical products until two failed product launches with
 
 <div class="blog-image" data-color="chuparosa-500">
   <img 
-    src="/src/assets/images/blog/4-lighthouse-slow-ventures-4.jpg" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-zach-dan.jpg" 
     alt="The Lighthouse x Slow Ventures Creator event networking" 
     class="background-image__img"
     loading="lazy"
