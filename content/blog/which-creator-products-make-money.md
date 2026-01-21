@@ -5,7 +5,7 @@ date: 2025-10-10
 author: "Tyler Chou"
 description: "What makes creators more money: a physical product or a technical product? Tyler Chou breaks down the real answer from The Lighthouse x Slow Ventures Creator event."
 tags: ["products", "business", "creator economy", "technical products", "physical products"]
-featured_image: "https://images.unsplash.com/photo-1542906453-02e875f65428?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+featured_image: "/assets/images/blog/4-lighthouse-slow-ventures-intro-selfie.jpg"
 ---
 
 What makes creators more money: a physical product or a technical product?

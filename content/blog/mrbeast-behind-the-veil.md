@@ -6,7 +6,7 @@ author: "Tyler Chou"
 description: "Tyler Chou met MrBeast's Head of Development and learned everything she thought she knew was wrong. Here's what she can share."
 tags: ["MrBeast", "creator economy", "purpose", "legacy", "creator business"]
 image_keywords: "philanthropy, charity, giving back, humanitarian, impact"
-featured_image: "https://images.unsplash.com/photo-1591552202899-a23b36ab4bb2?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+featured_image: "/assets/images/blog/8-michael-cruz-tyler-chou-mrbeast.jpg"
 ---
 
 I met MrBeast's Head of Development on Monday night at a creator puppy fundraiser event.
