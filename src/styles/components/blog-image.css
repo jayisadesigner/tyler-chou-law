@@ -41,6 +41,11 @@
   height: 100%;
 }
 
+/* Object position overrides for blog cards */
+.blog-card .blog-image[data-object-position="top"] .background-image__img {
+  object-position: top;
+}
+
 /* Base treatment: Grayscale + Motion Blur Effect */
 /* Applied on top of parallax transforms for hero, standalone for cards */
 .blog-image .background-image__img {

@@ -10,7 +10,8 @@ export function initNavigation() {
   const button = document.querySelector('.mobile-menu-button')
   const menuItems = document.querySelectorAll('.nav-menu a')
   
-  if (!menu || !button) return
+  // Early return if elements aren't ready
+  if (!menu || !button || menuItems.length === 0) return
   
   // Check if mobile (button visible)
   const isMobile = () => window.innerWidth < 768
@@ -34,9 +35,12 @@ export function initNavigation() {
   }
   
   // Wrap each menu item text in line animation structure (like headlines)
+  // Only wrap if not already wrapped (prevents double-wrapping on re-initialization)
   menuItems.forEach((item) => {
-    const text = item.textContent.trim()
-    item.innerHTML = `<span class="line"><span class="line-inner">${text}</span></span>`
+    if (item && !item.querySelector('.line-inner')) {
+      const text = item.textContent.trim()
+      item.innerHTML = `<span class="line"><span class="line-inner">${text}</span></span>`
+    }
   })
   
   const lineInners = document.querySelectorAll('.nav-menu a .line-inner')
@@ -76,31 +80,35 @@ export function initNavigation() {
       // Get items in visual order for mobile stagger animation
       const visualOrderItems = isMobile() ? getItemsInVisualOrder() : Array.from(menuItems)
       const visualOrderLineInners = visualOrderItems.map(item => 
-        item.querySelector('.line-inner')
+        item?.querySelector('.line-inner')
       ).filter(Boolean)
       
       // Stagger in menu items - line animation effect (using shared utility)
       // Use visual order for mobile, DOM order for desktop
-      if (isMobile()) {
-        animateLineElements(visualOrderLineInners, { delay: 0.2 })
-      } else {
-        animateLineElements(lineInners, { delay: 0.2 })
+      if (visualOrderLineInners.length > 0) {
+        if (isMobile()) {
+          animateLineElements(visualOrderLineInners, { delay: 0.2 })
+        } else {
+          animateLineElements(lineInners, { delay: 0.2 })
+        }
       }
       
       // Animate scale separately - use visual order for mobile
-      gsap.to(visualOrderItems, {
-        scale: 1,
-        duration: 0.9,
-        stagger: 0.1,
-        ease: 'power2.out',
-        delay: 0.2
-      })
+      if (visualOrderItems.length > 0) {
+        gsap.to(visualOrderItems, {
+          scale: 1,
+          duration: 0.9,
+          stagger: 0.1,
+          ease: 'power2.out',
+          delay: 0.2
+        })
+      }
     } else {
       // Close menu - slide down with line animation effect (reverse order)
       // Get items in visual order for mobile stagger animation (reverse)
       const visualOrderItems = isMobile() ? getItemsInVisualOrder() : Array.from(menuItems)
       const visualOrderLineInners = visualOrderItems.map(item => 
-        item.querySelector('.line-inner')
+        item?.querySelector('.line-inner')
       ).filter(Boolean)
       
       // Reverse order for close animation
@@ -111,20 +119,25 @@ export function initNavigation() {
         ? [...visualOrderItems].reverse()
         : Array.from(menuItems).reverse()
       
-      gsap.to(reverseOrderLineInners, {
-        y: '100%',
-        opacity: 0,
-        duration: 0.4,
-        stagger: -0.04,
-        ease: 'power2.in'
-      })
+      // Only animate if we have valid elements
+      if (reverseOrderLineInners.length > 0) {
+        gsap.to(reverseOrderLineInners, {
+          y: '100%',
+          opacity: 0,
+          duration: 0.4,
+          stagger: -0.04,
+          ease: 'power2.in'
+        })
+      }
       
-      gsap.to(reverseOrderItems, {
-        scale: 0.95,
-        duration: 0.4,
-        stagger: -0.04,
-        ease: 'power2.in'
-      })
+      if (reverseOrderItems.length > 0) {
+        gsap.to(reverseOrderItems, {
+          scale: 0.95,
+          duration: 0.4,
+          stagger: -0.04,
+          ease: 'power2.in'
+        })
+      }
       
       document.body.style.overflow = ''
       gsap.to(menu, {

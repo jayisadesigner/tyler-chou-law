@@ -702,8 +702,12 @@ async function generateListingPage(posts) {
       const imageIntensity = post.imageIntensity || ''
       const intensityClass = imageIntensity ? ` blog-image--${imageIntensity}` : ''
       
+      // Check if this image needs special object-position (e.g., top alignment)
+      const objectPosition = imageSrc && imageSrc.includes('5-tyler-chou-jenny-hoyos') ? 'top' : 'center'
+      const objectPositionAttr = objectPosition !== 'center' ? ` data-object-position="${objectPosition}"` : ''
+      
       const featuredImageHTML = imageSrc
-        ? `<div class="blog-image${intensityClass}" data-color="${imageColor}">
+        ? `<div class="blog-image${intensityClass}" data-color="${imageColor}"${objectPositionAttr}>
             <img src="${imageSrc}" alt="${post.title}" class="background-image__img" loading="lazy" />
           </div>`
         : ''

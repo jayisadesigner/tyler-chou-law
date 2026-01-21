@@ -5,16 +5,16 @@ date: 2025-10-10
 author: "Tyler Chou"
 description: "What makes creators more money: a physical product or a technical product? Tyler Chou breaks down the real answer from The Lighthouse x Slow Ventures Creator event."
 tags: ["products", "business", "creator economy", "technical products", "physical products"]
-featured_image: "https://images.unsplash.com/photo-1542906453-02e875f65428?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+featured_image: "/assets/images/blog/4-lighthouse-slow-ventures-intro-selfie.jpg"
 ---
 
 What makes creators more money: a physical product or a technical product?
 
 Last week I was at The Lighthouse x Slow Ventures* Creator event.
 
-<div class="blog-image" data-color="desert-gold-500">
+<div class="blog-image" data-color="chuparosa-500">
   <img 
-    src="/src/assets/images/blog/4-lighthouse-slow-ventures-1.jpg" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-intro-selfie.jpg" 
     alt="The Lighthouse x Slow Ventures Creator event" 
     class="background-image__img"
     loading="lazy"
@@ -23,12 +23,21 @@ Last week I was at The Lighthouse x Slow Ventures* Creator event.
 
 Finally met Kevin Espiritu in person! Love Epic Gardening. That is the model every creator should follow.
 
-Caught up with my client Zach Miller who is President of Bucketsquad is the GOAT growing out Jesser's business. And met Dan Levitt who is MatPat's manager as well as Jesser and Game Grump's former managers—he sold his company LongHaul to Wasserman and is OG and super smart when it comes to 360 growth of a creator.
-
 <div class="blog-image" data-color="lupine-500">
   <img 
-    src="/src/assets/images/blog/4-lighthouse-slow-ventures-2.jpg" 
-    alt="Creator conversations at The Lighthouse x Slow Ventures event" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-kevin.jpg" 
+    alt="Tyler Chou with Kevin Espiritu at The Lighthouse x Slow Ventures event" 
+    class="background-image__img"
+    loading="lazy"
+  />
+</div>
+
+Caught up with my client Zach Miller who is President of Bucketsquad is the GOAT growing out Jesser's business. And met Dan Levitt who is MatPat's manager as well as Jesser and Game Grump's former managers—he sold his company LongHaul to Wasserman and is OG and super smart when it comes to 360 growth of a creator.
+
+<div class="blog-image" data-color="desert-gold-500">
+  <img 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-zach-dan.jpg" 
+    alt="Tyler Chou with Zach Miller and Dan Levitt at The Lighthouse x Slow Ventures event" 
     class="background-image__img"
     loading="lazy"
   />
@@ -42,8 +51,8 @@ I saw a great conversation between two creators who have two drastically differe
 
 <div class="blog-image" data-color="palo-verde-500">
   <img 
-    src="/src/assets/images/blog/4-lighthouse-slow-ventures-3.jpg" 
-    alt="Creator business discussions at The Lighthouse x Slow Ventures event" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-conversation.jpg" 
+    alt="Creator conversations at The Lighthouse x Slow Ventures event" 
     class="background-image__img"
     loading="lazy"
   />
@@ -66,15 +75,6 @@ Like crawling through broken glass.
 Here's advice if you have money to pay a developer or give equity in cash to a CTO/cofounder: please pay upfront. If you offer a situation where you're going to do a share of revenue, and the app ends up being wildly successful, you might regret the rev-share.
 
 I really leaned towards physical products until two failed product launches with my clients which took a lot of my time and investments, with no returns.
-
-<div class="blog-image" data-color="chuparosa-500">
-  <img 
-    src="/src/assets/images/blog/4-lighthouse-slow-ventures-4.jpg" 
-    alt="The Lighthouse x Slow Ventures Creator event networking" 
-    class="background-image__img"
-    loading="lazy"
-  />
-</div>
 
 I'm about to launch a product that I've been building for a year and delayed by perfectionism. I have almost 1000 creators on this waitlist and I am excited to launch.
 
