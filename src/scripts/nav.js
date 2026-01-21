@@ -10,8 +10,15 @@ export function initNavigation() {
   const button = document.querySelector('.mobile-menu-button')
   const menuItems = document.querySelectorAll('.nav-menu a')
   
+  // #region agent log H1
+  fetch('http://127.0.0.1:7242/ingest/0a8475d7-dbb5-4388-a048-99ec51a10bc4',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'nav.js:init',message:'initNavigation called',data:{hasMenu:!!menu,hasButton:!!button,menuItemsCount:menuItems.length},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H1'})}).catch(()=>{});
+  // #endregion
+  
   // Early return if elements aren't ready
   if (!menu || !button || menuItems.length === 0) return
+  
+  // #region agent log H1-pass
+  fetch('http://127.0.0.1:7242/ingest/0a8475d7-dbb5-4388-a048-99ec51a10bc4',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'nav.js:afterGuard',message:'Passed early return check',data:{},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H1'})}).catch(()=>{});
   
   // Check if mobile (button visible)
   const isMobile = () => window.innerWidth < 768
@@ -36,16 +43,25 @@ export function initNavigation() {
   
   // Wrap each menu item text in line animation structure (like headlines)
   // Only wrap if not already wrapped (prevents double-wrapping on re-initialization)
+  let wrappedCount = 0;
   menuItems.forEach((item) => {
     if (item && !item.querySelector('.line-inner')) {
       const text = item.textContent.trim()
       item.innerHTML = `<span class="line"><span class="line-inner">${text}</span></span>`
+      wrappedCount++;
     }
   })
   
   const lineInners = document.querySelectorAll('.nav-menu a .line-inner')
   
+  // #region agent log H2
+  fetch('http://127.0.0.1:7242/ingest/0a8475d7-dbb5-4388-a048-99ec51a10bc4',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'nav.js:afterWrap',message:'After wrapping items',data:{wrappedCount,lineInnersCount:lineInners.length},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H2'})}).catch(()=>{});
+  // #endregion
+  
   // Set initial state only on mobile
+  // #region agent log H3
+  fetch('http://127.0.0.1:7242/ingest/0a8475d7-dbb5-4388-a048-99ec51a10bc4',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'nav.js:initialState',message:'Setting initial state',data:{isMobile:isMobile(),windowWidth:window.innerWidth},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H3'})}).catch(()=>{});
+  // #endregion
   if (isMobile()) {
     gsap.set(menu, { yPercent: 100 })
     gsap.set(lineInners, { y: '100%', opacity: 0 })
@@ -60,6 +76,10 @@ export function initNavigation() {
   let isOpen = false
   
   button.addEventListener('click', () => {
+    // #region agent log H4
+    fetch('http://127.0.0.1:7242/ingest/0a8475d7-dbb5-4388-a048-99ec51a10bc4',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'nav.js:clickHandler',message:'Button clicked',data:{isMobile:isMobile(),windowWidth:window.innerWidth,isOpenBefore:isOpen},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H4'})}).catch(()=>{});
+    // #endregion
+    
     // Only handle clicks on mobile
     if (!isMobile()) return
     
@@ -82,6 +102,10 @@ export function initNavigation() {
       const visualOrderLineInners = visualOrderItems.map(item => 
         item?.querySelector('.line-inner')
       ).filter(Boolean)
+      
+      // #region agent log H5
+      fetch('http://127.0.0.1:7242/ingest/0a8475d7-dbb5-4388-a048-99ec51a10bc4',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'nav.js:openMenu',message:'Opening menu',data:{visualOrderItemsCount:visualOrderItems.length,visualOrderLineInnersCount:visualOrderLineInners.length,menuHasIsOpen:menu.classList.contains('is-open')},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H5'})}).catch(()=>{});
+      // #endregion
       
       // Stagger in menu items - line animation effect (using shared utility)
       // Use visual order for mobile, DOM order for desktop
