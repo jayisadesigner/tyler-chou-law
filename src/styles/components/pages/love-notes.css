@@ -8,7 +8,7 @@
   position: relative;
   width: 100%;
   background-color: var(--chuparosa-700); /* One step darker than page background, only for this section */
-  overflow: hidden;
+  /* NO overflow restriction on mobile - allow horizontal scroll */
 }
 
 /* Full height modifier */
@@ -16,6 +16,7 @@
   min-height: 100vh;
   display: flex;
   align-items: center;
+  /* NO overflow restriction on mobile - allow horizontal scroll */
 }
 
 /* Full height modifier enables scroll pinning animation via JavaScript on desktop */
@@ -105,11 +106,15 @@
 
 /* Desktop: Grid-based scattered layout with depth */
 @media (min-width: 1280px) {
+  /* Only apply overflow hidden on desktop for grid layout */
+  .love-notes {
+    overflow: hidden; /* Contain headline within section bounds on desktop */
+  }
+
   .love-notes--full-height {
     height: 100vh; /* Viewport height frame */
     min-height: auto;
     position: relative;
-    overflow: hidden; /* Contain headline within section bounds */
   }
   
   .love-notes__container {
