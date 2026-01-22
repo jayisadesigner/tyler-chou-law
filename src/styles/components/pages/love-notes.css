@@ -8,7 +8,8 @@
   position: relative;
   width: 100%;
   background-color: var(--chuparosa-700); /* One step darker than page background, only for this section */
-  overflow: hidden;
+  overflow-x: visible; /* Allow horizontal scroll on mobile */
+  overflow-y: hidden; /* Prevent vertical overflow */
 }
 
 /* Full height modifier */
