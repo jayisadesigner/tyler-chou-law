@@ -138,6 +138,19 @@ export default defineConfig({
         
         try {
           copyDir(srcImagesDir, publicImagesDir)
+          // Also copy intro videos to public/assets/videos/intro/ for homepage intro animation
+          const introVideosDir = join(srcImagesDir, 'home', 'intro videos')
+          const publicVideosDir = join(__dirname, 'public', 'assets', 'videos', 'intro')
+          if (existsSync(introVideosDir)) {
+            mkdirSync(publicVideosDir, { recursive: true })
+            for (const name of ['intro-left.mp4', 'intro-right.mp4', 'intro-center.mp4']) {
+              const src = join(introVideosDir, name)
+              const dest = join(publicVideosDir, name)
+              if (existsSync(src) && (!existsSync(dest) || statSync(src).mtime > statSync(dest).mtime)) {
+                copyFileSync(src, dest)
+              }
+            }
+          }
         } catch (error) {
           console.warn('Warning: Could not copy images from src/assets/images/ to public/assets/images/:', error.message)
         }

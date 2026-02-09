@@ -151,6 +151,11 @@ body.page-creator .section-grid {
    Roster Modifier
    ======================================== */
 
+/* Roster section: match Client Love Notes - background only behind the grid */
+.section-grid--roster .section-grid__grid {
+  background-color: var(--chuparosa-700);
+}
+
 /* Remove horizontal padding from roster container (grid needs full width) */
 .section-grid--roster .section-grid__container {
   padding-left: 0;
@@ -182,14 +187,14 @@ body.page-creator .section-grid {
   }
 }
 
-/* Desktop: 3 columns */
+/* Desktop: 4 columns (2 rows) - even layout for 8 cards */
 @media (min-width: 1024px) {
   .section-grid--roster .section-grid__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
-/* Extra large desktop: 4 columns */
+/* Extra large desktop: keep 4 columns for even layout */
 @media (min-width: 1536px) {
   .section-grid--roster .section-grid__grid {
     grid-template-columns: repeat(4, 1fr);
