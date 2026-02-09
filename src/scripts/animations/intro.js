@@ -179,12 +179,7 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   
   try {
     await Promise.all(videoReadyPromises)
-    // Videos are ready - ensure they're playing (some browsers need explicit play())
-    introVideos.forEach((video) => {
-      if (video.tagName === 'VIDEO' && video.paused) {
-        video.play().catch(() => {})
-      }
-    })
+    // Videos are ready - show center video immediately
     // Show intro container and center video wrapper
     intro.classList.remove('intro--hidden')
     intro.classList.add('is-ready')
@@ -516,8 +511,7 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   tl.to(leftVideo, {
     x: -slideDistance,
     opacity: 1,
-    clipPath: 'none',
-    zIndex: 2,
+    clipPath: 'inset(0 0% 0 0)',
     duration: 1.8,
     ease: 'power3.out'
   }, 1.5)
@@ -525,7 +519,7 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   tl.to(rightVideo, {
     x: slideDistance,
     opacity: 1,
-    clipPath: 'none',
+    clipPath: 'inset(0 0 0 0%)',
     duration: 1.8,
     ease: 'power3.out'
   }, 1.6)
