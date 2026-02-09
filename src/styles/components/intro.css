@@ -22,10 +22,9 @@ body.intro-active {
   overflow: hidden;
 }
 
-/* Use opacity only so videos can load; visibility: hidden blocks video loading in some browsers */
 .intro--hidden {
   opacity: 0;
-  pointer-events: none;
+  visibility: hidden;
 }
 
 .intro.is-ready {
@@ -53,11 +52,11 @@ body.intro-active {
   height: 100%;
   width: 33vw;
   overflow: hidden;
-  opacity: 0; /* Hide until ready; visibility: hidden can block video loading */
+  visibility: hidden; /* Hide until video is ready - no fade, just prevent flash */
 }
 
 .intro__video-wrapper.is-ready {
-  opacity: 1;
+  visibility: visible; /* Show immediately when ready - no fade */
 }
 
 /* Ensure overlays are 100% width/height to inherit parent visibility */
