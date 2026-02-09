@@ -16,8 +16,6 @@
         document.body.classList.add('ready');
       });
     </script>
-    <!-- Performance: Preconnect to external domains if needed -->
-    <link rel="preconnect" href="https://api.fontshare.com">
     <title>{{title}} | Love Letters to Creators</title>
     <meta name="description" content="{{excerpt}}" />
     <link rel="canonical" href="https://tylerchoulaw.com/love-letters/{{slug}}.html" />
@@ -55,7 +53,7 @@
         "url": "https://tylerchoulaw.com",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://tylerchoulaw.com/src/assets/images/home/tyler-chou-mongram-logo.svg"
+          "url": "https://tylerchoulaw.com/tyler-chou-law-for-creators-mongogram.svg"
         }
       },
       "mainEntityOfPage": {
@@ -105,15 +103,20 @@
     <main id="main-content">
       <article class="blog-post">
         <section class="hero hero--blog-post">
-          {{featuredImageHero}}
-          <div class="hero-content hero-content--blog-post container-narrow">
-            <h1 class="hero-headline hero-headline--blog-post">{{title}}</h1>
-            <div class="blog-post-meta">
-              <span class="blog-post-meta__author">By <span class="blog-post-meta__author-name">{{author}}</span></span>
-              <time class="blog-post-meta__date" datetime="{{dateISO}}">{{date}}</time>
-              <span class="blog-post-meta__reading-time">{{readingTime}} min read</span>
+          <div class="hero--blog-post__container">
+            <div class="hero--blog-post__content">
+              {{featuredImageHero}}
+              <h1 class="hero-headline hero-headline--blog-post">{{title}}</h1>
+              <div class="blog-post-meta">
+                <span class="blog-post-meta__author">By <span class="blog-post-meta__author-name">{{author}}</span></span>
+                <time class="blog-post-meta__date" datetime="{{dateISO}}">{{date}}</time>
+                <span class="blog-post-meta__reading-time">{{readingTime}} min read</span>
+              </div>
+              {{tagsHTML}}
             </div>
-            {{tagsHTML}}
+            <div class="hero--blog-post__media">
+              {{authorHeadshot}}
+            </div>
           </div>
         </section>
         

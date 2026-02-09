@@ -51,6 +51,15 @@ Blog posts are pre-rendered at build time:
 - Build script runs before Vite build: `npm run build:blog && vite build`
 - Generated HTML files in `dist/love-letters/[slug]/index.html`
 
+### Unsplash API for Featured Images
+
+The build script can automatically fetch featured images from Unsplash:
+- **Setup**: Create a `.env` file with `UNSPLASH_ACCESS_KEY=your_key`
+- **Netlify**: Add `UNSPLASH_ACCESS_KEY` as an environment variable in Netlify dashboard
+- **Behavior**: If no `featured_image` is in frontmatter, script fetches from Unsplash based on post tags/title
+- **Attribution**: Automatically included for Unsplash images
+- **Fallback**: Works without API key (skips auto-fetching, shows warning)
+
 ## CMS Access
 
 Decap CMS is available at:

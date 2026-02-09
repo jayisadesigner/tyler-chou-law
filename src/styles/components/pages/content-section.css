@@ -16,17 +16,36 @@
   width: 100%;
   max-width: 1512px;
   margin: 0 auto;
-  padding: var(--space-2xl) 0; /* Vertical spacing - components handle their own spacing */
+  padding: 0; /* No padding on container - padding is inside on content/media */
 }
 
-/* Mobile: Stacked layout (content first, then media) */
+/* Remove gap between history section and stacked expertise section on about page */
+.content-section--media-left + .content-section--stacked .content-section__container {
+  padding-top: 0;
+}
+
+.content-section--media-left:has(+ .content-section--stacked) .content-section__container {
+  padding-bottom: 0;
+}
+
+/* Mobile: Stacked layout (image first, then content) */
+/* Ensure container uses flexbox for order to work on mobile */
+@media (max-width: 767px) {
+  .content-section__container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .content-section__content,
 .content-section__media {
   width: 100%;
 }
 
 .content-section__content {
-  margin-bottom: var(--space-xl);
+  margin-bottom: 0; /* Removed margin-bottom to match top/bottom padding */
+  /* Order only applied when media exists - see mobile media query below */
+  /* Padding is handled in Content Section Content Structure section below */
 }
 
 .content-section__media {
@@ -34,6 +53,31 @@
   overflow: hidden;
   /* Mobile: Give media container height for absolutely positioned background-image */
   aspect-ratio: 4 / 5;
+  /* Order only applied when actually used - see mobile media query below */
+  padding-top: var(--space-3xl); /* Top padding inside container - responsive: 48px mobile */
+  padding-bottom: var(--space-3xl); /* Bottom padding inside container - responsive: 48px mobile */
+}
+
+/* Ensure media-first order on mobile ONLY when media is present */
+/* EXCEPT for form sections which should have content first */
+@media (max-width: 767px) {
+  /* General rule: apply to all sections with media, form sections will override below */
+  .content-section__container:has(.content-section__media) .content-section__media {
+    order: 1; /* Force image first on mobile */
+  }
+  
+  .content-section__container:has(.content-section__media) .content-section__content {
+    order: 2; /* Force content second on mobile */
+  }
+  
+  /* Form sections: content first, form second - more specific to override general rule */
+  .content-section--form .content-section__container:has(.content-section__media) .content-section__content {
+    order: 1; /* Content first on mobile */
+  }
+  
+  .content-section--form .content-section__container:has(.content-section__media) .content-section__media {
+    order: 2; /* Form second on mobile */
+  }
 }
 
 /* Allow overflow on creator pages for roster card handles and creator names */
@@ -113,8 +157,23 @@ body.page-creator .content-section__content {
     display: flex;
     align-items: stretch;
     gap: 0;
-    padding: var(--space-4xl) 0; /* Increased vertical spacing on desktop */
+    padding: 0; /* No padding on container - padding is inside on content/media */
     max-width: none;
+  }
+  
+  /* Desktop: padding inside content/media elements */
+  .content-section__media {
+    padding-top: var(--space-4xl); /* Top padding inside container - responsive: 96px tablet, 128px desktop */
+    padding-bottom: var(--space-4xl); /* Bottom padding inside container - responsive: 96px tablet, 128px desktop */
+  }
+  
+  /* Remove gap between history section and stacked expertise section on about page - desktop */
+  .content-section--media-left + .content-section--stacked .content-section__container {
+    padding-top: 0;
+  }
+  
+  .content-section--media-left:has(+ .content-section--stacked) .content-section__container {
+    padding-bottom: 0;
   }
 
   .content-section__content {
@@ -123,10 +182,20 @@ body.page-creator .content-section__content {
     flex-shrink: 0;
     align-self: center;
     justify-items: center;
-    padding: var(--space-4xl) var(--space-xl); /* Desktop padding */
+    padding-top: var(--space-4xl); /* Top padding - responsive: 96px tablet, 128px desktop */
+    padding-bottom: var(--space-4xl); /* Bottom padding - responsive: 96px tablet, 128px desktop */
+    padding-left: var(--space-xl); /* Left padding - responsive: 32px mobile, 48px desktop */
+    padding-right: var(--space-xl); /* Right padding - responsive: 32px mobile, 48px desktop */
+    order: unset; /* Reset order - use HTML order on desktop */
   }
 
-  .content-section__media {
+  /* Base: Fixed height for all desktop media sections (except form sections) */
+  .content-section:not(.content-section--form) .content-section__media {
+    height: 100vh;
+    order: unset; /* Reset order - use HTML order on desktop */
+  }
+
+  .content-section:not(.content-section--media-bleed):not(.content-section--full-width):not(.content-section--stacked):not(.content-section--centered):not(.content-section--form) .content-section__media {
     width: 50%;
     flex-shrink: 0;
     position: relative;
@@ -193,17 +262,41 @@ body.page-creator .content-section__content {
 }
 
 /* Form in media area modifier - leverages existing 50/50 layout */
-/* .content-section--form .content-section__content inherits padding from base */
+/* Uses CSS custom properties for header clearance to maintain consistency */
 
-.content-section--form .content-section__media {
-  /* Remove image-specific positioning */
-  overflow: visible;
-  /* Mobile: match base content section padding exactly */
-  padding: var(--space-2xl) var(--space-md);
+.content-section--form {
+  /* Define header clearance values as local custom properties */
+  --form-header-clearance-mobile: 100px;
+  --form-header-clearance-desktop: 120px;
+  --form-padding-top-mobile: calc(var(--space-2xl) + var(--form-header-clearance-mobile));
+  --form-padding-top-desktop: calc(var(--space-4xl) + var(--form-header-clearance-desktop));
+  /* Allow section to grow beyond viewport to fit full form height */
+  height: auto; /* Section height determined by container */
+  min-height: fit-content;
+}
+
+/* Mobile: Content appears above form */
+.content-section--form .content-section__container {
+  flex-direction: column;
+}
+
+@media (max-width: 767px) {
+  /* Content gets header clearance padding on mobile */
+  .content-section--form .content-section__content {
+    padding-top: var(--form-padding-top-mobile);
+  }
+  
+  /* Form gets simple padding on mobile */
+  .content-section--form .content-section__media {
+    overflow: visible;
+    padding: var(--space-2xl) var(--space-md);
+    padding-top: var(--space-3xl); /* Match default content padding */
+    aspect-ratio: auto; /* Remove aspect-ratio constraint to allow form to determine height */
+  }
 }
 
 .content-section--form .content-section__media .background-image {
-  display: none; /* Hide if there was a background image */
+  display: none;
 }
 
 .content-section--form .contact-form {
@@ -211,21 +304,37 @@ body.page-creator .content-section__content {
   width: 100%;
 }
 
-/* Tablet (768px+): Make content sticky while form scrolls */
+/* Tablet (768px+): Side-by-side 50/50 layout with pinning */
 @media (min-width: 768px) {
+  .content-section--form .content-section__container {
+    flex-direction: row;
+    /* Use stretch so container height matches tallest child (form wrapper) */
+    /* Content has align-self: flex-start to prevent stretching */
+    align-items: stretch; /* Inherits from general desktop rule - container matches tallest child */
+  }
+  
   .content-section--form .content-section__content {
-    position: sticky;
-    top: var(--space-xl);
-    align-self: flex-start;
-    max-height: calc(100vh - var(--space-xl) * 2);
-    padding-top: var(--space-4xl);
+    order: unset;
+    width: 50%;
+    flex-shrink: 0;
+    align-self: flex-start; /* Don't stretch - keep content at natural height */
+    padding-top: var(--space-4xl); /* Original desktop padding - no header clearance */
+    height: auto; /* Content height determined by its content */
+    max-height: none; /* Remove any max-height constraints */
   }
   
   .content-section--form .content-section__media {
+    order: unset;
+    width: 50%;
+    flex-shrink: 0;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     padding: var(--space-4xl) var(--space-2xl) var(--space-2xl) var(--space-2xl);
+    padding-top: var(--space-4xl); /* Original desktop padding - no header clearance */
+    height: auto; /* Override 100vh constraint - height determined by form content */
+    aspect-ratio: auto; /* Remove aspect-ratio constraint - height determined by form content */
+    /* With align-items: stretch on container, container height will match this element (tallest child) */
   }
 }
 
@@ -233,6 +342,7 @@ body.page-creator .content-section__content {
 @media (min-width: 1024px) {
   .content-section--form .content-section__media {
     padding: var(--space-4xl) var(--space-3xl) var(--space-3xl) var(--space-2xl);
+    padding-top: var(--space-4xl); /* Original desktop padding - no header clearance */
   }
 }
 
@@ -242,7 +352,10 @@ body.page-creator .content-section__content {
   grid-template-columns: 1fr;
   grid-template-rows: repeat(3, fit-content(100%));
   gap: var(--space-sm);
-  padding: var(--space-2xl) var(--space-md); /* Mobile first - vertical 2xl, horizontal md */
+  padding-top: var(--space-3xl); /* Top padding - responsive: 48px mobile, 72px tablet, 96px desktop */
+  padding-bottom: var(--space-3xl); /* Bottom padding - responsive: 48px mobile, 72px tablet, 96px desktop */
+  padding-left: var(--space-md); /* Left padding - 24px fixed */
+  padding-right: var(--space-md); /* Right padding - 24px fixed */
   background-color: var(--page-bg-color);
   overflow: visible; /* Allow headlines to overflow */
   max-width: 576px; /* Container-level constraint */
@@ -290,8 +403,12 @@ body.page-creator .content-section__content {
 
 /* Page-level overrides (when section doesn't have .bg-* class) */
 body.page-services .content-section__headline-text,
-body.page-about .content-section__headline-text,
-body.page-roster .content-section__headline-text {
+body.page-roster .content-section__headline-text,
+body.page-creator .content-section__headline-text {
+  color: var(--text-headline-on-obsidian);
+}
+
+body.page-about .content-section__headline-text {
   color: var(--text-headline-on-obsidian);
 }
 
@@ -300,8 +417,12 @@ body.page-love-letters .content-section__headline-text {
 }
 
 body.page-services .content-section__eyebrow-text,
-body.page-about .content-section__eyebrow-text,
-body.page-roster .content-section__eyebrow-text {
+body.page-roster .content-section__eyebrow-text,
+body.page-creator .content-section__eyebrow-text {
+  color: var(--text-body-on-obsidian);
+}
+
+body.page-about .content-section__eyebrow-text {
   color: var(--text-body-on-obsidian);
 }
 
@@ -329,8 +450,12 @@ body.page-creatorarq .content-section__eyebrow-text {
 
 /* Page-level overrides for body text */
 body.page-services .content-section__body,
-body.page-about .content-section__body,
-body.page-roster .content-section__body {
+body.page-roster .content-section__body,
+body.page-creator .content-section__body {
+  color: var(--text-body-on-obsidian);
+}
+
+body.page-about .content-section__body {
   color: var(--text-body-on-obsidian);
 }
 
@@ -339,6 +464,35 @@ body.page-creatorarq .content-section__body {
 }
 
 body.page-love-letters .content-section__body {
+  color: var(--text-body-on-bone);
+}
+
+/* Background color adaptations: content section text adapts to background changes */
+/* These override page-level defaults when bg-palo-verde or bg-bone is applied */
+
+/* Palo Verde background */
+body.bg-palo-verde .content-section__headline-text {
+  color: var(--text-headline-on-palo-verde-600);
+}
+
+body.bg-palo-verde .content-section__eyebrow-text {
+  color: var(--text-body-on-palo-verde-600);
+}
+
+body.bg-palo-verde .content-section__body {
+  color: var(--text-body-on-palo-verde-600);
+}
+
+/* Bone background */
+body.bg-bone .content-section__headline-text {
+  color: var(--text-headline-on-bone);
+}
+
+body.bg-bone .content-section__eyebrow-text {
+  color: var(--text-body-on-bone);
+}
+
+body.bg-bone .content-section__body {
   color: var(--text-body-on-bone);
 }
 
@@ -366,22 +520,15 @@ body.page-love-letters .content-section__body {
   padding: 0; /* Remove padding for full bleed */
 }
 
-.content-section--stacked .content-section__content {
-  margin-bottom: 0;
-  max-width: 1512px; /* Constrain content only */
-  margin-left: auto;
-  margin-right: auto;
-  /* Padding inherits from base mobile-first styles */
-}
+/* Stacked content inherits all base styles - no overrides needed */
 
 .content-section--stacked .content-section__media {
-  order: -1; /* Image first */
-  width: 100vw; /* Full viewport width */
+  width: 100%; /* Use 100% on mobile to avoid scrollbar width issues */
   position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  left: 0;
+  right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 @media (min-width: 768px) {
@@ -394,22 +541,64 @@ body.page-love-letters .content-section__body {
 
   .content-section--stacked .content-section__content {
     width: 100%;
-    max-width: 1512px;
+    max-width: 640px; /* Match centered sections for better readability */
     margin-left: auto;
     margin-right: auto;
-    padding: var(--space-4xl) var(--space-lg);
+    padding-top: var(--space-4xl); /* Top padding - responsive: 96px tablet, 128px desktop */
+    padding-bottom: var(--space-4xl); /* Bottom padding - responsive: 96px tablet, 128px desktop */
+    padding-left: var(--space-xl); /* Left padding - responsive: 32px mobile, 48px desktop */
+    padding-right: var(--space-xl); /* Right padding - responsive: 32px mobile, 48px desktop */
+  }
+}
+
+/* Desktop: Increase max-width for stacked content */
+@media (min-width: 1024px) {
+  .content-section--stacked .content-section__content {
+    max-width: 800px; /* Match centered sections */
+    text-align: center; /* Center all text */
+  }
+
+  /* Center eyebrow, headline, and body text */
+  .content-section--stacked .content-section__eyebrow {
+    align-items: center;
+  }
+
+  .content-section--stacked .content-section__eyebrow-text {
+    text-align: center;
+  }
+
+  .content-section--stacked .content-section__headline {
+    align-items: center;
+  }
+
+  .content-section--stacked .content-section__headline-text {
+    text-align: center;
+  }
+
+  /* Use p-large size for body text on desktop - ensure it overrides any base styles */
+  .content-section--stacked .content-section__body {
+    font-size: var(--text-p-large-size);
+    line-height: var(--text-p-large-line-height);
+    text-align: center;
+  }
+
+  .content-section--stacked .content-section__body p {
+    font-size: var(--text-p-large-size);
+    line-height: var(--text-p-large-line-height);
+    text-wrap: balance;
+  }
+}
+
+/* Large desktop: Further increase for optimal line length */
+@media (min-width: 1280px) {
+  .content-section--stacked .content-section__content {
+    max-width: 960px; /* Match centered sections */
   }
 
   .content-section--stacked .content-section__media {
-    width: 100vw; /* Full viewport width */
-    min-height: 100vh; /* Full viewport height for image */
+    width: 100%; /* Full container width */
     padding: 0;
-    order: -1; /* Image first on desktop too */
     position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
   }
 
   .content-section--stacked .content-section__media .background-image {
@@ -432,7 +621,10 @@ body.page-love-letters .content-section__body {
 /* Tablet+ (768px): Enhanced content section spacing */
 @media (min-width: 768px) {
   .content-section__content {
-    padding: var(--space-2xl) var(--space-lg); /* Desktop: more horizontal padding */
+    padding-top: var(--space-3xl); /* Top padding - responsive: 72px tablet, 96px desktop */
+    padding-bottom: var(--space-3xl); /* Bottom padding - responsive: 72px tablet, 96px desktop */
+    padding-left: var(--space-lg); /* Left padding - 24px mobile, 32px desktop */
+    padding-right: var(--space-lg); /* Right padding - 24px mobile, 32px desktop */
   }
 }
 
@@ -447,7 +639,10 @@ body.page-love-letters .content-section__body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: var(--space-4xl) var(--space-md); /* Vertical and horizontal padding - already includes spacing */
+  padding-top: var(--space-3xl); /* Top padding - responsive: 48px mobile, 72px tablet, 96px desktop */
+  padding-bottom: var(--space-3xl); /* Bottom padding - responsive: 48px mobile, 72px tablet, 96px desktop */
+  padding-left: var(--space-md); /* Left padding - 24px fixed */
+  padding-right: var(--space-md); /* Right padding - 24px fixed */
 }
 
 .content-section--centered .content-section__content {
@@ -491,6 +686,7 @@ body.page-love-letters .content-section__body {
 /* Tablet: Add max-width for better readability */
 @media (min-width: 768px) {
   .content-section--centered .content-section__content {
+    width: 100%; /* Override the 50% width from desktop layout */
     max-width: 640px;
   }
 }
@@ -506,6 +702,20 @@ body.page-love-letters .content-section__body {
 @media (min-width: 1280px) {
   .content-section--centered .content-section__content {
     max-width: 960px;
+  }
+}
+
+/* Full width modifier - removes content max-width constraint on desktop */
+/* Can be used with --centered or standalone for full-width content like logo grids */
+@media (min-width: 1024px) {
+  .content-section--full-width .content-section__content {
+    max-width: none;
+  }
+  
+  /* When used with --centered, keep headline constrained */
+  .content-section--centered.content-section--full-width .content-section__headline {
+    max-width: 800px;
+    margin: 0 auto;
   }
 }
 
@@ -528,7 +738,8 @@ body.page-love-letters .content-section__body {
   font-size: var(--text-h1-size);
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h1-line-height);
-  color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
+  /* Use CSS variable that adapts to page background - set by body.page-* classes */
+  color: var(--text-headline-color);
   text-align: center;
   text-transform: none;
   display: flex;
@@ -543,20 +754,21 @@ body.page-love-letters .content-section__body {
   margin-right: auto;
 }
 
-/* Page-level overrides for large text modifier */
-body.page-services .content-section--centered.content-section--large-text .content-section__headline-text,
-body.page-about .content-section--centered.content-section--large-text .content-section__headline-text,
-body.page-roster .content-section--centered.content-section--large-text .content-section__headline-text {
-  color: var(--text-headline-on-obsidian);
+/* Vertically center line spans in all centered sections */
+.content-section--centered .content-section__headline-text[js-line-animation] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-body.page-creatorarq .content-section--centered.content-section--large-text .content-section__headline-text {
-  color: var(--text-headline-on-palo-verde-600);
+.content-section--centered .content-section__headline-text[js-line-animation] .line {
+  margin-left: auto;
+  margin-right: auto;
 }
 
-body.page-love-letters .content-section--centered.content-section--large-text .content-section__headline-text {
-  color: var(--text-headline-on-bone);
-}
+/* CTA section titles adapt to page background via CSS variables set on body */
+/* Uses --text-headline-color which is set by body.page-* classes in main.css */
 
 /* Large body modifier - increases body text size for centered sections */
 .content-section--centered.content-section--large-body .content-section__body,
@@ -569,8 +781,10 @@ body.page-love-letters .content-section--centered.content-section--large-text .c
 @media (min-width: 768px) {
   .content-section--centered .content-section__container {
     display: flex; /* Maintain flex */
+    flex-direction: column; /* Override desktop row layout */
     justify-content: center;
     align-items: center; /* Vertically center */
+    max-width: 1512px; /* Restore max-width that desktop layout removes */
   }
   
 }

@@ -15,10 +15,6 @@
   display: grid;
   grid-template-rows: auto 1fr auto; /* Title, Description (grows), Button */
   gap: var(--space-lg);
-  padding-top: var(--space-3xl);
-  padding-bottom: var(--space-4xl);
-  padding-left: var(--space-xl);
-  padding-right: var(--space-xl);
   background-color: transparent; /* Inherits from body, allows background animation */
   border: none;
   border-radius: 0;
@@ -26,10 +22,35 @@
   color: inherit;
   cursor: pointer;
   box-shadow: none;
-  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: box-shadow, transform;
+  position: relative;
+  z-index: 1;
   /* Left-align text on all breakpoints */
   text-align: var(--text-align-left);
+  
+  /* Mobile-first: Match content section padding and no hover state */
+  padding-top: var(--space-3xl); /* 48px mobile - matches content sections */
+  padding-bottom: var(--space-3xl); /* 48px mobile - matches content sections */
+  padding-left: var(--space-md); /* 24px - respects site margins */
+  padding-right: var(--space-md); /* 24px - respects site margins */
+  transition: none; /* No transitions on mobile */
+}
+
+/* Tablet and up: Add hover states and adjust padding */
+@media (min-width: 768px) {
+  .service-card {
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-4xl);
+    padding-left: var(--space-xl);
+    padding-right: var(--space-xl);
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s;
+    will-change: box-shadow, transform;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-chuparosa);
+    z-index: 10; /* Higher z-index on hover so shadow appears above next section */
+  }
 }
 
 /* Large screens - limit to 3 columns max */
@@ -37,11 +58,6 @@
   .services-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-}
-
-.service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-chuparosa);
 }
 
 .service-card__title {
@@ -63,22 +79,61 @@ body.page-services .service-card__title {
   font-size: var(--text-p-large-size); /* 1.414rem / ~23px */
   font-weight: var(--font-weight-paragraph);
   line-height: 1.2;
-  color: var(--chuparosa-100);
+  color: var(--text-body-color); /* Adapts to page background via CSS variables */
   margin: 0;
   /* Let description take only space it needs - CSS Grid handles equal card heights */
 }
 
-/* Services page: bone text on obsidian background */
-body.page-services .service-card__description {
-  color: var(--bone);
-}
-
-/* Service card button - prevent full width */
+/* Service card button - prevent full width, use adaptive colors, and compact size */
 .service-card .btn {
   justify-self: start;
   width: fit-content;
+  font-size: var(--text-button-md); /* Same text size as medium */
 }
 
+.service-card .btn--primary {
+  padding: var(--space-xs) var(--space-lg); /* Step down from md: sm→xs, xl→lg */
+}
+
+.service-card .btn--secondary {
+  padding: var(--space-sm) var(--space-md); /* Step down from md: md→sm, lg→md */
+}
+
+/* Service card buttons use adaptive color variables */
+.service-card .btn--secondary.btn--on-dark {
+  color: var(--text-body-color); /* Adapts to page background */
+  border-color: var(--text-body-color); /* Adapts to page background */
+}
+
+.service-card .btn--secondary.btn--on-dark:hover,
+.service-card .btn--secondary.btn--on-dark:active {
+  background-color: var(--text-body-color); /* Adapts to page background */
+  color: var(--page-bg-color); /* Use background color for text on hover */
+  border-color: var(--text-body-color);
+}
+
+
+/* Lighten hero overlays on services page */
+body.page-services .hero .background-image__overlay-dark,
+body.page-services .hero .background-image__overlay-opacity {
+  background-color: rgba(13, 8, 9, 0.25); /* Lighter: 25% instead of 50% */
+}
+
+body.page-services .hero .background-image__overlay-gradient-1 {
+  background: linear-gradient(
+    to left,
+    rgba(205, 7, 30, 0.12) 3.243%, /* Lighter: 12% instead of 25% */
+    rgba(128, 18, 224, 0.12) 83.581%
+  );
+}
+
+body.page-services .hero .background-image__overlay-gradient-2 {
+  background: linear-gradient(
+    to left,
+    rgba(13, 8, 9, 0.10) 59.932%, /* Lighter: 10% instead of 20% */
+    rgba(194, 122, 4, 0.10) 100%
+  );
+}
 
 /* Videos Section - Now uses background-image component + content-section system */
 

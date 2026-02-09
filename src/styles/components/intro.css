@@ -22,6 +22,16 @@ body.intro-active {
   overflow: hidden;
 }
 
+.intro--hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.intro.is-ready {
+  opacity: 1;
+  visibility: visible;
+}
+
 .intro.is-complete {
   visibility: hidden;
   pointer-events: none;
@@ -42,13 +52,46 @@ body.intro-active {
   height: 100%;
   width: 33vw;
   overflow: hidden;
+  visibility: hidden; /* Hide until video is ready - no fade, just prevent flash */
 }
+
+.intro__video-wrapper.is-ready {
+  visibility: visible; /* Show immediately when ready - no fade */
+}
+
+/* Ensure overlays are 100% width/height to inherit parent visibility */
+.intro__video-wrapper .background-image__overlay {
+  width: 100%;
+  height: 100%;
+  /* inset: 0 already set in background-image.css, but ensure full coverage */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 
 .intro__video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  border: 0;
+  pointer-events: none;
+}
+
+/* Support video elements and iframes */
+.intro__video-wrapper video,
+.intro__video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 177.78vh; /* 16:9 aspect ratio: height * (16/9) = 100vh * 1.7778 */
+  min-width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
 }
 
 /* Center video wrapper — visible */
@@ -74,12 +117,21 @@ body.intro-active {
   clip-path: inset(0 0 0 100%); /* Hidden — clipped from left */
 }
 
-/* Name reveal - massive display text, vertically centered */
-.intro__name {
+/* Name reveal wrapper - contains name and subtitle */
+.intro__name-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 110vw; /* Wider than screen for dramatic overflow */
+}
+
+/* Name reveal - massive display text */
+.intro__name {
   font-family: var(--font-headline);
   font-size: clamp(3rem, 15vw, 20rem); /* Aggressive scaling - allows slight cutoff on smallest screens */
   font-weight: var(--font-weight-headline); /* Match h1/hero headlines */
@@ -87,27 +139,49 @@ body.intro-active {
   text-transform: var(--text-transform-ui);
   line-height: var(--text-h1-line-height); /* Use responsive variable (0.9 mobile, 0.85 desktop) */
   white-space: nowrap;
-  z-index: 10;
-  width: 110vw; /* Wider than screen for dramatic overflow */
+  width: 100%;
   text-align: var(--text-align-center);
   overflow: visible; /* Allow slight cutoff for dramatic effect */
 }
 
+/* Subtitle - appears below name */
+.intro__subtitle {
+  font-family: var(--font-headline);
+  font-size: clamp(1.5rem, 6vw, 8rem); /* Smaller than name but still large */
+  font-weight: 700;
+  color: var(--bone);
+  text-transform: var(--text-transform-ui);
+  line-height: 0.9;
+  white-space: nowrap;
+  margin-top: 0;
+  width: 100%;
+  text-align: var(--text-align-center);
+  overflow: visible;
+}
+
 /* Character containers for animation */
-.intro__name .char {
+.intro__name .char,
+.intro__subtitle .char {
   display: inline-block;
   overflow: hidden;
   padding: 0 0.02em; /* Small padding to prevent clipping */
 }
 
-.intro__name .char-inner {
+/* Reduce height of subtitle character containers to bring it closer */
+.intro__subtitle .char {
+  line-height: 0.85;
+  vertical-align: top;
+}
+
+.intro__name .char-inner,
+.intro__subtitle .char-inner {
   display: inline-block;
   padding-right: 0.05em; /* Extra space for wide characters like Y */
 }
 
 /* Subtle edge fade for dramatic effect */
-.intro__name::before,
-.intro__name::after {
+.intro__name-wrapper::before,
+.intro__name-wrapper::after {
   content: '';
   position: absolute;
   top: 0;
@@ -117,12 +191,12 @@ body.intro-active {
   z-index: 1;
 }
 
-.intro__name::before {
+.intro__name-wrapper::before {
   left: -4vw;
   background: linear-gradient(to right, var(--chuparosa) 0%, transparent 100%);
 }
 
-.intro__name::after {
+.intro__name-wrapper::after {
   right: -4vw;
   background: linear-gradient(to left, var(--chuparosa) 0%, transparent 100%);
 }
@@ -130,8 +204,8 @@ body.intro-active {
 /* Responsive breakpoints for name text - simplified */
 @media (max-width: 639px) {
   /* Remove edge fades on mobile - need all screen space */
-  .intro__name::before,
-  .intro__name::after {
+  .intro__name-wrapper::before,
+  .intro__name-wrapper::after {
     display: none;
   }
 }

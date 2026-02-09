@@ -12,6 +12,54 @@
       @keyframes show-after-load { to { visibility: visible; } }
     </style>
     <script>
+      // Suppress Netlify service worker errors (cnm-sw.js)
+      // This runs early to catch errors before other scripts load
+      
+      // Helper function to check if error is from Netlify service worker
+      function isNetlifySWError(message, stack) {
+        if (!message && !stack) return false;
+        const errorText = (message || '') + (stack || '');
+        return errorText.includes('Response with null body status') ||
+               errorText.includes('cnm-sw.js') ||
+               (errorText.includes('Failed to construct \'Response\'') && errorText.includes('null body status'));
+      }
+      
+      // Intercept console.error to filter Netlify SW errors
+      const originalConsoleError = console.error;
+      console.error = function(...args) {
+        const errorText = args.map(arg => 
+          typeof arg === 'string' ? arg : 
+          (arg?.message || arg?.toString() || '')
+        ).join(' ');
+        
+        if (isNetlifySWError(errorText, args.find(arg => arg?.stack)?.stack)) {
+          // Silently suppress Netlify service worker errors
+          return;
+        }
+        originalConsoleError.apply(console, args);
+      };
+      
+      // Catch global errors
+      window.addEventListener('error', function(event) {
+        if (isNetlifySWError(event.message, event.error?.stack)) {
+          event.preventDefault();
+          event.stopPropagation();
+          return false;
+        }
+      }, true);
+      
+      // Catch unhandled promise rejections
+      window.addEventListener('unhandledrejection', function(event) {
+        const reason = event.reason;
+        const message = reason?.message || reason?.toString() || '';
+        const stack = reason?.stack || '';
+        
+        if (isNetlifySWError(message, stack)) {
+          event.preventDefault();
+          return false;
+        }
+      });
+      
       window.addEventListener('load', function() {
         document.body.classList.add('ready');
       });
@@ -19,10 +67,13 @@
     <title>Tyler Chou | Entertainment Lawyer for YouTube Creators</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Tyler Chou Law For Creators" />
+    <link rel="manifest" href="/site.webmanifest" />
     
-    <!-- Performance: Preconnect to external domains if needed -->
-    <link rel="preconnect" href="https://api.fontshare.com">
     <!-- Main stylesheet - loads without JavaScript for progressive enhancement -->
     <link rel="stylesheet" href="/src/styles/main.css">
     <meta name="description" content="Legal and strategic advisory for top YouTube creators. 20 years of Hollywood entertainment law experience. Protecting creator empires." />
@@ -73,22 +124,32 @@
   </head>
   <body class="page-index intro-active">
     <!-- Intro Animation Overlay -->
-    <div class="intro" aria-hidden="true">
+    <div class="intro intro--hidden" aria-hidden="true">
       <div class="intro__videos">
         <div class="intro__video-wrapper intro__video--left">
-          <video class="intro__video" autoplay muted loop playsinline preload="auto">
-            <source src="/src/assets/video/tyler-intro-1.mp4" type="video/mp4">
-          </video>
-          <div class="background-image__overlay background-image__overlay-gradient-1"></div>
-          <div class="background-image__overlay background-image__overlay-gradient-2"></div>
-          <div class="background-image__overlay background-image__overlay-dark"></div>
-          <div class="background-image__overlay background-image__overlay-opacity"></div>
+          <video 
+            class="intro__video"
+            src="/assets/videos/intro/intro-left.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-label="Tyler Chou Law For Creators Hero BG Video"
+          ></video>
         </div>
         
         <div class="intro__video-wrapper intro__video--center">
-          <video class="intro__video" autoplay muted loop playsinline preload="auto">
-            <source src="/src/assets/video/tyler-intro-2.mp4" type="video/mp4">
-          </video>
+          <video 
+            class="intro__video"
+            src="/assets/videos/intro/intro-center.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-label="Tyler Chou Law For Creators CreatorArq Intro 2"
+          ></video>
           <div class="background-image__overlay background-image__overlay-gradient-1"></div>
           <div class="background-image__overlay background-image__overlay-gradient-2"></div>
           <div class="background-image__overlay background-image__overlay-dark"></div>
@@ -96,21 +157,68 @@
         </div>
         
         <div class="intro__video-wrapper intro__video--right">
-          <video class="intro__video" autoplay muted loop playsinline preload="auto">
-            <source src="/src/assets/video/tyler-intro-1.mp4" type="video/mp4">
-          </video>
-          <div class="background-image__overlay background-image__overlay-gradient-1"></div>
-          <div class="background-image__overlay background-image__overlay-gradient-2"></div>
-          <div class="background-image__overlay background-image__overlay-dark"></div>
-          <div class="background-image__overlay background-image__overlay-opacity"></div>
+          <video 
+            class="intro__video"
+            src="/assets/videos/intro/intro-right.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-label="Tyler Chou Law For Creators Hero BG Video"
+          ></video>
         </div>
       </div>
       
       <!-- Name reveal at bottom -->
-      <div class="intro__name" js-char-animation>Tyler Chou</div>
+      <div class="intro__name-wrapper">
+        <div class="intro__name" js-char-animation>Tyler Chou</div>
+        <div class="intro__subtitle" js-char-animation>law for creators</div>
+      </div>
     </div>
 
     <a href="#main-content" class="skip-link">Skip to main content</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -124,27 +232,26 @@
 </div>
 <header class="site-header">
   <nav class="main-nav" role="navigation" aria-label="Main navigation">
-    <a href="/" class="logo">
-      <svg class="logo-image" width="132" height="132" viewBox="0 0 132 132" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M74.6904 71.668C73.9111 74.5898 73.5068 77.6987 73.5068 80.8818C73.5069 96.4374 81.6461 109.732 97.5635 109.732C101.452 109.732 104.889 109.009 108.055 107.833L110.496 93.001H112.938L115.471 109.551C108.688 111.902 102.809 112.897 96.4785 112.897C77.3957 112.897 66.0001 101.412 66 82.0576C66 81.4741 66.0129 80.8949 66.0381 80.3203L74.6904 71.668ZM112.219 23.2812L23.4072 112.094L19.9062 108.592L108.718 19.7803L112.219 23.2812ZM69.833 38.0723H67.2998L62.2354 22.3359H47.2227V70.2773L40.3496 77.1504V22.3359H25.4268L20.3623 38.0723H17.8291L19.0049 19.0801H68.6572L69.833 38.0723ZM97.835 49.499C104.166 49.499 110.226 51.036 115.562 53.5684L112.938 70.21H110.496L107.874 54.9258C104.166 53.117 100.638 52.6641 97.292 52.6641C95.9344 52.6641 94.6272 52.775 93.3721 52.9863L96.8457 49.5127C97.1735 49.5043 97.5032 49.499 97.835 49.499Z" fill="currentColor"/>
-      </svg>
-      <div class="logo-text">
-        <span class="logo-line">TYLER CHOU</span>
-        <span class="logo-line">LAW FOR</span>
-        <span class="logo-line">CREATORS</span>
-      </div>
-    </a>
-    
     <div class="nav-menu" id="mobile-menu">
-      <div class="nav-menu__items">
-        <a href="/roster.html">Roster</a>
+      <div class="nav-menu__items nav-menu__items--left">
         <a href="/services.html">Services</a>
-        <a href="/about.html">About</a>
-        <a href="/creatorarq.html">CreatorArq</a>
         <a href="/love-letters.html">Love Letters</a>
+        <a href="/about.html">About</a>
+      </div>
+      <div class="nav-menu__items nav-menu__items--right">
+        <a href="/roster.html">Roster</a>
+        <a href="/creatorarq.html">CreatorArq</a>
         <a href="/contact.html">Contact</a>
       </div>
     </div>
+    
+    <a href="/" class="logo">
+      <svg class="logo-image" width="264" height="264" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M426.227 716.966H368.211L384.228 641.591C381.066 641.057 377.903 640.454 374.764 639.771C366.653 638.019 358.644 635.767 350.784 633.048L332.947 716.966H294.361L292.097 729.479H509.769L525.217 648.713H515.025C515.025 648.713 496.994 716.966 426.227 716.966Z" fill="currentColor"/>
+        <path d="M536.627 215.029C534.284 224.13 525.923 243.059 498.473 226.052L498.542 226.109C474.744 211.514 447.716 201.799 419.971 197.772L418.298 205.599L416.455 214.267C423.542 214.927 431.028 216.087 438.626 217.998C456.634 222.537 475.267 231.251 490.749 247.142C491.671 248.087 492.57 249.054 493.468 250.043C493.707 250.305 493.912 250.567 494.139 250.828C510.634 269.53 516.868 290.347 519.427 303.531L530.575 303.679L548.856 210.934L537.48 210.695L536.639 215.029H536.627Z" fill="currentColor"/>
+        <path d="M566.226 79.4093H255.127L238.928 159.038H250.258L251.293 154.329C252.738 148.562 255.695 139.529 261.633 129.94C266.013 122.875 272.008 115.515 280.244 108.94C293.986 97.9743 308.398 93.6516 318.636 91.9225C323.79 91.0579 327.896 90.8418 330.319 90.7849H390.621L390.382 91.9225L368.018 196.885C256.15 208.716 171.152 310.106 178.034 423.635C180.673 477.123 205.131 528.745 244.069 565.318C247.05 568.116 250.099 570.835 253.25 573.451C262.76 581.483 272.952 588.615 283.645 594.792C305.35 607.328 329.136 615.905 353.594 619.989C361.83 621.365 370.134 622.219 378.461 622.548C381.737 622.685 385.002 622.73 388.278 622.696C389.37 622.696 390.462 622.674 391.565 622.639C398.277 622.457 404.989 621.934 411.666 621.047C412.496 620.956 413.293 620.876 414.1 620.785C429.878 619.17 439.229 620.728 444.701 623.447C449.365 625.768 451.23 628.93 451.867 631.694C452.186 633.059 452.197 634.334 452.106 635.346L451.629 637.769L464.824 637.507L482.479 547.936L469.409 547.743C466.656 556.365 459.864 573.201 443.495 586.715C435.464 593.347 426.875 597.716 418.412 600.514C409.186 603.574 400.108 604.768 392.055 604.984L448.273 340.434L448.512 339.296H490.829L493.093 327.921H392.259L389.836 339.296H413.247L413.008 340.434L385.559 469.592H345.164L399.722 213.562L425.647 91.9111L425.886 90.7735H495.595C497.142 90.8532 500.271 91.0693 504.252 91.9111C511.328 93.4127 521.133 96.8822 529.699 105.061C530.109 105.459 530.518 105.858 530.928 106.278C548.139 123.911 545.671 147.583 544.317 155.159L543.828 157.514H555.158L571.925 79.3979H566.26L566.226 79.4093ZM359.372 482.105H409.596L408.14 482.754L380.065 495.312L357.803 600.07C344.937 595.839 332.708 590.378 321.253 583.826C307.511 575.977 294.873 566.581 283.509 555.922C243.159 518.041 219.043 464.121 220.09 406.355C220.727 370.966 230.76 337.351 248.028 308.252C273.271 265.707 313.972 232.809 363.468 218.123L309.877 469.604H271.451L268.061 482.117H359.384L359.372 482.105Z" fill="currentColor"/>
+      </svg>
+    </a>
     
     <button 
       class="mobile-menu-button" 
@@ -462,6 +569,88 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     <main id="main-content">
       <section class="hero section">
@@ -469,10 +658,12 @@
   <div class="background-image" aria-hidden="true">
     <iframe 
       class="background-image__video"
-      src="https://www.youtube.com/embed/24zeFwMgAvE?autoplay=1&mute=1&loop=1&playlist=24zeFwMgAvE&controls=0&modestbranding=1&rel=0&enablejsapi=1"
-      allow="autoplay; encrypted-media; fullscreen"
+      src="https://player.vimeo.com/video/1152102643?h=4ace49a4f9&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&controls=0"
+      frameborder="0"
+      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
       loading="eager"
-      title="Tyler Chou Law Background Video"
+      title="Tyler Chou Law For Creators Hero BG Video"
     ></iframe>
     <!-- Overlay Layer 1: Crimson to Purple gradient with soft-light blend -->
     <div class="background-image__overlay background-image__overlay-gradient-1"></div>
@@ -485,13 +676,38 @@
   </div>
   
   <div class="hero-content container">
-    <h1 class="hero-headline" js-line-animation>Where<br>Creator&nbsp;Empires<br>Are Built &<br>Protected</h1>
+    <h1 class="hero-headline" js-line-animation>Where<br>Creator<br>Empires<br>Are Built &<br>Protected</h1>
     
   </div>
 </section>
 
+      <!-- About Section -->
+      <section class="section--featured-image section--featured-image--left section section-reveal">
+        <div class="section--featured-image__container">
+          <!-- Featured Image -->
+          <div class="section--featured-image__image">
+            <img src="/tyler-chou-headshot.jpeg" alt="Tyler Chou" width="800" height="1000" loading="lazy">
+          </div>
+          
+          <!-- Decorative Flower -->
+          <div class="about-flower">
+            <img src="/src/assets/images/about/palo-verde-flower.svg" alt="" class="about-flower__image" width="200" height="200" aria-hidden="true" loading="lazy">
+          </div>
+          
+          <!-- Main Content -->
+          <div class="section--featured-image__content">
+            <h2 class="section--featured-image__headline" js-line-animation>The<br>Creators'<br>Attorney</h2>
+            <div class="section--featured-image__body">
+              <p>Tyler Chou spent two decades as an entertainment attorney at Disney, Skydance, BuzzFeed, and top law firms including Loeb & Loeb and Hogan Lovells. Lead counsel on 18 feature films. Advised companies worth billions. She left it all to fight for creators. Now she brings Hollywood-grade legal strategy to the creator economy.</p>
+              <p>Fractional CEO for creator-led companies scaling into eight and nine figures. The advisor venture funds trust to identify which creators deserve funding. The counsel creators call when real money and IP are on the line.</p>
+            </div>
+            <a href="/about.html" class="btn btn--secondary btn--on-dark btn--chuparosa">About Tyler</a>
+          </div>
+        </div>
+      </section>
+
       <!-- Experience & Appearances Logo Section -->
-      <section class="content-section content-section--centered section section-reveal">
+      <section class="content-section content-section--centered content-section--full-width section section-reveal">
         <div class="content-section__container">
           <div class="content-section__content">
             <div class="content-section__headline">
@@ -559,31 +775,6 @@
 
 
 
-
-      <!-- About Section -->
-      <section class="section--featured-image section--featured-image--left section section-reveal">
-        <div class="section--featured-image__container">
-          <!-- Featured Image -->
-          <div class="section--featured-image__image">
-            <img src="/src/assets/images/about/tyler-chou-headshot.jpeg" alt="Tyler Chou" width="800" height="1000" loading="lazy">
-          </div>
-          
-          <!-- Decorative Flower -->
-          <div class="about-flower">
-            <img src="/src/assets/images/about/palo-verde-flower.svg" alt="" class="about-flower__image" width="200" height="200" aria-hidden="true" loading="lazy">
-          </div>
-          
-          <!-- Main Content -->
-          <div class="section--featured-image__content">
-            <h2 class="section--featured-image__headline" js-line-animation>The<br>Godmother<br>of Creators</h2>
-            <div class="section--featured-image__body">
-              <p>Tyler Chou left a 20-year Hollywood career to stand up for creators against companies that exploit them. She's not a talent rep. She's an empire architect. Lead counsel on 18 feature films. Fractional CEO for creator companies.</p>
-              <p>The advisor venture funds trust to identify which creators deserve funding. She brings Hollywood-grade entertainment law to the creator economy.</p>
-            </div>
-            <a href="/about.html" class="btn btn--secondary btn--on-dark btn--chuparosa">About Tyler</a>
-          </div>
-        </div>
-      </section>
 
       <!-- Roster Section -->
       <section id="roster" class="section-grid section-grid--roster section section-reveal">
@@ -663,81 +854,6 @@
         </div>
       </section>
 
-      <!-- Services Section -->
-      <section class="section-grid section-grid--services section section-reveal">
-        <div class="section-grid__container">
-          <div class="section-grid__header">
-            <div class="section-grid__headline content-section__headline">
-              <h2 class="content-section__headline-text" js-line-animation>What We Do</h2>
-            </div>
-            <a href="/services.html" class="section-grid__link">View services</a>
-          </div>
-          <div class="section-grid__grid">
-            <a href="/services.html#legal" class="service-card">
-              <h3 class="service-card__title">legal services</h3>
-              <p class="service-card__description">Your contracts are either protecting you or they're not. I handle brand deals, licensing, and IP for creators who've outgrown templates. Twenty years opposite studios and networks means I know how the other side thinks.</p>
-              <span class="btn btn--secondary btn--on-dark btn--chuparosa btn--align-start">Learn More</span>
-            </a>
-            <a href="/services.html#advisory" class="service-card">
-              <h3 class="service-card__title">Strategic Advisory</h3>
-              <p class="service-card__description">Most creators hit a ceiling because no one's actually steering the business. I step in as fractional CEO, helping founders scale, cut what's not working, and build toward exits that don't leave money behind.</p>
-              <span class="btn btn--secondary btn--on-dark btn--chuparosa btn--align-start">Learn More</span>
-            </a>
-            <a href="/services.html#empire" class="service-card">
-              <h3 class="service-card__title">empire building</h3>
-              <p class="service-card__description">Content is king but IP is queen. I build intellectual property portfolios that keep paying long after the views drop. Merch, licensing, investor strategy. The goal isn't a good year. It's generational.</p>
-              <span class="btn btn--secondary btn--on-dark btn--chuparosa btn--align-start">Learn More</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Palo Verde Section -->
-      <section class="palo-verde section--featured-image section--featured-image--center section section-reveal">
-        <div class="section--featured-image__container">
-          <!-- Featured Image -->
-          <div class="section--featured-image__image">
-            <img src="/src/assets/images/home/palo verde tree.png" alt="Palo Verde tree" width="1200" height="1600" loading="lazy">
-          </div>
-          
-          <!-- Palo Verde Flower Decoration -->
-          <div class="palo-verde-flower">
-            <svg class="palo-verde-flower__image" width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M458.256 119C482.389 143.133 495.76 173.952 498.372 205.494C529.18 198.229 562.626 201.421 593.038 216.917L716.524 279.837L653.605 403.324C638.111 433.733 612.932 455.974 583.741 468.205C600.168 495.258 607.465 528.05 602.126 561.759L580.445 698.646L443.559 676.965C409.85 671.626 380.917 654.552 360.264 630.569C339.611 654.551 310.679 671.624 276.971 676.963L140.085 698.644L118.404 561.757C113.066 528.05 120.36 495.259 136.784 468.207C107.593 455.976 82.4144 433.735 66.9199 403.325L4 279.838L127.487 216.918C157.895 201.425 191.335 198.231 222.14 205.492C224.752 173.95 238.124 143.133 262.257 119L360.256 21L458.256 119Z" fill="currentColor"/>
-            </svg>
-          </div>
-          
-          <!-- Main Content -->
-          <div class="section--featured-image__content">
-            <h2 class="section--featured-image__headline" js-line-animation>a tree for<br>every creator</h2>
-            <div class="section--featured-image__body">
-              <p>Tyler plants a Palo Verde tree for every creator who signs with her. The Palo Verde is a desert tree that thrives where others can't survive. It provides shade and support to the ecosystem around it.</p>
-              <p>Its roots run deep. It's a symbol of resilience, potential, and growth. Just like the creators Tyler represents.</p>
-            </div>
-            <a href="/creatorarq.html" class="btn btn--secondary btn--on-dark btn--align-start">creator resources</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Philosophy Section -->
-      <section class="philosophy section section-reveal">
-        <div class="philosophy-container">
-          <div class="philosophy-content">
-            <div class="philosophy-item">
-              <p class="philosophy-text philosophy-text--content">Content</p>
-              <div class="philosophy-redaction philosophy-redaction--first"></div>
-            </div>
-            <div class="philosophy-item">
-              <p class="philosophy-text philosophy-text--king">is king</p>
-              <div class="philosophy-redaction philosophy-redaction--second"></div>
-            </div>
-            <div class="philosophy-item">
-              <p class="philosophy-text philosophy-text--queen">ip is Queen</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <!-- Love Notes Section (Client Testimonials) -->
       <section class="love-notes love-notes--full-height">
         <div class="love-notes__container">
@@ -746,7 +862,7 @@
           <div class="love-notes__carousels">
             <!-- Headline - outside carousels on mobile, in grid on desktop -->
             <div class="love-notes__header">
-              <h2 class="love-notes__headline">Client Love Letters</h2>
+              <h2 class="love-notes__headline" js-line-animation>Client<br>Love Notes</h2>
             </div>
             <!-- First Carousel Row (moves right on scroll - mobile) -->
             <div class="love-notes__carousel love-notes__carousel--top">
@@ -766,8 +882,12 @@
                     <div class="roster-card__scrim"></div>
                   </div>
                   <div class="roster-card__content">
-                    <p class="roster-card__name">@jennyhoyos</p>
-                    <p class="roster-card__quote">"Tyler saved my entire business."</p>
+                    <div class="roster-card__meta">
+                      <h5 class="roster-card__name">Jenny Hoyos</h5>
+                      <p class="roster-card__handle">@JennyHoyos</p>
+                      <p class="roster-card__stats">9.85M followers</p>
+                  </div>
+                    <p class="roster-card__quote text-large">"She has protected me against predatory deals and bad contracts."</p>
                   </div>
                 </article>
 
@@ -775,8 +895,8 @@
                 <article class="roster-card roster-card--testimonial">
                   <div class="roster-card__image-wrapper">
                     <img 
-                      src="/src/assets/images/roster/@calebhammer.webp" 
-                      alt="Caleb Hammer"
+                      src="/src/assets/images/home/testimonials/@doodleonamotorcycle.jpg" 
+                      alt="Carolyn"
                       class="roster-card__image"
                       width="800"
                       height="1000"
@@ -786,8 +906,12 @@
                     <div class="roster-card__scrim"></div>
                   </div>
                   <div class="roster-card__content">
-                    <p class="roster-card__name">@calebhammer</p>
-                    <p class="roster-card__quote">"She doesn't just understand the law—she understands the business."</p>
+                    <div class="roster-card__meta">
+                      <h5 class="roster-card__name">Carolyn</h5>
+                      <p class="roster-card__handle">@DoodleOnAMotorcycle</p>
+                      <p class="roster-card__stats">280K followers</p>
+                    </div>
+                    <p class="roster-card__quote text-large">"The Tyler Chou Law Firm saved my butt in a very sticky situation."</p>
                   </div>
                 </article>
 
@@ -795,8 +919,8 @@
                 <article class="roster-card roster-card--testimonial">
                   <div class="roster-card__image-wrapper">
                     <img 
-                      src="/src/assets/images/roster/@jesser.webp" 
-                      alt="Jesser"
+                      src="/src/assets/images/home/testimonials/steve-huynh.jpg" 
+                      alt="Steve Hyunh"
                       class="roster-card__image"
                       width="800"
                       height="1000"
@@ -806,28 +930,12 @@
                     <div class="roster-card__scrim"></div>
                   </div>
                   <div class="roster-card__content">
-                    <p class="roster-card__name">@jesser</p>
-                    <p class="roster-card__quote">"Tyler fights for creators like nobody else."</p>
-                  </div>
-                </article>
-
-                <!-- Testimonial Card -->
-                <article class="roster-card roster-card--testimonial">
-                  <div class="roster-card__image-wrapper">
-                    <img 
-                      src="/src/assets/images/roster/@jacksfilms.webp" 
-                      alt="Jacksfilms"
-                      class="roster-card__image"
-                      width="800"
-                      height="1000"
-                      loading="lazy"
-                    >
-                    <div class="roster-card__overlay"></div>
-                    <div class="roster-card__scrim"></div>
-                  </div>
-                  <div class="roster-card__content">
-                    <p class="roster-card__name">@jacksfilms</p>
-                    <p class="roster-card__quote">"Having Tyler in your corner changes everything."</p>
+                    <div class="roster-card__meta">
+                      <h5 class="roster-card__name">Steve Hyunh</h5>
+                      <p class="roster-card__handle">@alifeengineered</p>
+                      <p class="roster-card__stats">179K followers</p>
+                    </div>
+                    <p class="roster-card__quote text-large">"Tyler has negotiated and redlined over 20 brand deals for me."</p>
                   </div>
                 </article>
               </div>
@@ -836,46 +944,6 @@
             <!-- Second Carousel Row (moves left on scroll - mobile) -->
             <div class="love-notes__carousel love-notes__carousel--bottom">
               <div class="love-notes__carousel-track">
-                <!-- Testimonial Card -->
-                <article class="roster-card roster-card--testimonial">
-                  <div class="roster-card__image-wrapper">
-                    <img 
-                      src="/src/assets/images/roster/@cassandraBankson.webp" 
-                      alt="Cassandra Bankson"
-                      class="roster-card__image"
-                      width="800"
-                      height="1000"
-                      loading="lazy"
-                    >
-                    <div class="roster-card__overlay"></div>
-                    <div class="roster-card__scrim"></div>
-                  </div>
-                  <div class="roster-card__content">
-                    <p class="roster-card__name">@cassandraBankson</p>
-                    <p class="roster-card__quote">"She turned my content into a real empire."</p>
-                  </div>
-                </article>
-
-                <!-- Testimonial Card -->
-                <article class="roster-card roster-card--testimonial">
-                  <div class="roster-card__image-wrapper">
-                    <img 
-                      src="/src/assets/images/roster/@samandcolby.webp" 
-                      alt="Sam and Colby"
-                      class="roster-card__image"
-                      width="800"
-                      height="1000"
-                      loading="lazy"
-                    >
-                    <div class="roster-card__overlay"></div>
-                    <div class="roster-card__scrim"></div>
-                  </div>
-                  <div class="roster-card__content">
-                    <p class="roster-card__name">@samandcolby</p>
-                    <p class="roster-card__quote">"Tyler sees the big picture when others only see the deal."</p>
-                  </div>
-                </article>
-
                 <!-- Testimonial Card -->
                 <article class="roster-card roster-card--testimonial">
                   <div class="roster-card__image-wrapper">
@@ -891,8 +959,12 @@
                     <div class="roster-card__scrim"></div>
                   </div>
                   <div class="roster-card__content">
-                    <p class="roster-card__name">@jadroppingscience</p>
-                    <p class="roster-card__quote">"She's not just a lawyer. She's a strategist."</p>
+                    <div class="roster-card__meta">
+                      <h5 class="roster-card__name">James</h5>
+                      <p class="roster-card__handle">@JaDroppingscience</p>
+                      <p class="roster-card__stats">2.2M followers</p>
+                    </div>
+                    <p class="roster-card__quote text-large">"Without Tyler in my corner I probably would've been paid less and my rights not fully protected."</p>
                   </div>
                 </article>
 
@@ -900,8 +972,8 @@
                 <article class="roster-card roster-card--testimonial">
                   <div class="roster-card__image-wrapper">
                     <img 
-                      src="/src/assets/images/roster/@sticks.jpg" 
-                      alt="Sticks"
+                      src="/src/assets/images/home/testimonials/jennifer-brick.jpg" 
+                      alt="Jennifer Brick"
                       class="roster-card__image"
                       width="800"
                       height="1000"
@@ -911,8 +983,12 @@
                     <div class="roster-card__scrim"></div>
                   </div>
                   <div class="roster-card__content">
-                    <p class="roster-card__name">@Sticks</p>
-                    <p class="roster-card__quote">"Tyler protects what matters most—your IP and your future."</p>
+                    <div class="roster-card__meta">
+                      <h5 class="roster-card__name">Jennifer Brick</h5>
+                      <p class="roster-card__handle">@JenniferBrick</p>
+                      <p class="roster-card__stats">162K followers</p>
+                  </div>
+                    <p class="roster-card__quote text-large">"I've referred her dozens of times to creators I know."</p>
                   </div>
                 </article>
               </div>
@@ -921,11 +997,119 @@
         </div>
       </section>
 
-      <section class="content-section content-section--centered content-section--full-height content-section--large-text section">
+      <!-- Services Section -->
+      <section class="section-grid section-grid--services section section-reveal">
+        <div class="section-grid__container">
+          <div class="section-grid__header">
+            <div class="section-grid__headline content-section__headline">
+              <h2 class="content-section__headline-text" js-line-animation>What We Do</h2>
+            </div>
+            <a href="/services.html" class="section-grid__link">View services</a>
+          </div>
+          <div class="section-grid__grid">
+            <a href="/services.html#legal" class="service-card">
+              <h3 class="service-card__title">Elite Counsel & IP Protection</h3>
+              <p class="service-card__description">For creators who've outgrown standard templates. Twenty years negotiating opposite major studios taught us exactly how the other side thinks and where the traps hide. From high-stakes licensing to comprehensive IP protection, your ownership stays ironclad.</p>
+              <span class="btn btn--secondary btn--on-dark btn--chuparosa btn--align-start">Learn More</span>
+            </a>
+            <a href="/services.html#advisory" class="service-card">
+              <h3 class="service-card__title">Fractional CEO & Operations</h3>
+              <p class="service-card__description">Scaling means shifting from Creator to CEO. We handle operational strategy, revenue diversification, and high-level growth planning. We're not managing the present. We're building toward liquidity events and exits that keep you from leaving money on the table.</p>
+              <span class="btn btn--secondary btn--on-dark btn--chuparosa btn--align-start">Learn More</span>
+            </a>
+            <a href="/services.html#empire" class="service-card">
+              <h3 class="service-card__title">The Generational IP Portfolio</h3>
+              <p class="service-card__description">Content attracts the crowd. Intellectual Property builds the fortune. We construct portfolios: merchandise, licensing, proprietary products that generate wealth long after views plateau. Assets built for the long tail.</p>
+              <span class="btn btn--secondary btn--on-dark btn--chuparosa btn--align-start">Learn More</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Centered Section: YouTube CTA -->
+      <section class="content-section content-section--centered content-section--has-bg content-section--full-height section section-reveal">
+        <div class="content-section__container">
+          <div class="content-section__content">
+            <div class="content-section__eyebrow">
+              <p class="content-section__eyebrow-text">watch on youtube</p>
+            </div>
+            <div class="content-section__headline">
+              <h2 class="content-section__headline-text" js-line-animation>Your Lawyer Should<br>Know the Game</h2>
+            </div>
+            <a href="https://www.youtube.com/@TheCreatorsAttorney/featured" class="btn btn--secondary btn--on-dark" target="_blank" rel="noopener noreferrer">go to youtube</a>
+          </div>
+          <div class="youtube-videos-grid">
+
+            <div class="youtube-video">
+              <a href="https://youtube.com/watch?v=eGmSdMjI8UE" target="_blank" class="youtube-video__card">
+                <img src="https://img.youtube.com/vi/eGmSdMjI8UE/hqdefault.jpg" alt="$100M YouTube Exit" class="youtube-video__image">
+                <div class="youtube-video__overlay">
+                  <img src="/src/assets/icons/play.svg" alt="" class="youtube-video__play-icon" aria-hidden="true">
+              </div>
+              </a>
+            </div>
+
+            <div class="youtube-video">
+              <a href="https://youtube.com/watch?v=sdRd5LbnTt0" target="_blank" class="youtube-video__card">
+                <img src="https://img.youtube.com/vi/sdRd5LbnTt0/hqdefault.jpg" alt="YouTube Channels Are Getting Deleted Overnight" class="youtube-video__image">
+                <div class="youtube-video__overlay">
+                  <img src="/src/assets/icons/play.svg" alt="" class="youtube-video__play-icon" aria-hidden="true">
+              </div>
+              </a>
+            </div>
+
+            <div class="youtube-video">
+              <a href="https://youtube.com/watch?v=24zeFwMgAvE" target="_blank" class="youtube-video__card">
+                <img src="https://img.youtube.com/vi/24zeFwMgAvE/hqdefault.jpg" alt="Make REAL Money as Creators (Attorney Explains)" class="youtube-video__image">
+                <div class="youtube-video__overlay">
+                  <img src="/src/assets/icons/play.svg" alt="" class="youtube-video__play-icon" aria-hidden="true">
+              </div>
+              </a>
+            </div>
+
+            <div class="youtube-video">
+              <a href="https://youtube.com/watch?v=8queRjX3Ifk" target="_blank" class="youtube-video__card">
+                <img src="https://img.youtube.com/vi/8queRjX3Ifk/hqdefault.jpg" alt="3 Legal Mistakes DESTROYING Creators (Attorney Explains)" class="youtube-video__image">
+                <div class="youtube-video__overlay">
+                  <img src="/src/assets/icons/play.svg" alt="" class="youtube-video__play-icon" aria-hidden="true">
+              </div>
+              </a>
+            </div>
+
+            <div class="youtube-video">
+              <a href="https://youtube.com/watch?v=sw49UUOKDXs" target="_blank" class="youtube-video__card">
+                <img src="https://img.youtube.com/vi/sw49UUOKDXs/hqdefault.jpg" alt="Do Not Do Brand Deals | Creators&#39; Attorney Explains" class="youtube-video__image">
+                <div class="youtube-video__overlay">
+                  <img src="/src/assets/icons/play.svg" alt="" class="youtube-video__play-icon" aria-hidden="true">
+              </div>
+              </a>
+            </div>
+
+            <div class="youtube-video">
+              <a href="https://youtube.com/watch?v=n7XFjJL5UGk" target="_blank" class="youtube-video__card">
+                <img src="https://img.youtube.com/vi/n7XFjJL5UGk/hqdefault.jpg" alt="Why I Left BuzzFeed | Lawyer Edition" class="youtube-video__image">
+                <div class="youtube-video__overlay">
+                  <img src="/src/assets/icons/play.svg" alt="" class="youtube-video__play-icon" aria-hidden="true">
+              </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section content-section--centered content-section--full-height content-section--large-text content-section--has-mousetrail section">
+        <!-- Trail images -->
+        <img src="https://img.youtube.com/vi/KmgIxuXondw/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+        <img src="https://img.youtube.com/vi/sw49UUOKDXs/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+        <img src="https://img.youtube.com/vi/8queRjX3Ifk/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+        <img src="https://img.youtube.com/vi/bVE49b2IifY/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+        <img src="https://img.youtube.com/vi/sdRd5LbnTt0/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+        <img src="https://img.youtube.com/vi/n7XFjJL5UGk/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+        
   <div class="content-section__container">
     <div class="content-section__content">
       <div class="content-section__headline">
-        <h2 class="content-section__headline-text" js-line-animation>Ready to protect<br>your empire?</h2>
+        <h2 class="content-section__headline-text" js-line-animation>Ready to Protect<br>Your Empire?</h2>
       </div>
       <a href="https://calendly.com/tyler-thecreatorsattorney" class="btn btn--secondary btn--on-dark btn--chuparosa" target="_blank" rel="noopener noreferrer">Schedule a Consultation</a>
     </div>
@@ -939,8 +1123,8 @@
     
     <footer class="site-footer">
   <div class="footer-container">
-    <p class="footer-item footer-item--left">© 2025 Tyler Chou Law P.C.</p>
-    <p class="footer-item footer-item--right">made by sick design co.</p>
+    <p class="footer-item footer-item--left"><a href="/" class="footer-link">© 2025 Tyler Chou Law P.C.</a></p>
+    <p class="footer-item footer-item--right">made by <a href="https://jayisadesigner.com/" class="footer-link" target="_blank" rel="noopener noreferrer">sick design co.</a></p>
   </div>
 </footer>
 <section class="site-disclaimer" role="contentinfo" aria-label="Legal disclaimer">
@@ -1292,10 +1476,216 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     
     
     
     <script type="module" src="/src/scripts/main.js"></script>
+    <script src="https://player.vimeo.com/api/player.js"></script>
   </body>
 </html>

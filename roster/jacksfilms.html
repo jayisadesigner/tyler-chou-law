@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Theme color matches hero background for seamless browser chrome integration -->
     <meta name="theme-color" content="#120203" /> <!-- var(--obsidian) -->
-      /* Progressive enhancement: Hide briefly to prevent FOUC, auto-show after 3s even without JS */    <style>
+    <style>
+      /* Progressive enhancement: Hide briefly to prevent FOUC, auto-show after 3s even without JS */
       body:not(.ready) { visibility: hidden; }
       body:not(.ready) { animation: show-after-load 0.01s 3s forwards; }
       @keyframes show-after-load { to { visibility: visible; } }
@@ -15,8 +16,6 @@
         document.body.classList.add('ready');
       });
     </script>
-    <!-- Performance: Preconnect to external domains if needed -->
-    <link rel="preconnect" href="https://api.fontshare.com">
     <!-- Main stylesheet - loads without JavaScript for progressive enhancement -->
     <link rel="stylesheet" href="/src/styles/main.css">
     <title>@jacksfilms | Tyler Chou Law Roster</title>
@@ -78,35 +77,69 @@
   </head>
   <body class="page-creator">
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <!-- Page Load Curtain -->
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Page Load Curtain -->
 <div class="curtain" aria-hidden="true">
   <div class="curtain__panel curtain__panel--left"></div>
   <div class="curtain__panel curtain__panel--right"></div>
 </div>
-
 <header class="site-header">
   <nav class="main-nav" role="navigation" aria-label="Main navigation">
-    <a href="/" class="logo">
-      <svg class="logo-image" width="132" height="132" viewBox="0 0 132 132" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M74.6904 71.668C73.9111 74.5898 73.5068 77.6987 73.5068 80.8818C73.5069 96.4374 81.6461 109.732 97.5635 109.732C101.452 109.732 104.889 109.009 108.055 107.833L110.496 93.001H112.938L115.471 109.551C108.688 111.902 102.809 112.897 96.4785 112.897C77.3957 112.897 66.0001 101.412 66 82.0576C66 81.4741 66.0129 80.8949 66.0381 80.3203L74.6904 71.668ZM112.219 23.2812L23.4072 112.094L19.9062 108.592L108.718 19.7803L112.219 23.2812ZM69.833 38.0723H67.2998L62.2354 22.3359H47.2227V70.2773L40.3496 77.1504V22.3359H25.4268L20.3623 38.0723H17.8291L19.0049 19.0801H68.6572L69.833 38.0723ZM97.835 49.499C104.166 49.499 110.226 51.036 115.562 53.5684L112.938 70.21H110.496L107.874 54.9258C104.166 53.117 100.638 52.6641 97.292 52.6641C95.9344 52.6641 94.6272 52.775 93.3721 52.9863L96.8457 49.5127C97.1735 49.5043 97.5032 49.499 97.835 49.499Z" fill="currentColor"/>
-      </svg>
-      <div class="logo-text">
-        <span class="logo-line">TYLER CHOU</span>
-        <span class="logo-line">LAW FOR</span>
-        <span class="logo-line">CREATORS</span>
-      </div>
-    </a>
-    
     <div class="nav-menu" id="mobile-menu">
-      <div class="nav-menu__items">
-        <a href="/roster.html">Roster</a>
+      <div class="nav-menu__items nav-menu__items--left">
         <a href="/services.html">Services</a>
-        <a href="/about.html">About</a>
-        <a href="/creatorarq.html">CreatorArq</a>
         <a href="/love-letters.html">Love Letters</a>
+        <a href="/about.html">About</a>
+      </div>
+      <div class="nav-menu__items nav-menu__items--right">
+        <a href="/roster.html">Roster</a>
+        <a href="/creatorarq.html">CreatorArq</a>
         <a href="/contact.html">Contact</a>
       </div>
     </div>
+    
+    <a href="/" class="logo">
+      <svg class="logo-image" width="264" height="264" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M426.227 716.966H368.211L384.228 641.591C381.066 641.057 377.903 640.454 374.764 639.771C366.653 638.019 358.644 635.767 350.784 633.048L332.947 716.966H294.361L292.097 729.479H509.769L525.217 648.713H515.025C515.025 648.713 496.994 716.966 426.227 716.966Z" fill="currentColor"/>
+        <path d="M536.627 215.029C534.284 224.13 525.923 243.059 498.473 226.052L498.542 226.109C474.744 211.514 447.716 201.799 419.971 197.772L418.298 205.599L416.455 214.267C423.542 214.927 431.028 216.087 438.626 217.998C456.634 222.537 475.267 231.251 490.749 247.142C491.671 248.087 492.57 249.054 493.468 250.043C493.707 250.305 493.912 250.567 494.139 250.828C510.634 269.53 516.868 290.347 519.427 303.531L530.575 303.679L548.856 210.934L537.48 210.695L536.639 215.029H536.627Z" fill="currentColor"/>
+        <path d="M566.226 79.4093H255.127L238.928 159.038H250.258L251.293 154.329C252.738 148.562 255.695 139.529 261.633 129.94C266.013 122.875 272.008 115.515 280.244 108.94C293.986 97.9743 308.398 93.6516 318.636 91.9225C323.79 91.0579 327.896 90.8418 330.319 90.7849H390.621L390.382 91.9225L368.018 196.885C256.15 208.716 171.152 310.106 178.034 423.635C180.673 477.123 205.131 528.745 244.069 565.318C247.05 568.116 250.099 570.835 253.25 573.451C262.76 581.483 272.952 588.615 283.645 594.792C305.35 607.328 329.136 615.905 353.594 619.989C361.83 621.365 370.134 622.219 378.461 622.548C381.737 622.685 385.002 622.73 388.278 622.696C389.37 622.696 390.462 622.674 391.565 622.639C398.277 622.457 404.989 621.934 411.666 621.047C412.496 620.956 413.293 620.876 414.1 620.785C429.878 619.17 439.229 620.728 444.701 623.447C449.365 625.768 451.23 628.93 451.867 631.694C452.186 633.059 452.197 634.334 452.106 635.346L451.629 637.769L464.824 637.507L482.479 547.936L469.409 547.743C466.656 556.365 459.864 573.201 443.495 586.715C435.464 593.347 426.875 597.716 418.412 600.514C409.186 603.574 400.108 604.768 392.055 604.984L448.273 340.434L448.512 339.296H490.829L493.093 327.921H392.259L389.836 339.296H413.247L413.008 340.434L385.559 469.592H345.164L399.722 213.562L425.647 91.9111L425.886 90.7735H495.595C497.142 90.8532 500.271 91.0693 504.252 91.9111C511.328 93.4127 521.133 96.8822 529.699 105.061C530.109 105.459 530.518 105.858 530.928 106.278C548.139 123.911 545.671 147.583 544.317 155.159L543.828 157.514H555.158L571.925 79.3979H566.26L566.226 79.4093ZM359.372 482.105H409.596L408.14 482.754L380.065 495.312L357.803 600.07C344.937 595.839 332.708 590.378 321.253 583.826C307.511 575.977 294.873 566.581 283.509 555.922C243.159 518.041 219.043 464.121 220.09 406.355C220.727 370.966 230.76 337.351 248.028 308.252C273.271 265.707 313.972 232.809 363.468 218.123L309.877 469.604H271.451L268.061 482.117H359.384L359.372 482.105Z" fill="currentColor"/>
+      </svg>
+    </a>
     
     <button 
       class="mobile-menu-button" 
@@ -120,6 +153,76 @@
     </button>
   </nav>
 </header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     
@@ -165,65 +268,380 @@
             <!-- Videos -->
             
           <div class="creator-videos">
-            <h2>Sample Videos</h2>
-            <div class="creator-videos-grid">
-              
-              <div class="creator-video">
-                <div class="video">
-                  <iframe 
-                    class="video__embed"
-                    src="https://www.youtube.com/embed/xDDxe_2AUEQ?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0"
-                    allow="encrypted-media; fullscreen"
-                    allowfullscreen
-                    loading="lazy"
-                    title="Video 1"
-                  ></iframe>
-                </div>
+            <h2>Featured Videos</h2>
+            <div class="youtube-videos-grid">
+              <div class="youtube-video">
+                <a href="https://youtube.com/watch?v=xDDxe_2AUEQ" target="_blank" rel="noopener noreferrer" class="youtube-video__card">
+                  <img src="https://img.youtube.com/vi/xDDxe_2AUEQ/hqdefault.jpg" alt="Featured video" class="youtube-video__image">
+                  <div class="youtube-video__overlay">
+                    <img src="/src/assets/icons/play.svg" alt="" class="youtube-video__play-icon" aria-hidden="true">
+                  </div>
+                </a>
               </div>
-              <div class="creator-video">
-                <div class="video">
-                  <iframe 
-                    class="video__embed"
-                    src="https://www.youtube.com/embed/dFbFHIsy_-c?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0"
-                    allow="encrypted-media; fullscreen"
-                    allowfullscreen
-                    loading="lazy"
-                    title="Video 2"
-                  ></iframe>
-                </div>
+              <div class="youtube-video">
+                <a href="https://youtube.com/watch?v=dFbFHIsy_-c" target="_blank" rel="noopener noreferrer" class="youtube-video__card">
+                  <img src="https://img.youtube.com/vi/dFbFHIsy_-c/hqdefault.jpg" alt="Featured video" class="youtube-video__image">
+                  <div class="youtube-video__overlay">
+                    <img src="/src/assets/icons/play.svg" alt="" class="youtube-video__play-icon" aria-hidden="true">
+                  </div>
+                </a>
               </div>
-              <div class="creator-video">
-                <div class="video">
-                  <iframe 
-                    class="video__embed"
-                    src="https://www.youtube.com/embed/CnnMrQaHupk?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0"
-                    allow="encrypted-media; fullscreen"
-                    allowfullscreen
-                    loading="lazy"
-                    title="Video 3"
-                  ></iframe>
-                </div>
+              <div class="youtube-video">
+                <a href="https://youtube.com/watch?v=CnnMrQaHupk" target="_blank" rel="noopener noreferrer" class="youtube-video__card">
+                  <img src="https://img.youtube.com/vi/CnnMrQaHupk/hqdefault.jpg" alt="Featured video" class="youtube-video__image">
+                  <div class="youtube-video__overlay">
+                    <img src="/src/assets/icons/play.svg" alt="" class="youtube-video__play-icon" aria-hidden="true">
+                  </div>
+                </a>
               </div>
             </div>
           </div>
           </div>
         </div>
       </article>
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      
+
+
+    
+      <section class="content-section content-section--centered content-section--full-height content-section--large-text content-section--has-mousetrail section section-reveal">
+  <!-- Trail images -->
+  <img src="https://img.youtube.com/vi/KmgIxuXondw/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+  <img src="https://img.youtube.com/vi/sw49UUOKDXs/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+  <img src="https://img.youtube.com/vi/8queRjX3Ifk/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+  <img src="https://img.youtube.com/vi/bVE49b2IifY/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+  <img src="https://img.youtube.com/vi/sdRd5LbnTt0/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+  <img src="https://img.youtube.com/vi/n7XFjJL5UGk/hqdefault.jpg" alt="" class="mouse-trail__image" aria-hidden="true">
+  
+  <div class="content-section__container">
+    <div class="content-section__content">
+      <div class="content-section__headline">
+        <h2 class="content-section__headline-text" js-line-animation>Think You<br>Belong Here?</h2>
+      </div>
+      <a href="https://calendly.com/tyler-thecreatorsattorney" class="btn btn--secondary btn--on-dark btn--chuparosa" target="_blank" rel="noopener noreferrer">Schedule a Consultation</a>
+    </div>
+  </div>
+</section>
+
+
     </main>
     
     <footer class="site-footer">
   <div class="footer-container">
-    <p class="footer-item footer-item--left">© 2025 Tyler Chou Law P.C.</p>
-    <p class="footer-item footer-item--right">made by sick design co.</p>
+    <p class="footer-item footer-item--left"><a href="/" class="footer-link">© 2025 Tyler Chou Law P.C.</a></p>
+    <p class="footer-item footer-item--right">made by <a href="https://jayisadesigner.com/" class="footer-link" target="_blank" rel="noopener noreferrer">sick design co.</a></p>
   </div>
 </footer>
-    <section class="site-disclaimer" role="contentinfo" aria-label="Legal disclaimer">
+<section class="site-disclaimer" role="contentinfo" aria-label="Legal disclaimer">
   <div class="disclaimer-container">
     <p class="disclaimer-text">
       NOTE: The information on this website is for general information purposes only. Nothing on this site should be taken as legal advice for any individual case or situation. This information is not intended to create, and receipt or viewing of does not constitute an attorney-client relationship.
     </p>
   </div>
 </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
 

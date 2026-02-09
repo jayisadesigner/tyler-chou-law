@@ -2,6 +2,11 @@
    Blog Post Page
    ======================================== */
 
+/* Blog Post Article */
+.blog-post {
+  position: relative;
+}
+
 /* Blog Post Meta - used in hero */
 .blog-post-meta {
   display: flex;
@@ -9,26 +14,27 @@
   gap: var(--space-md);
   align-items: center;
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-size);
-  color: var(--chuparosa-300);
+  font-size: var(--text-p-large-size); /* Bumped up from p-size to p-large-size */
+  line-height: var(--text-p-large-line-height);
+  color: var(--text-body-on-obsidian);
   margin-bottom: var(--space-lg);
 }
 
 .blog-post-meta__author {
-  color: var(--chuparosa-200);
+  color: var(--text-body-on-obsidian);
 }
 
 .blog-post-meta__author-name {
-  color: var(--chuparosa-100);
+  color: var(--text-body-on-obsidian);
   font-weight: var(--font-weight-paragraph);
 }
 
 .blog-post-meta__date {
-  color: var(--chuparosa-300);
+  color: var(--text-body-on-obsidian);
 }
 
 .blog-post-meta__reading-time {
-  color: var(--chuparosa-300);
+  color: var(--text-body-on-obsidian);
 }
 
 .blog-post-tags {
@@ -41,48 +47,237 @@
 .blog-post-tag {
   display: inline-block;
   padding: var(--space-xs) var(--space-sm);
-  background-color: var(--obsidian-10);
-  border: 1px solid var(--obsidian-20);
+  background-color: var(--obsidian-30);
+  border: 1px solid var(--obsidian-50);
   border-radius: 4px;
   font-family: var(--font-paragraph);
   font-size: var(--text-small-size);
-  color: var(--chuparosa-200);
+  color: var(--text-body-on-obsidian);
   text-transform: var(--text-transform-ui);
 }
 
-/* Featured Image Hero - works as background in hero */
-.hero--blog-post .blog-post-hero-image {
+/* Fallback background when no image is provided */
+.hero--blog-post .background-image:not(:has(img)) {
+  background-color: var(--chuparosa-700);
+}
+
+/* Unsplash Attribution */
+.blog-post-unsplash-attribution {
+  position: absolute;
+  bottom: var(--space-sm);
+  right: var(--space-sm);
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+
+.blog-post-unsplash-attribution__text {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-small-size);
+  color: var(--chuparosa-200);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.blog-post-unsplash-attribution__text a {
+  color: var(--chuparosa-100);
+  text-decoration: underline;
+  text-decoration-color: var(--chuparosa-300);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.blog-post-unsplash-attribution__text a:hover {
+  color: var(--chuparosa-50);
+  text-decoration-color: var(--chuparosa-200);
+}
+
+/* When in hero, position attribution differently */
+.hero--blog-post .background-image .blog-post-unsplash-attribution {
+  position: absolute;
+  bottom: var(--space-md);
+  right: var(--space-md);
+  z-index: 2;
+}
+
+/* Blog Post Hero - Follows content-section pattern */
+/* Container - matches content-section__container */
+.hero--blog-post__container {
+  position: relative;
+  width: 100%;
+  max-width: 1512px;
+  margin: 0 auto;
+  padding: 0; /* No vertical spacing */
+  min-height: 80vh;
+}
+
+/* Mobile: Stacked layout (media first, then content) */
+.hero--blog-post__media,
+.hero--blog-post__content {
+  width: 100%;
+}
+
+.hero--blog-post__media {
+  position: relative;
+  overflow: hidden;
+  /* Mobile: Full width headshot */
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.hero--blog-post__author-image-wrapper {
+  width: 100%; /* Full width on mobile */
+  height: auto;
+  aspect-ratio: 354 / 442; /* Maintain headshot aspect ratio */
+  flex-shrink: 0;
+  background-color: var(--obsidian);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative; /* Positioning context for absolute image */
+  overflow: hidden; /* Clip parallax movement */
+  display: block; /* Remove flex, image is absolutely positioned */
+}
+
+.hero--blog-post__author-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Parallax positioning - matches background-image__img pattern */
+  position: absolute;
+  top: -10%; /* Offset to allow for parallax movement */
+  left: 0;
+  height: 120%; /* Taller to ensure coverage during parallax */
+  transform-origin: center center; /* Scale from center for parallax */
+}
+
+/* Hide caption text */
+.hero--blog-post__author-caption,
+.hero--blog-post__author-caption-subtitle {
+  display: none;
+}
+
+/* Content area (text) - has background image behind it */
+/* Mobile-first: 80vh height */
+.hero--blog-post__content {
+  position: relative;
+  overflow: hidden;
+  height: 80vh; /* Mobile: 80vh height */
+  padding: 0 var(--space-xl); /* Increased horizontal padding */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center; /* Vertically center content */
+  z-index: 2; /* Above background image */
+}
+
+/* Background image fills content container */
+.hero--blog-post__content .background-image {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
-  margin: 0;
-  background-color: var(--obsidian);
+  z-index: 1; /* Behind text */
 }
 
-.hero--blog-post .blog-post-hero-image__img {
+/* Blog image wrapper fills background-image container */
+.hero--blog-post__content .background-image .blog-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Override blog-image.css parallax positioning - use higher specificity instead of !important */
+/* .hero--blog-post .hero--blog-post__content is more specific than .hero */
+.hero--blog-post .hero--blog-post__content .blog-image .background-image__img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  max-height: none;
 }
 
-/* Featured image when not in hero (fallback) */
-.blog-post-hero-image {
-  width: 100%;
-  margin: 0 0 var(--space-4xl) 0;
-  background-color: var(--obsidian);
+/* Text content positioned above background image */
+.hero--blog-post__content .hero-headline,
+.hero--blog-post__content .blog-post-meta,
+.hero--blog-post__content .blog-post-tags {
+  position: relative;
+  z-index: 2; /* Above background image */
 }
 
-.blog-post-hero-image__img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  max-height: 60vh;
-  object-position: center;
+/* Desktop: 60/40 layout (content 60%, media 40%) */
+@media (min-width: 768px) {
+  .hero--blog-post__container {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    padding: 0; /* No vertical spacing */
+    max-width: none; /* Remove max-width constraint on desktop like content-section */
+  }
+
+  .hero--blog-post__media {
+    margin-bottom: 0;
+    width: 40%; /* 60/40 layout */
+    flex-shrink: 0;
+    position: relative;
+    padding: 0;
+    aspect-ratio: auto; /* Remove mobile aspect-ratio, let flexbox determine height */
+    height: 100vh; /* Match content-section media height */
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  .hero--blog-post__author-image-wrapper {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    min-height: auto; /* Remove min-height, use 100% of parent */
+    aspect-ratio: auto; /* Remove aspect ratio constraint on desktop */
+    position: relative; /* Positioning context for absolute image */
+    overflow: hidden; /* Clip parallax movement */
+  }
+  
+  /* Desktop: Parallax positioning for headshot */
+  .hero--blog-post__author-image {
+    position: absolute;
+    top: -10%;
+    height: 120%;
+  }
+
+  .hero--blog-post__content {
+    margin-bottom: 0;
+    width: 60%; /* 60/40 layout */
+    flex-shrink: 0;
+    align-self: center;
+    padding: 0 var(--space-2xl); /* Increased horizontal padding on desktop */
+    aspect-ratio: auto; /* Remove mobile aspect-ratio, let flexbox determine height */
+    height: 100vh; /* Match content-section content height */
+    justify-content: center; /* Vertically center content */
+  }
+
+  /* Default (contained) content: fill container height */
+  .hero--blog-post__content .background-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero--blog-post__content .background-image__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 /* Blog Post Content */
@@ -90,6 +285,20 @@
   padding: var(--space-2xl) 0;
   background-color: var(--desert-gold-50);
   color: var(--text-body-on-desert-gold-50); /* Set default text color for all content */
+}
+
+.blog-post-content h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-h3-size); /* Bumped down 2 notches from h1 */
+  font-weight: 500;
+  line-height: var(--text-h3-line-height);
+  color: var(--text-headline-on-desert-gold-50);
+  margin: var(--space-4xl) 0 var(--space-lg) 0;
+  text-wrap: balance;
+}
+
+.blog-post-content h1:first-child {
+  margin-top: 0;
 }
 
 .blog-post-content h2 {
@@ -203,6 +412,32 @@
   .blog-post-content {
     padding: var(--space-3xl) 0;
   }
+}
+
+/* Blog images in content area - override absolute positioning for inline images */
+.blog-post-content .blog-image {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: var(--space-2xl) 0;
+  height: auto;
+  min-height: 300px;
+}
+
+.blog-post-content .blog-image .background-image__img {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  object-fit: cover;
+  transform: none; /* Remove transform for inline images */
+  filter: none; /* Remove filters for inline images */
+}
+
+/* Remove color overlay and noise for inline blog post images */
+.blog-post-content .blog-image::before,
+.blog-post-content .blog-image::after {
+  display: none;
 }
 
 /* Desktop (1024px+) */

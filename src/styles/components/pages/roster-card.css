@@ -36,6 +36,8 @@ body.page-creator .roster-card {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  /* Apply grayscale filter from blog images */
+  filter: grayscale(100%) blur(0.5px);
 }
 
 /* Hover effects - Desktop only (1024px+) */
@@ -44,7 +46,12 @@ body.page-creator .roster-card {
     transition: transform 0.4s ease;
   }
 
-  .roster-card:hover .roster-card__image {
+  .roster-card__overlay {
+    transition: transform 0.4s ease;
+  }
+
+  .roster-card:hover .roster-card__image,
+  .roster-card:hover .roster-card__overlay {
     transform: scale(1.05);
   }
 }
@@ -52,14 +59,20 @@ body.page-creator .roster-card {
 .roster-card__overlay {
   position: absolute;
   inset: 0;
-  background-color: var(--obsidian);
-  mix-blend-mode: color;
+  z-index: 1;
   pointer-events: none;
+  /* Noise overlay - reusing blog image noise effect */
+  background-image: url('/src/assets/images/blog/seamless-noise-texture.png');
+  background-repeat: repeat;
+  background-size: 200px 200px; /* Tile size for noise texture */
+  opacity: 0.5;
+  mix-blend-mode: overlay;
 }
 
 .roster-card__scrim {
   position: absolute;
   inset: 0;
+  z-index: 2; /* Above noise overlay for text readability */
   background: linear-gradient(
     to bottom,
     var(--obsidian-0) 12.019%,
@@ -80,7 +93,7 @@ body.page-creator .roster-card {
     color: var(--bone);
     text-transform: var(--text-transform-ui);
     margin: 0;
-    z-index: 1;
+    z-index: 3; /* Above scrim (z-index: 2) for text readability */
     /* Truncate long handles on grid pages */
     overflow: hidden;
     text-overflow: ellipsis;
@@ -103,7 +116,7 @@ body.page-creator .roster-card__handle {
   cursor: default; /* Not clickable */
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs); /* 8px - gap between image and content */
+  gap: 0; /* No gap between image and content */
   
   /* Performance optimizations for scroll animations */
   will-change: transform;
@@ -115,9 +128,14 @@ body.page-creator .roster-card__handle {
   --depth: 2;
 }
 
-/* Hide overlaid handle when using testimonial modifier */
-.roster-card--testimonial .roster-card__handle {
+/* Hide overlaid handle when using testimonial modifier (only the absolutely positioned one) */
+.roster-card--testimonial .roster-card__image-wrapper .roster-card__handle {
   display: none;
+}
+
+/* Remove grayscale filter from testimonial card images */
+.roster-card--testimonial .roster-card__image {
+  filter: none;
 }
 
 /* Hide overlay and scrim on testimonial cards */
@@ -126,29 +144,164 @@ body.page-creator .roster-card__handle {
   display: none;
 }
 
-/* Content area for testimonial cards (name + quote below image) */
-.roster-card__content {
+/* Content area for testimonial cards (meta + quote below image) */
+.roster-card--testimonial .roster-card__content {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs); /* 8px - closest to Figma spec 10px */
+  gap: var(--space-sm); /* Gap between meta and quote */
+  background-color: var(--chuparosa-700); /* Match section background */
+  padding: var(--space-md); /* Add padding to text container */
 }
 
-.roster-card__name {
+/* Meta container for name, handle, and stats */
+.roster-card--testimonial .roster-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs); /* 8px - gap between name, handle, and stats */
+}
+
+/* Name uses h5 styling - only for testimonial cards */
+.roster-card--testimonial .roster-card__name {
   font-family: var(--font-headline);
-  font-size: var(--text-h6-size); /* 1.414rem / 22.62px - matches Figma */
+  font-size: var(--text-h5-size);
   font-weight: var(--font-weight-headline);
-  line-height: var(--text-h6-line-height);
-  color: var(--obsidian);
+  line-height: var(--text-h5-line-height);
+  color: var(--text-headline-color, var(--text-headline-on-chuparosa-700)); /* Adapt to page background */
   text-transform: var(--text-transform-ui);
   margin: 0;
+  width: 100%; /* Fill container width */
 }
 
-.roster-card__quote {
+/* Handle uses regular paragraph styling - only for testimonial cards in content area */
+.roster-card--testimonial .roster-card__content .roster-card__handle {
+  position: static; /* Reset absolute positioning - keep in normal flow */
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-size); /* 1rem / 16px - matches Figma */
+  font-size: var(--text-p-size);
   font-weight: var(--font-weight-paragraph);
   line-height: var(--text-p-line-height);
-  color: var(--obsidian);
+  color: var(--text-body-color, var(--text-body-on-chuparosa-700)); /* Adapt to page background */
   margin: 0;
+  width: 100%; /* Fill container width */
+  /* Reset properties from absolutely positioned handle */
+  bottom: auto;
+  left: auto;
+  right: auto;
+  z-index: auto;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+/* Stats uses regular paragraph styling - only for testimonial cards */
+.roster-card--testimonial .roster-card__stats {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-p-size);
+  font-weight: var(--font-weight-paragraph);
+  line-height: var(--text-p-line-height);
+  color: var(--text-body-color, var(--text-body-on-chuparosa-700)); /* Adapt to page background */
+  margin: 0;
+  width: 100%; /* Fill container width */
+}
+
+/* Quote styling - only for testimonial cards */
+.roster-card--testimonial .roster-card__quote {
+  font-family: var(--font-paragraph);
+  font-weight: var(--font-weight-paragraph);
+  font-size: var(--text-h6-size); /* Reduced one step from h5 */
+  line-height: var(--text-h6-line-height);
+  color: var(--text-body-color, var(--text-body-on-chuparosa-700)); /* Adapt to page background */
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* ========================================
+   Responsive Considerations
+   ======================================== */
+
+/* Reduce blur intensity on mobile for performance */
+@media (max-width: 767px) {
+  .roster-card__image {
+    filter: grayscale(100%) blur(0.3px);
+  }
+}
+
+/* ========================================
+   Roster List Component
+   Full roster list in footer-style layout
+   ======================================== */
+
+h3.roster-list__headline {
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  font-size: var(--text-h4-size); /* h4 size with increased specificity */
+  line-height: var(--text-h4-line-height);
+  color: var(--text-headline-on-obsidian);
+  margin: var(--space-2xl) 0 var(--space-lg) 0;
+  text-align: left;
+}
+
+/* Roster list container - mobile: single column, desktop: 3 columns */
+.roster-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Desktop: 2 columns layout */
+@media (min-width: 768px) {
+  .roster-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: var(--space-md) var(--space-xl);
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  .roster-list__item {
+    flex: 0 0 calc(50% - var(--space-xl) / 2);
+    min-width: 0; /* Allow flex items to shrink */
+    text-align: left;
+  }
+}
+
+.roster-list__item {
+  text-decoration: none;
+  text-align: left;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.roster-list__item:hover,
+.roster-list__item:focus {
+  opacity: 0.7;
+}
+
+.roster-list__item:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.roster-list__handle {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-p-large-size);
+  font-weight: var(--font-weight-paragraph);
+  line-height: var(--text-p-large-line-height);
+  color: var(--text-body-on-obsidian);
+  display: block;
+}
+
+.roster-list__name {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-p-size);
+  font-weight: var(--font-weight-paragraph);
+  line-height: var(--text-p-line-height);
+  color: var(--text-body-on-obsidian);
+  display: block;
 }
 

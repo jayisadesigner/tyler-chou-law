@@ -15,6 +15,12 @@
   opacity: 1; /* Progressive enhancement: Visible by default, JS can enhance with animations */
 }
 
+/* Videos are visible immediately - they start loading via iframe src */
+/* The is-ready class is still used for parallax initialization but doesn't block visibility */
+.background-image:has(.background-image__video) {
+  visibility: visible; /* Show immediately - video iframe loads independently */
+}
+
 /* Image-specific styles */
 .background-image__img {
   position: absolute;
@@ -30,12 +36,13 @@
 
 /* Video-specific styles */
 .background-image__video {
-  /* Use viewport-based sizing to ensure iframe always covers container */
+  /* Use viewport-based sizing to ensure video/iframe always covers container */
   /* Bumped values to account for parallax: scale 1.15 + 10% downward movement */
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100vw;
+  width: 100%; /* Use 100% on mobile to avoid scrollbar width issues */
+  max-width: 100vw; /* Constrain to viewport width */
   height: 56.25vw; /* 16:9 aspect ratio */
   min-height: 115vh; /* Bumped from 100vh to account for 15% scale */
   min-width: 204vh; /* Bumped from 177.77vh (177.77 * 1.15 ≈ 204) to account for scale */
@@ -43,9 +50,28 @@
   transform-origin: center center; /* Scale from center for parallax */
   display: block;
   border: 0;
-  /* Block all interaction with iframe (prevents YouTube hover UI) */
+  object-fit: cover; /* For video elements - ensures video covers container */
+  /* Block all interaction with video/iframe */
   pointer-events: none;
 }
+
+/* Desktop: Use 100vw for full-width video backgrounds */
+@media (min-width: 768px) {
+  .background-image__video {
+    width: 100vw; /* Full viewport width on desktop */
+    max-width: none; /* Remove constraint on desktop */
+  }
+}
+
+/* Hide Vimeo loader and UI elements */
+.background-image__video {
+  /* Hide Vimeo's default UI elements via iframe styling */
+  color-scheme: none;
+}
+
+/* Hide Vimeo player UI elements that appear inside the iframe */
+/* Note: These selectors target elements inside the Vimeo iframe, which may have limited effect due to iframe security */
+/* The best approach is to use Vimeo URL parameters to hide UI */
 
 /* Overlay effects - applied to background images */
 /* All overlays are stacked to match Figma design exactly */

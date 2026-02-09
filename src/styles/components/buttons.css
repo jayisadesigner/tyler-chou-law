@@ -26,8 +26,8 @@
 /* Primary / On-Dark */
 .btn--primary.btn--on-dark {
   padding: var(--space-sm) var(--space-xl);
-  background-color: var(--obsidian);
-  color: var(--bone);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border-radius: 4px;
   border: none;
 }
@@ -56,8 +56,8 @@
 /* Primary / On-Light */
 .btn--primary.btn--on-light {
   padding: var(--space-sm) var(--space-xl);
-  background-color: var(--bone);
-  color: var(--obsidian);
+  background-color: var(--button-text-color);
+  color: var(--button-bg-color);
   border-radius: 4px;
   border: none;
 }
@@ -91,28 +91,28 @@
 .btn--secondary.btn--on-dark {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
-  color: var(--bone);
-  border: 2px solid var(--bone);
+  color: var(--button-border-color);
+  border: 2px solid var(--button-border-color);
   border-radius: 1000px;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn--secondary.btn--on-dark:hover {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .btn--secondary.btn--on-dark:active {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .btn--secondary.btn--on-dark:focus,
 .btn--secondary.btn--on-dark:focus-visible {
-  background-color: var(--bone);
-  color: var(--obsidian);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
   border: 5px solid var(--focus-color);
   outline: none;
 }
@@ -129,27 +129,27 @@
 .btn--secondary.btn--on-light {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
-  color: var(--obsidian);
-  border: 2px solid var(--obsidian);
+  color: var(--button-bg-color);
+  border: 2px solid var(--button-bg-color);
   border-radius: 1000px;
 }
 
 .btn--secondary.btn--on-light:hover {
-  background-color: var(--obsidian);
-  color: var(--bone);
-  border-color: var(--obsidian);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-bg-color);
 }
 
 .btn--secondary.btn--on-light:active {
-  background-color: var(--obsidian);
-  color: var(--bone);
-  border-color: var(--obsidian);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-bg-color);
 }
 
 .btn--secondary.btn--on-light:focus,
 .btn--secondary.btn--on-light:focus-visible {
-  background-color: var(--obsidian);
-  color: var(--bone);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border: 5px solid var(--focus-color);
   outline: none;
 }
@@ -170,19 +170,19 @@
 .btn--tertiary.btn--on-dark {
   padding: 0;
   background-color: transparent;
-  color: var(--bone);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: underline;
 }
 
 .btn--tertiary.btn--on-dark:hover {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .btn--tertiary.btn--on-dark:active {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -192,7 +192,7 @@
   background-color: var(--obsidian-10); /* subtle dark background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--bone);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -206,19 +206,19 @@
 .btn--tertiary.btn--on-light {
   padding: 0;
   background-color: transparent;
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   border: none;
   border-radius: 0;
   text-decoration: underline;
 }
 
 .btn--tertiary.btn--on-light:hover {
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   opacity: 0.8;
 }
 
 .btn--tertiary.btn--on-light:active {
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   opacity: 0.8;
 }
 
@@ -228,7 +228,7 @@
   background-color: var(--bone-10); /* subtle light background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   outline: none;
 }
 
@@ -246,19 +246,19 @@
 .btn--ghost.btn--on-dark {
   padding: 0;
   background-color: transparent;
-  color: var(--bone);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: none;
 }
 
 .btn--ghost.btn--on-dark:hover {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .btn--ghost.btn--on-dark:active {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -268,7 +268,7 @@
   background-color: var(--obsidian-10); /* subtle dark background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--bone);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -282,19 +282,19 @@
 .btn--ghost.btn--on-light {
   padding: 0;
   background-color: transparent;
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   border: none;
   border-radius: 0;
   text-decoration: none;
 }
 
 .btn--ghost.btn--on-light:hover {
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   opacity: 0.8;
 }
 
 .btn--ghost.btn--on-light:active {
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   opacity: 0.8;
 }
 
@@ -304,7 +304,7 @@
   background-color: var(--bone-10); /* subtle light background */
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--obsidian);
+  color: var(--button-bg-color);
   outline: none;
 }
 
@@ -380,27 +380,27 @@
 
 /* Secondary with Chuparosa accent (on-dark) */
 .btn--secondary.btn--on-dark.btn--chuparosa {
-  color: var(--bone);
-  border-color: var(--bone);
+  color: var(--button-border-color);
+  border-color: var(--button-border-color);
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn--secondary.btn--on-dark.btn--chuparosa:hover {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .btn--secondary.btn--on-dark.btn--chuparosa:active {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .btn--secondary.btn--on-dark.btn--chuparosa:focus,
 .btn--secondary.btn--on-dark.btn--chuparosa:focus-visible {
-  background-color: var(--bone);
-  color: var(--obsidian);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
   border: 5px solid var(--focus-color);
   outline: none;
 }
@@ -416,14 +416,14 @@
 /* Tertiary/Ghost with Chuparosa accent (on-dark) */
 .btn--tertiary.btn--on-dark.btn--chuparosa,
 .btn--ghost.btn--on-dark.btn--chuparosa {
-  color: var(--bone);
+  color: var(--button-border-color);
 }
 
 .btn--tertiary.btn--on-dark.btn--chuparosa:focus,
 .btn--tertiary.btn--on-dark.btn--chuparosa:focus-visible,
 .btn--ghost.btn--on-dark.btn--chuparosa:focus,
 .btn--ghost.btn--on-dark.btn--chuparosa:focus-visible {
-  outline-color: var(--bone);
+  outline-color: var(--button-border-color);
 }
 
 /* ============================================
@@ -471,6 +471,24 @@
   padding: 0;
 }
 
+/* Compact - Same text size as medium, reduced padding by one step */
+.btn--compact {
+  font-size: var(--text-button-md); /* Same text size as medium */
+}
+
+.btn--primary.btn--compact {
+  padding: var(--space-xs) var(--space-lg); /* Step down from md: sm→xs, xl→lg */
+}
+
+.btn--secondary.btn--compact {
+  padding: var(--space-sm) var(--space-md); /* Step down from md: md→sm, lg→md */
+}
+
+.btn--tertiary.btn--compact,
+.btn--ghost.btn--compact {
+  padding: 0; /* Tertiary and ghost buttons have no padding */
+}
+
 /* ============================================
    ALIGNMENT UTILITIES
    ============================================ */
@@ -497,8 +515,8 @@
 .bg-obsidian .btn--primary,
 body.bg-obsidian .btn--primary {
   padding: var(--space-sm) var(--space-xl);
-  background-color: var(--obsidian);
-  color: var(--bone);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border-radius: 4px;
   border: none;
 }
@@ -533,8 +551,8 @@ body.bg-obsidian .btn--primary:disabled {
 .bg-bone .btn--primary,
 body.bg-bone .btn--primary {
   padding: var(--space-sm) var(--space-xl);
-  background-color: var(--bone);
-  color: var(--obsidian);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border-radius: 4px;
   border: none;
 }
@@ -570,32 +588,32 @@ body.bg-bone .btn--primary:disabled {
 body.bg-obsidian .btn--secondary {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
-  color: var(--bone);
-  border: 2px solid var(--bone);
+  color: var(--button-border-color);
+  border: 2px solid var(--button-border-color);
   border-radius: 1000px;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .bg-obsidian .btn--secondary:hover,
 body.bg-obsidian .btn--secondary:hover {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .bg-obsidian .btn--secondary:active,
 body.bg-obsidian .btn--secondary:active {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 .bg-obsidian .btn--secondary:focus,
 .bg-obsidian .btn--secondary:focus-visible,
 body.bg-obsidian .btn--secondary:focus,
 body.bg-obsidian .btn--secondary:focus-visible {
-  background-color: var(--bone);
-  color: var(--obsidian);
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
   border: 5px solid var(--focus-color);
   outline: none;
 }
@@ -614,31 +632,46 @@ body.bg-obsidian .btn--secondary:disabled {
 body.bg-bone .btn--secondary {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
-  color: var(--obsidian);
-  border: 2px solid var(--obsidian);
+  color: var(--button-border-color);
+  border: 2px solid var(--button-border-color);
   border-radius: 1000px;
+}
+
+/* Compact variant overrides for background adaptation */
+.bg-obsidian .btn--primary.btn--compact,
+body.bg-obsidian .btn--primary.btn--compact,
+.bg-bone .btn--primary.btn--compact,
+body.bg-bone .btn--primary.btn--compact {
+  padding: var(--space-xs) var(--space-lg);
+}
+
+.bg-obsidian .btn--secondary.btn--compact,
+body.bg-obsidian .btn--secondary.btn--compact,
+.bg-bone .btn--secondary.btn--compact,
+body.bg-bone .btn--secondary.btn--compact {
+  padding: var(--space-sm) var(--space-md);
 }
 
 .bg-bone .btn--secondary:hover,
 body.bg-bone .btn--secondary:hover {
-  background-color: var(--obsidian);
-  color: var(--bone);
-  border-color: var(--obsidian);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-border-color);
 }
 
 .bg-bone .btn--secondary:active,
 body.bg-bone .btn--secondary:active {
-  background-color: var(--obsidian);
-  color: var(--bone);
-  border-color: var(--obsidian);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-border-color);
 }
 
 .bg-bone .btn--secondary:focus,
 .bg-bone .btn--secondary:focus-visible,
 body.bg-bone .btn--secondary:focus,
 body.bg-bone .btn--secondary:focus-visible {
-  background-color: var(--obsidian);
-  color: var(--bone);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border: 5px solid var(--focus-color);
   outline: none;
 }
@@ -657,7 +690,7 @@ body.bg-bone .btn--secondary:disabled {
 body.bg-obsidian .btn--tertiary {
   padding: 0;
   background-color: transparent;
-  color: var(--bone);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: underline;
@@ -665,13 +698,13 @@ body.bg-obsidian .btn--tertiary {
 
 .bg-obsidian .btn--tertiary:hover,
 body.bg-obsidian .btn--tertiary:hover {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .bg-obsidian .btn--tertiary:active,
 body.bg-obsidian .btn--tertiary:active {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -683,7 +716,7 @@ body.bg-obsidian .btn--tertiary:focus-visible {
   background-color: var(--obsidian-10);
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--bone);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -699,7 +732,7 @@ body.bg-obsidian .btn--tertiary:disabled {
 body.bg-bone .btn--tertiary {
   padding: 0;
   background-color: transparent;
-  color: var(--obsidian);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: underline;
@@ -707,13 +740,13 @@ body.bg-bone .btn--tertiary {
 
 .bg-bone .btn--tertiary:hover,
 body.bg-bone .btn--tertiary:hover {
-  color: var(--obsidian);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .bg-bone .btn--tertiary:active,
 body.bg-bone .btn--tertiary:active {
-  color: var(--obsidian);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -725,7 +758,7 @@ body.bg-bone .btn--tertiary:focus-visible {
   background-color: var(--bone-10);
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--obsidian);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -741,7 +774,7 @@ body.bg-bone .btn--tertiary:disabled {
 body.bg-obsidian .btn--ghost {
   padding: 0;
   background-color: transparent;
-  color: var(--bone);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: none;
@@ -749,13 +782,13 @@ body.bg-obsidian .btn--ghost {
 
 .bg-obsidian .btn--ghost:hover,
 body.bg-obsidian .btn--ghost:hover {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .bg-obsidian .btn--ghost:active,
 body.bg-obsidian .btn--ghost:active {
-  color: var(--bone);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -767,7 +800,7 @@ body.bg-obsidian .btn--ghost:focus-visible {
   background-color: var(--obsidian-10);
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--bone);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -783,7 +816,7 @@ body.bg-obsidian .btn--ghost:disabled {
 body.bg-bone .btn--ghost {
   padding: 0;
   background-color: transparent;
-  color: var(--obsidian);
+  color: var(--button-border-color);
   border: none;
   border-radius: 0;
   text-decoration: none;
@@ -791,13 +824,13 @@ body.bg-bone .btn--ghost {
 
 .bg-bone .btn--ghost:hover,
 body.bg-bone .btn--ghost:hover {
-  color: var(--obsidian);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
 .bg-bone .btn--ghost:active,
 body.bg-bone .btn--ghost:active {
-  color: var(--obsidian);
+  color: var(--button-border-color);
   opacity: 0.8;
 }
 
@@ -809,7 +842,7 @@ body.bg-bone .btn--ghost:focus-visible {
   background-color: var(--bone-10);
   border: 2px solid var(--focus-color);
   border-radius: 2px;
-  color: var(--obsidian);
+  color: var(--button-border-color);
   outline: none;
 }
 
@@ -820,66 +853,271 @@ body.bg-bone .btn--ghost:disabled {
   pointer-events: none;
 }
 
+/* ============================================
+   PALO VERDE BACKGROUND ADAPTATION
+   Buttons automatically adapt when body.bg-palo-verde is active
+   ============================================ */
+
+/* Primary buttons on palo verde background */
+.bg-palo-verde .btn--primary,
+body.bg-palo-verde .btn--primary {
+  padding: var(--space-sm) var(--space-xl);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-radius: 4px;
+  border: none;
+}
+
+.bg-palo-verde .btn--primary:hover,
+body.bg-palo-verde .btn--primary:hover {
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--primary:active,
+body.bg-palo-verde .btn--primary:active {
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--primary:focus,
+.bg-palo-verde .btn--primary:focus-visible,
+body.bg-palo-verde .btn--primary:focus,
+body.bg-palo-verde .btn--primary:focus-visible {
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.bg-palo-verde .btn--primary:disabled,
+body.bg-palo-verde .btn--primary:disabled {
+  background-color: var(--gray-400);
+  color: var(--gray-600);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Secondary buttons on palo verde background */
+.bg-palo-verde .btn--secondary,
+body.bg-palo-verde .btn--secondary {
+  padding: var(--space-md) var(--space-lg);
+  background-color: transparent;
+  color: var(--button-border-color);
+  border: 2px solid var(--button-border-color);
+  border-radius: 1000px;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Compact variant for palo verde background */
+.bg-palo-verde .btn--primary.btn--compact,
+body.bg-palo-verde .btn--primary.btn--compact {
+  padding: var(--space-xs) var(--space-lg);
+}
+
+.bg-palo-verde .btn--secondary.btn--compact,
+body.bg-palo-verde .btn--secondary.btn--compact {
+  padding: var(--space-sm) var(--space-md);
+}
+
+.bg-palo-verde .btn--secondary:hover,
+body.bg-palo-verde .btn--secondary:hover {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-border-color);
+}
+
+.bg-palo-verde .btn--secondary:active,
+body.bg-palo-verde .btn--secondary:active {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border-color: var(--button-border-color);
+}
+
+.bg-palo-verde .btn--secondary:focus,
+.bg-palo-verde .btn--secondary:focus-visible,
+body.bg-palo-verde .btn--secondary:focus,
+body.bg-palo-verde .btn--secondary:focus-visible {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: 5px solid var(--focus-color);
+  outline: none;
+}
+
+.bg-palo-verde .btn--secondary:disabled,
+body.bg-palo-verde .btn--secondary:disabled {
+  background-color: transparent;
+  color: var(--gray-400);
+  border-color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Tertiary buttons on palo verde background */
+.bg-palo-verde .btn--tertiary,
+body.bg-palo-verde .btn--tertiary {
+  padding: 0;
+  background-color: transparent;
+  color: var(--button-border-color);
+  border: none;
+  border-radius: 0;
+  text-decoration: underline;
+}
+
+.bg-palo-verde .btn--tertiary:hover,
+body.bg-palo-verde .btn--tertiary:hover {
+  color: var(--button-border-color);
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--tertiary:active,
+body.bg-palo-verde .btn--tertiary:active {
+  color: var(--button-border-color);
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--tertiary:focus,
+.bg-palo-verde .btn--tertiary:focus-visible,
+body.bg-palo-verde .btn--tertiary:focus,
+body.bg-palo-verde .btn--tertiary:focus-visible {
+  padding: var(--space-sm);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--button-border-color);
+  outline: none;
+}
+
+.bg-palo-verde .btn--tertiary:disabled,
+body.bg-palo-verde .btn--tertiary:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Ghost buttons on palo verde background */
+.bg-palo-verde .btn--ghost,
+body.bg-palo-verde .btn--ghost {
+  padding: 0;
+  background-color: transparent;
+  color: var(--button-border-color);
+  border: none;
+  border-radius: 0;
+  text-decoration: none;
+}
+
+.bg-palo-verde .btn--ghost:hover,
+body.bg-palo-verde .btn--ghost:hover {
+  color: var(--button-border-color);
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--ghost:active,
+body.bg-palo-verde .btn--ghost:active {
+  color: var(--button-border-color);
+  opacity: 0.8;
+}
+
+.bg-palo-verde .btn--ghost:focus,
+.bg-palo-verde .btn--ghost:focus-visible,
+body.bg-palo-verde .btn--ghost:focus,
+body.bg-palo-verde .btn--ghost:focus-visible {
+  padding: var(--space-sm);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--focus-color);
+  border-radius: 2px;
+  color: var(--button-border-color);
+  outline: none;
+}
+
+.bg-palo-verde .btn--ghost:disabled,
+body.bg-palo-verde .btn--ghost:disabled {
+  color: var(--gray-400);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* Handle page-level backgrounds (body.page-services, etc.) */
 body.page-services .btn--primary,
 body.page-about .btn--primary,
-body.page-roster .btn--primary {
+body.page-roster .btn--primary,
+body.page-creator .btn--primary {
   padding: var(--space-sm) var(--space-xl);
-  background-color: var(--obsidian);
-  color: var(--bone);
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border-radius: 4px;
   border: none;
 }
 
 body.page-services .btn--primary:hover,
 body.page-about .btn--primary:hover,
-body.page-roster .btn--primary:hover {
+body.page-roster .btn--primary:hover,
+body.page-creator .btn--primary:hover {
   opacity: 0.8;
 }
 
 body.page-services .btn--primary:focus,
 body.page-about .btn--primary:focus,
 body.page-roster .btn--primary:focus,
+body.page-creator .btn--primary:focus,
 body.page-services .btn--primary:focus-visible,
 body.page-about .btn--primary:focus-visible,
-body.page-roster .btn--primary:focus-visible {
+body.page-roster .btn--primary:focus-visible,
+body.page-creator .btn--primary:focus-visible {
   border: 5px solid var(--focus-color);
   outline: none;
 }
 
 body.page-services .btn--secondary,
 body.page-about .btn--secondary,
-body.page-roster .btn--secondary {
+body.page-roster .btn--secondary,
+body.page-creator .btn--secondary {
   padding: var(--space-md) var(--space-lg);
   background-color: transparent;
-  color: var(--bone);
-  border: 2px solid var(--bone);
+  color: var(--button-border-color);
+  border: 2px solid var(--button-border-color);
   border-radius: 1000px;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
+/* Compact variant for page-level backgrounds */
+body.page-services .btn--primary.btn--compact,
+body.page-about .btn--primary.btn--compact,
+body.page-roster .btn--primary.btn--compact,
+body.page-creator .btn--primary.btn--compact {
+  padding: var(--space-xs) var(--space-lg);
+}
+
+body.page-services .btn--secondary.btn--compact,
+body.page-about .btn--secondary.btn--compact,
+body.page-roster .btn--secondary.btn--compact,
+body.page-creator .btn--secondary.btn--compact {
+  padding: var(--space-sm) var(--space-md);
+}
+
 body.page-services .btn--secondary:hover,
 body.page-about .btn--secondary:hover,
-body.page-roster .btn--secondary:hover {
-  background-color: var(--bone);
-  color: var(--obsidian);
-  border-color: var(--bone);
+body.page-roster .btn--secondary:hover,
+body.page-creator .btn--secondary:hover {
+  background-color: var(--button-border-color);
+  color: var(--page-bg-color);
+  border-color: var(--button-border-color);
 }
 
 body.page-services .btn--tertiary,
 body.page-about .btn--tertiary,
 body.page-roster .btn--tertiary,
+body.page-creator .btn--tertiary,
 body.page-services .btn--ghost,
 body.page-about .btn--ghost,
-body.page-roster .btn--ghost {
-  color: var(--bone);
+body.page-roster .btn--ghost,
+body.page-creator .btn--ghost {
+  color: var(--button-border-color);
 }
 
 body.page-services .btn--tertiary:hover,
 body.page-about .btn--tertiary:hover,
 body.page-roster .btn--tertiary:hover,
+body.page-creator .btn--tertiary:hover,
 body.page-services .btn--ghost:hover,
 body.page-about .btn--ghost:hover,
-body.page-roster .btn--ghost:hover {
+body.page-roster .btn--ghost:hover,
+body.page-creator .btn--ghost:hover {
   opacity: 0.8;
 }

@@ -16,8 +16,13 @@
         document.body.classList.add('ready');
       });
     </script>
-    <!-- Performance: Preconnect to external domains if needed -->
-    <link rel="preconnect" href="https://api.fontshare.com">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Tyler Chou Law For Creators" />
+    <link rel="manifest" href="/site.webmanifest" />
     <!-- Main stylesheet - loads without JavaScript for progressive enhancement -->
     <link rel="stylesheet" href="/src/styles/main.css">
     <title>CreatorArq | Creator Economy Venture Fund</title>
@@ -79,6 +84,7 @@
 
 
 
+
 <!-- Page Load Curtain -->
 <div class="curtain" aria-hidden="true">
   <div class="curtain__panel curtain__panel--left"></div>
@@ -86,27 +92,26 @@
 </div>
 <header class="site-header">
   <nav class="main-nav" role="navigation" aria-label="Main navigation">
-    <a href="/" class="logo">
-      <svg class="logo-image" width="132" height="132" viewBox="0 0 132 132" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M74.6904 71.668C73.9111 74.5898 73.5068 77.6987 73.5068 80.8818C73.5069 96.4374 81.6461 109.732 97.5635 109.732C101.452 109.732 104.889 109.009 108.055 107.833L110.496 93.001H112.938L115.471 109.551C108.688 111.902 102.809 112.897 96.4785 112.897C77.3957 112.897 66.0001 101.412 66 82.0576C66 81.4741 66.0129 80.8949 66.0381 80.3203L74.6904 71.668ZM112.219 23.2812L23.4072 112.094L19.9062 108.592L108.718 19.7803L112.219 23.2812ZM69.833 38.0723H67.2998L62.2354 22.3359H47.2227V70.2773L40.3496 77.1504V22.3359H25.4268L20.3623 38.0723H17.8291L19.0049 19.0801H68.6572L69.833 38.0723ZM97.835 49.499C104.166 49.499 110.226 51.036 115.562 53.5684L112.938 70.21H110.496L107.874 54.9258C104.166 53.117 100.638 52.6641 97.292 52.6641C95.9344 52.6641 94.6272 52.775 93.3721 52.9863L96.8457 49.5127C97.1735 49.5043 97.5032 49.499 97.835 49.499Z" fill="currentColor"/>
-      </svg>
-      <div class="logo-text">
-        <span class="logo-line">TYLER CHOU</span>
-        <span class="logo-line">LAW FOR</span>
-        <span class="logo-line">CREATORS</span>
-      </div>
-    </a>
-    
     <div class="nav-menu" id="mobile-menu">
-      <div class="nav-menu__items">
-        <a href="/roster.html">Roster</a>
+      <div class="nav-menu__items nav-menu__items--left">
         <a href="/services.html">Services</a>
-        <a href="/about.html">About</a>
-        <a href="/creatorarq.html">CreatorArq</a>
         <a href="/love-letters.html">Love Letters</a>
+        <a href="/about.html">About</a>
+      </div>
+      <div class="nav-menu__items nav-menu__items--right">
+        <a href="/roster.html">Roster</a>
+        <a href="/creatorarq.html">CreatorArq</a>
         <a href="/contact.html">Contact</a>
       </div>
     </div>
+    
+    <a href="/" class="logo">
+      <svg class="logo-image" width="264" height="264" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M426.227 716.966H368.211L384.228 641.591C381.066 641.057 377.903 640.454 374.764 639.771C366.653 638.019 358.644 635.767 350.784 633.048L332.947 716.966H294.361L292.097 729.479H509.769L525.217 648.713H515.025C515.025 648.713 496.994 716.966 426.227 716.966Z" fill="currentColor"/>
+        <path d="M536.627 215.029C534.284 224.13 525.923 243.059 498.473 226.052L498.542 226.109C474.744 211.514 447.716 201.799 419.971 197.772L418.298 205.599L416.455 214.267C423.542 214.927 431.028 216.087 438.626 217.998C456.634 222.537 475.267 231.251 490.749 247.142C491.671 248.087 492.57 249.054 493.468 250.043C493.707 250.305 493.912 250.567 494.139 250.828C510.634 269.53 516.868 290.347 519.427 303.531L530.575 303.679L548.856 210.934L537.48 210.695L536.639 215.029H536.627Z" fill="currentColor"/>
+        <path d="M566.226 79.4093H255.127L238.928 159.038H250.258L251.293 154.329C252.738 148.562 255.695 139.529 261.633 129.94C266.013 122.875 272.008 115.515 280.244 108.94C293.986 97.9743 308.398 93.6516 318.636 91.9225C323.79 91.0579 327.896 90.8418 330.319 90.7849H390.621L390.382 91.9225L368.018 196.885C256.15 208.716 171.152 310.106 178.034 423.635C180.673 477.123 205.131 528.745 244.069 565.318C247.05 568.116 250.099 570.835 253.25 573.451C262.76 581.483 272.952 588.615 283.645 594.792C305.35 607.328 329.136 615.905 353.594 619.989C361.83 621.365 370.134 622.219 378.461 622.548C381.737 622.685 385.002 622.73 388.278 622.696C389.37 622.696 390.462 622.674 391.565 622.639C398.277 622.457 404.989 621.934 411.666 621.047C412.496 620.956 413.293 620.876 414.1 620.785C429.878 619.17 439.229 620.728 444.701 623.447C449.365 625.768 451.23 628.93 451.867 631.694C452.186 633.059 452.197 634.334 452.106 635.346L451.629 637.769L464.824 637.507L482.479 547.936L469.409 547.743C466.656 556.365 459.864 573.201 443.495 586.715C435.464 593.347 426.875 597.716 418.412 600.514C409.186 603.574 400.108 604.768 392.055 604.984L448.273 340.434L448.512 339.296H490.829L493.093 327.921H392.259L389.836 339.296H413.247L413.008 340.434L385.559 469.592H345.164L399.722 213.562L425.647 91.9111L425.886 90.7735H495.595C497.142 90.8532 500.271 91.0693 504.252 91.9111C511.328 93.4127 521.133 96.8822 529.699 105.061C530.109 105.459 530.518 105.858 530.928 106.278C548.139 123.911 545.671 147.583 544.317 155.159L543.828 157.514H555.158L571.925 79.3979H566.26L566.226 79.4093ZM359.372 482.105H409.596L408.14 482.754L380.065 495.312L357.803 600.07C344.937 595.839 332.708 590.378 321.253 583.826C307.511 575.977 294.873 566.581 283.509 555.922C243.159 518.041 219.043 464.121 220.09 406.355C220.727 370.966 230.76 337.351 248.028 308.252C273.271 265.707 313.972 232.809 363.468 218.123L309.877 469.604H271.451L268.061 482.117H359.384L359.372 482.105Z" fill="currentColor"/>
+      </svg>
+    </a>
     
     <button 
       class="mobile-menu-button" 
@@ -132,314 +137,16 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
     <main id="main-content">
       <section class="hero hero--inner-page section">
   <!-- Background Image Component -->
   <div class="background-image" aria-hidden="true">
     <img 
-      src="src/assets/images/creatorarq/creatorarq-hero-youtuber-placeholder.jpg" 
+      src="/src/assets/images/creatorarq/creatorarq-hills.png" 
       alt="" 
       class="background-image__img"
     />
-    <!-- Overlay Layer 1: Crimson to Purple gradient with soft-light blend -->
-    <div class="background-image__overlay background-image__overlay-gradient-1"></div>
-    <!-- Overlay Layer 2: Dark brown to gold gradient with hue blend -->
-    <div class="background-image__overlay background-image__overlay-gradient-2"></div>
-    <!-- Overlay Layer 3: Dark overlay with difference blend -->
-    <div class="background-image__overlay background-image__overlay-dark"></div>
-    <!-- Overlay Layer 4: Final opacity overlay -->
-    <div class="background-image__overlay background-image__overlay-opacity"></div>
   </div>
   
   
@@ -452,68 +159,44 @@
         alt="CreatorArq" 
         class="hero-logo hero-logo--horizontal"
       />
-      <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--nested">Strategic capital for creators building empires.</p>
+      <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--nested">From Content to Enterprise</p>
     </div>
     
     <!-- Subheadline Wrapper (Columns 2-4, Row 2) - Desktop only, hidden on mobile -->
     <div class="hero-subheadline-wrapper">
-      <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--desktop">Strategic capital for creators building empires.</p>
+      <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--desktop">From Content to Enterprise</p>
     </div>
   </div>
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       
-      <!-- Content Section 2: Full Height Centered Section (for mouse trail effect) -->
-      <section class="content-section content-section--centered content-section--has-bg content-section--has-mousetrail content-section--full-height content-section--large-body section section-reveal" id="creatorarq-investment">
-        <div class="content-section__container">
-          <!-- CreatorArq Flower Decoration -->
-          <div class="palo-verde-flower">
-            <svg class="palo-verde-flower__image" width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M458.256 119C482.389 143.133 495.76 173.952 498.372 205.494C529.18 198.229 562.626 201.421 593.038 216.917L716.524 279.837L653.605 403.324C638.111 433.733 612.932 455.974 583.741 468.205C600.168 495.258 607.465 528.05 602.126 561.759L580.445 698.646L443.559 676.965C409.85 671.626 380.917 654.552 360.264 630.569C339.611 654.551 310.679 671.624 276.971 676.963L140.085 698.644L118.404 561.757C113.066 528.05 120.36 495.259 136.784 468.207C107.593 455.976 82.4144 433.735 66.9199 403.325L4 279.838L127.487 216.918C157.895 201.425 191.335 198.231 222.14 205.492C224.752 173.95 238.124 143.133 262.257 119L360.256 21L458.256 119Z" fill="currentColor"/>
-            </svg>
+      <!-- Investment Section -->
+      <section class="section--featured-image section--featured-image--left section section-reveal" id="creatorarq-investment">
+        <div class="section--featured-image__container">
+          <!-- Featured Image -->
+          <div class="section--featured-image__image">
+            <div class="blog-image" data-color="palo-verde">
+              <img src="https://images.unsplash.com/photo-1617618482053-36e9280bbf5a?q=80&w=1223&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Investment strategy" class="background-image__img" width="800" height="1000" loading="lazy">
+            </div>
           </div>
           
-          <div class="content-section__content">
-            <div class="content-section__eyebrow">
-              <p class="content-section__eyebrow-text">investment</p>
-            </div>
-            <div class="content-section__headline">
-              <h2 class="content-section__headline-text">Beyond Brand Deals</h2>
-            </div>
-            <div class="content-section__body">
-              <p>Most creator wealth disappears when the algorithm shifts. CreatorArq invests in creators who think bigger—those building IP, products, and businesses designed to outlast any platform.</p>
-              <p>This isn't influencer funding. This is empire capital.</p>
+          <!-- Main Content -->
+          <div class="section--featured-image__content">
+            <h2 class="section--featured-image__headline" js-line-animation>Equity Over<br>Impressions</h2>
+            <div class="section--featured-image__body">
+              <div class="section--featured-image__body-column">
+                <p>Most creator wealth is fragile, tied to the shifting whims of an algorithm. We believe the next generation of iconic brands won't be built in boardrooms, but in communities.</p>
+                <p>CreatorArq invests in the "Bottom of the Funnel," which includes the IP, technical and physical products, and building on your own land that transform a following into a legitimate business. We back the creators who realize that content is the marketing arm, not the business itself.</p>
+              </div>
+              <div class="section--featured-image__body-column">
+                <p><strong>Stage:</strong> High-conviction Pre-Seed and Seed.</p>
+                <p><strong>Check Size:</strong> $250K to $2M.</p>
+                <p><strong>Approach:</strong> We lead rounds and co-invest with strategic partners who understand that "Creator-Led" is the most powerful distribution model of the future.</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      
       <!-- Contact Form Section -->
       <section class="content-section content-section--form section section-reveal">
         <div class="content-section__container">
@@ -523,18 +206,18 @@
               <p class="content-section__eyebrow-text">reach out</p>
             </div>
             <div class="content-section__headline">
-              <h2 class="content-section__headline-text">Invest in Your Empire</h2>
+              <h2 class="content-section__headline-text">Build for the Long Tail</h2>
             </div>
             <div class="content-section__body">
-              <p>CreatorArq invests in creators who think beyond the algorithm. If you're building IP, products, or businesses designed to outlast any platform, we want to hear from you.</p>
-              <p>This isn't influencer funding. This is strategic capital for creators ready to own their future. Submit your application and we'll be in touch within 48 hours.</p>
+              <p>CreatorArq is looking for founders who are tired of the hamster wheel and ready to build infrastructure. If you are building a venture-scale business designed to outlast the platform it started on, let's talk.</p>
+              <p>Direct applications are reviewed weekly. Expect a response within 48 hours.</p>
             </div>
           </div>
           
           <!-- Form Area (Right on desktop) -->
           <div class="content-section__media content-section__media--form">
-            <form id="contact-form" class="contact-form" data-netlify="true" name="contact" method="POST" netlify-honeypot="bot-field">
-              <input type="hidden" name="form-name" value="contact" />
+            <form id="creatorarq-form" class="contact-form" data-netlify="true" name="creatorarq" method="POST" action="/thank-you.html" netlify-honeypot="bot-field">
+              <input type="hidden" name="form-name" value="creatorarq" />
               <p class="hidden">
                 <label>Don't fill this out if you're human: <input name="bot-field" /></label>
               </p>
@@ -545,7 +228,7 @@
                   <div class="form-field-wrapper">
                     <fieldset class="form-group form-group--inline">
                       <legend class="form-legend form-legend--inline">First Name <span>(required)</span></legend>
-                      <input type="text" id="first-name" name="first-name" placeholder="John" required />
+                      <input type="text" id="first-name" name="first-name" placeholder="Jane" required />
                     </fieldset>
                     <span class="error-message" aria-live="polite" aria-hidden="true" data-field="first-name"></span>
                   </div>
@@ -585,14 +268,12 @@
         </div>
       </section>
 
-
-
     </main>
     
     <footer class="site-footer">
   <div class="footer-container">
-    <p class="footer-item footer-item--left">© 2025 Tyler Chou Law P.C.</p>
-    <p class="footer-item footer-item--right">made by sick design co.</p>
+    <p class="footer-item footer-item--left"><a href="/" class="footer-link">© 2025 Tyler Chou Law P.C.</a></p>
+    <p class="footer-item footer-item--right">made by <a href="https://jayisadesigner.com/" class="footer-link" target="_blank" rel="noopener noreferrer">sick design co.</a></p>
   </div>
 </footer>
 <section class="site-disclaimer" role="contentinfo" aria-label="Legal disclaimer">
@@ -633,317 +314,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     <script type="module" src="/src/scripts/main.js"></script>
   </body>
 </html>
-

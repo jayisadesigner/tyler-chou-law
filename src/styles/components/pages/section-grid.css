@@ -27,6 +27,11 @@
   width: 100%;
 }
 
+/* Services section: higher z-index to ensure shadows appear above next section */
+.section-grid--services {
+  z-index: 2;
+}
+
 .section-grid__container {
   width: 100%;
   margin: 0 auto;
@@ -82,7 +87,8 @@
 /* Services, About, Roster pages: obsidian background */
 body.page-services .section-grid__headline .content-section__headline-text,
 body.page-about .section-grid__headline .content-section__headline-text,
-body.page-roster .section-grid__headline .content-section__headline-text {
+body.page-roster .section-grid__headline .content-section__headline-text,
+body.page-creator .section-grid__headline .content-section__headline-text {
   color: var(--text-headline-on-obsidian);
 }
 
@@ -145,6 +151,31 @@ body.page-creator .section-grid {
    Roster Modifier
    ======================================== */
 
+/* Roster section: match Client Love Notes - background only behind the grid */
+.section-grid--roster .section-grid__grid {
+  background-color: var(--chuparosa-700);
+}
+
+/* Remove horizontal padding from roster container (grid needs full width) */
+.section-grid--roster .section-grid__container {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+/* Add horizontal padding to roster header only */
+.section-grid--roster .section-grid__header {
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .section-grid--roster .section-grid__header {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+}
+
 .section-grid--roster .section-grid__grid {
   grid-template-columns: 1fr; /* Mobile: single column */
 }
@@ -156,14 +187,14 @@ body.page-creator .section-grid {
   }
 }
 
-/* Desktop: 3 columns */
+/* Desktop: 4 columns (2 rows) - even layout for 8 cards */
 @media (min-width: 1024px) {
   .section-grid--roster .section-grid__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
-/* Extra large desktop: 4 columns */
+/* Extra large desktop: keep 4 columns for even layout */
 @media (min-width: 1536px) {
   .section-grid--roster .section-grid__grid {
     grid-template-columns: repeat(4, 1fr);
@@ -174,14 +205,27 @@ body.page-creator .section-grid {
    Services Modifier
    ======================================== */
 
+/* Increase top padding for services section */
+.section-grid--services .section-grid__container {
+  padding-top: calc(var(--space-4xl) + var(--space-xl)); /* Increased top padding */
+}
+
+@media (min-width: 768px) {
+  .section-grid--services .section-grid__container {
+    padding-top: calc(var(--space-4xl) + var(--space-2xl)); /* Even more top padding on desktop */
+  }
+}
+
 .section-grid--services .section-grid__grid {
   grid-template-columns: 1fr; /* Mobile: single column */
+  gap: var(--space-xl); /* Spacing between cards on mobile */
 }
 
 /* Tablet: 2 columns */
 @media (min-width: 768px) {
   .section-grid--services .section-grid__grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2xl); /* Increased spacing on tablet+ */
   }
 }
 
@@ -190,6 +234,88 @@ body.page-creator .section-grid {
   .section-grid--services .section-grid__grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* ========================================
+   YouTube Videos Modifier
+   ======================================== */
+
+/* YouTube Videos Grid */
+.youtube-videos-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile: single column */
+  gap: var(--space-md);
+  width: 100%;
+  margin-top: var(--space-4xl); /* Spacing from content above */
+}
+
+/* Small tablet and up: 2 columns */
+@media (min-width: 640px) {
+  .youtube-videos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+}
+
+/* Desktop: 3 columns, 2 rows */
+@media (min-width: 1024px) {
+  .youtube-videos-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+/* YouTube Video Item */
+.youtube-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Standard YouTube aspect ratio */
+  overflow: hidden;
+  background-color: var(--black); /* Fallback background */
+}
+
+.youtube-video__card {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  text-decoration: none;
+}
+
+.youtube-video__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+.youtube-video__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.youtube-video__play-icon {
+  width: 96px;
+  height: 96px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.youtube-video__card:hover .youtube-video__overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.youtube-video__card:hover .youtube-video__play-icon {
+  opacity: 1;
 }
 
 /* Main Content Container (About only) */

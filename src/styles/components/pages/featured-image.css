@@ -80,6 +80,20 @@
   object-fit: cover;
 }
 
+/* Blog image filter support in featured-image sections */
+.section--featured-image__image .blog-image {
+  width: 100%;
+  height: 100%;
+}
+
+.section--featured-image__image .blog-image .background-image__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 /* Content area - Mobile: relative, normal flow like other sections */
 .section--featured-image__content {
   position: relative;
@@ -121,7 +135,8 @@
 /* Page-level overrides for featured image headline */
 body.page-services .section--featured-image__headline,
 body.page-about .section--featured-image__headline,
-body.page-roster .section--featured-image__headline {
+body.page-roster .section--featured-image__headline,
+body.page-creator .section--featured-image__headline {
   color: var(--text-headline-on-obsidian);
 }
 
@@ -159,7 +174,8 @@ body.page-love-letters .section--featured-image__headline {
 /* Page-level overrides for featured image body */
 body.page-services .section--featured-image__body,
 body.page-about .section--featured-image__body,
-body.page-roster .section--featured-image__body {
+body.page-roster .section--featured-image__body,
+body.page-creator .section--featured-image__body {
   color: var(--text-body-on-obsidian);
 }
 
@@ -186,6 +202,17 @@ body.page-love-letters .section--featured-image__body {
 }
 
 .section--featured-image__body p {
+  margin: 0;
+}
+
+/* Column wrapper for paragraphs to keep them together */
+.section--featured-image__body-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.section--featured-image__body-column p {
   margin: 0;
 }
 

@@ -113,6 +113,7 @@ function clearFieldError(e) {
 
 function handleFormSubmit(e) {
   e.preventDefault()
+  e.stopPropagation()
   
   const form = e.target
   const formData = new FormData(form)
@@ -158,27 +159,37 @@ function handleFormSubmit(e) {
   submitButton.disabled = true
   submitButton.textContent = 'Sending...'
   
-  // Submit to Netlify
-  fetch('/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams(formData).toString(),
-  })
-    .then(() => {
-      // Show success message
-      form.innerHTML = `
-        <div class="form-success">
-          <h3>Thank you!</h3>
-          <p>Your message has been sent. We'll get back to you soon.</p>
-        </div>
-      `
-    })
-    .catch((error) => {
-      console.error('Form submission error:', error)
+  // Submit to Netlify using XMLHttpRequest to bypass service worker issues
+  // For Netlify forms, POST to the current page URL (where the form exists)
+  // Netlify will intercept the submission and process it
+  const formAction = form.getAttribute('action') || '/thank-you.html'
+  const currentPageUrl = window.location.pathname
+  const xhr = new XMLHttpRequest()
+  xhr.open('POST', currentPageUrl, true)
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  
+  xhr.onload = function() {
+    // Netlify returns 200 on success, or 302 redirect
+    // If we get here, the form was submitted successfully
+    if (xhr.status >= 200 && xhr.status < 400) {
+      // Redirect to thank you page
+      window.location.href = formAction
+    } else {
       submitButton.disabled = false
       submitButton.textContent = originalText
       alert('There was an error sending your message. Please try again.')
-    })
+    }
+  }
+  
+  xhr.onerror = function() {
+    console.error('Form submission error:', xhr.statusText)
+    submitButton.disabled = false
+    submitButton.textContent = originalText
+    alert('There was an error sending your message. Please try again.')
+  }
+  
+  // Send the form data
+  xhr.send(new URLSearchParams(formData).toString())
   
   return false
 }

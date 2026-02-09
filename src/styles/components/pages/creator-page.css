@@ -5,24 +5,41 @@
    ======================================== */
 
 
-/* Media viewport height, sticky, content starts below nav */
+/* Remove top padding from container so image starts at top */
+.page-creator .content-section__container {
+  padding-top: 0; /* Remove top padding so image starts at top */
+}
+
+/* Media viewport height, GSAP ScrollTrigger pin, content starts below nav */
 @media (min-width: 768px) {
   .page-creator .content-section__container {
-    min-height: 100vh;
+    /* Remove fixed height - let it grow with content */
+    padding-top: 0; /* Remove top padding so image starts at top */
+    padding-bottom: 0; /* Remove bottom padding for full height */
+    align-items: flex-start; /* Prevent pinned child from stretching */
+    /* Container already has display: flex from general desktop rules */
   }
 
-  .page-creator .content-section__media {
-    height: 100vh;
-    position: sticky;
-    top: 0; /* Stick at top, media starts at top */
+  /* Media sizing for GSAP ScrollTrigger pin (not position: sticky) */
+  .page-creator .content-section--media-bleed .content-section__media {
+    overflow: visible; /* Override overflow: hidden from general rule */
+    height: 100vh; /* Explicit height for pinned element */
+    width: 50vw;
     padding: 0; /* Remove default padding for full bleed */
   }
 
-  .page-creator .content-section__content {
+  /* Content side: normal flow, scrolls independently */
+  /* Target only the main content section (with media-bleed), not centered sections like CTA */
+  .page-creator .content-section--media-bleed .content-section__content {
+    width: 50%;
+    margin-right: 0; /* Remove auto margin */
+    margin-bottom: 0; /* Remove bottom margin */
+    max-width: none; /* Remove max-width constraint */
     align-self: flex-start; /* Don't stretch, size to content */
     padding-top: calc(60px + var(--space-4xl)); /* Start content below nav */
     padding-left: var(--space-2xl); /* Bump up from xl to 2xl */
     padding-right: var(--space-2xl); /* Bump up from xl to 2xl */
+    padding-bottom: var(--space-2xl); /* Override general desktop padding bottom */
   }
 }
 
@@ -35,7 +52,7 @@
   font-size: var(--text-h3-size);
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h3-line-height);
-  color: var(--bone);
+  color: var(--text-headline-color);
   text-transform: var(--text-transform-ui);
   margin: 0;
   z-index: 10; /* Higher than right side content to ensure handle overflow is visible */
@@ -69,7 +86,7 @@
   font-size: var(--text-h4-size);
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h4-line-height);
-  color: var(--bone);
+  color: var(--text-headline-color);
   text-transform: var(--text-transform-ui);
   margin: 0;
 }
@@ -78,7 +95,7 @@
   font-family: var(--font-headline);
   font-size: var(--text-h6-size);
   font-weight: var(--font-weight-headline);
-  color: var(--bone);
+  color: var(--text-body-color);
   text-transform: var(--text-transform-ui);
   margin: 0;
   line-height: var(--text-h6-line-height);
@@ -99,7 +116,7 @@
   font-family: var(--font-paragraph);
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
-  color: var(--bone);
+  color: var(--text-body-color);
   margin-bottom: var(--space-2xl);
   width: 100%;
 }
@@ -126,7 +143,7 @@
 
 /* Videos */
 .creator-videos {
-  margin-top: var(--space-2xl);
+  margin-top: var(--space-xl); /* Reduced from var(--space-2xl) */
   width: 100%;
 }
 
@@ -135,11 +152,35 @@
   font-size: var(--text-h4-size);
   font-weight: var(--font-weight-headline);
   line-height: var(--text-h4-line-height);
-  color: var(--bone);
+  color: var(--text-headline-color);
   margin: 0 0 var(--space-lg) 0;
   width: 100%;
 }
 
+/* Keep YouTube videos single column on roster pages */
+.creator-videos .youtube-videos-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Always single column on roster pages */
+  gap: var(--space-xl); /* Increased from var(--space-md) */
+  width: 100%;
+  margin-top: 0; /* Remove default margin-top from base class */
+}
+
+/* Override responsive grid rules to keep single column at all breakpoints */
+@media (min-width: 640px) {
+  .creator-videos .youtube-videos-grid {
+    grid-template-columns: 1fr; /* Stay single column */
+  }
+}
+
+@media (min-width: 1024px) {
+  .creator-videos .youtube-videos-grid {
+    grid-template-columns: 1fr; /* Stay single column */
+    gap: var(--space-xl); /* Keep increased gap consistent */
+  }
+}
+
+/* Legacy grid class - keep for backwards compatibility */
 .creator-videos-grid {
   display: flex;
   flex-direction: column;
@@ -173,4 +214,31 @@
   height: 100%;
 }
 
+/* Creator pages: add obsidian overlay and noise overlay to background images */
+
+/* Apply blur filter - optimized for performance */
+body.page-creator .content-section .background-image__img {
+  filter: blur(0.5px);
+  transition: filter 0.3s ease;
+}
+
+/* Obsidian color multiply layer - matches blog image treatment */
+body.page-creator .content-section .background-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-color: var(--obsidian);
+  mix-blend-mode: multiply;
+  opacity: 0.3;
+}
+
+
+/* Reduce blur on mobile for performance */
+@media (max-width: 767px) {
+  body.page-creator .content-section .background-image__img {
+    filter: blur(0.3px);
+  }
+}
 
