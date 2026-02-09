@@ -289,25 +289,25 @@ export function initPhilosophyRedaction(reducedMotion = false, viewportHeight = 
     timeline.to(redactionFirst, {
       scaleX: 1,
       ease: 'power2.inOut',
-      duration: 1,
-    }, 0.2)
+      duration: 0.5,
+    }, 0.1)
 
     // Second redaction box - starts slightly after first (staggered)
     timeline.to(redactionSecond, {
       scaleX: 1,
       ease: 'power2.inOut',
-      duration: 1,
-    }, 0.35)
+      duration: 0.5,
+    }, 0.2)
 
     // Fade in "ip is Queen" after both redactions are completely done
     timeline.to(queenText, {
       opacity: 1,
       ease: 'power2.out',
-      duration: 0.6,
-    }, 1.4)
+      duration: 0.35,
+    }, 0.75)
 
     // Add a pause/hold at the end to keep "ip is queen" visible longer
-    timeline.to({}, { duration: 1.2 })
+    timeline.to({}, { duration: 0.6 })
 
     return timeline
   }
@@ -320,22 +320,22 @@ export function initPhilosophyRedaction(reducedMotion = false, viewportHeight = 
     mobileTl.to(redactionFirst, {
       scaleX: 1,
       ease: 'power2.inOut',
-      duration: 1,
-    }, 0.2)
+      duration: 0.5,
+    }, 0.1)
     
     // Second redaction box - strikethrough "is king"
     mobileTl.to(redactionSecond, {
       scaleX: 1,
       ease: 'power2.inOut',
-      duration: 1,
-    }, 0.35)
+      duration: 0.5,
+    }, 0.2)
     
     // Fade in "ip is Queen" after both redactions
     mobileTl.to(queenText, {
       opacity: 1,
       ease: 'power2.out',
-      duration: 0.6,
-    }, 1.4)
+      duration: 0.35,
+    }, 0.75)
     
     return mobileTl
   }
@@ -388,7 +388,7 @@ export function initPhilosophyRedaction(reducedMotion = false, viewportHeight = 
           trigger: philosophySection,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1,
+          scrub: 0.5,
           onRefresh: () => updateDimensions(),
           invalidateOnRefresh: true,
         }
@@ -398,37 +398,37 @@ export function initPhilosophyRedaction(reducedMotion = false, viewportHeight = 
       tabletTl.to(redactionFirst, {
         scaleX: 1,
         ease: 'power2.inOut',
-        duration: 1,
-      }, 0.2)
+        duration: 0.5,
+      }, 0.1)
       
       // Second redaction box - strikethrough "is king"
       tabletTl.to(redactionSecond, {
         scaleX: 1,
         ease: 'power2.inOut',
-        duration: 1,
-      }, 0.35)
+        duration: 0.5,
+      }, 0.2)
       
       // Fade in "ip is Queen" after both redactions
       tabletTl.to(queenText, {
         opacity: 1,
         ease: 'power2.out',
-        duration: 0.6,
-      }, 1.4)
+        duration: 0.35,
+      }, 0.75)
       
       // Add a pause/hold at the end
-      tabletTl.to({}, { duration: 1.2 })
+      tabletTl.to({}, { duration: 0.6 })
     },
     
     // Desktop: Full redaction animation
     "(min-width: 1280px)": function() {
-      const desktopScrollMultiplier = calculateScrollMultiplier(2.5, 5, 250, viewportHeight)
+      const desktopScrollMultiplier = calculateScrollMultiplier(1.2, 2.5, 300, viewportHeight)
       
       createRedactionTimeline(
         createPinnedScrollConfig({
           trigger: philosophySection,
           start: 'top top',
           end: `+=${desktopScrollMultiplier * 100}%`,
-          scrub: 1,
+          scrub: 0.5,
           callbacks: {
             onRefresh: handleResize,
             invalidateOnRefresh: true,
