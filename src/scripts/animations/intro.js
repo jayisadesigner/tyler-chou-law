@@ -179,7 +179,12 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   
   try {
     await Promise.all(videoReadyPromises)
-    // Videos are ready - show center video immediately
+    // Videos are ready - ensure they're playing (some browsers need explicit play())
+    introVideos.forEach((video) => {
+      if (video.tagName === 'VIDEO' && video.paused) {
+        video.play().catch(() => {})
+      }
+    })
     // Show intro container and center video wrapper
     intro.classList.remove('intro--hidden')
     intro.classList.add('is-ready')
