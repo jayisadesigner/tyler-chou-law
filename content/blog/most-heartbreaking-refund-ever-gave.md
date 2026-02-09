@@ -5,7 +5,7 @@ date: 2025-10-25
 author: "Tyler Chou"
 description: "After a year of fighting to restore 7 deleted YouTube channels, Tyler Chou had to admit defeat. Here's what every creator needs to know before it's too late."
 tags: ["YouTube", "channel deletion", "copyright strikes", "creator protection", "community building"]
-featured_image: "https://images.unsplash.com/photo-1617252820855-a829ba1babe7?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+featured_image: "https://images.unsplash.com/photo-1535890696255-dd5bcd79e6df?q=80&w=1286&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ---
 
 "Let's just refund him."
