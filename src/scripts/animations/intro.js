@@ -516,7 +516,8 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   tl.to(leftVideo, {
     x: -slideDistance,
     opacity: 1,
-    clipPath: 'inset(0 0% 0 0)',
+    clipPath: 'none',
+    zIndex: 2,
     duration: 1.8,
     ease: 'power3.out'
   }, 1.5)
@@ -524,7 +525,7 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   tl.to(rightVideo, {
     x: slideDistance,
     opacity: 1,
-    clipPath: 'inset(0 0 0 0%)',
+    clipPath: 'none',
     duration: 1.8,
     ease: 'power3.out'
   }, 1.6)
