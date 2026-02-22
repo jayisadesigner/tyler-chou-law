@@ -470,6 +470,10 @@
   --text-align-right: right; /* Right alignment utility */
   --text-align-justify: justify; /* Justify alignment utility */
   
+  /* Text wrap - applied via typography system */
+  --text-wrap-headline: balance;
+  --text-wrap-body: balance;
+  
   /* Type Scale - Base (Mobile: 320px-767px) */
   
   /* Display Type - Fluid scaling with clamp() */

@@ -211,7 +211,7 @@ body.page-creator .roster-card__handle {
   line-height: var(--text-h6-line-height);
   color: var(--text-body-color, var(--text-body-on-chuparosa-700)); /* Adapt to page background */
   margin: 0;
-  text-wrap: balance;
+  text-wrap: var(--text-wrap-body);
 }
 
 /* ========================================
@@ -289,9 +289,9 @@ h3.roster-list__headline {
 
 .roster-list__handle {
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-large-size);
+  font-size: var(--text-p-size);
   font-weight: var(--font-weight-paragraph);
-  line-height: var(--text-p-large-line-height);
+  line-height: var(--text-p-line-height);
   color: var(--text-body-on-obsidian);
   display: block;
 }

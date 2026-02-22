@@ -38,7 +38,24 @@ h1, h2, h3, h4, h5, h6 {
   /* Use CSS variable that adapts to background - set by body.bg-* classes */
   color: var(--text-headline-color);
   text-transform: var(--text-transform-headline);
-  text-wrap: balance; /* Balance lines to avoid widows */
+  text-wrap: var(--text-wrap-headline);
+}
+
+/* Text wrap system - headline and display type (class-based) */
+[class*="headline"],
+[class*="eyebrow-text"],
+.service-card__title,
+.roster-card__title,
+.thank-you-headline,
+.credentials-title {
+  text-wrap: var(--text-wrap-headline);
+}
+
+/* Text wrap system - body and short-form copy */
+.content-section__body p,
+.section--featured-image__body p,
+.section--featured-image__body-column p {
+  text-wrap: var(--text-wrap-body);
 }
 
 /* Headings in dark sections */

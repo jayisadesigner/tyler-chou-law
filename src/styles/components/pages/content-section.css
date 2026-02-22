@@ -442,8 +442,9 @@ body.page-creatorarq .content-section__eyebrow-text {
   grid-column: 1;
   grid-row: 3;
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-large-size);
-  line-height: var(--text-p-large-line-height);
+  font-size: var(--text-p-size);
+  line-height: var(--text-p-line-height);
+  font-weight: var(--font-weight-paragraph);
   color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   width: 100%;
 }
@@ -575,17 +576,16 @@ body.bg-bone .content-section__body {
     text-align: center;
   }
 
-  /* Use p-large size for body text on desktop - ensure it overrides any base styles */
+  /* Use standard body size for consistency */
   .content-section--stacked .content-section__body {
-    font-size: var(--text-p-large-size);
-    line-height: var(--text-p-large-line-height);
+    font-size: var(--text-p-size);
+    line-height: var(--text-p-line-height);
     text-align: center;
   }
 
   .content-section--stacked .content-section__body p {
-    font-size: var(--text-p-large-size);
-    line-height: var(--text-p-large-line-height);
-    text-wrap: balance;
+    font-size: var(--text-p-size);
+    line-height: var(--text-p-line-height);
   }
 }
 
@@ -770,11 +770,11 @@ body.bg-bone .content-section__body {
 /* CTA section titles adapt to page background via CSS variables set on body */
 /* Uses --text-headline-color which is set by body.page-* classes in main.css */
 
-/* Large body modifier - increases body text size for centered sections */
+/* Large body modifier - uses standard body size for consistency */
 .content-section--centered.content-section--large-body .content-section__body,
 .content-section--centered.content-section--large-body .content-section__body p {
-  font-size: var(--text-p-large-size); /* Mobile: start with large paragraph size */
-  line-height: var(--text-p-large-line-height);
+  font-size: var(--text-p-size);
+  line-height: var(--text-p-line-height);
 }
 
 /* Desktop: wider max-width and ensure flex centering is maintained */
@@ -790,12 +790,12 @@ body.bg-bone .content-section__body {
 }
 
 
-/* Tablet and up: increase body text to h5 size */
+/* Tablet and up: maintain standard body size */
 @media (min-width: 768px) {
   .content-section--centered.content-section--large-body .content-section__body,
   .content-section--centered.content-section--large-body .content-section__body p {
-    font-size: var(--text-h5-size);
-    line-height: var(--text-h5-line-height);
+    font-size: var(--text-p-size);
+    line-height: var(--text-p-line-height);
   }
 }
 

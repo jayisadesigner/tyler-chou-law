@@ -131,8 +131,8 @@
 @media (min-width: 768px) {
   .creator-description {
     flex-direction: row;
-    font-size: var(--text-p-large-size);
-    line-height: var(--text-p-large-line-height);
+    font-size: var(--text-p-size);
+    line-height: var(--text-p-line-height);
   }
   
   .creator-description p {
