@@ -14,7 +14,7 @@
 .content-section__container {
   position: relative;
   width: 100%;
-  max-width: 1512px;
+  max-width: var(--container-wide-max);
   margin: 0 auto;
   padding: 0; /* No padding on container - padding is inside on content/media */
 }
@@ -203,6 +203,11 @@ body.page-creator .content-section__content {
     aspect-ratio: auto; /* Remove mobile aspect-ratio, let flexbox determine height */
   }
 
+  /* Media-only section: image takes full width (no content column) */
+  .content-section--media-only .content-section__media {
+    width: 100%;
+  }
+
   /* Default (contained) media: fill container height */
   .content-section__media .background-image {
     position: absolute;
@@ -350,7 +355,7 @@ body.page-creator .content-section__content {
 .content-section__content {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(3, fit-content(100%));
+  grid-template-rows: repeat(2, fit-content(100%));
   gap: var(--space-sm);
   padding-top: var(--space-3xl); /* Top padding - responsive: 48px mobile, 72px tablet, 96px desktop */
   padding-bottom: var(--space-3xl); /* Bottom padding - responsive: 48px mobile, 72px tablet, 96px desktop */
@@ -362,33 +367,13 @@ body.page-creator .content-section__content {
   margin: 0 auto; /* Center the container */
 }
 
-.content-section__eyebrow {
+.content-section__headline {
   grid-column: 1;
   grid-row: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding-top: var(--space-xl);
-  width: 100%;
-}
-
-.content-section__eyebrow-text {
-  font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-p-size);
-  line-height: 1;
-  text-transform: var(--text-transform-ui);
-  color: var(--text-body-on-chuparosa-600); /* Default: home page background */
-  margin: 0;
-}
-
-.content-section__headline {
-  grid-column: 1;
-  grid-row: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-top: var(--space-xs);
   width: 100%;
 }
 
@@ -416,31 +401,13 @@ body.page-love-letters .content-section__headline-text {
   color: var(--text-headline-on-bone);
 }
 
-body.page-services .content-section__eyebrow-text,
-body.page-roster .content-section__eyebrow-text,
-body.page-creator .content-section__eyebrow-text {
-  color: var(--text-body-on-obsidian);
-}
-
-body.page-about .content-section__eyebrow-text {
-  color: var(--text-body-on-obsidian);
-}
-
-body.page-love-letters .content-section__eyebrow-text {
-  color: var(--text-body-on-bone);
-}
-
 body.page-creatorarq .content-section__headline-text {
   color: var(--text-headline-on-palo-verde-600);
 }
 
-body.page-creatorarq .content-section__eyebrow-text {
-  color: var(--text-body-on-palo-verde-600);
-}
-
 .content-section__body {
   grid-column: 1;
-  grid-row: 3;
+  grid-row: 2;
   font-family: var(--font-paragraph);
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
@@ -476,10 +443,6 @@ body.bg-palo-verde .content-section__headline-text {
   color: var(--text-headline-on-palo-verde-600);
 }
 
-body.bg-palo-verde .content-section__eyebrow-text {
-  color: var(--text-body-on-palo-verde-600);
-}
-
 body.bg-palo-verde .content-section__body {
   color: var(--text-body-on-palo-verde-600);
 }
@@ -487,10 +450,6 @@ body.bg-palo-verde .content-section__body {
 /* Bone background */
 body.bg-bone .content-section__headline-text {
   color: var(--text-headline-on-bone);
-}
-
-body.bg-bone .content-section__eyebrow-text {
-  color: var(--text-body-on-bone);
 }
 
 body.bg-bone .content-section__body {
@@ -559,15 +518,7 @@ body.bg-bone .content-section__body {
     text-align: center; /* Center all text */
   }
 
-  /* Center eyebrow, headline, and body text */
-  .content-section--stacked .content-section__eyebrow {
-    align-items: center;
-  }
-
-  .content-section--stacked .content-section__eyebrow-text {
-    text-align: center;
-  }
-
+  /* Center headline and body text */
   .content-section--stacked .content-section__headline {
     align-items: center;
   }
@@ -662,14 +613,6 @@ body.bg-bone .content-section__body {
 }
 
 /* Remove grid-specific properties from child elements */
-.content-section--centered .content-section__eyebrow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: var(--space-xl);
-  width: 100%;
-}
-
 .content-section--centered .content-section__headline {
   display: flex;
   flex-direction: column;
@@ -784,7 +727,7 @@ body.bg-bone .content-section__body {
     flex-direction: column; /* Override desktop row layout */
     justify-content: center;
     align-items: center; /* Vertically center */
-    max-width: 1512px; /* Restore max-width that desktop layout removes */
+    max-width: var(--container-wide-max); /* Match hero and centered sections */
   }
   
 }

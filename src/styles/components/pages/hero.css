@@ -63,7 +63,7 @@ body:not(.intro-active) .hero-content {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1512px;
+  max-width: var(--container-wide-max);
   padding: var(--space-2xl) var(--space-md);
   display: grid;
   grid-template-columns: 1fr;

@@ -260,6 +260,7 @@ body.page-love-letters .section--featured-image__body {
 }
 
 /* CreatorArq flower positioning - centered section */
+#creatorarq-creators .palo-verde-flower,
 #creatorarq-investment .palo-verde-flower {
   top: 50%;
   transform: translateY(-50%);

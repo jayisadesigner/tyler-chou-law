@@ -435,6 +435,9 @@
   --breakpoint-lg: 1024px;  /* Desktop */
   --breakpoint-xl: 1280px;  /* Large desktop */
   --breakpoint-2xl: 1536px; /* Extra large desktop */
+
+  /* Shared max-width for hero content and centered sections (keep equal) */
+  --container-wide-max: 1728px;
 }
 
 /* Typography Scale - Mobile First */

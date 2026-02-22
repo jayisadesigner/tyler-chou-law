@@ -57,6 +57,7 @@ html:has(body.page-creatorarq) {
   --page-bg-color: var(--palo-verde-600);
   --text-headline-color: var(--text-headline-on-palo-verde-600);
   --text-body-color: var(--text-body-on-palo-verde-600);
+  --capabilities-grid-border: var(--palo-verde-700); /* one step darker */
 }
 
 body.page-index,
@@ -71,6 +72,7 @@ html:has(body.page-thank-you) {
   --page-bg-color: var(--chuparosa-600);
   --text-headline-color: var(--text-headline-on-chuparosa-600);
   --text-body-color: var(--text-body-on-chuparosa-600);
+  --capabilities-grid-border: var(--chuparosa-700); /* one step darker */
 }
 
 body.page-love-letters,
@@ -79,6 +81,7 @@ html:has(body.page-love-letters) {
   --page-bg-color: var(--bone);
   --text-headline-color: var(--text-headline-on-bone);
   --text-body-color: var(--text-body-on-bone);
+  --capabilities-grid-border: var(--obsidian-10); /* one step darker on light bg */
 }
 
 body.page-services,
@@ -91,6 +94,7 @@ html:has(body.page-creator) {
   --page-bg-color: var(--obsidian);
   --text-headline-color: var(--text-headline-on-obsidian);
   --text-body-color: var(--text-body-on-obsidian);
+  --capabilities-grid-border: var(--bone-10); /* lowest bone opacity on obsidian */
 }
 
 body.page-about,
@@ -99,6 +103,7 @@ html:has(body.page-about) {
   --page-bg-color: var(--obsidian);
   --text-headline-color: var(--text-headline-on-obsidian);
   --text-body-color: var(--text-body-on-obsidian);
+  --capabilities-grid-border: var(--bone-10); /* lowest bone opacity on obsidian */
 }
 
 /* Default fallback */
@@ -106,6 +111,7 @@ body {
   --page-bg-color: var(--chuparosa-600);
   --text-headline-color: var(--text-headline-on-chuparosa-600);
   --text-body-color: var(--text-body-on-chuparosa-600);
+  --capabilities-grid-border: var(--chuparosa-700); /* one step darker */
   /* Button colors - adapt to background */
   --button-bg-color: var(--obsidian);
   --button-text-color: var(--bone);
@@ -138,7 +144,6 @@ body.bg-palo-verde h6 {
 
 /* Component text elements */
 body.bg-palo-verde .content-section__headline-text,
-body.bg-palo-verde .content-section__eyebrow-text,
 body.bg-palo-verde .section-grid__headline .content-section__headline-text,
 body.bg-palo-verde .section--featured-image__headline,
 body.bg-palo-verde .hero-headline,
@@ -174,7 +179,6 @@ body.bg-bone h6 {
 
 /* Component text elements */
 body.bg-bone .content-section__headline-text,
-body.bg-bone .content-section__eyebrow-text,
 body.bg-bone .section-grid__headline .content-section__headline-text,
 body.bg-bone .section--featured-image__headline,
 body.bg-bone .hero-headline,
@@ -204,7 +208,7 @@ body.bg-bone .section--featured-image__body {
 
 .container-wide {
   width: 100%;
-  max-width: 1512px;
+  max-width: var(--container-wide-max);
   margin: 0 auto;
   padding: 0 var(--space-md); /* Mobile base */
 }
@@ -228,7 +232,6 @@ body.bg-bone .section--featured-image__body {
 
 /* Component text elements */
 .bg-obsidian .content-section__headline-text,
-.bg-obsidian .content-section__eyebrow-text,
 .bg-obsidian .section-grid__headline .content-section__headline-text,
 .bg-obsidian .section--featured-image__headline,
 .bg-obsidian .hero-headline,
@@ -257,7 +260,6 @@ body.bg-bone .section--featured-image__body {
 
 /* Component text elements */
 .bg-bone .content-section__headline-text,
-.bg-bone .content-section__eyebrow-text,
 .bg-bone .section-grid__headline .content-section__headline-text,
 .bg-bone .section--featured-image__headline,
 .bg-bone .hero-headline,
@@ -286,7 +288,6 @@ body.bg-bone .section--featured-image__body {
 
 /* Component text elements */
 .bg-chuparosa-600 .content-section__headline-text,
-.bg-chuparosa-600 .content-section__eyebrow-text,
 .bg-chuparosa-600 .section-grid__headline .content-section__headline-text,
 .bg-chuparosa-600 .section--featured-image__headline,
 .bg-chuparosa-600 .hero-headline,
@@ -315,7 +316,6 @@ body.bg-bone .section--featured-image__body {
 
 /* Component text elements */
 .bg-palo-verde-600 .content-section__headline-text,
-.bg-palo-verde-600 .content-section__eyebrow-text,
 .bg-palo-verde-600 .section-grid__headline .content-section__headline-text,
 .bg-palo-verde-600 .section--featured-image__headline,
 .bg-palo-verde-600 .hero-headline,
