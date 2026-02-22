@@ -162,9 +162,9 @@ body.page-love-letters .section--featured-image__headline {
   display: grid;
   gap: var(--space-md);
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-large-size); /* Large body text for emphasis */
+  font-size: var(--text-p-size);
   font-weight: var(--font-weight-paragraph);
-  line-height: var(--text-p-large-line-height); /* Large body text line-height */
+  line-height: var(--text-p-line-height);
   color: var(--text-body-on-chuparosa-600); /* Default: home page background */
   width: 100%;
   max-width: 960px; /* Apply max-width constraint here instead */
@@ -260,6 +260,7 @@ body.page-love-letters .section--featured-image__body {
 }
 
 /* CreatorArq flower positioning - centered section */
+#creatorarq-creators .palo-verde-flower,
 #creatorarq-investment .palo-verde-flower {
   top: 50%;
   transform: translateY(-50%);

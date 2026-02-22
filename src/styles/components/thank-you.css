@@ -19,8 +19,8 @@
 
 .thank-you-message {
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-large-size);
-  line-height: var(--text-p-large-line-height);
+  font-size: var(--text-p-size);
+  line-height: var(--text-p-line-height);
   color: var(--text-body-color);
   margin-bottom: var(--space-sm);
 }

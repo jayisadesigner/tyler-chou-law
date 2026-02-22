@@ -153,8 +153,8 @@
   }
   
   .service-card__description {
-    font-size: var(--text-p-large-size);
-    line-height: var(--text-p-large-line-height);
+    font-size: var(--text-p-size);
+    line-height: var(--text-p-line-height);
   }
   
   /* About and Palo Verde sections now use section--featured-image component */

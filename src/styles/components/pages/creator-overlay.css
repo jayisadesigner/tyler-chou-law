@@ -349,8 +349,8 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   /* Description - Desktop: side-by-side */
   .creator-page-overlay__description {
     flex-direction: row;
-    font-size: var(--text-p-large-size);
-    line-height: var(--text-p-large-line-height);
+    font-size: var(--text-p-size);
+    line-height: var(--text-p-line-height);
     margin: 0;
   }
 

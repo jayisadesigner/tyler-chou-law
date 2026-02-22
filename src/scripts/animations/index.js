@@ -120,7 +120,7 @@ export function initAnimations() {
     if (aboutFlower && aboutSection) {
     animateFlowerRotation('.about-flower', '.section--featured-image--left', prefersReducedMotion)
     }
-    animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment', prefersReducedMotion)
+    animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment, #creatorarq-creators', prefersReducedMotion)
     
     // Set background colors
     const defaultColor = getComputedStyle(document.documentElement)
@@ -229,6 +229,60 @@ export function initAnimations() {
     }
   })
 
+  // Services capabilities grid: animate when section/cells enter view; reset on leave so it replays each time.
+  const gridSections = document.querySelectorAll('.services-capabilities')
+  if (gridSections.length && ScrollTrigger) {
+    const gridTween = { opacity: 1, x: 0, duration: 1.4, ease: 'power2.out' }
+    const gridReset = { opacity: 0, x: -24 }
+    ScrollTrigger.matchMedia({
+      '(max-width: 767px)': function () {
+        gridSections.forEach((section) => {
+          const cells = section.querySelectorAll('.services-capabilities__cell')
+          if (!cells.length) return
+          if (prefersReducedMotion) {
+            gsap.set(cells, { opacity: 1, x: 0 })
+            return
+          }
+          gsap.set(cells, gridReset)
+          cells.forEach((cell) => {
+            ScrollTrigger.create({
+              trigger: cell,
+              start: 'top 88%',
+              end: 'bottom 12%',
+              onEnter: () => gsap.to(cell, { ...gridTween }),
+              onEnterBack: () => gsap.to(cell, { ...gridTween }),
+              onLeave: () => gsap.set(cell, gridReset),
+              onLeaveBack: () => gsap.set(cell, gridReset)
+            })
+          })
+        })
+      },
+      '(min-width: 768px)': function () {
+        gridSections.forEach((section) => {
+          const cells = section.querySelectorAll('.services-capabilities__cell')
+          if (!cells.length) return
+          if (prefersReducedMotion) {
+            gsap.set(cells, { opacity: 1, x: 0 })
+            return
+          }
+          gsap.set(cells, gridReset)
+          const runAnimation = () => gsap.to(cells, { ...gridTween, stagger: 0.25 })
+          const rect = section.getBoundingClientRect()
+          if (rect.top < viewportHeight * 0.8 && rect.bottom > 0) runAnimation()
+          ScrollTrigger.create({
+            trigger: section,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            onEnter: runAnimation,
+            onEnterBack: runAnimation,
+            onLeave: () => gsap.set(cells, gridReset),
+            onLeaveBack: () => gsap.set(cells, gridReset)
+          })
+        })
+      }
+    })
+  }
+
   // Flower rotation animations
   // Only animate about-flower if it exists (home page only)
   const aboutFlower = document.querySelector('.about-flower')
@@ -244,9 +298,9 @@ export function initAnimations() {
   } else {
     // On other pages (like creatorarq), only animate if elements exist
     const paloVerdeFlower = document.querySelector('.palo-verde-flower')
-    const paloVerdeTrigger = document.querySelector('.palo-verde, #creatorarq-investment')
+    const paloVerdeTrigger = document.querySelector('.palo-verde, #creatorarq-investment, #creatorarq-creators')
     if (paloVerdeFlower && paloVerdeTrigger) {
-  animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment', prefersReducedMotion)
+  animateFlowerRotation('.palo-verde-flower', '.palo-verde, #creatorarq-investment, #creatorarq-creators', prefersReducedMotion)
     }
   }
   

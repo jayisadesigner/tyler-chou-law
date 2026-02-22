@@ -63,7 +63,7 @@ body:not(.intro-active) .hero-content {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1512px;
+  max-width: var(--container-wide-max);
   padding: var(--space-2xl) var(--space-md);
   display: grid;
   grid-template-columns: 1fr;
@@ -124,7 +124,7 @@ body:not(.intro-active) .hero-content {
   width: fit-content;
   min-width: fit-content;
   margin: 0 auto; /* Center the element */
-  text-wrap: balance; /* Balance lines to avoid widows */
+  text-wrap: var(--text-wrap-headline);
 }
 
 /* Hero Logo - replaces headline with image */
@@ -299,7 +299,7 @@ body.bg-bone .hero-subheadline--inner-page {
   /* Use CSS variable that adapts to background - set by body.bg-* classes */
   color: var(--text-body-color);
   text-align: var(--text-align-center);
-  text-wrap: balance;
+  text-wrap: var(--text-wrap-body);
   margin-top: var(--space-lg);
   margin-bottom: 0;
 }
@@ -313,9 +313,10 @@ body.bg-bone .hero-subheadline--inner-page {
   color: var(--text-body-color);
   text-align: var(--text-align-center); /* Centered by default */
   text-align-last: var(--text-align-center);
-  text-wrap: balance;
+  text-wrap: var(--text-wrap-body);
   margin: 0;
 }
+
 
 /* Love Letters page: uses --text-body-color set by body.page-love-letters */
 
@@ -419,7 +420,7 @@ body.page-creatorarq .hero .background-image::after {
   text-align-last: var(--text-align-left);
   width: 100%;
   margin: 0 0 var(--space-lg) 0;
-  text-wrap: balance;
+  text-wrap: var(--text-wrap-headline);
 }
 
 /* Hero headlines with line animation: center line spans */

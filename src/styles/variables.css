@@ -435,6 +435,9 @@
   --breakpoint-lg: 1024px;  /* Desktop */
   --breakpoint-xl: 1280px;  /* Large desktop */
   --breakpoint-2xl: 1536px; /* Extra large desktop */
+
+  /* Shared max-width for hero content and centered sections (keep equal) */
+  --container-wide-max: 1728px;
 }
 
 /* Typography Scale - Mobile First */
@@ -469,6 +472,10 @@
   --text-align-left: left; /* Left alignment utility */
   --text-align-right: right; /* Right alignment utility */
   --text-align-justify: justify; /* Justify alignment utility */
+  
+  /* Text wrap - applied via typography system */
+  --text-wrap-headline: balance;
+  --text-wrap-body: balance;
   
   /* Type Scale - Base (Mobile: 320px-767px) */
   
