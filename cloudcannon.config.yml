@@ -1,6 +1,7 @@
 paths:
   static: src
   uploads: src/assets/images/uploads
+  output: dist
 timezone: America/Los_Angeles
 markdown:
   engine: commonmark
