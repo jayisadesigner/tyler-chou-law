@@ -22,7 +22,6 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
-    "decap-cms": "^3.9.0",
     "gsap": "^3.14.2",
     "lenis": "^1.3.16",
     "marked": "^17.0.1",
