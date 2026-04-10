@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run build:roster && npm run build:blog && vite",
+    "dev": "npm run build:roster && npm run build:pages && npm run build:blog && vite",
     "build:roster": "node scripts/build-roster.js",
     "build:blog": "node scripts/build-blog.js",
     "build:sitemap": "node scripts/build-sitemap.js",
