@@ -43,3 +43,6 @@ content/blog/*.md.bak
 # Auto-generated build artifacts
 public/feed.xml
 public/sitemap.xml
+
+# Roster pages generated from content/roster/*.yml
+roster/*.html
