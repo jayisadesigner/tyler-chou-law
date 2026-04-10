@@ -36,14 +36,14 @@
 html {
   /* scroll-behavior handled by Lenis */
   background-color: var(--chuparosa-600); /* Default to home page color */
-  overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
+  overflow-x: clip; /* clip (not hidden) — prevents layout overflow without blocking nested horizontal scroll on iOS Safari */
   /* Page-specific background colors set via body classes will override via CSS variable */
   --page-bg-color: var(--chuparosa-600); /* Default variable */
 }
 
 body {
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip (not hidden) — allows .love-notes__carousel to scroll horizontally on iOS */
   background-color: var(--chuparosa-600); /* Default background */
   /* No transition - allows for instant flip on Palo Verde section */
   /* Fade transitions can be added per-page as needed */

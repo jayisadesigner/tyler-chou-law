@@ -634,8 +634,13 @@ body.bg-bone .content-section__body {
   }
 }
 
-/* Desktop: Increase max-width */
+/* Desktop: Increase max-width + match site margin (var(--space-lg) = 32px) */
 @media (min-width: 1024px) {
+  .content-section--centered .content-section__container {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+
   .content-section--centered .content-section__content {
     max-width: 800px;
   }

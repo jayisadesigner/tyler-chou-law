@@ -165,18 +165,7 @@
   }
   
   /* about-name mobile styles now handled by base mobile-first styles */
-  
-  /* Ensure flower overflow works on large desktop */
-  @media (min-width: 1536px) {
-    .about {
-      overflow: visible;
-    }
-    
-    .about-container {
-      overflow: visible;
-    }
-  }
-  
+
   .services-grid,
   .roster-grid {
     grid-template-columns: 1fr;

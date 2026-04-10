@@ -159,33 +159,20 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
   gap: var(--space-xl); /* Match spacing between the two divs */
 }
 
-/* Mobile: Use CSS Grid to control exact item order */
+/* Mobile: Tighter padding + scrollable fallback for very small screens */
 @media (max-width: 767px) {
   .nav-menu.is-open {
-    display: grid;
-    grid-template-rows: repeat(6, auto); /* Auto sizing for content */
-    row-gap: var(--space-lg); /* Reduced gap to fit all items on screen */
-    align-items: center;
-    justify-items: center;
-    padding-top: var(--space-2xl); /* Reduced top padding */
-    padding-bottom: var(--space-2xl); /* Bottom padding for balance */
-    align-content: center; /* Center grid tracks vertically */
-    overflow-y: auto; /* Allow scrolling if needed on very small screens */
-    max-height: 100vh; /* Ensure it doesn't exceed viewport */
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+    gap: var(--space-md); /* gap between the two nav-menu__items groups */
+    overflow-y: auto;
+    max-height: 100vh;
   }
-  
-  /* Flatten the wrapper divs so items can be placed in grid */
+
+  /* Links within each group tighter than desktop */
   .nav-menu.is-open .nav-menu__items {
-    display: contents;
+    gap: var(--space-lg);
   }
-  
-  /* Place items in specific grid rows for desired order */
-  .nav-menu.is-open a[href="/services.html"] { grid-row: 1; }
-  .nav-menu.is-open a[href="/about.html"] { grid-row: 2; }
-  .nav-menu.is-open a[href="/roster.html"] { grid-row: 3; }
-  .nav-menu.is-open a[href="/creatorarq.html"] { grid-row: 4; }
-  .nav-menu.is-open a[href="/love-letters.html"] { grid-row: 5; }
-  .nav-menu.is-open a[href="/contact.html"] { grid-row: 6; }
 }
 
 /* Line animation structure (matching headline animation) - applies to all */
