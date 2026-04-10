@@ -8,6 +8,17 @@ markdown:
   options: {}
 
 collections_config:
+  pages:
+    path: ""
+    glob:
+      - "*.html"
+      - "!404.html"
+    icon: wysiwyg
+    name: Pages
+    disable_add: true
+    disable_add_folder: true
+    disable_delete: true
+
   roster:
     path: content/roster
     icon: person
