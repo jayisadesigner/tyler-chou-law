@@ -1,0 +1,11 @@
+paths:
+  static: src
+  uploads: src/assets/images/blog
+timezone: America/Los_Angeles
+markdown:
+  engine: commonmark
+  options: {}
+collections_config:
+  blog:
+    path: content/blog
+    icon: event_available
