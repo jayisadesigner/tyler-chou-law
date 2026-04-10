@@ -46,3 +46,4 @@ public/sitemap.xml
 
 # Roster pages generated from content/roster/*.yml
 roster/*.html
+public/assets/videos/intro/intro-*-original.mp4
