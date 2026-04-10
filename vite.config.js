@@ -1,7 +1,20 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import { readFileSync, existsSync, readdirSync, statSync, copyFileSync, mkdirSync, writeFileSync } from 'fs'
-import { join } from 'path'
+import { join, basename, extname } from 'path'
+
+// Dynamically discover generated roster pages
+function getRosterInputs() {
+  const rosterDir = join(__dirname, 'roster')
+  if (!existsSync(rosterDir)) return {}
+  return readdirSync(rosterDir)
+    .filter(f => f.endsWith('.html'))
+    .reduce((acc, f) => {
+      const name = basename(f, extname(f))
+      acc[`roster/${name}`] = resolve(rosterDir, f)
+      return acc
+    }, {})
+}
 
 export default defineConfig({
   build: {
@@ -19,15 +32,8 @@ export default defineConfig({
         'thank-you': resolve(__dirname, 'thank-you.html'),
         'email-signature-preview': resolve(__dirname, 'email-signature-preview.html'),
         admin: resolve(__dirname, 'admin/index.html'),
-        // Roster pages - static HTML files processed by Vite
-        'roster/calebhammer': resolve(__dirname, 'roster/calebhammer.html'),
-        'roster/cassandrabankson': resolve(__dirname, 'roster/cassandrabankson.html'),
-        'roster/jacksfilms': resolve(__dirname, 'roster/jacksfilms.html'),
-        'roster/jadroppingscience': resolve(__dirname, 'roster/jadroppingscience.html'),
-        'roster/jennyhoyos': resolve(__dirname, 'roster/jennyhoyos.html'),
-        'roster/jesser': resolve(__dirname, 'roster/jesser.html'),
-        'roster/samandcolby': resolve(__dirname, 'roster/samandcolby.html'),
-        'roster/sticks': resolve(__dirname, 'roster/sticks.html'),
+        // Roster pages discovered dynamically from roster/ directory
+        ...getRosterInputs(),
         // Blog posts are generated to love-letters/ directory by build:blog
         // Vite will process them automatically if they're in the root
         // They'll be copied to dist/love-letters/ during build
