@@ -1,0 +1,19 @@
+handle: "@handle"
+slug: slug
+photo: /src/assets/images/roster/photo.jpg
+order: 99
+external_url: ""
+youtube_url: ""
+seo_description: ""
+stats:
+  - value: ""
+    label: "subscribers"
+  - value: ""
+    label: "total views"
+  - value: ""
+    label: "core demo"
+  - value: ""
+    label: "top region"
+bio:
+  - ""
+featured_videos: []

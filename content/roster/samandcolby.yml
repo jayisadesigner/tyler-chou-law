@@ -1,0 +1,23 @@
+handle: "@samandcolby"
+slug: samandcolby
+photo: /src/assets/images/roster/@samandcolby.webp
+order: 8
+external_url: ""
+youtube_url: "https://youtube.com/@samandcolby"
+seo_description: "Sam Golbach and Colby Brock turned urban exploration and paranormal investigation into appointment viewing."
+stats:
+  - value: "15.3M"
+    label: "subscribers"
+  - value: "2.3B+"
+    label: "total views"
+  - value: "13-24"
+    label: "core demo"
+  - value: "US"
+    label: "top region"
+bio:
+  - "Sam Golbach and Colby Brock turned urban exploration and paranormal investigation into appointment viewing. Their signature series (Stanley Hotel, Hell Week, The Conjuring House) blend horror entertainment with genuine friendship chemistry."
+  - "With their XPLR clothing line and a fanbase that rivals traditional media audiences, they've proven that fear sells when you've got the right hosts. Feature-length investigations averaging 90+ minutes regularly pull 10M+ views."
+featured_videos:
+  - hij-U_onHXg
+  - 9vNnBJmtBio
+  - zSJRUojx3dE

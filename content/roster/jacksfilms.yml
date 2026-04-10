@@ -1,0 +1,23 @@
+handle: "@jacksfilms"
+slug: jacksfilms
+photo: /src/assets/images/roster/@jacksfilms.webp
+order: 6
+external_url: ""
+youtube_url: "https://youtube.com/@jacksfilms"
+seo_description: "John Patrick Douglass has been a YouTube institution since 2006, nearly two decades of parodies, sketch comedy, and the iconic YIAY series."
+stats:
+  - value: "5M"
+    label: "subscribers"
+  - value: "2.8B+"
+    label: "total views"
+  - value: "18-34"
+    label: "core demo"
+  - value: "US"
+    label: "top region"
+bio:
+  - "John Patrick Douglass has been a YouTube institution since 2006, nearly two decades of parodies, sketch comedy, and the iconic Yesterday I Asked You (YIAY) series. A 2018 Shorty Award winner for YouTuber of the Year, JacksFilms built his empire on community interaction and sharp comedic timing."
+  - "He's outlasted algorithm shifts, platform pivots, and countless trends. Longevity is rare in the creator economy; Jack's the blueprint."
+featured_videos:
+  - xDDxe_2AUEQ
+  - dFbFHIsy_-c
+  - CnnMrQaHupk
