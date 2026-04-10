@@ -31,7 +31,6 @@ export default defineConfig({
         contact: resolve(__dirname, 'contact.html'),
         'thank-you': resolve(__dirname, 'thank-you.html'),
         'email-signature-preview': resolve(__dirname, 'email-signature-preview.html'),
-        admin: resolve(__dirname, 'admin/index.html'),
         // Roster pages discovered dynamically from roster/ directory
         ...getRosterInputs(),
         // Blog posts are generated to love-letters/ directory by build:blog
@@ -67,17 +66,6 @@ export default defineConfig({
       name: 'serve-blog-posts',
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
-          // Serve admin config.yml from public directory
-          if (req.url === '/admin/config.yml') {
-            const configPath = join(__dirname, 'public', 'admin', 'config.yml')
-            if (existsSync(configPath)) {
-              const content = readFileSync(configPath, 'utf-8')
-              res.setHeader('Content-Type', 'text/yaml')
-              res.end(content)
-              return
-            }
-          }
-          
           // Check if request is for a blog post
           if (req.url?.startsWith('/love-letters/') && req.url.endsWith('.html')) {
             const blogPostPath = join(__dirname, 'dist', req.url)
