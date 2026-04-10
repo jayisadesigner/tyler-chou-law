@@ -305,3 +305,10 @@ h3.roster-list__headline {
   display: block;
 }
 
+/* Featured item — used for Creator Camp highlight */
+.roster-list__item--featured .roster-list__handle,
+.roster-list__item--featured .roster-list__name {
+  font-weight: var(--font-weight-headline);
+  color: var(--chuparosa-300, #e8a0a8);
+}
+

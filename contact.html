@@ -141,6 +141,7 @@
 
 
 
+
 <!-- Page Load Curtain -->
 <div class="curtain" aria-hidden="true">
   <div class="curtain__panel curtain__panel--left"></div>
@@ -150,15 +151,17 @@
   <nav class="main-nav" role="navigation" aria-label="Main navigation">
     <div class="nav-menu" id="mobile-menu">
       <div class="nav-menu__items nav-menu__items--left">
-        <a href="/services.html">Services</a>
-        <a href="/love-letters.html">Love Letters</a>
         <a href="/about.html">About</a>
+        <a href="/services.html">Services</a>
+        <a href="/roster.html">Roster</a>
+        <a href="/contact.html">Contact</a>
       </div>
       <div class="nav-menu__items nav-menu__items--right">
-        <a href="/roster.html">Roster</a>
         <a href="/creatorarq.html">CreatorArq</a>
         <a href="https://tyler-choulaw.mykajabi.com/community" target="_blank" rel="noopener noreferrer">Community</a>
-        <a href="/contact.html">Contact</a>
+        <a href="/love-letters.html">Love Letters</a>
+        <a href="/press.html">Press</a>
+        <a href="/speaking.html">Speaking</a>
       </div>
     </div>
     
@@ -182,6 +185,8 @@
     </button>
   </nav>
 </header>
+
+
 
 
 
@@ -634,7 +639,7 @@
             </div>
             <div class="content-section__body">
               <p>Tyler Chou Law for Creators works with established YouTube creators, creator-founders building businesses, talent managers seeking high-level legal partnership, venture funds evaluating creator investments, and industry professionals who need serious representation for serious deals.</p>
-              <p>If you're here, something is at stake. Fill out the form and we'll be in touch within 48 hours.</p>
+              <p>If you're here, something is at stake. Complete the intake form and we'll be in touch within 48 hours.</p>
             </div>
             <nav class="form-social" aria-label="Social links">
               <a href="https://www.linkedin.com/in/thecreatorsattorney" class="form-social__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
@@ -649,105 +654,11 @@
             </nav>
           </div>
           
-          <!-- Form Area (Right on desktop) -->
+          <!-- Intake CTA (Right on desktop) -->
           <div class="content-section__media content-section__media--form">
-            <form id="contact-form" class="contact-form" data-netlify="true" name="contact" method="POST" action="/thank-you.html" netlify-honeypot="bot-field">
-              <input type="hidden" name="form-name" value="contact" />
-              <p class="hidden">
-                <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-              </p>
-              
-              <div class="form-group-wrapper form-group-wrapper--name">
-                <span class="form-label-static">Name</span>
-                <div class="form-row">
-                  <div class="form-field-wrapper">
-                    <fieldset class="form-group form-group--inline">
-                      <legend class="form-legend form-legend--inline">First Name <span>(required)</span></legend>
-                      <input type="text" id="first-name" name="first-name" placeholder="Jane" required />
-                    </fieldset>
-                    <span class="error-message" aria-live="polite" aria-hidden="true" data-field="first-name"></span>
-                  </div>
-                  <div class="form-field-wrapper">
-                    <fieldset class="form-group form-group--inline">
-                      <legend class="form-legend form-legend--inline">Last Name <span>(required)</span></legend>
-                      <input type="text" id="last-name" name="last-name" placeholder="Doe" required />
-                    </fieldset>
-                    <span class="error-message" aria-live="polite" aria-hidden="true" data-field="last-name"></span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="form-group-wrapper">
-                <div class="form-field-wrapper">
-                  <fieldset class="form-group">
-                    <legend class="form-legend">Email <span>(required)</span></legend>
-                    <input type="email" id="email" name="email" placeholder="you@example.com" required />
-                  </fieldset>
-                  <span class="error-message" aria-live="polite" aria-hidden="true" data-field="email"></span>
-                </div>
-              </div>
-              
-              <div class="form-group form-group--checkboxes">
-                <span class="form-group__label-static">Creator Platforms <span>(required)</span></span>
-                <div class="form-checkboxes" data-required-group="creator-platforms">
-                  <div class="form-checkbox">
-                    <input type="checkbox" id="platform-youtube" name="creator-platforms" value="youtube" />
-                    <label for="platform-youtube">YouTube</label>
-                  </div>
-                  <div class="form-checkbox">
-                    <input type="checkbox" id="platform-tiktok" name="creator-platforms" value="tiktok" />
-                    <label for="platform-tiktok">TikTok</label>
-                  </div>
-                  <div class="form-checkbox">
-                    <input type="checkbox" id="platform-instagram" name="creator-platforms" value="instagram" />
-                    <label for="platform-instagram">Instagram</label>
-                  </div>
-                  <div class="form-checkbox">
-                    <input type="checkbox" id="platform-media-company" name="creator-platforms" value="media-company" />
-                    <label for="platform-media-company">Media Company</label>
-                  </div>
-                </div>
-                <span class="error-message" aria-live="polite" aria-hidden="true" data-field="creator-platforms"></span>
-              </div>
-              
-              <div class="form-group-wrapper">
-                <div class="form-field-wrapper">
-                  <fieldset class="form-group">
-                    <legend class="form-legend">Category <span>(required)</span></legend>
-                    <select id="category" name="category" required>
-                      <option value="">Select an option</option>
-                      <option value="legal-services">Legal Services</option>
-                      <option value="strategic-advisory">Strategic Advisory (M&A)</option>
-                      <option value="general-inquiry">General Inquiry</option>
-                    </select>
-                  </fieldset>
-                  <span class="error-message" aria-live="polite" aria-hidden="true" data-field="category"></span>
-                </div>
-              </div>
-              
-              <div class="form-group-wrapper">
-                <div class="form-field-wrapper">
-                  <fieldset class="form-group">
-                    <legend class="form-legend">Reason <span>(required)</span></legend>
-                    <textarea id="reason" name="reason" rows="6" placeholder="I'm interested in learning more about..." required></textarea>
-                  </fieldset>
-                  <span class="error-message" aria-live="polite" aria-hidden="true" data-field="reason"></span>
-                </div>
-              </div>
-              
-              <div class="form-group-wrapper">
-                <div class="form-field-wrapper">
-                  <fieldset class="form-group">
-                    <legend class="form-legend">Social Media <span>(required)</span></legend>
-                    <textarea id="social-media" name="social-media" rows="6" placeholder="https://youtube.com/@yourchannel" required></textarea>
-                  </fieldset>
-                  <span class="error-message" aria-live="polite" aria-hidden="true" data-field="social-media"></span>
-                  <p class="form-instruction">Please include hyperlinks to your social accounts.</p>
-                </div>
-              </div>
-              
-              <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">Submit</button>
-            </form>
+            <div class="intake-cta">
+              <a href="https://tylerchoulaw.cliogrow.com/intake/b7647f7880336abf4953172c6dc0aa06" class="btn btn--secondary btn--on-dark btn--chuparosa" target="_blank" rel="noopener noreferrer">Start Client Intake</a>
+            </div>
           </div>
         </div>
       </section>
@@ -780,6 +691,11 @@
     </p>
   </div>
 </section>
+
+
+
+
+
 
 
 
