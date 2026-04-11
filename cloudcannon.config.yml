@@ -74,6 +74,107 @@ collections_config:
         label: Featured Video IDs
         comment: "YouTube video IDs only (the part after watch?v=)"
 
+  testimonials:
+    path: content/data
+    glob:
+      - "testimonials.yml"
+    icon: star
+    name: Testimonials
+    singular_name: Testimonial
+    _inputs:
+      name:
+        label: Name
+      handle:
+        label: Handle
+        comment: "Social handle, e.g. @jennyhoyos"
+      stats:
+        label: Stats
+        comment: "Follower count or other stat, e.g. 9.85M followers"
+      quote:
+        type: textarea
+        label: Quote
+      photo:
+        type: image
+        label: Photo
+        options:
+          paths:
+            uploads: src/assets/images/roster
+
+  home_services:
+    path: content/data
+    glob:
+      - "home-services.yml"
+    icon: folder
+    name: Home Service Cards
+    singular_name: Service Card
+    _inputs:
+      title:
+        label: Title
+      description:
+        type: textarea
+        label: Description
+      button_text:
+        label: Button Text
+      link:
+        label: Link URL
+        comment: "Internal path (e.g. /services.html#empire) or external URL"
+
+  services_caps_infra:
+    path: content/data
+    glob:
+      - "services-caps-infra.yml"
+    icon: grid_view
+    name: Services — Infrastructure Capabilities
+    singular_name: Capability Card
+    _inputs:
+      title:
+        label: Title
+      text:
+        type: textarea
+        label: Text
+
+  services_caps_ip:
+    path: content/data
+    glob:
+      - "services-caps-ip.yml"
+    icon: grid_view
+    name: Services — IP Capabilities
+    singular_name: Capability Card
+    _inputs:
+      title:
+        label: Title
+      text:
+        type: textarea
+        label: Text
+
+  creatorarq_caps_agencies:
+    path: content/data
+    glob:
+      - "creatorarq-caps-agencies.yml"
+    icon: grid_view
+    name: CreatorArq — Agencies Capabilities
+    singular_name: Capability Card
+    _inputs:
+      title:
+        label: Title
+      text:
+        type: textarea
+        label: Text
+
+  creatorarq_caps_exit:
+    path: content/data
+    glob:
+      - "creatorarq-caps-exit.yml"
+    icon: grid_view
+    name: CreatorArq — Exit Capabilities
+    singular_name: Capability Card
+    _inputs:
+      title:
+        label: Title
+      text:
+        type: textarea
+        label: Text
+
   blog:
     path: content/blog
     icon: event_available
