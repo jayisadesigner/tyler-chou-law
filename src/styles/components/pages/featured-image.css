@@ -128,7 +128,10 @@
   line-height: var(--text-h2-line-height); /* Responsive line-height */
   color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
   text-align: var(--text-align-left);
-  width: max-content; /* Allow headline to expand beyond container max-width */
+  /* Mobile: constrain to parent width so JS line-splitter measures correct wrap points.
+     Without this, width: max-content causes the clone to be unconstrained,
+     all words land on one line, and line-inner white-space: nowrap clips on mobile. */
+  width: 100%;
   margin: 0;
 }
 
