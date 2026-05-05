@@ -50,7 +50,7 @@ export function initLoveLettersScroll(reducedMotion = false, viewportHeight = wi
   const loveNotesSection = document.querySelector('.love-notes--full-height')
   if (!loveNotesSection || !ScrollTrigger) return
   
-  const cards = loveNotesSection.querySelectorAll('.roster-card--testimonial')
+  const cards = loveNotesSection.querySelectorAll('.client-card--testimonial')
   const headline = loveNotesSection.querySelector('.love-notes__headline')
   
   if (reducedMotion) {

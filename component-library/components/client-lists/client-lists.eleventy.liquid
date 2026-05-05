@@ -1,0 +1,52 @@
+{% assign cl = block | default: include %}
+{% assign cl_layout = cl.layout | default: "right" %}
+{% assign show_overlay = cl.media.overlay %}
+{% if show_overlay == nil %}{% assign show_overlay = true %}{% endif %}
+
+<section class="content-section{% if cl_layout == 'left' %} content-section--media-left{% endif %} content-section--parallax section section-reveal">
+  <div class="content-section__container">
+    <div class="content-section__content">
+      <div class="content-section__headline">
+        <h2 class="content-section__headline-text line-animate">{{ cl.headline | line_animate }}</h2>
+      </div>
+      {% if cl.intro %}
+        <div class="content-section__body">
+          {% for p in cl.intro %}<p>{{ p.text }}</p>{% endfor %}
+
+          {% for group in cl.groups %}
+            <h3 class="client-list__headline">{{ group.title }}</h3>
+            <div class="client-list">
+              {% for item in group.items %}
+                {% if item.url %}
+                  <a class="client-list__item" href="{{ item.url }}">
+                    {% if item.handle %}<span class="client-list__handle">{{ item.handle }}</span>{% endif %}
+                    {% if item.name %}<span class="client-list__name">{{ item.name }}</span>{% endif %}
+                  </a>
+                {% else %}
+                  <div class="client-list__item">
+                    {% if item.handle %}<span class="client-list__handle">{{ item.handle }}</span>{% endif %}
+                    {% if item.name %}<span class="client-list__name">{{ item.name }}</span>{% endif %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if cl.media and cl.media.image %}
+      <div class="content-section__media">
+        <div class="background-image{% unless show_overlay %} background-image--no-overlay{% endunless %}">
+          <img class="background-image__img" src="{{ cl.media.image }}" alt="{{ cl.media.image_alt }}" loading="lazy" decoding="async" />
+          {% if show_overlay %}
+            <div class="background-image__overlay-top"></div>
+            <div class="background-image__overlay-bottom"></div>
+            <div class="background-image__overlay-left"></div>
+            <div class="background-image__overlay-right"></div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>

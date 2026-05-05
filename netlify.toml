@@ -37,3 +37,23 @@
   for = "/*"
   [headers.values]
     Permissions-Policy = "compute-pressure=()"
+
+# ─── Redirects ────────────────────────────────────────────────────────────────
+# Roster -> Clients rename (Branch 2). Old URLs serve 301 permanent so
+# search engines transfer link equity and any external/social references
+# (LinkedIn bios, press mentions, email signatures) keep working.
+
+[[redirects]]
+  from = "/roster"
+  to = "/clients/"
+  status = 301
+
+[[redirects]]
+  from = "/roster/"
+  to = "/clients/"
+  status = 301
+
+[[redirects]]
+  from = "/roster/*"
+  to = "/clients/:splat"
+  status = 301

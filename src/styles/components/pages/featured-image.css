@@ -41,12 +41,12 @@
   overflow: visible;
 }
 
-/* Desktop: Minimum height for decorative layout */
+/* Desktop: container padding only. Section min-height lives on the parent
+ * .section--featured-image (set fluidly with clamp() to track flower size). */
 @media (min-width: 1024px) {
   .section--featured-image__container {
-    padding: var(--space-4xl) var(--space-lg); /* Increased vertical spacing on desktop */
-    padding-bottom: var(--space-4xl); /* Maintain extra bottom spacing */
-    min-height: calc(617px + 500px + var(--space-4xl));
+    padding: var(--space-4xl) var(--space-lg);
+    padding-bottom: var(--space-4xl);
   }
 }
 
@@ -138,7 +138,7 @@
 /* Page-level overrides for featured image headline */
 body.page-services .section--featured-image__headline,
 body.page-about .section--featured-image__headline,
-body.page-roster .section--featured-image__headline,
+body.page-clients .section--featured-image__headline,
 body.page-creator .section--featured-image__headline {
   color: var(--text-headline-on-obsidian);
 }
@@ -177,7 +177,7 @@ body.page-love-letters .section--featured-image__headline {
 /* Page-level overrides for featured image body */
 body.page-services .section--featured-image__body,
 body.page-about .section--featured-image__body,
-body.page-roster .section--featured-image__body,
+body.page-clients .section--featured-image__body,
 body.page-creator .section--featured-image__body {
   color: var(--text-body-on-obsidian);
 }
@@ -246,27 +246,63 @@ body.page-love-letters .section--featured-image__body {
 
 /* Old about-portrait and palo-verde-tree styles removed - now using section--featured-image */
 
-/* Shared Decorative Flower Styles */
+/* ========================================
+   Decorative Flower (about-flower / palo-verde-flower)
+   ----------------------------------------
+   The SVG (about) and PNG (palo verde) decorations sit absolutely positioned
+   inside .section--featured-image__image. They bleed beyond the image and
+   beyond the section to create a backdrop-style flourish.
+   
+   Sized fluidly with clamp() so they scale smoothly between 1024px and very
+   large viewports, instead of snapping at media-query breakpoints.
+   
+   Doubled from the original 850px floor — now ranges 800px → ~80vw → 1700px.
+   `aspect-ratio: 1` guarantees square so we don't have to maintain two values.
+   `right` is half-negative-of-width so the flower extends roughly half off the
+   right edge regardless of size. `top: 50%; translateY(-50%)` vertically
+   centers around the parent image's mid-point so it grows symmetrically as it
+   scales.
+   ======================================== */
 .about-flower,
 .palo-verde-flower {
   position: absolute;
   z-index: 1;
+  width: clamp(800px, 80vw, 1700px);
+  aspect-ratio: 1 / 1;
+  height: auto;
+  right: calc(clamp(800px, 80vw, 1700px) / -2.4);
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
-/* Shared positioning for both flowers */
-.about-flower,
-.palo-verde-flower {
-  right: -350px;
-  top: 379px;
-  width: 850px;
-  height: 850px;
-}
-
-/* CreatorArq flower positioning - centered section */
+/* CreatorArq flower keeps its existing centered styling — its parent is
+ * already large enough that the doubled clamp() works without further tweak. */
 #creatorarq-creators .palo-verde-flower,
 #creatorarq-investment .palo-verde-flower {
   top: 50%;
   transform: translateY(-50%);
+}
+
+/* The section needs to be tall enough to contain the larger flower without
+ * the flower intruding into the following section. clamp() keeps the section
+ * height in sync with the flower height so they scale together. */
+.section--featured-image:has(.about-flower),
+.section--featured-image:has(.palo-verde-flower) {
+  min-height: clamp(900px, 85vw, 1800px);
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 1023px) {
+  /* Decorative flowers only appear on tablet/desktop — keep min-height off
+   * mobile so the section doesn't blow out vertically when the flower is
+   * `display: none` (set in responsive-overrides.css). */
+  .section--featured-image:has(.about-flower),
+  .section--featured-image:has(.palo-verde-flower) {
+    min-height: 0;
+    display: block;
+  }
 }
 
 .about-flower__image,

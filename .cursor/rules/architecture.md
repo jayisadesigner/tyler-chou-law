@@ -43,18 +43,18 @@ There is **no** React, no Vite, no Webpack, no Decap CMS. Don't reintroduce them
 │   │   ├── site.json            # brand, canonical bio, social, contact
 │   │   ├── nav.yml              # primary + footer + llms.txt structure
 │   │   ├── seo.yml              # AI crawler list, OG defaults
-│   │   ├── roster.js            # builds the roster collection from YAML
+│   │   ├── clients.js            # builds the clients collection from YAML
 │   │   ├── testimonials.js      # builds testimonials data
 │   │   └── videos.js            # builds YouTube grid data from config/youtube-videos.json
 │   │
 │   ├── _includes/
-│   │   ├── layouts/             # base.liquid, page.liquid, blog-post.liquid, roster-creator.liquid
+│   │   ├── layouts/             # base.liquid, page.liquid, blog-post.liquid, client.liquid
 │   │   └── partials/            # head, header, footer, disclaimer, schema-person, schema-breadcrumb
 │   │
 │   ├── content/                 # all editable content (this is what CloudCannon edits)
 │   │   ├── pages/               # one .md per page; renders via `layout: page.liquid` + `blocks:`
 │   │   ├── blog/                # love letters; auto-emits at /love-letters/<slug>/
-│   │   ├── roster/              # creator YAMLs; auto-paginated to /roster/<slug>/
+│   │   ├── clients/             # creator YAMLs; auto-paginated to /clients/<slug>/
 │   │   ├── press/               # press citations; surfaced via press-grid component
 │   │   └── speaking/            # speaking engagements; surfaced via speaking-grid component
 │   │

@@ -47,7 +47,7 @@ export function setBodyTheme(themeClass) {
     let defaultColor = 'var(--nav-text-on-chuparosa-600, var(--chuparosa-100))' // Default for home/contact/creator/blog-post
     
     if (document.body.classList.contains('page-services') || 
-        document.body.classList.contains('page-roster')) {
+        document.body.classList.contains('page-clients')) {
       defaultColor = 'var(--bone)' // Bone text on obsidian background
     } else if (document.body.classList.contains('page-about')) {
       defaultColor = 'var(--nav-text-on-bone, var(--obsidian))' // Obsidian text on bone background
@@ -92,7 +92,7 @@ export function setNavColor(textColor, hamburgerColor = null) {
     
     if (document.body.classList.contains('page-services') || 
         document.body.classList.contains('page-about') || 
-        document.body.classList.contains('page-roster')) {
+        document.body.classList.contains('page-clients')) {
       defaultColor = 'var(--bone)'
     } else if (document.body.classList.contains('page-love-letters')) {
       defaultColor = 'var(--obsidian)'

@@ -87,8 +87,8 @@ props:
 2. Use the component on a real page in `src/content/pages/<page>.md` via `_bookshop_name: <name>`
 3. Add CSS in `src/styles/components/<name>.css` and `@import` it from `src/styles/main.css`
 4. Verify in `npm run dev`
-5. If the component renders a list (testimonials, roster, videos), wire the data source into `src/_data/<name>.js` rather than passing the list inline
+5. If the component renders a list (testimonials, clients, videos), wire the data source into `src/_data/<name>.js` rather than passing the list inline
 
 ## Existing components — reference
 
-The component library covers: `hero`, `content-section`, `content-split`, `featured-image`, `intro`, `philosophy`, `capabilities`, `services-grid`, `roster-grid`, `roster-lists`, `logo-grid`, `testimonials`, `youtube-grid`, `press-grid`, `speaking-grid`, `blog-listing`, `mouse-trail-cta`, `cta`, `contact-form`, `thank-you-panel`, `faq`. Reach for one of these before building new — most page sections are expressible as some combination of `hero` + `content-split` + `capabilities` + `cta`.
+The component library covers: `hero`, `content-section`, `content-split`, `featured-image`, `intro`, `philosophy`, `capabilities`, `services-grid`, `client-grid`, `client-lists`, `logo-grid`, `testimonials`, `youtube-grid`, `press-grid`, `speaking-grid`, `blog-listing`, `mouse-trail-cta`, `cta`, `contact-form`, `thank-you-panel`, `faq`. Reach for one of these before building new — most page sections are expressible as some combination of `hero` + `content-split` + `capabilities` + `cta`.

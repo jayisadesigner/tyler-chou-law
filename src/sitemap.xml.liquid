@@ -19,7 +19,7 @@ layout: null
     <loc>{{ site.url }}{{ url_path }}</loc>
     {% if page.date %}<lastmod>{{ page.date | isoDate }}</lastmod>{% endif %}
     <changefreq>{% if url_path == '/' %}weekly{% elsif url_path contains '/love-letters/' %}monthly{% else %}monthly{% endif %}</changefreq>
-    <priority>{% if url_path == '/' %}1.0{% elsif url_path contains '/love-letters/' or url_path contains '/roster/' %}0.7{% else %}0.8{% endif %}</priority>
+    <priority>{% if url_path == '/' %}1.0{% elsif url_path contains '/love-letters/' or url_path contains '/clients/' %}0.7{% else %}0.8{% endif %}</priority>
   </url>
   {%- endfor %}
 </urlset>

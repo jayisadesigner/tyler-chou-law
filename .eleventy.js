@@ -8,7 +8,7 @@
  *   dist/                      -> output
  *   src/content/pages/*.md     -> rendered through layouts/page.liquid using Bookshop blocks
  *   src/content/blog/*.md      -> rendered through layouts/blog-post.liquid (Phase 3d)
- *   src/content/roster/*.yml   -> per-creator pages via pagination (Phase 3d)
+ *   src/content/clients/*.yml  -> per-creator pages via pagination (Phase 3d)
  *   src/content/press/*.md     -> data only, surfaced via the press-grid component on /press/
  *   src/content/speaking/*.md  -> data only, surfaced via the speaking-grid component on /speaking/
  *

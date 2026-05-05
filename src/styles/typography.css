@@ -91,7 +91,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Text wrap system - headline and display type (class-based) */
 [class*="headline"],
 .service-card__title,
-.roster-card__title,
+.client-card__title,
 .thank-you-headline,
 .credentials-title,
 .services-capabilities__title {

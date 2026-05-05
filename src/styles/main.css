@@ -21,7 +21,7 @@
 @import './components/pages/love-notes.css';
 @import './components/pages/philosophy.css';
 @import './components/pages/responsive-overrides.css';
-@import './components/pages/roster-card.css';
+@import './components/pages/client-card.css';
 @import './components/pages/section-grid.css';
 @import './components/pages/logo-grid.css';
 @import './components/pages/services.css';
@@ -86,8 +86,8 @@ html:has(body.page-love-letters) {
 
 body.page-services,
 html:has(body.page-services),
-body.page-roster,
-html:has(body.page-roster),
+body.page-clients,
+html:has(body.page-clients),
 body.page-creator,
 html:has(body.page-creator) {
   background-color: var(--obsidian);

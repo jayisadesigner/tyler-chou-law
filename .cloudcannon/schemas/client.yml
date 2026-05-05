@@ -1,6 +1,6 @@
 handle: "@handle"
 slug: slug
-photo: /src/assets/images/roster/photo.jpg
+photo: /src/assets/images/clients/photo.jpg
 order: 99
 external_url: ""
 youtube_url: ""

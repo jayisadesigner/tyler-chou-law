@@ -1,11 +1,11 @@
 ---
-layout: roster-creator.liquid
+layout: client.liquid
 pagination:
-  data: roster
+  data: clients
   size: 1
   alias: creator
-permalink: "/roster/{{ creator.slug }}/"
-pageClass: roster-detail
+permalink: "/clients/{{ creator.slug }}/"
+pageClass: client-detail
 title: "{{ creator.handle }} | Tyler Chou Law For Creators"
 description: "{{ creator.seo_description }}"
 ogImage: "{{ creator.photo | replace: '/src/', '/' }}"

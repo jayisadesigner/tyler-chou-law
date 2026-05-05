@@ -81,17 +81,17 @@ collections_config:
       image_alt:
         comment: "Description of the image for accessibility and SEO."
 
-  roster:
-    path: src/content/roster
+  clients:
+    path: src/content/clients
     output: true
-    url: "/roster/[slug]/"
+    url: "/clients/[slug]/"
     icon: person
-    name: Roster
-    singular_name: Creator
+    name: Clients
+    singular_name: Client
     schemas:
       default:
-        path: .cloudcannon/schemas/roster-creator.yml
-        name: New Creator
+        path: .cloudcannon/schemas/client.yml
+        name: New Client
     _editables:
       content:
         italic: true
@@ -110,14 +110,14 @@ collections_config:
         comment: "Square photo, minimum 800x800px."
         options:
           paths:
-            uploads: src/assets/images/roster
+            uploads: src/assets/images/clients
       order:
         type: number
         label: Display Order
         comment: "Lower numbers appear first in the grid."
       external_url:
         label: External URL
-        comment: "If set, the roster card links here instead of an internal page."
+        comment: "If set, the client card links here instead of an internal page."
       youtube_url:
         label: YouTube Channel URL
       seo_description:

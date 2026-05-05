@@ -1,6 +1,6 @@
-/* Roster Grid */
+/* Client Grid */
 /* Mobile-first: single column, then auto-fit at 640px+ */
-.roster-grid {
+.client-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0;
@@ -9,7 +9,7 @@
 
 /* Small tablet and up: auto-fit columns */
 @media (min-width: 640px) {
-  .roster-grid {
+  .client-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 0;
   }
@@ -18,7 +18,7 @@
 /* ========================================
    Section Grid Component
    Mobile-first grid sections with consistent container behavior
-   Used by: Roster, Services, future grid-based sections
+   Used by: Clients, Services, future grid-based sections
    ======================================== */
 
 /* Base section */
@@ -84,15 +84,15 @@
   color: var(--text-headline-on-chuparosa-600); /* Default: home page background */
 }
 
-/* Services, About, Roster pages: obsidian background */
+/* Services, About, Clients pages: obsidian background */
 body.page-services .section-grid__headline .content-section__headline-text,
 body.page-about .section-grid__headline .content-section__headline-text,
-body.page-roster .section-grid__headline .content-section__headline-text,
+body.page-clients .section-grid__headline .content-section__headline-text,
 body.page-creator .section-grid__headline .content-section__headline-text {
   color: var(--text-headline-on-obsidian);
 }
 
-/* Love letters page: bone background (if roster section appears there) */
+/* Love letters page: bone background (if clients section appears there) */
 body.page-love-letters .section-grid__headline .content-section__headline-text {
   color: var(--text-headline-on-bone);
 }
@@ -135,10 +135,10 @@ body.page-love-letters .section-grid__headline .content-section__headline-text {
   display: grid;
   width: 100%;
   gap: 0;
-  overflow: visible; /* Allow roster card handles to overflow */
+  overflow: visible; /* Allow client card handles to overflow */
 }
 
-/* Allow overflow on creator pages for roster cards */
+/* Allow overflow on creator pages for client cards */
 body.page-creator .section-grid__container {
   overflow: visible;
 }
@@ -148,55 +148,55 @@ body.page-creator .section-grid {
 }
 
 /* ========================================
-   Roster Modifier
+   Clients Modifier
    ======================================== */
 
-/* Roster section: match Client Love Notes - background only behind the grid */
-.section-grid--roster .section-grid__grid {
+/* Clients section: match Client Love Notes - background only behind the grid */
+.section-grid--clients .section-grid__grid {
   background-color: var(--chuparosa-700);
 }
 
-/* Remove horizontal padding from roster container (grid needs full width) */
-.section-grid--roster .section-grid__container {
+/* Remove horizontal padding from clients container (grid needs full width) */
+.section-grid--clients .section-grid__container {
   padding-left: 0;
   padding-right: 0;
   padding-bottom: 0;
 }
 
-/* Add horizontal padding to roster header only */
-.section-grid--roster .section-grid__header {
+/* Add horizontal padding to clients header only */
+.section-grid--clients .section-grid__header {
   padding-left: var(--space-md);
   padding-right: var(--space-md);
 }
 
 @media (min-width: 768px) {
-  .section-grid--roster .section-grid__header {
+  .section-grid--clients .section-grid__header {
     padding-left: var(--space-lg);
     padding-right: var(--space-lg);
   }
 }
 
-.section-grid--roster .section-grid__grid {
+.section-grid--clients .section-grid__grid {
   grid-template-columns: 1fr; /* Mobile: single column */
 }
 
 /* Small tablet: 2 columns */
 @media (min-width: 640px) {
-  .section-grid--roster .section-grid__grid {
+  .section-grid--clients .section-grid__grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* Desktop: 4 columns (2 rows) - even layout for 8 cards */
 @media (min-width: 1024px) {
-  .section-grid--roster .section-grid__grid {
+  .section-grid--clients .section-grid__grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
 /* Extra large desktop: keep 4 columns for even layout */
 @media (min-width: 1536px) {
-  .section-grid--roster .section-grid__grid {
+  .section-grid--clients .section-grid__grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }

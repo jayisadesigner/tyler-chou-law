@@ -69,7 +69,7 @@ Generated against the Plan 1 §10 validator checklist after the Eleventy + Books
 ### CMS handoff
 
 - [x] CloudCannon visual editor configured for Bookshop components
-- [x] Six collections set up: Pages, Blog (Love Letters), Roster, Press, Speaking, Site Data
+- [x] Six collections set up: Pages, Blog (Love Letters), Clients, Press, Speaking, Site Data
 - [x] CloudCannon schemas in `.cloudcannon/schemas/` provide default content for new items
 - [x] Tyler-team handoff manual at `docs/cloudcannon-handoff.md`
 - [x] Five task walkthroughs covering the most frequent operations
@@ -78,7 +78,7 @@ Generated against the Plan 1 §10 validator checklist after the Eleventy + Books
 ### Developer ergonomics
 
 - [x] Cursor rules consolidated from 7 stale files to 4 focused files (architecture, components, content, style-and-quality)
-- [x] 8 Cursor agent skills authored for recurring authoring tasks (add-page, add-service, add-press-citation, add-speaking-engagement, add-blog-post, add-roster-creator, add-bookshop-component, update-canonical-bio)
+- [x] 8 Cursor agent skills authored for recurring authoring tasks (add-page, add-service, add-press-citation, add-speaking-engagement, add-blog-post, add-client, add-bookshop-component, update-canonical-bio)
 
 ---
 

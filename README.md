@@ -32,7 +32,7 @@ npm run preview
 tyler-chou-law/
 ├── index.html              # Landing page
 ├── about.html              # About page
-├── roster.html             # Roster page
+├── clients.html            # Clients (formerly Roster) page
 ├── creatorarq.html         # CreatorArq page
 ├── services.html           # Services page
 ├── love-letters.html       # Blog index

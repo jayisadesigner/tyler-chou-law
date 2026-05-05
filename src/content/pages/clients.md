@@ -1,8 +1,8 @@
 ---
 layout: page.liquid
-permalink: /roster/
-pageClass: roster
-title: Our Roster | Tyler Chou Law For Creators
+permalink: /clients/
+pageClass: clients
+title: Our Clients | Tyler Chou Law For Creators
 description: The empire builders Tyler Chou Law For Creators represents — established YouTube creators, creator-founders, and visionaries scaling into eight- and nine-figure businesses.
 ogImage: /assets/images/about/hero-about-tyler-chou-on-stage.jpg
 blocks:
@@ -16,11 +16,11 @@ blocks:
       video_title: "Tyler Chou Law For Creators speaking clip"
       overlay: true
 
-  - _bookshop_name: roster-grid
+  - _bookshop_name: client-grid
     headline: "Who We Work With"
     source: collection
 
-  - _bookshop_name: roster-lists
+  - _bookshop_name: client-lists
     layout: right
     headline: "Founders. Entrepreneurs. Visionaries."
     intro:
@@ -28,14 +28,14 @@ blocks:
     groups:
       - title: "Selected Client List"
         items:
-          - { handle: "@jennyhoyos", name: "Jenny Hoyos", url: "/roster/jennyhoyos/" }
-          - { handle: "@calebhammer", name: "Caleb Hammer", url: "/roster/calebhammer/" }
-          - { handle: "@jesser", name: "Jesser", url: "/roster/jesser/" }
-          - { handle: "@jadroppingscience", name: "James Andrew", url: "/roster/jadroppingscience/" }
-          - { handle: "@Sticks", name: "Lucas & Curtis Nicotra", url: "/roster/sticks/" }
-          - { handle: "@jacksfilms", name: "John Patrick Douglass", url: "/roster/jacksfilms/" }
-          - { handle: "@samandcolby", name: "Sam Golbach & Colby Brock", url: "/roster/samandcolby/" }
-          - { handle: "@littleremyfood", url: "/roster/littleremyfood/" }
+          - { handle: "@jennyhoyos", name: "Jenny Hoyos", url: "/clients/jennyhoyos/" }
+          - { handle: "@calebhammer", name: "Caleb Hammer", url: "/clients/calebhammer/" }
+          - { handle: "@jesser", name: "Jesser", url: "/clients/jesser/" }
+          - { handle: "@jadroppingscience", name: "James Andrew", url: "/clients/jadroppingscience/" }
+          - { handle: "@Sticks", name: "Lucas & Curtis Nicotra", url: "/clients/sticks/" }
+          - { handle: "@jacksfilms", name: "John Patrick Douglass", url: "/clients/jacksfilms/" }
+          - { handle: "@samandcolby", name: "Sam Golbach & Colby Brock", url: "/clients/samandcolby/" }
+          - { handle: "@littleremyfood", url: "/clients/littleremyfood/" }
           - { name: "Moose Painting" }
           - { handle: "@glowbymonica", name: "Monica Ravichandran" }
           - { handle: "@alaskaelvated" }

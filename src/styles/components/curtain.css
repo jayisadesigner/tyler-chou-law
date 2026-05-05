@@ -35,7 +35,7 @@
   flex: 1;
   /* Brand-primary chuparosa for high contrast against every page background.
    * Was chuparosa-700 (#7c0512) which sat too close in luminance to the
-   * obsidian (#120203) page bg of /about/, /services/, /roster/, /creator/ —
+   * obsidian (#120203) page bg of /about/, /services/, /clients/, /creator/ —
    * the slide-off reveal was technically running but visually invisible. */
   background-color: var(--chuparosa-500);
   /* Default = panel covers its half of the screen. Animations override this

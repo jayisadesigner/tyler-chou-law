@@ -2,7 +2,7 @@
 layout: base.liquid
 ---
 {% assign c = creator %}
-<article class="roster-creator">
+<article class="client">
   <section class="hero hero--inner-page section section-reveal">
     {% if c.photo %}
       <div class="background-image">
@@ -24,13 +24,13 @@ layout: base.liquid
   </section>
 
   {% if c.stats and c.stats.size > 0 %}
-    <section class="roster-stats section section-reveal">
+    <section class="client-stats section section-reveal">
       <div class="container">
-        <ul class="roster-stats__list" role="list">
+        <ul class="client-stats__list" role="list">
           {% for stat in c.stats %}
-            <li class="roster-stats__item">
-              <span class="roster-stats__value">{{ stat.value }}</span>
-              <span class="roster-stats__label">{{ stat.label }}</span>
+            <li class="client-stats__item">
+              <span class="client-stats__value">{{ stat.value }}</span>
+              <span class="client-stats__label">{{ stat.label }}</span>
             </li>
           {% endfor %}
         </ul>
@@ -56,7 +56,7 @@ layout: base.liquid
   <section class="content-section content-section--centered section section-reveal">
     <div class="content-section__container">
       <div class="content-section__content">
-        <a href="/roster/" class="btn btn--ghost btn--on-dark btn--chuparosa">← Back to Roster</a>
+        <a href="/clients/" class="btn btn--ghost btn--on-dark btn--chuparosa">← Back to Clients</a>
       </div>
     </div>
   </section>

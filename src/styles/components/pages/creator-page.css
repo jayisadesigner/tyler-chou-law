@@ -157,10 +157,10 @@
   width: 100%;
 }
 
-/* Keep YouTube videos single column on roster pages */
+/* Keep YouTube videos single column on client pages */
 .creator-videos .youtube-videos-grid {
   display: grid;
-  grid-template-columns: 1fr; /* Always single column on roster pages */
+  grid-template-columns: 1fr; /* Always single column on client pages */
   gap: var(--space-xl); /* Increased from var(--space-md) */
   width: 100%;
   margin-top: 0; /* Remove default margin-top from base class */
