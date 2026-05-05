@@ -1,0 +1,115 @@
+/* ========================================
+   Client Detail Page
+   Body class: page-client-detail
+   Layout: src/_includes/layouts/client.liquid
+   Sections: hero -> stats -> bio -> videos -> mouse-trail CTA
+   ======================================== */
+
+/* ---- Page wrapper ---- */
+.client-detail {
+  display: block;
+  width: 100%;
+}
+
+/* ---- Hero portrait treatment ---- */
+/* Match the blog-image style: subtle blur + obsidian multiply for dramatic
+   readability over a busy portrait background. */
+body.page-client-detail .hero .background-image__img {
+  filter: blur(0.5px);
+  transition: filter 0.3s ease;
+}
+
+body.page-client-detail .hero .background-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-color: var(--obsidian);
+  mix-blend-mode: multiply;
+  opacity: 0.3;
+}
+
+@media (max-width: 767px) {
+  body.page-client-detail .hero .background-image__img {
+    filter: blur(0.3px);
+  }
+}
+
+/* ---- Stats section ---- */
+.client-stats {
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-2xl);
+}
+
+.client-stats__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg) var(--space-xl);
+}
+
+.client-stats__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.client-stats__value {
+  display: block;
+  font-family: var(--font-headline);
+  font-size: var(--text-h3-size);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--text-h3-line-height);
+  color: var(--text-headline-on-obsidian);
+  text-transform: var(--text-transform-ui);
+}
+
+.client-stats__label {
+  display: block;
+  font-family: var(--font-paragraph);
+  font-size: var(--text-p-size);
+  font-weight: var(--font-weight-paragraph);
+  line-height: var(--text-p-line-height);
+  color: var(--text-body-on-obsidian);
+}
+
+@media (min-width: 768px) {
+  .client-stats__list {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .client-stats__value {
+    font-size: var(--text-h2-size);
+    line-height: var(--text-h2-line-height);
+  }
+}
+
+/* ---- Featured Videos rail ---- */
+/* Stack the videos vertically full-width on creator detail (the live site
+   shows one large video per row, not a 2-up grid). */
+.client-detail__videos .youtube-videos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  width: 100%;
+  margin-top: var(--space-lg);
+}
+
+@media (min-width: 640px) {
+  .client-detail__videos .youtube-videos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .client-detail__videos .youtube-videos-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+}
+
+/* The shared youtube-video card already handles aspect ratio + hover. */

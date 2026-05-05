@@ -1,6 +1,9 @@
+# Seed template for a new client. CloudCannon copies this when an editor
+# clicks "New Client". Field meanings are surfaced to editors via the
+# `_inputs` block in cloudcannon.config.yml.
 handle: "@handle"
 slug: slug
-photo: /src/assets/images/clients/photo.jpg
+photo: /assets/images/clients/photo.jpg
 order: 99
 external_url: ""
 youtube_url: ""
@@ -16,4 +19,5 @@ stats:
     label: "top region"
 bio:
   - ""
-featured_videos: []
+featured_videos:
+  - ""

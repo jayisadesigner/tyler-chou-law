@@ -61,5 +61,20 @@
 
   "external": {
     "kajabi": "https://tyler-choulaw.mykajabi.com/community"
+  },
+
+  "clientDetailCta": {
+    "headline": "Think You<br>Belong Here?",
+    "label": "Schedule a Consultation",
+    "url": "https://calendly.com/tyler-thecreatorsattorney",
+    "external": true,
+    "trailImages": [
+      { "src": "https://img.youtube.com/vi/KmgIxuXondw/hqdefault.jpg", "alt": "" },
+      { "src": "https://img.youtube.com/vi/sw49UUOKDXs/hqdefault.jpg", "alt": "" },
+      { "src": "https://img.youtube.com/vi/8queRjX3Ifk/hqdefault.jpg", "alt": "" },
+      { "src": "https://img.youtube.com/vi/bVE49b2IifY/hqdefault.jpg", "alt": "" },
+      { "src": "https://img.youtube.com/vi/sdRd5LbnTt0/hqdefault.jpg", "alt": "" },
+      { "src": "https://img.youtube.com/vi/n7XFjJL5UGk/hqdefault.jpg", "alt": "" }
+    ]
   }
 }

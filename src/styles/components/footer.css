@@ -1,45 +1,157 @@
-/* Footer Styles */
+/* ========================================
+   Site Footer
+   Markup: src/_includes/partials/footer.liquid
 
+   Theming model
+   -------------
+   The footer reads two semantic tokens for color:
+
+     --footer-bg    background color of the footer band
+     --footer-text  text + icon color (currentColor cascades to social SVGs)
+
+   Per-page overrides live in `Theme overrides` below. To add a new
+   page-specific footer color, set both variables for `body.page-<slug>`
+   in one block — no `:not()` cascade chains.
+
+   Hierarchy
+   ---------
+   bio (text + address) → nav (link list) → social (icons) → meta (©)
+   ======================================== */
+
+/* ---- Defaults (chuparosa-on-chuparosa) ---- */
 .site-footer {
-  background-color: var(--page-bg-color);
-  color: var(--chuparosa-100);
-  padding: var(--space-md) 0;
+  --footer-bg: var(--page-bg-color, var(--chuparosa-600));
+  --footer-text: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
+
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  padding: var(--space-2xl) 0 var(--space-lg);
   position: relative;
-  z-index: 2; /* Above disclaimer */
+  z-index: 2;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* ---- Container ---- */
 .footer-container {
   width: 100%;
-  display: flex;
-  flex-direction: column; /* Mobile-first: stack vertically */
-  align-items: center;
-  gap: var(--space-sm);
+  max-width: 1280px;
+  margin: 0 auto;
   padding: 0 var(--space-md);
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  align-items: start;
 }
 
-/* Tablet+ (768px): horizontal layout */
 @media (min-width: 768px) {
   .footer-container {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 0;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "bio    nav    social"
+      "meta   meta   meta";
+    column-gap: var(--space-2xl);
+    row-gap: var(--space-lg);
+    padding: 0 var(--space-lg);
   }
+
+  .footer-bio    { grid-area: bio; }
+  .footer-nav    { grid-area: nav; }
+  .footer-social { grid-area: social; justify-self: end; }
+  .footer-meta   { grid-area: meta; }
 }
 
-.footer-item {
+/* ---- Bio ---- */
+.footer-bio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  max-width: 36rem;
+}
+
+.footer-bio__text {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-p-small-size, 0.875rem);
+  line-height: 1.55;
+  color: inherit;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.footer-bio__address {
   font-family: var(--font-nav);
   font-size: var(--text-nav);
   font-weight: var(--font-weight-nav);
-  line-height: var(--line-height-nav);
   letter-spacing: var(--letter-spacing-nav);
-  color: var(--chuparosa-100);
   text-transform: var(--text-transform-nav);
+  color: inherit;
   margin: 0;
-  transition: color 0.3s ease;
+  opacity: 0.7;
 }
 
+/* ---- Nav ---- */
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  font-family: var(--font-nav);
+  font-size: var(--text-nav);
+  font-weight: var(--font-weight-nav);
+  letter-spacing: var(--letter-spacing-nav);
+  text-transform: var(--text-transform-nav);
+}
+
+/* ---- Social ---- */
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.footer-social__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  margin: calc(var(--space-sm) * -1);
+  padding: var(--space-sm);
+}
+
+.footer-social__icon--text {
+  font-family: var(--font-nav);
+  font-size: var(--text-nav);
+  font-weight: var(--font-weight-nav);
+  letter-spacing: var(--letter-spacing-nav);
+  text-transform: var(--text-transform-nav);
+}
+
+/* ---- Meta ---- */
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-md);
+  font-family: var(--font-nav);
+  font-size: var(--text-nav);
+  font-weight: var(--font-weight-nav);
+  letter-spacing: var(--letter-spacing-nav);
+  text-transform: var(--text-transform-nav);
+  color: inherit;
+  margin: 0;
+  padding-top: var(--space-md);
+  border-top: 1px solid currentColor;
+  border-color: color-mix(in srgb, currentColor 20%, transparent);
+  opacity: 0.85;
+}
+
+@media (min-width: 768px) {
+  .footer-meta {
+    justify-content: space-between;
+  }
+}
+
+/* ---- Shared link styling ---- */
 .footer-link {
   color: inherit;
   text-decoration: none;
@@ -47,185 +159,46 @@
 }
 
 .footer-link:hover,
-.footer-link:focus {
+.footer-link:focus-visible {
   opacity: 0.7;
 }
 
-.footer-link:focus {
+.footer-link:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
 
-/* Footer color adjustments for different backgrounds */
-/* Uses automatically generated WCAG AA compliant colors */
-/* Default: light text on dark chuparosa background */
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-clients):not(.page-creator) .site-footer {
-  background-color: var(--page-bg-color);
-  color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
-}
+/* ========================================
+   Theme overrides — set --footer-bg + --footer-text per page
+   The footer rules above pick these up automatically.
+   ======================================== */
 
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-clients):not(.page-creator) .footer-item,
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-clients):not(.page-creator) .footer-social__icon {
-  color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
-}
-
-/* Services and Clients pages: bone text on obsidian background */
+/* Obsidian footer (services, clients index, client detail, about) */
 body.page-services .site-footer,
 body.page-clients .site-footer,
-body.page-creator .site-footer {
-  background-color: var(--obsidian);
-  color: var(--bone);
-}
-
-body.page-services .footer-item,
-body.page-clients .footer-item,
-body.page-creator .footer-item,
-body.page-services .footer-social__icon,
-body.page-clients .footer-social__icon,
-body.page-creator .footer-social__icon {
-  color: var(--bone);
-}
-
-/* About page: bone text on obsidian background */
+body.page-creator .site-footer,
+body.page-client-detail .site-footer,
 body.page-about .site-footer {
-  background-color: var(--obsidian);
-  color: var(--bone);
+  --footer-bg: var(--obsidian);
+  --footer-text: var(--bone);
 }
 
-body.page-about .footer-item,
-body.page-about .footer-social__icon {
-  color: var(--bone);
-}
-
-/* Palo Verde background: light text on dark green background */
+/* Palo verde — CreatorArq + any palo-verde-themed section flip */
+body.page-creatorarq .site-footer,
 body.bg-palo-verde .site-footer {
-  background-color: var(--page-bg-color);
-  color: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
+  --footer-bg: var(--palo-verde-600);
+  --footer-text: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
 }
 
-body.bg-palo-verde .footer-item,
-body.bg-palo-verde .footer-social__icon {
-  color: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
-}
-
-/* CreatorArq page: palo-verde footer */
-body.page-creatorarq .site-footer {
-  background-color: var(--palo-verde-600);
-  color: var(--palo-verde-50);
-}
-
-body.page-creatorarq .footer-item,
-body.page-creatorarq .footer-social__icon {
-  color: var(--palo-verde-50);
-}
-
-/* Bone background: dark text on light background */
+/* Bone — love-letters listing + bg-bone section flip */
+body.page-love-letters .site-footer,
 body.bg-bone .site-footer {
-  background-color: var(--page-bg-color);
-  color: var(--nav-text-on-bone, var(--obsidian));
+  --footer-bg: var(--bone);
+  --footer-text: var(--nav-text-on-bone, var(--obsidian));
 }
 
-body.bg-bone .footer-item,
-body.bg-bone .footer-social__icon {
-  color: var(--nav-text-on-bone, var(--obsidian));
-}
-
-.footer-item--left {
-  text-align: var(--text-align-left);
-}
-
-.footer-item--right {
-  text-align: var(--text-align-right);
-}
-
-/* Social links - mobile: centered row with tap-friendly spacing */
-.footer-social {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: var(--space-lg);
-  padding: var(--space-sm) 0;
-}
-
-.footer-social__icon {
-  color: inherit;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-  padding: var(--space-sm);
-}
-
-/* Form social icons - used in contact form sections */
-.form-social {
-  display: flex;
-  align-items: center;
-  justify-self: start;
-  gap: var(--space-sm);
-  margin-top: var(--space-xl);
-}
-
-.form-social__icon {
-  color: inherit;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-  padding: var(--space-sm);
-  text-decoration: none;
-  transition: opacity 0.3s ease;
-}
-
-.form-social__icon:first-child {
-  margin-left: calc(var(--space-sm) * -1);
-}
-
-.form-social__icon:hover,
-.form-social__icon:focus {
-  opacity: 0.7;
-}
-
-.form-social__icon:focus {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-}
-
-/* Mobile styles now in base - footer items centered by default */
-.footer-item {
-  text-align: var(--text-align-center);
-}
-
-/* Tablet+ (768px): restore original alignment */
-@media (min-width: 768px) {
-  .footer-item--left {
-    text-align: var(--text-align-left);
-  }
-  
-  .footer-item--right {
-    text-align: var(--text-align-right);
-  }
-}
-
-/* Love Letters page: use bone background */
-body.page-love-letters .site-footer {
-  background-color: var(--bone);
-}
-
-body.page-love-letters .footer-item,
-body.page-love-letters .footer-social__icon {
-  color: var(--nav-text-on-bone, var(--obsidian));
-}
-
-/* Blog Post page: use desert gold 50 background with desert gold 950 text */
+/* Desert gold — blog post detail */
 body.page-blog-post .site-footer {
-  background-color: var(--desert-gold-50);
+  --footer-bg: var(--desert-gold-50);
+  --footer-text: var(--desert-gold-950);
 }
-
-body.page-blog-post .footer-item,
-body.page-blog-post .footer-social__icon {
-  color: var(--desert-gold-950);
-}
-

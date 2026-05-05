@@ -22,6 +22,7 @@
 @import './components/pages/philosophy.css';
 @import './components/pages/responsive-overrides.css';
 @import './components/pages/client-card.css';
+@import './components/pages/client-detail.css';
 @import './components/pages/section-grid.css';
 @import './components/pages/logo-grid.css';
 @import './components/pages/services.css';
@@ -89,7 +90,9 @@ html:has(body.page-services),
 body.page-clients,
 html:has(body.page-clients),
 body.page-creator,
-html:has(body.page-creator) {
+html:has(body.page-creator),
+body.page-client-detail,
+html:has(body.page-client-detail) {
   background-color: var(--obsidian);
   --page-bg-color: var(--obsidian);
   --text-headline-color: var(--text-headline-on-obsidian);

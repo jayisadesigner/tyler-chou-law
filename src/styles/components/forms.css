@@ -671,3 +671,44 @@ fieldset.form-group:has(input:-webkit-autofill) .form-legend {
   }
 }
 
+/* ========================================
+   Form social icons
+   Used by component-library/components/contact-form to render
+   the social link group beside the form on the contact page.
+   Moved from footer.css — same visual language as the footer
+   social icons but lives with the form it belongs to.
+   ======================================== */
+.form-social {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+.form-social__icon {
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--space-sm);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.form-social__icon:first-child {
+  margin-left: calc(var(--space-sm) * -1);
+}
+
+.form-social__icon:hover,
+.form-social__icon:focus-visible {
+  opacity: 0.7;
+}
+
+.form-social__icon:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+

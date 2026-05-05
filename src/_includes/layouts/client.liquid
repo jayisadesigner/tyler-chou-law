@@ -1,8 +1,29 @@
 ---
 layout: base.liquid
 ---
+{%- comment -%}
+  Client detail layout.
+
+  Renders one creator profile from `src/content/clients/<slug>.yml` (data
+  shape documented in cloudcannon.config.yml `_inputs.clients`).
+
+  Section order (matches tylerchoulaw.com main):
+    1. Hero            — handle, portrait, seo description
+    2. Stats           — 4 stats (subscribers / total views / core demo / top region)
+    3. Bio + Visit CTA — bio paragraphs + "Visit Channel" button
+    4. Featured videos — c.featured_videos[] (YouTube IDs)
+    5. Mouse-trail CTA — "Think You Belong Here?" (data: site.clientDetailCta)
+
+  Each section is gated on its data, so an under-populated client still
+  renders cleanly. No inline structural CSS — every selector lives in
+  src/styles/components/pages/client-card.css (or shared `content-section`
+  styles).
+{%- endcomment -%}
 {% assign c = creator %}
-<article class="client">
+{% assign cta = site.clientDetailCta %}
+
+<article class="client-detail">
+  {%- comment -%} 1. Hero {%- endcomment -%}
   <section class="hero hero--inner-page section section-reveal">
     {% if c.photo %}
       <div class="background-image">
@@ -20,27 +41,31 @@ layout: base.liquid
     </div>
   </section>
 
+  {%- comment -%} 2. Stats {%- endcomment -%}
   {% if c.stats and c.stats.size > 0 %}
     <section class="client-stats section section-reveal">
       <div class="container">
         <ul class="client-stats__list" role="list">
           {% for stat in c.stats %}
-            <li class="client-stats__item">
-              <span class="client-stats__value">{{ stat.value }}</span>
-              <span class="client-stats__label">{{ stat.label }}</span>
-            </li>
+            {% if stat.value != "" or stat.label != "" %}
+              <li class="client-stats__item">
+                <span class="client-stats__value">{{ stat.value }}</span>
+                <span class="client-stats__label">{{ stat.label }}</span>
+              </li>
+            {% endif %}
           {% endfor %}
         </ul>
       </div>
     </section>
   {% endif %}
 
+  {%- comment -%} 3. Bio + Visit Channel CTA {%- endcomment -%}
   {% if c.bio and c.bio.size > 0 %}
     <section class="content-section content-section--centered section section-reveal">
       <div class="content-section__container">
         <div class="content-section__content">
           <div class="content-section__body">
-            {% for p in c.bio %}<p>{{ p }}</p>{% endfor %}
+            {% for p in c.bio %}{% if p != "" %}<p>{{ p }}</p>{% endif %}{% endfor %}
           </div>
           {% if c.youtube_url %}
             <a href="{{ c.youtube_url }}" class="btn btn--secondary btn--on-dark btn--chuparosa" target="_blank" rel="noopener noreferrer">Visit Channel</a>
@@ -50,11 +75,57 @@ layout: base.liquid
     </section>
   {% endif %}
 
-  <section class="content-section content-section--centered section section-reveal">
-    <div class="content-section__container">
-      <div class="content-section__content">
-        <a href="/clients/" class="btn btn--ghost btn--on-dark btn--chuparosa">← Back to Clients</a>
+  {%- comment -%} 4. Featured videos rail {%- endcomment -%}
+  {% if c.featured_videos and c.featured_videos.size > 0 %}
+    {% assign has_videos = false %}
+    {% for vid_id in c.featured_videos %}
+      {% if vid_id != "" %}{% assign has_videos = true %}{% endif %}
+    {% endfor %}
+    {% if has_videos %}
+      <section class="content-section content-section--centered section section-reveal client-detail__videos">
+        <div class="content-section__container">
+          <div class="content-section__content">
+            <div class="content-section__headline">
+              <h2 class="content-section__headline-text line-animate">{{ "Featured Videos" | line_animate }}</h2>
+            </div>
+          </div>
+          <div class="youtube-videos-grid">
+            {% for vid_id in c.featured_videos %}
+              {% if vid_id != "" %}
+                <div class="youtube-video">
+                  <a class="youtube-video__card" href="https://youtu.be/{{ vid_id }}" target="_blank" rel="noopener noreferrer" aria-label="Watch {{ c.handle }} video on YouTube">
+                    <img class="youtube-video__image" src="https://img.youtube.com/vi/{{ vid_id }}/maxresdefault.jpg" alt="" loading="lazy" decoding="async" />
+                    <div class="youtube-video__overlay" aria-hidden="true">
+                      <img class="youtube-video__play-icon" src="/assets/icons/play.svg" alt="" aria-hidden="true" />
+                    </div>
+                  </a>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    {% endif %}
+  {% endif %}
+
+  {%- comment -%} 5. Mouse-trail "Think You Belong Here?" CTA {%- endcomment -%}
+  {% if cta and cta.headline %}
+    <section class="content-section content-section--centered content-section--full-height content-section--large-text content-section--has-mousetrail section section-reveal">
+      {% if cta.trailImages and cta.trailImages.size > 0 %}
+        {% for img in cta.trailImages %}
+          <img class="mouse-trail__image" src="{{ img.src }}" alt="{{ img.alt }}" data-trail-index="{{ forloop.index0 }}" loading="lazy" decoding="async" />
+        {% endfor %}
+      {% endif %}
+      <div class="content-section__container">
+        <div class="content-section__content">
+          <div class="content-section__headline">
+            <h2 class="content-section__headline-text line-animate">{{ cta.headline | line_animate }}</h2>
+          </div>
+          {% if cta.label and cta.url %}
+            <a href="{{ cta.url }}" class="btn btn--secondary btn--on-dark btn--chuparosa"{% if cta.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ cta.label }}</a>
+          {% endif %}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  {% endif %}
 </article>

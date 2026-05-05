@@ -125,16 +125,42 @@ collections_config:
         label: SEO Description
         comment: "Appears in Google and social previews (150-160 characters recommended)."
       stats:
+        type: array
         label: Stats
-        comment: "Up to 4 stats shown on the creator page."
+        comment: "Up to 4 stats shown on the client detail page (subscribers, total views, core demo, top region)."
+        options:
+          structures:
+            style: select
+            values:
+              - label: Stat
+                value:
+                  value: ""
+                  label: ""
+                _inputs:
+                  value:
+                    label: Value
+                    comment: "Display value, e.g. 9.15M, 2B+, 18-34, US."
+                  label:
+                    label: Label
+                    comment: "Stat label, e.g. subscribers, total views, core demo, top region."
       bio:
         type: array
         label: Bio
         comment: "Each item is one paragraph."
+        options:
+          structures:
+            values:
+              - label: Paragraph
+                value: ""
       featured_videos:
         type: array
         label: Featured Video IDs
-        comment: "YouTube video IDs (the part after watch?v=)."
+        comment: "YouTube video IDs (the part after watch?v= or youtu.be/), one per line. Renders as a video rail on the client detail page."
+        options:
+          structures:
+            values:
+              - label: Video ID
+                value: ""
 
   press:
     path: src/content/press
