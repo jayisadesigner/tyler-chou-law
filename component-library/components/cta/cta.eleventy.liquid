@@ -1,0 +1,6 @@
+{% assign cta = block | default: include %}
+{% assign cta_variant = cta.variant | default: "secondary" %}
+{% assign cta_align = cta.align | default: "center" %}
+<div class="cta-block cta-block--{{ cta_align }} section section-reveal">
+  <a href="{{ cta.url }}" class="btn btn--{{ cta_variant }} btn--on-dark btn--chuparosa{% if cta_align == 'start' %} btn--align-start{% endif %}"{% if cta.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ cta.label }}</a>
+</div>

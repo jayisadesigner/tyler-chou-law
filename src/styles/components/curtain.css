@@ -1,16 +1,29 @@
-/* Page Load Curtain
- * CSS-only split reveal animation
- * Industry standard: inline HTML, CSS animations, no JS polling
- * Matches GSAP timing: nav at 0.2s, left panel at 0.7s, right panel at 0.8s
+/* Page Load Curtain — inner-page split-reveal entrance.
+ *
+ * Two chuparosa-500 panels cover the screen at first paint, then slide off
+ * to the sides revealing the page underneath. Pure CSS animations (no JS
+ * polling, no DOM mutation). The homepage skips this entirely (it has the
+ * intro splash instead — see body.page-index rule below).
+ *
+ * Timing (must stay in sync with nav.css `body:not(.page-index) .site-header`
+ * and the inner-page hero entrance in src/scripts/animations/index.js):
+ *   0.0s   panels fully cover the screen (animation-fill-mode: both)
+ *   0.7s   left panel begins sliding left (2s)
+ *   0.8s   right panel begins sliding right (2s)
+ *   2.7s   left panel fully off-screen
+ *   2.8s   right panel fully off-screen, curtain hides via display:none
+ *   2.9s   nav fade-in + hero entrance kick off (defined elsewhere)
  */
 
 .curtain {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  /* Above the nav (z-index: 99999 in nav.css) so the curtain owns the screen
+   * during the reveal. Without this the nav popped in over the curtain. */
+  z-index: 100000;
   display: flex;
   pointer-events: none;
-  /* Animation: hide after reveal completes (2.8s = 0.8s delay + 2s duration) */
+  /* Hide the curtain after the reveal completes (2.8s = 0.8s delay + 2s slide). */
   animation: curtainHide 0.1s ease-in-out 2.8s forwards;
 }
 
@@ -20,17 +33,31 @@
 
 .curtain__panel {
   flex: 1;
-  background-color: var(--chuparosa-700); /* Always use chuparosa-700 for curtains */
+  /* Brand-primary chuparosa for high contrast against every page background.
+   * Was chuparosa-700 (#7c0512) which sat too close in luminance to the
+   * obsidian (#120203) page bg of /about/, /services/, /roster/, /creator/ —
+   * the slide-off reveal was technically running but visually invisible. */
+  background-color: var(--chuparosa-500);
+  /* Default = panel covers its half of the screen. Animations override this
+   * via translateX(-100%) / translateX(100%) when they fire. We set the
+   * default explicitly (rather than relying on "no transform") because the
+   * panels need to be guaranteed-visible at first paint regardless of how
+   * keyframes resolve. */
+  transform: translateX(0);
+  will-change: transform;
 }
 
+/* `both` fill-mode keeps the `from` state during the 0.7s/0.8s delay AND
+ * the `to` state after the animation, so the panel is guaranteed visible
+ * at page paint and stays off-screen after sliding. */
 .curtain__panel--left {
   transform-origin: left center;
-  animation: panelSlideLeft 2s cubic-bezier(0.65, 0, 0.35, 1) 0.7s forwards;
+  animation: panelSlideLeft 2s cubic-bezier(0.65, 0, 0.35, 1) 0.7s both;
 }
 
 .curtain__panel--right {
   transform-origin: right center;
-  animation: panelSlideRight 2s cubic-bezier(0.65, 0, 0.35, 1) 0.8s forwards;
+  animation: panelSlideRight 2s cubic-bezier(0.65, 0, 0.35, 1) 0.8s both;
 }
 
 /* Keyframe animations - matches GSAP power3.inOut easing */

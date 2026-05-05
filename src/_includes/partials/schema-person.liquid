@@ -1,0 +1,63 @@
+{% comment %}
+  Person + LegalService + Organization combined @graph for SEO + AI visibility.
+  All fields are sourced from src/_data/site.json so the canonical bio,
+  trademark, and social links update site-wide from a single edit.
+{% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "{{ site.url }}/#tyler-chou",
+      "name": "{{ site.brand.founder }}",
+      "alternateName": "{{ site.brand.trademark }}",
+      "jobTitle": "Founder and CEO",
+      "description": "{{ site.bio.canonical }}",
+      "url": "{{ site.url }}/about/",
+      "image": "{{ site.headshot | absolute_url: site.url }}",
+      "worksFor": [
+        { "@id": "{{ site.url }}/#tyler-chou-law" },
+        { "@id": "{{ site.url }}/#creatorarq" }
+      ],
+      "alumniOf": [
+        {% for org in site.bio.alumniOf %}{ "@type": "Organization", "name": "{{ org }}" }{% unless forloop.last %},{% endunless %}{% endfor %}
+      ],
+      "knowsAbout": [
+        {% for topic in site.brand.knowsAbout %}"{{ topic }}"{% unless forloop.last %},{% endunless %}{% endfor %}
+      ],
+      "sameAs": [
+        {% for s in site.social %}"{{ s.url }}"{% unless forloop.last %},{% endunless %}{% endfor %}
+      ]
+    },
+    {
+      "@type": "LegalService",
+      "@id": "{{ site.url }}/#tyler-chou-law",
+      "name": "{{ site.brand.firm }}",
+      "url": "{{ site.url }}/",
+      "logo": "{{ site.monogram | absolute_url: site.url }}",
+      "founder": { "@id": "{{ site.url }}/#tyler-chou" },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "{{ site.contact.addressLocality }}",
+        "addressRegion": "{{ site.contact.addressRegion }}",
+        "addressCountry": "{{ site.contact.addressCountry }}"
+      },
+      "areaServed": "United States",
+      "priceRange": "$$$$",
+      "sameAs": [
+        {% for s in site.social %}"{{ s.url }}"{% unless forloop.last %},{% endunless %}{% endfor %}
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "{{ site.url }}/#creatorarq",
+      "name": "{{ site.brand.ma }}",
+      "description": "M&A advisory for the creator economy",
+      "url": "{{ site.url }}/creatorarq/",
+      "founder": { "@id": "{{ site.url }}/#tyler-chou" },
+      "parentOrganization": { "@id": "{{ site.url }}/#tyler-chou-law" }
+    }
+  ]
+}
+</script>

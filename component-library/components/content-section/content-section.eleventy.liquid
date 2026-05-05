@@ -1,0 +1,30 @@
+{% assign cs = block | default: include %}
+{% assign cs_variant = cs.variant | default: "centered--full-height--large-text" %}
+{% assign cs_modifiers = cs_variant | split: "--" %}
+<section class="content-section{% for m in cs_modifiers %} content-section--{{ m }}{% endfor %} section section-reveal">
+  <div class="content-section__container">
+    <div class="content-section__content">
+      {% if cs.headline %}
+      <div class="content-section__headline">
+        {% if cs.as_h1 %}
+          <h1 class="content-section__headline-text line-animate">{{ cs.headline | line_animate }}</h1>
+        {% else %}
+          <h2 class="content-section__headline-text line-animate">{{ cs.headline | line_animate }}</h2>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% if cs.body %}
+      <div class="content-section__body">
+        {% for paragraph in cs.body %}
+          <p>{{ paragraph.text }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if cs.cta and cs.cta.label and cs.cta.url %}
+        <a href="{{ cs.cta.url }}" class="btn btn--secondary btn--on-dark btn--chuparosa"{% if cs.cta.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ cs.cta.label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>

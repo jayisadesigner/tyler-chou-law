@@ -335,8 +335,8 @@ body.page-creator .section-grid {
 }
 
 /* Ensure animated headings inside adjust container height */
-.about-content [js-line-animation],
-.palo-verde-text-wrapper [js-line-animation] {
+.about-content .line-animate,
+.palo-verde-text-wrapper .line-animate {
   width: 100%; /* Full width within container */
 }
 

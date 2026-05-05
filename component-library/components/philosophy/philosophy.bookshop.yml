@@ -1,0 +1,41 @@
+label: "Philosophy / Manifesto"
+description: "Three editorial lines with optional 'redaction bar' overlays. Use for the about-page philosophy section."
+icon: format_align_center
+spec:
+  structures:
+    - content_blocks
+preview: |
+  Philosophy
+
+props:
+  lines:
+    type: array
+    label: Lines (max 3)
+    options:
+      structures:
+        values:
+          - label: Line
+            value: ""
+            preview:
+              text:
+                key: text
+            fields:
+              text: { type: string, label: "Line copy", required: true }
+              style:
+                type: select
+                label: Visual style
+                default: content
+                options:
+                  values:
+                    - { value: content, label: "Content (default)" }
+                    - { value: king, label: "King" }
+                    - { value: queen, label: "Queen" }
+              redaction:
+                type: select
+                label: Redaction bar
+                default: none
+                options:
+                  values:
+                    - { value: none, label: "None" }
+                    - { value: first, label: "First" }
+                    - { value: second, label: "Second" }

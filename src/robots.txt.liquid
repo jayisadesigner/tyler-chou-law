@@ -1,0 +1,15 @@
+---
+permalink: /robots.txt
+eleventyExcludeFromCollections: true
+layout: null
+---
+# Allow all standard search-engine crawlers
+User-agent: *
+Allow: /
+
+# Explicitly allow AI / LLM crawlers (per SEO + AI-visibility audit, Section 5).
+{% for bot in seo.aiCrawlers %}User-agent: {{ bot }}
+Allow: /
+
+{% endfor %}
+Sitemap: {{ site.url }}/sitemap.xml

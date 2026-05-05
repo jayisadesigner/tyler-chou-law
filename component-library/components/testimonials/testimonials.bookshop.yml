@@ -1,0 +1,45 @@
+label: "Love Notes (Testimonials)"
+description: "Two-row carousel of testimonial cards with the headline tagline. Use as the homepage social-proof section."
+icon: format_quote
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+
+props:
+  headline:
+    type: string
+    label: Headline
+    description: "Use <br> for line breaks."
+  source:
+    type: select
+    label: Source
+    default: data
+    options:
+      values:
+        - { value: data, label: "Auto-pull from src/_data/testimonials.yml" }
+        - { value: manual, label: "Manual list (below)" }
+  manual_testimonials:
+    type: array
+    label: Manual testimonials
+    options:
+      structures:
+        values:
+          - label: Testimonial
+            value: ""
+            fields:
+              name: { type: string, label: "Name", required: true }
+              handle: { type: string, label: "Handle" }
+              stats: { type: string, label: "Stats line (e.g. 1.2M subs)" }
+              quote: { type: textarea, label: "Quote", required: true }
+              image: { type: image, label: "Image" }
+              alt: { type: string, label: "Image alt text", description: "Required when an image is provided.", required: true }
+  variant:
+    type: select
+    label: Height
+    default: full
+    options:
+      values:
+        - { value: full, label: "Full height" }
+        - { value: standard, label: "Standard" }

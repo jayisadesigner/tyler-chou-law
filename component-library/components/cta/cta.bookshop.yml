@@ -1,0 +1,30 @@
+label: "Call to Action"
+description: "Standalone CTA button block. Use sparingly between sections."
+icon: ads_click
+spec:
+  structures:
+    - content_blocks
+preview: |
+  {{ label }}
+
+props:
+  label: { type: string, label: "Button label", required: true }
+  url: { type: url, label: "URL", required: true }
+  external: { type: boolean, label: "Opens in new tab", default: false }
+  variant:
+    type: select
+    label: Style
+    default: secondary
+    options:
+      values:
+        - { value: secondary, label: "Secondary (default)" }
+        - { value: primary, label: "Primary" }
+        - { value: ghost, label: "Ghost" }
+  align:
+    type: select
+    label: Alignment
+    default: center
+    options:
+      values:
+        - { value: center, label: "Center" }
+        - { value: start, label: "Start" }

@@ -1,0 +1,22 @@
+{% assign sg = block | default: include %}
+<section class="section-grid section-grid--services section section-reveal">
+  <div class="section-grid__container">
+    <div class="section-grid__header">
+      <div class="section-grid__headline">
+        <h2 class="content-section__headline-text line-animate">{{ sg.headline | line_animate }}</h2>
+      </div>
+      {% if sg.link and sg.link.label and sg.link.url %}
+        <a class="section-grid__link" href="{{ sg.link.url }}">{{ sg.link.label }}</a>
+      {% endif %}
+    </div>
+    <div class="section-grid__grid">
+      {% for card in sg.cards %}
+        <a class="service-card" href="{{ card.url }}">
+          <h3 class="service-card__title">{{ card.title }}</h3>
+          {% if card.description %}<p class="service-card__description">{{ card.description }}</p>{% endif %}
+          <span class="btn btn--secondary btn--on-dark btn--chuparosa">{{ card.button_label | default: "Learn more" }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>

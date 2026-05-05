@@ -54,12 +54,8 @@ window.addEventListener('unhandledrejection', function(event) {
   }
 })
 
-// Import CSS so Vite processes it during build
-import '../styles/main.css'
-
 import { initNavigation } from './nav.js'
 import { initForms } from './forms.js'
-import './animations/index.js'
 
 // Initialize navigation when DOM is ready
 if (document.readyState === 'loading') {
@@ -68,42 +64,21 @@ if (document.readyState === 'loading') {
   initNavigation()
 }
 
-// Load header and footer components (dev mode only)
-// In production, these are injected at build time, so we only load if they're empty
-// Use XMLHttpRequest instead of fetch to bypass Netlify service worker issues
-function loadComponent(selector, path) {
-  const element = document.querySelector(selector)
-  // Only load if element is empty (dev mode) - in production, content is already in HTML
-  if (!element || element.innerHTML.trim()) {
-    return
-  }
-  
-  const xhr = new XMLHttpRequest()
-  xhr.open('GET', path, true)
-  
-  xhr.onload = function() {
-    if (xhr.status >= 200 && xhr.status < 400) {
-      element.innerHTML = xhr.responseText
-      // Re-initialize navigation after header is loaded (dev mode only)
-      // In production, navigation is already initialized at startup (line 17)
-      if (selector === 'header') {
-        initNavigation()
-      }
-    }
-  }
-  
-  xhr.onerror = function() {
-    // Silently fail - component loading is non-critical
-    // In production, components are already in HTML
-    console.warn(`Could not load component from ${path}`)
-  }
-  
-  xhr.send()
+// Lazy-load the animation system (GSAP + Lenis + scroll-triggers) off the
+// critical path. esbuild code-splitting emits this as a separate chunk, so the
+// main bundle stays small and first paint isn't blocked by animation deps.
+function loadAnimations() {
+  import('./animations/index.js').catch((err) => {
+    console.warn('Failed to load animation module:', err)
+  })
 }
 
-// Load global components (only if empty - dev mode convenience)
-loadComponent('header', '/components/header.html')
-loadComponent('footer', '/components/footer.html')
+if ('requestIdleCallback' in window) {
+  window.requestIdleCallback(loadAnimations, { timeout: 1500 })
+} else {
+  // Safari < 17 fallback — wait one paint, then load.
+  window.setTimeout(loadAnimations, 1)
+}
 
 // Set credentials date to today's date
 function setCredentialsDate() {

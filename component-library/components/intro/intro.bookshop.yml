@@ -1,0 +1,30 @@
+label: "Intro Splash"
+description: "Three-column video splash with name + subtitle. Used as the first screen of the homepage."
+icon: movie
+spec:
+  structures:
+    - content_blocks
+preview: |
+  Intro: {{ name }}
+
+props:
+  name: { type: string, label: "Name line", required: true }
+  subtitle: { type: string, label: "Subtitle line", required: true }
+  videos:
+    type: array
+    label: "Three videos (left / center / right)"
+    options:
+      structures:
+        values:
+          - label: Video
+            value: ""
+            fields:
+              src: { type: url, label: "Vimeo URL or local mp4 path", required: true }
+              position:
+                type: select
+                label: Column
+                options:
+                  values:
+                    - { value: left, label: Left }
+                    - { value: center, label: Center }
+                    - { value: right, label: Right }

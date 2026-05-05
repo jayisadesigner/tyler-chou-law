@@ -1,26 +1,28 @@
 {
   "name": "tyler-chou-law",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run build:roster && npm run build:pages && npm run build:content && npm run build:blog && vite",
-    "build:roster": "node scripts/build-roster.js",
-    "build:blog": "node scripts/build-blog.js",
-    "build:content": "node scripts/build-content.js",
-    "build:sitemap": "node scripts/build-sitemap.js",
-    "build:rss": "node scripts/build-rss.js",
-    "build:pages": "node scripts/build-pages.js",
+    "dev": "NODE_ENV=development npm run build:youtube && eleventy --serve --quiet",
+    "build": "npm run build:youtube && eleventy",
     "build:youtube": "node scripts/build-youtube-videos.js",
-    "build": "npm run build:youtube && npm run build:roster && npm run build:pages && npm run build:content && vite build && npm run build:blog && npm run build:sitemap && npm run build:rss",
-    "preview": "vite preview",
+    "build:eleventy": "eleventy",
+    "clean": "rm -rf dist .cache",
     "colors": "node scripts/generate-colors.js"
   },
   "devDependencies": {
+    "@11ty/eleventy": "^3.1.5",
+    "@11ty/eleventy-img": "^6.0.4",
+    "@11ty/eleventy-plugin-bundle": "^3.0.7",
+    "@11ty/eleventy-plugin-rss": "^2.0.4",
+    "@bookshop/eleventy-bookshop": "^3.18.2",
+    "@bookshop/generate": "^3.18.2",
     "dotenv": "^17.2.3",
+    "esbuild": "^0.25.0",
     "js-yaml": "^4.1.1",
-    "sharp": "^0.34.5",
-    "vite": "^7.2.4"
+    "luxon": "^3.5.0",
+    "sharp": "^0.34.5"
   },
   "dependencies": {
     "gsap": "^3.14.2",

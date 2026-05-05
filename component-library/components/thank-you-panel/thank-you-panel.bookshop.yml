@@ -1,0 +1,26 @@
+label: "Thank-You Panel"
+description: "Post-form thank-you message with two CTA buttons. Used on /thank-you/ after a Netlify form submission."
+icon: check_circle
+preview: |
+  ## {{ headline }}
+
+props:
+  headline: { type: string, label: "Headline", required: true }
+  message_primary: { type: textarea, label: "Primary message", required: true }
+  message_secondary: { type: textarea, label: "Secondary message" }
+  primary_cta:
+    type: object
+    label: "Primary CTA"
+    options:
+      empty_type: object
+    fields:
+      label: { type: string, label: "Button label" }
+      url: { type: url, label: "URL" }
+  secondary_cta:
+    type: object
+    label: "Secondary CTA"
+    options:
+      empty_type: object
+    fields:
+      label: { type: string, label: "Button label" }
+      url: { type: url, label: "URL" }

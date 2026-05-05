@@ -1,0 +1,23 @@
+handle: "@jadroppingscience"
+slug: jadroppingscience
+photo: /assets/images/roster/@jadroppingscience.webp
+order: 4
+external_url: ""
+youtube_url: "https://youtube.com/@jadroppingscience"
+seo_description: "Portland-based educational creator turning complex science into binge-worthy content. His signature style makes learning feel like entertainment."
+stats:
+  - value: "2.17M"
+    label: "subscribers"
+  - value: "1.6B+"
+    label: "total views"
+  - value: "18-34"
+    label: "core demo"
+  - value: "US"
+    label: "top region"
+bio:
+  - "Portland-based educational creator turning complex science into binge-worthy content. His signature style (deadpan delivery meets absurdist scenarios) makes learning feel like entertainment."
+  - "Breakout hit \"How to deal with getting impaled\" racked up 33M+ views and established his lane: morbid curiosity meets genuine utility. He's building the next generation of science communicators, one unhinged hypothetical at a time."
+featured_videos:
+  - wlZCcLFzoC0
+  - y0_fFuEpz5E
+  - d87CjFIlCGw

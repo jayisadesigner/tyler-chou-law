@@ -1,0 +1,7 @@
+{
+  "layout": "blog-post.liquid",
+  "permalink": "/love-letters/{{ slug | default: page.fileSlug }}/",
+  "tags": ["blogPosts"],
+  "eleventyExcludeFromCollections": false,
+  "pageClass": "blog-post"
+}

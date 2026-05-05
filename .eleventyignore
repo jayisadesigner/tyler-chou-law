@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.cache/
+.netlify/
+.temp/
+
+# Top-level legacy HTML pages — content has moved to src/content/pages/*.md.
+# These remain in the repo for reference but are not rendered by Eleventy.
+*.html
+
+# Roster YAMLs feed src/content/pages/roster-detail.liquid via pagination,
+# they don't get rendered as their own templates.
+src/content/roster/
+
+# Legacy YAML data dir (now exposed via src/_data/*.js as global data).
+src/content/data/

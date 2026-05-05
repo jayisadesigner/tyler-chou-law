@@ -1,0 +1,11 @@
+label: "Speaking Engagements Grid"
+description: "Grid of past + upcoming speaking engagements. Auto-pulls from `src/content/speaking/`."
+icon: mic
+spec:
+  structures:
+    - content_blocks
+preview: |
+  Speaking grid
+
+props:
+  intro: { type: textarea, label: "Lead paragraph above the grid (optional)" }

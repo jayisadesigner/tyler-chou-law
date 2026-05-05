@@ -1,0 +1,17 @@
+defaultOgImage: /assets/images/about/hero-about-tyler-chou-on-stage.jpg
+twitterCard: summary_large_image
+themeColor: "#120203"
+
+aiCrawlers:
+  - GPTBot
+  - ChatGPT-User
+  - OAI-SearchBot
+  - ClaudeBot
+  - Claude-Web
+  - anthropic-ai
+  - PerplexityBot
+  - Perplexity-User
+  - Google-Extended
+  - CCBot
+  - Applebot-Extended
+  - Bytespider

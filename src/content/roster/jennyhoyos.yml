@@ -1,0 +1,23 @@
+handle: "@jennyhoyos"
+slug: jennyhoyos
+photo: /assets/images/roster/jennyhoyos.jpg
+order: 1
+external_url: ""
+youtube_url: "https://youtube.com/@jennyhoyos"
+seo_description: "Miami-based short-form strategist who reverse-engineered virality before most creators knew what a hook was. A former Peloton marketing prodigy turned YouTube phenom."
+stats:
+  - value: "9.15M"
+    label: "subscribers"
+  - value: "2B+"
+    label: "total views"
+  - value: "18-34"
+    label: "core demo"
+  - value: "US"
+    label: "top region"
+bio:
+  - "Miami-based short-form strategist who reverse-engineered virality before most creators knew what a hook was. A former Peloton marketing prodigy turned YouTube phenom, Jenny built her empire on extreme budgeting challenges (think surviving on $1/day) that pull 10M+ views per Short on average."
+  - "Her secret? Psychological precision in the first 2 seconds. She's cracked the code on attention economics and now teaches creators how to stop leaving views on the table."
+featured_videos:
+  - rGdOljEhqBc
+  - BJv4MYm7-rU
+  - Ie7Ywgwfxxo

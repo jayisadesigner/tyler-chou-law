@@ -5,8 +5,33 @@
 
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { initLineAnimations } from './line-animations.js'
-import { splitTextIntoChars } from './line-animations.js'
+import { forceReveal } from './reveal.js'
+
+/**
+ * Split text content of an element into per-character spans for the intro
+ * name/subtitle reveal. Only used by the intro animation — every other
+ * heading uses the build-time `line_animate` Liquid filter instead.
+ */
+function splitTextIntoChars(element) {
+  if (!element) return []
+  const originalText = element.textContent.trim()
+  const chars = originalText.split('')
+  element.innerHTML = ''
+  element.style.overflow = 'hidden'
+  chars.forEach((char) => {
+    const charSpan = document.createElement('span')
+    charSpan.className = 'char'
+    charSpan.style.display = 'inline-block'
+    charSpan.style.overflow = 'hidden'
+    const charInner = document.createElement('span')
+    charInner.className = 'char-inner'
+    charInner.style.display = 'inline-block'
+    charInner.textContent = char === ' ' ? '\u00A0' : char
+    charSpan.appendChild(charInner)
+    element.appendChild(charSpan)
+  })
+  return element.querySelectorAll('.char-inner')
+}
 // Vimeo loader no longer needed - using local video elements
 
 // Register GSAP plugins
@@ -79,26 +104,52 @@ export function setupEarlyScrollDetection() {
 
 /**
  * Page Load Curtain
- * CSS-only animation - no JS needed for curtain itself
- * Only handles homepage skip and reduced motion check
- * Animation is handled entirely by CSS for better performance
+ *
+ * The curtain itself is animated entirely by CSS (curtain.css). This function
+ * only:
+ *   1. Skips the curtain on the homepage (the intro splash takes its place)
+ *      and when the user prefers reduced motion.
+ *   2. Replays the CSS animation on bfcache (back/forward cache) restore —
+ *      browsers restore the DOM in the post-animation state (display:none),
+ *      so without this the user navigating back from a page would land on a
+ *      blank/flashy state.
  */
 export function initCurtain(prefersReducedMotion = false) {
-  // Check URL pathname instead of body class (body class is unreliable on Netlify)
   const pathname = window.location.pathname
   const isHomepage = pathname === '/' || pathname === '/index.html' || pathname.endsWith('/index.html')
-  
-  // Skip on homepage (has its own intro) or if reduced motion
+  const curtain = document.querySelector('.curtain')
+
   if (isHomepage || prefersReducedMotion) {
-    const curtain = document.querySelector('.curtain')
-    if (curtain) {
-      curtain.classList.add('is-complete')
-    }
+    if (curtain) curtain.classList.add('is-complete')
     return
   }
-  
-  // CSS handles the animation - no JS needed
-  // Curtain will automatically hide after animation completes via CSS
+
+  if (!curtain) return
+
+  // bfcache restore: persisted=true means the page came from the back/forward
+  // cache. Strip is-complete and force a reflow so the CSS animations replay.
+  const replay = (event) => {
+    if (!event.persisted) return
+    curtain.classList.remove('is-complete')
+    // Force a reflow so the browser re-evaluates the animations from t=0.
+    // Reading offsetWidth is the standard idiomatic reflow trigger.
+    // eslint-disable-next-line no-unused-expressions
+    curtain.offsetWidth
+    // Re-apply the animations by toggling a class. Easier than clone-replacing
+    // the element and preserves any DOM listeners.
+    curtain.style.animation = 'none'
+    curtain.querySelectorAll('.curtain__panel').forEach((panel) => {
+      panel.style.animation = 'none'
+    })
+    // Force another reflow before clearing so the browser registers the reset.
+    // eslint-disable-next-line no-unused-expressions
+    curtain.offsetWidth
+    curtain.style.animation = ''
+    curtain.querySelectorAll('.curtain__panel').forEach((panel) => {
+      panel.style.animation = ''
+    })
+  }
+  window.addEventListener('pageshow', replay)
 }
 
 /**
@@ -122,11 +173,15 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   // Track page load time to block early scroll interrupts
   const pageLoadTime = Date.now()
   const scrollBlockDuration = 2000 // Block scroll interrupts for 2 seconds after page load
-  
+
   const intro = document.querySelector('.intro')
-  const centerVideo = document.querySelector('.intro__video--center') // wrapper
-  const leftVideo = document.querySelector('.intro__video--left') // wrapper
-  const rightVideo = document.querySelector('.intro__video--right') // wrapper
+  // The animation targets the WRAPPERS (.intro__video-wrapper--*), not the
+  // inner <video> elements. The wrappers are absolutely positioned and
+  // stacked at the center of .intro__videos; the timeline slides the side
+  // wrappers out to their column positions via xPercent/yPercent + x.
+  const centerWrapper = document.querySelector('.intro__video-wrapper--center')
+  const leftWrapper = document.querySelector('.intro__video-wrapper--left')
+  const rightWrapper = document.querySelector('.intro__video-wrapper--right')
   const heroContent = document.querySelector('.hero-content')
   const nameElement = document.querySelector('.intro__name[js-char-animation]')
   const subtitleElement = document.querySelector('.intro__subtitle[js-char-animation]')
@@ -140,19 +195,9 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
     // If early scroll detected, show hero content immediately
     if (earlyScrollDetected && heroContent) {
       gsap.set(heroContent, { opacity: 1 })
-      
-      // Trigger hero headline line animation immediately
-      const heroHeadline = heroContent.querySelector('[js-line-animation]')
-      if (heroHeadline) {
-        // Small delay to ensure DOM is ready
-        gsap.delayedCall(0.1, () => {
-          if (!heroHeadline.querySelector('.line-wrapper') && !heroHeadline.querySelector('.line')) {
-            initLineAnimations(false)
-          }
-        })
-      }
+      forceReveal(heroContent.querySelector('.line-animate'))
     }
-    
+
     return
   }
 
@@ -179,14 +224,13 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   
   try {
     await Promise.all(videoReadyPromises)
-    // Videos are ready - show center video immediately
-    // Show intro container and center video wrapper
+    // Videos are ready - show center wrapper immediately so the splash isn't
+    // a blank red screen during the first ~700ms before the timeline starts.
     intro.classList.remove('intro--hidden')
     intro.classList.add('is-ready')
-    
-    // Show center video wrapper immediately (centerVideo is already the wrapper element)
-    if (centerVideo) {
-      centerVideo.classList.add('is-ready')
+
+    if (centerWrapper) {
+      centerWrapper.classList.add('is-ready')
     }
   } catch (error) {
     console.error('Failed to load intro videos:', error)
@@ -204,24 +248,33 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   // Add body class to control nav visibility via CSS (same as curtain)
   document.body.classList.add('curtain-active')
 
-  // Set initial states
+  // Set initial states.
+  //
+  // All three wrappers are anchored at top:50%/left:50% via CSS, so we use
+  // GSAP's xPercent/yPercent to take over the centering transform. From here
+  // the timeline can animate `x` in pixels (slideDistance) without composing
+  // with a CSS translate(-50%, -50%) — that was the original bug where the
+  // side wrappers ended up doubly-translated and off-screen.
   gsap.set(heroContent, { opacity: 0 })
-  gsap.set([leftVideo, centerVideo, rightVideo], {
-    transformOrigin: 'center center'
-  })
-  // Center video starts visible now (opacity: 1 by default, no need to set to 0)
-  gsap.set(leftVideo, { 
-    x: 0,
+  gsap.set([leftWrapper, centerWrapper, rightWrapper], {
     xPercent: -50,
     yPercent: -50,
+    transformOrigin: 'center center'
+  })
+
+  // Center wrapper: full-height to start, will shrink to 80vh in the timeline.
+  gsap.set(centerWrapper, { x: 0, height: '100vh', opacity: 1 })
+
+  // Side wrappers: stacked behind center, hidden via clip + opacity, ready
+  // to slide horizontally to their column positions.
+  gsap.set(leftWrapper, {
+    x: 0,
     height: '80vh',
     opacity: 0,
     clipPath: 'inset(0 100% 0 0)'
   })
-  gsap.set(rightVideo, { 
+  gsap.set(rightWrapper, {
     x: 0,
-    xPercent: -50,
-    yPercent: -50,
     height: '80vh',
     opacity: 0,
     clipPath: 'inset(0 0 0 100%)'
@@ -294,14 +347,8 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
         gsap.set(heroContentElement, { opacity: 1 })
       }
       
-      // Trigger hero headline line animation
-      const heroHeadline = heroContentElement?.querySelector('[js-line-animation]')
-      if (heroHeadline) {
-        // Check if already processed
-        if (!heroHeadline.querySelector('.line-wrapper') && !heroHeadline.querySelector('.line')) {
-          initLineAnimations(false)
-        }
-      }
+      // Reveal the hero headline now that we're skipping straight to it
+      forceReveal(heroContentElement?.querySelector('.line-animate'))
       return
     }
     
@@ -316,22 +363,14 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
         document.body.classList.remove('curtain-active')
         cleanupListeners()
         
-        // Trigger hero headline line animation after interrupt fade completes
-        // This ensures the sequence: intro fade → hero text → bg video
-        const heroHeadline = heroContentElement?.querySelector('[js-line-animation]')
+        // Reveal the hero headline once the hero-content fade-in completes.
+        const heroHeadline = heroContentElement?.querySelector('.line-animate')
         if (heroHeadline) {
-          // Wait for heroContent to be fully visible before processing
           const checkHeroReady = () => {
             const heroOpacity = parseFloat(window.getComputedStyle(heroContentElement).opacity)
             if (heroOpacity === 1) {
-              // Check if already processed
-              if (!heroHeadline.querySelector('.line-wrapper') && !heroHeadline.querySelector('.line')) {
-                // Re-initialize line animations - it will process the hero headline now
-                // The guard in initLineAnimations will prevent re-processing other elements
-                initLineAnimations(false)
-              }
+              forceReveal(heroHeadline)
             } else {
-              // Still fading in, keep checking
               requestAnimationFrame(checkHeroReady)
             }
           }
@@ -399,8 +438,8 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
     window.removeEventListener('keydown', handleKeyInterrupt)
   }
 
-  // Store hero headline reference for processing after intro completes
-  const heroHeadline = heroContent?.querySelector('[js-line-animation]')
+  // Store hero headline reference for the post-intro reveal
+  const heroHeadline = heroContent?.querySelector('.line-animate')
   
   // Fallback timeout: Ensure hero appears even if intro animation fails
   // This will be cleared if timeline completes successfully or is interrupted
@@ -424,26 +463,10 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
           document.body.classList.remove('curtain-active')
         }
         
-        // Trigger hero headline line animation if it hasn't been processed
-        const heroHeadline = heroContentCheck.querySelector('[js-line-animation]')
-        if (heroHeadline) {
-          if (!heroHeadline.querySelector('.line-wrapper') && !heroHeadline.querySelector('.line')) {
-            initLineAnimations(false)
-          }
-        }
-        
-        // Fade in background video if it exists
-        const heroBackgroundImage = document.querySelector('.hero .background-image')
-        if (heroBackgroundImage) {
-          const bgOpacity = parseFloat(window.getComputedStyle(heroBackgroundImage).opacity)
-          if (bgOpacity === 0 || isNaN(bgOpacity)) {
-            gsap.to(heroBackgroundImage, {
-              opacity: 1,
-              duration: 1.2,
-              ease: 'power2.out'
-            })
-          }
-        }
+        // Reveal the hero headline (CSS state machine).
+        // Hero bg-video fade-in is now CSS-driven — removing `intro-active`
+        // from <body> above triggers the .hero .background-image transition.
+        forceReveal(heroContentCheck.querySelector('.line-animate'))
       }
     }
   }, 8000) // 8 seconds - after intro should complete (~7s) + 1s buffer
@@ -451,13 +474,12 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   // Create timeline
   tl = gsap.timeline({
     onStart: () => {
-      // Intro container and center video are already visible
-      // Show side video wrappers now that animation is starting
-      introVideos.forEach((video) => {
-        const wrapper = video.closest('.intro__video-wrapper')
-        if (wrapper && !wrapper.classList.contains('intro__video--center')) {
-          wrapper.classList.add('is-ready')
-        }
+      // Center wrapper was already marked is-ready when videos finished
+      // loading. Reveal the side wrappers now so the slide-out animation
+      // is visible. (Center is unconditionally re-marked is-ready as a
+      // belt-and-suspenders guard against initial render races.)
+      ;[leftWrapper, centerWrapper, rightWrapper].forEach((wrapper) => {
+        if (wrapper) wrapper.classList.add('is-ready')
       })
     },
     onComplete: () => {
@@ -473,18 +495,9 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
       cleanupListeners()
       // CSS handles nav animation - no cleanup needed
       
-      // Trigger hero headline line animation after intro completes
-      // This ensures the sequence: intro → hero text → bg video
+      // Reveal hero headline after intro completes (sequence: intro → hero text → bg video)
       if (heroHeadline) {
-        // Small delay to ensure heroContent opacity transition is complete
-        gsap.delayedCall(0.1, () => {
-          // Check if already processed
-          if (!heroHeadline.querySelector('.line-wrapper') && !heroHeadline.querySelector('.line')) {
-            // Re-initialize line animations - it will process the hero headline now
-            // The guard in initLineAnimations will prevent re-processing other elements
-            initLineAnimations(false)
-          }
-        })
+        gsap.delayedCall(0.1, () => forceReveal(heroHeadline))
       }
     }
   })
@@ -495,20 +508,19 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   window.addEventListener('touchmove', handleTouchMove, { passive: false })
   window.addEventListener('keydown', handleKeyInterrupt)
 
-  // Step 1: Center video is already visible, no fade-in needed
-  // (Center video was made visible immediately after Vimeo players loaded)
+  // Step 1: Center wrapper is already visible, no fade-in needed.
 
-  // Step 2: Center video shrinks vertically (700ms–1300ms) - longer pause before scaling
-  tl.to(centerVideo, {
+  // Step 2: Center wrapper shrinks vertically (700ms–1300ms) — longer pause before scaling.
+  tl.to(centerWrapper, {
     height: '80vh',
     duration: 0.6,
     ease: 'power2.out'
   }, 0.7)
 
-  // Step 3: Side videos slide out (1500ms–3400ms) - staggered for elegance
-  const slideDistance = (viewportWidth * 0.33) + 16 // video width + gap
-  
-  tl.to(leftVideo, {
+  // Step 3: Side wrappers slide out (1500ms–3400ms) — staggered for elegance.
+  const slideDistance = (viewportWidth * 0.33) + 16 // wrapper width + gap
+
+  tl.to(leftWrapper, {
     x: -slideDistance,
     opacity: 1,
     clipPath: 'inset(0 0% 0 0)',
@@ -516,7 +528,7 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
     ease: 'power3.out'
   }, 1.5)
 
-  tl.to(rightVideo, {
+  tl.to(rightWrapper, {
     x: slideDistance,
     opacity: 1,
     clipPath: 'inset(0 0 0 0%)',
@@ -562,22 +574,20 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
     }, 3.6)
   }
 
-  // Step 5: Sequential pop out - videos disappear right to left, immediate exit
-  
-  // Videos pop out sequentially (4700ms–5100ms) - instant opacity changes
-  tl.to(rightVideo, {
+  // Step 5: Sequential pop out — wrappers disappear right to left, instant.
+  tl.to(rightWrapper, {
     opacity: 0,
     duration: 0,
     ease: 'none'
   }, 4.7)
-  
-  tl.to(centerVideo, {
+
+  tl.to(centerWrapper, {
     opacity: 0,
     duration: 0,
     ease: 'none'
   }, 4.9)
-  
-  tl.to(leftVideo, {
+
+  tl.to(leftWrapper, {
     opacity: 0,
     duration: 0,
     ease: 'none'

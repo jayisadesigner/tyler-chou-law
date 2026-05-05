@@ -1,6 +1,18 @@
 /* Typography System */
 
-/* Font Loading - Self-hosted Variable Web Fonts */
+/* ─── Font Loading — Self-hosted Variable Web Fonts ────────────────────────
+ * Two-step font loading:
+ *   1. Browser renders text with the system fallback (BlinkMacSystemFont/etc).
+ *   2. Webfont arrives, browser swaps in (font-display: swap).
+ *
+ * The fallback @font-face declarations below override the system font's
+ * metrics so it occupies the same vertical space as the webfont. This
+ * eliminates layout shift when the swap happens (CLS = 0 on font load).
+ *
+ * The override values were measured against Cabinet Grotesk (display) and
+ * Satoshi (body) using https://web.dev/articles/css-size-adjust. If the
+ * fonts are ever swapped, the overrides need to be re-measured.
+ */
 @font-face {
   font-family: 'Cabinet Grotesk';
   src: url('../assets/fonts/CabinetGrotesk-Variable.woff2') format('woff2');
@@ -15,6 +27,31 @@
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
+}
+
+/* Fallback face for Cabinet Grotesk — uses the system font but reshapes its
+ * box metrics to match the webfont. When the webfont arrives, no reflow.
+ */
+@font-face {
+  font-family: 'Cabinet Grotesk Fallback';
+  src: local('BlinkMacSystemFont'), local('Segoe UI'), local('Arial');
+  font-display: block;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
+}
+
+/* Fallback face for Satoshi — same idea, tuned for the body face.
+ */
+@font-face {
+  font-family: 'Satoshi Fallback';
+  src: local('BlinkMacSystemFont'), local('Segoe UI'), local('Arial');
+  font-display: block;
+  ascent-override: 100%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
 }
 
 /* Base Typography */
@@ -39,6 +76,16 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-headline-color);
   text-transform: var(--text-transform-headline);
   text-wrap: var(--text-wrap-headline);
+
+  /* ─── Typographic integrity ─────────────────────────────────────────────
+   * Browsers default to `text-rendering: auto`, which can disable kerning
+   * and ligatures at small sizes. For display headlines we always want
+   * kerning + standard/contextual ligatures, regardless of size. These two
+   * lines lock that in so the headline shape is identical at every scale.
+   */
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  font-kerning: normal;
 }
 
 /* Text wrap system - headline and display type (class-based) */

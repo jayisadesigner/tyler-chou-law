@@ -1,0 +1,63 @@
+label: "Roster Lists Section"
+description: "Headline, intro paragraphs, and one or more grouped lists of clients (with optional handle/name/url per row). Pairs with a media image on the right side. Use on the roster page."
+icon: list_alt
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+
+props:
+  layout:
+    type: select
+    label: Media position
+    default: right
+    options:
+      values:
+        - { value: right, label: "Lists left, media right" }
+        - { value: left, label: "Media left, lists right" }
+  headline: { type: string, label: "Headline", required: true }
+  intro:
+    type: array
+    label: Intro paragraphs
+    options:
+      structures:
+        values:
+          - label: Paragraph
+            value: ""
+            fields:
+              text: { type: textarea, label: "Paragraph" }
+  groups:
+    type: array
+    label: Groups
+    options:
+      structures:
+        values:
+          - label: Group
+            value: ""
+            preview:
+              text:
+                key: title
+            fields:
+              title: { type: string, label: "Group title", required: true }
+              items:
+                type: array
+                label: Items
+                options:
+                  structures:
+                    values:
+                      - label: Person / org
+                        value: ""
+                        fields:
+                          handle: { type: string, label: "@ handle (optional)" }
+                          name: { type: string, label: "Name (optional)" }
+                          url: { type: url, label: "Profile URL (optional)" }
+  media:
+    type: object
+    label: Media
+    options:
+      empty_type: object
+    fields:
+      image: { type: image, label: "Image" }
+      image_alt: { type: string, label: "Alt text", description: "Required when an image is provided.", required: true }
+      overlay: { type: boolean, label: "Show overlay", default: true }

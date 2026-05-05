@@ -1,0 +1,42 @@
+label: "Mouse Trail CTA"
+description: "Final-section call-to-action with a trailing image effect on cursor movement. Use as the last block on a marketing page."
+icon: rocket_launch
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+
+props:
+  headline:
+    type: string
+    label: Headline
+    required: true
+  trail_images:
+    type: array
+    label: Trail images
+    description: "List of images that trail the cursor. 6 is standard."
+    options:
+      structures:
+        values:
+          - label: Image
+            value: ""
+            fields:
+              src:
+                type: image
+                label: Image
+                required: true
+              alt:
+                type: string
+                label: Alt text
+                description: "Required for accessibility."
+                required: true
+  cta:
+    type: object
+    label: CTA Button
+    options:
+      empty_type: object
+    fields:
+      label: { type: string, label: "Button label", required: true }
+      url: { type: url, label: "URL", required: true }
+      external: { type: boolean, label: "Opens in new tab", default: true }

@@ -1,0 +1,43 @@
+{% assign bl = block | default: include %}
+{% assign posts = collections.blogPosts %}
+{% if bl.source == "featured" %}
+  {% assign posts = posts | where: "data.featured", true %}
+{% endif %}
+{% if bl.limit %}
+  {% assign posts = posts | slice: 0, bl.limit %}
+{% endif %}
+
+<section class="blog-listing section section-reveal">
+  <div class="container">
+    {% if posts.size > 0 %}
+      <div class="blog-listing__posts">
+        {% for post in posts %}
+          <article class="blog-card">
+            <a class="blog-card__link" href="{{ post.url }}">
+              {% if post.data.featured_image %}
+                <div class="blog-card__image-wrapper blog-image" data-color="{{ post.data.image_color | default: 'desert-gold' }}"{% if post.data.image_object_position %} data-object-position="{{ post.data.image_object_position }}"{% endif %}>
+                  <img class="background-image__img" src="{{ post.data.featured_image }}" alt="{{ post.data.image_alt | default: post.data.title }}" loading="lazy" decoding="async" />
+                </div>
+              {% endif %}
+              <div class="blog-card__content">
+                <h3 class="blog-card__title">{{ post.data.title }}</h3>
+                {% if post.data.author %}
+                  <p class="blog-card__byline">By {{ post.data.author }}</p>
+                {% endif %}
+                {% if post.data.description %}
+                  <p class="blog-card__excerpt">{{ post.data.description }}</p>
+                {% endif %}
+                <p class="blog-card__meta">
+                  <time datetime="{{ post.date | isoDate }}">{{ post.date | formatDate }}</time>
+                  {% if post.data.reading_time %} · {{ post.data.reading_time }} min read{% endif %}
+                </p>
+              </div>
+            </a>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="blog-listing__empty">{{ bl.empty_state | default: "More love letters coming soon." }}</p>
+    {% endif %}
+  </div>
+</section>

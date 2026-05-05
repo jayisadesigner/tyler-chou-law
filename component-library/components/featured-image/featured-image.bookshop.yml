@@ -1,0 +1,75 @@
+label: "Featured Image Section"
+description: "Side-by-side image and content. Use for editorial-style sections with a single dominant image and rich body copy."
+icon: image
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+
+props:
+  layout:
+    type: select
+    label: Image position
+    default: left
+    options:
+      values:
+        - { value: left, label: "Image left, copy right" }
+        - { value: center, label: "Image center, copy below" }
+  image:
+    type: image
+    label: Image
+    required: true
+  image_alt:
+    type: string
+    label: Image alt text
+    description: "Required for accessibility and SEO."
+    required: true
+  flower_decoration:
+    type: select
+    label: Flower decoration
+    description: "Optional decorative flower SVG/PNG anchored to the image."
+    default: none
+    options:
+      values:
+        - { value: none, label: "None" }
+        - { value: about, label: "About-page flower (SVG)" }
+        - { value: palo_verde, label: "Palo verde tree (PNG)" }
+  headline:
+    type: string
+    label: Headline
+    required: true
+  body_columns:
+    type: array
+    label: Body columns
+    description: "1 or 2 columns of paragraph copy."
+    options:
+      structures:
+        values:
+          - label: "Body column"
+            value: ""
+            preview:
+              text:
+                key: paragraphs
+            fields:
+              paragraphs:
+                type: array
+                label: Paragraphs
+                options:
+                  structures:
+                    values:
+                      - label: Paragraph
+                        value: ""
+                        fields:
+                          text:
+                            type: textarea
+                            label: Paragraph
+  cta:
+    type: object
+    label: CTA Button
+    options:
+      empty_type: object
+    fields:
+      label: { type: string, label: "Button label" }
+      url: { type: url, label: "URL" }
+      external: { type: boolean, label: "Opens in new tab", default: false }

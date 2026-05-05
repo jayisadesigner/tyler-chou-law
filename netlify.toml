@@ -2,55 +2,29 @@
   command = "npm run build"
   publish = "dist"
 
-# Ensure assets and components are served correctly
-[[redirects]]
-  from = "/assets/*"
-  to = "/assets/:splat"
-  status = 200
-  force = true
+[build.environment]
+  NODE_VERSION = "20"
 
-[[redirects]]
-  from = "/components/*"
-  to = "/components/:splat"
-  status = 200
-  force = true
+# ─── Asset caching ────────────────────────────────────────────────────────────
+# Eleventy emits /assets/, /styles/, /scripts/ under dist/. They're cache-bustable
+# at the file level (image renames, hashed bundles in Phase 5) so we cache hard.
 
-# Netlify Identity API endpoints - route to Identity service
-# Identity widget may call these directly, need to route to /.netlify/identity/*
-[[redirects]]
-  from = "/user"
-  to = "/.netlify/identity/user"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/settings"
-  to = "/.netlify/identity/settings"
-  status = 200
-  force = true
-
-# Exclude admin folder from catch-all redirect
-# This allows config.yml and other admin files to be served directly
-[[redirects]]
-  from = "/admin/*"
-  to = "/admin/:splat"
-  status = 200
-  force = true
-
-# Headers for admin config.yml - ensure correct Content-Type and CORS
-[[headers]]
-  for = "/admin/config.yml"
-  [headers.values]
-    Content-Type = "text/yaml; charset=utf-8"
-    Access-Control-Allow-Origin = "*"
-
-# Cache assets for better performance
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Headers for video files - handle large files and HTTP/2 better
+[[headers]]
+  for = "/styles/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/scripts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Video files - support range requests for scrubbable playback
 [[headers]]
   for = "/*.mp4"
   [headers.values]
@@ -58,11 +32,8 @@
     Accept-Ranges = "bytes"
     Content-Type = "video/mp4"
 
-# Permissions-Policy to disable compute-pressure (fixes console violation)
+# Permissions-Policy to silence the compute-pressure console violation.
 [[headers]]
   for = "/*"
   [headers.values]
     Permissions-Policy = "compute-pressure=()"
-
-[build.environment]
-  NODE_VERSION = "20"

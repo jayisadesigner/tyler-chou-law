@@ -347,7 +347,7 @@ body.page-creatorarq .hero .background-image::after {
   inset: 0;
   z-index: 2; /* Above color overlay */
   pointer-events: none;
-  background-image: url('/src/assets/images/blog/seamless-noise-texture.png');
+  background-image: url('/assets/images/blog/seamless-noise-texture.png');
   background-repeat: repeat;
   background-size: 200px 200px; /* Tile size for noise texture */
   opacity: 0.5;
@@ -390,13 +390,13 @@ body.page-creatorarq .hero .background-image::after {
 }
 
 /* Hero headlines with line animation: center line spans */
-.hero-headline[js-line-animation] {
+.hero-headline.line-animate {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.hero-headline[js-line-animation] .line {
+.hero-headline.line-animate .line-animate__line {
   margin-left: auto;
   margin-right: auto;
 }

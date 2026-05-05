@@ -1,0 +1,17 @@
+<div class="roster-card roster-card--testimonial" role="listitem">
+  {% if t.image %}
+    <div class="roster-card__image-wrapper">
+      <img class="roster-card__image" src="{{ t.image }}" alt="{{ t.alt | default: t.name }}" loading="lazy" decoding="async" />
+      <div class="roster-card__overlay" aria-hidden="true"></div>
+      <div class="roster-card__scrim" aria-hidden="true"></div>
+    </div>
+  {% endif %}
+  <div class="roster-card__content">
+    <div class="roster-card__meta">
+      <p class="roster-card__name">{{ t.name }}</p>
+      {% if t.handle %}<p class="roster-card__handle">{{ t.handle }}</p>{% endif %}
+      {% if t.stats %}<p class="roster-card__stats">{{ t.stats }}</p>{% endif %}
+    </div>
+    <p class="roster-card__quote text-large">{{ t.quote }}</p>
+  </div>
+</div>

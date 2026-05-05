@@ -220,12 +220,12 @@ body.page-love-letters .section--featured-image__body {
 }
 
 /* Ensure line animations work within featured image sections */
-.section--featured-image__content [js-line-animation] {
+.section--featured-image__content .line-animate {
   width: 100%;
 }
 
 /* Ensure line animations preserve natural text flow for featured image headlines */
-.section--featured-image__headline[js-line-animation] .line {
+.section--featured-image__headline.line-animate .line-animate__line {
   width: max-content; /* Let lines expand to natural width */
 }
 
@@ -298,7 +298,7 @@ body.bg-bone .palo-verde .palo-verde-flower__image {
    REUSABLE PATTERN: Animated Heading Layout
    
    For sections with absolutely positioned content that contains
-   animated headings (js-line-animation), use this pattern:
+   animated headings (.line-animate), use this pattern:
    
    HTML: Create a wrapper div that contains both headline and content.
    The wrapper should be absolutely positioned.

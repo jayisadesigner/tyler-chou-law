@@ -1,0 +1,62 @@
+{% assign pg = block | default: include %}
+{% assign press_items = collections.press %}
+
+<section class="press-grid section section-reveal">
+  <div class="container">
+    {% if pg.intro %}
+      <p class="press-grid__intro text-large">{{ pg.intro }}</p>
+    {% endif %}
+
+    {% if pg.show_filters != false %}
+      <div class="press-grid__filters" role="tablist" aria-label="Filter citations by type">
+        <button class="press-grid__filter is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="press-grid__filter" data-filter="print" role="tab">Print</button>
+        <button class="press-grid__filter" data-filter="podcast" role="tab">Podcast</button>
+        <button class="press-grid__filter" data-filter="video" role="tab">Video</button>
+        <button class="press-grid__filter" data-filter="speaking" role="tab">Speaking</button>
+      </div>
+    {% endif %}
+
+    {% if press_items.size > 0 %}
+      <ul class="press-grid__list" role="list">
+        {% for item in press_items %}
+          {% assign d = item.data %}
+          <li class="press-grid__item" data-type="{{ d.type | default: 'print' }}">
+            <article class="press-card">
+              {% if d.publication_logo %}
+                <img class="press-card__logo" src="{{ d.publication_logo }}" alt="{{ d.publication }} logo" loading="lazy" decoding="async" />
+              {% else %}
+                <p class="press-card__publication">{{ d.publication }}</p>
+              {% endif %}
+              <h3 class="press-card__title">{{ d.title }}</h3>
+              <p class="press-card__meta">
+                <time datetime="{{ item.date | isoDate }}">{{ item.date | formatDate }}</time>
+                {% if d.author %} · {{ d.author }}{% endif %}
+              </p>
+              {% if d.summary %}<p class="press-card__summary">{{ d.summary }}</p>{% endif %}
+              {% if d.quote %}<blockquote class="press-card__quote">“{{ d.quote }}”</blockquote>{% endif %}
+              {% if d.url %}
+                <a href="{{ d.url }}" class="press-card__link" target="_blank" rel="noopener noreferrer">Read on {{ d.publication }} →</a>
+              {% endif %}
+            </article>
+            <script type="application/ld+json">
+              {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": "{{ d.title }}",
+                "datePublished": "{{ item.date | isoDate }}",
+                "author": { "@id": "{{ site.url }}/#tyler-chou" },
+                "publisher": { "@type": "Organization", "name": "{{ d.publication }}" },
+                "description": "{{ d.summary }}",
+                {% if d.url %}"url": "{{ d.url }}",{% endif %}
+                "mainEntityOfPage": "{{ d.url | default: page.url | absolute_url: site.url }}"
+              }
+            </script>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="press-grid__empty">Press citations are being curated. Check back soon.</p>
+    {% endif %}
+  </div>
+</section>

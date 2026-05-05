@@ -52,7 +52,7 @@
 }
 
 /* Center line spans for line animation */
-.love-notes__headline[js-line-animation] .line {
+.love-notes__headline.line-animate .line-animate__line {
   margin-left: auto;
   margin-right: auto;
 }

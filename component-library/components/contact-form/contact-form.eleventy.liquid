@@ -1,0 +1,44 @@
+{% assign cf = block | default: include %}
+{% assign cf_form = cf.form %}
+<section class="content-section content-section--form section section-reveal">
+  <div class="content-section__container">
+    <div class="content-section__content">
+      <div class="content-section__headline">
+        <h2 class="content-section__headline-text line-animate">{{ cf.headline | line_animate }}</h2>
+      </div>
+      {% if cf.body %}
+        <div class="content-section__body">
+          {% for p in cf.body %}<p>{{ p.text }}</p>{% endfor %}
+        </div>
+      {% endif %}
+      {% if cf.social_links and cf.social_links.size > 0 %}
+        <nav class="form-social" aria-label="Social links">
+          {% for s in cf.social_links %}
+            <a class="form-social__icon" href="{{ s.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ s.platform | capitalize }}">{{ s.platform | capitalize }}</a>
+          {% endfor %}
+        </nav>
+      {% endif %}
+    </div>
+    <div class="content-section__media content-section__media--form">
+      <form class="contact-form" name="{{ cf_form.name | default: 'contact' }}" method="POST" action="{{ cf_form.action | default: '/thank-you/' }}" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
+        <input type="hidden" name="form-name" value="{{ cf_form.name | default: 'contact' }}" />
+        <p class="hidden" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" /></label></p>
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <div data-netlify-recaptcha="true"></div>
+        <button type="submit" class="btn btn--primary btn--on-dark btn--chuparosa">{{ cf_form.submit_label | default: "Submit" }}</button>
+      </form>
+    </div>
+  </div>
+</section>

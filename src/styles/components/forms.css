@@ -194,7 +194,7 @@ fieldset.form-group:has(select)::after {
   transform: translateY(-50%);
   width: 48px;
   height: 48px;
-  background-image: url('/src/assets/icons/caret-down.svg');
+  background-image: url('/assets/icons/caret-down.svg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

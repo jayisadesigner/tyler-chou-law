@@ -1,0 +1,50 @@
+label: "YouTube Video Grid"
+description: "Headline + CTA + grid of YouTube thumbnails linking to videos. Powered by data from `src/_data/videos.yml` (auto-refreshed by `npm run build:youtube`)."
+icon: ondemand_video
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+
+props:
+  headline:
+    type: string
+    label: Headline
+    description: "Section headline. Use <br> for line breaks."
+  body:
+    type: textarea
+    label: Intro paragraph
+  cta:
+    type: object
+    label: Channel CTA
+    options:
+      empty_type: object
+    fields:
+      label: { type: string, label: "Button label" }
+      url: { type: url, label: "URL" }
+  source:
+    type: select
+    label: Video source
+    default: data
+    options:
+      values:
+        - { value: data, label: "Auto-pull latest from src/_data/videos.yml" }
+        - { value: manual, label: "Manual list (below)" }
+  manual_videos:
+    type: array
+    label: Manual videos
+    description: "Used only when source = manual."
+    options:
+      structures:
+        values:
+          - label: Video
+            value: ""
+            fields:
+              url: { type: url, label: "YouTube URL", required: true }
+              thumbnail: { type: image, label: "Thumbnail" }
+              alt: { type: string, label: "Alt text", description: "Required for accessibility.", required: true }
+  limit:
+    type: number
+    label: Number to show
+    default: 6

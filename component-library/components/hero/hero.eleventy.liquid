@@ -1,0 +1,41 @@
+{% assign hero = block | default: include %}
+{% assign hero_variant = hero.variant | default: "inner" %}
+{% assign bg = hero.background %}
+{% assign bg_type = bg.type | default: "none" %}
+{% assign show_overlay = bg.overlay %}
+{% if show_overlay == nil %}{% assign show_overlay = true %}{% endif %}
+
+<section class="hero{% if hero_variant == 'inner' %} hero--inner-page{% endif %} section section-reveal">
+  {% if bg_type == "image" and bg.image %}
+    <div class="background-image{% unless show_overlay %} background-image--no-overlay{% endunless %}">
+      <img class="background-image__img" src="{{ bg.image }}" alt="{{ bg.image_alt }}" loading="eager" decoding="async" />
+      {% if show_overlay %}
+        <div class="background-image__overlay-top"></div>
+        <div class="background-image__overlay-bottom"></div>
+        <div class="background-image__overlay-left"></div>
+        <div class="background-image__overlay-right"></div>
+      {% endif %}
+    </div>
+  {% elsif bg_type == "video" and bg.video_url %}
+    <div class="background-image{% unless show_overlay %} background-image--no-overlay{% endunless %}">
+      <div class="background-image__video-wrapper">
+        <iframe class="background-image__video" src="{{ bg.video_url }}" frameborder="0" allow="autoplay; fullscreen" title="{{ bg.video_title | default: hero.headline }}"></iframe>
+      </div>
+      {% if show_overlay %}
+        <div class="background-image__overlay-top"></div>
+        <div class="background-image__overlay-bottom"></div>
+        <div class="background-image__overlay-left"></div>
+        <div class="background-image__overlay-right"></div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="hero-content{% if hero_variant == 'inner' %} hero-content--inner-page container-wide{% else %} container{% endif %}">
+    <div class="hero-headline-wrapper">
+      <h1 class="hero-headline line-animate{% if hero_variant == 'inner' %} hero-headline--inner-page{% endif %}">{{ hero.headline | line_animate }}</h1>
+      {% if hero_variant == "inner" and hero.subheadline %}
+        <p class="hero-subheadline hero-subheadline--inner-page">{{ hero.subheadline }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>

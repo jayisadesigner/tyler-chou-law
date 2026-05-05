@@ -1,0 +1,15 @@
+label: "Press Citations Grid"
+description: "Filterable grid of press citations. Each entry: publication, title, date, summary, self-quote, link. Auto-pulls from `src/content/press/`. Each item also emits an Article schema block for SEO/AI citation."
+icon: newspaper
+spec:
+  structures:
+    - content_blocks
+preview: |
+  Press citations
+
+props:
+  intro: { type: textarea, label: "Lead paragraph above the grid (optional)" }
+  show_filters:
+    type: boolean
+    label: "Show filter tabs (All / Print / Podcast / Video / Speaking)"
+    default: true

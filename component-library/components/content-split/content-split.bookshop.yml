@@ -1,0 +1,67 @@
+label: "Content Split (Image + Copy)"
+description: "Two-column section with body copy on one side and a media element on the other. Use for editorial sections that pair a quote/manifesto with a supporting image or video."
+icon: vertical_split
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+
+props:
+  layout:
+    type: select
+    label: Media position
+    default: right
+    options:
+      values:
+        - { value: right, label: "Copy left, media right" }
+        - { value: left, label: "Media left, copy right" }
+        - { value: stacked, label: "Stacked (media full-width on top)" }
+  bleed:
+    type: boolean
+    label: "Media bleeds to edge"
+    default: false
+  parallax:
+    type: boolean
+    label: "Parallax scroll on media"
+    default: true
+  anchor: { type: string, label: "Anchor ID (optional)" }
+  headline: { type: string, label: "Headline", required: true }
+  body:
+    type: array
+    label: Paragraphs
+    options:
+      structures:
+        values:
+          - label: Paragraph
+            value: ""
+            fields:
+              text: { type: textarea, label: "Paragraph" }
+  media:
+    type: object
+    label: Media
+    options:
+      empty_type: object
+    fields:
+      type:
+        type: select
+        label: Media type
+        default: image
+        options:
+          values:
+            - { value: image, label: "Image" }
+            - { value: video, label: "Vimeo embed (URL)" }
+      image: { type: image, label: "Image (when image)" }
+      image_alt: { type: string, label: "Alt text", description: "Required when type = image. Describes the image for accessibility and SEO.", required: true }
+      video_url: { type: url, label: "Vimeo embed URL (when video)" }
+      video_title: { type: string, label: "Video title attribute" }
+      overlay: { type: boolean, label: "Show overlay", default: true }
+  cta:
+    type: object
+    label: CTA Button (optional)
+    options:
+      empty_type: object
+    fields:
+      label: { type: string, label: "Button label" }
+      url: { type: url, label: "URL" }
+      external: { type: boolean, label: "Opens in new tab", default: false }

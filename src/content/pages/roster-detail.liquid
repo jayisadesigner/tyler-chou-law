@@ -1,0 +1,13 @@
+---
+layout: roster-creator.liquid
+pagination:
+  data: roster
+  size: 1
+  alias: creator
+permalink: "/roster/{{ creator.slug }}/"
+pageClass: roster-detail
+title: "{{ creator.handle }} | Tyler Chou Law For Creators"
+description: "{{ creator.seo_description }}"
+ogImage: "{{ creator.photo | replace: '/src/', '/' }}"
+eleventyExcludeFromCollections: true
+---

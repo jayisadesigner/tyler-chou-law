@@ -1,0 +1,28 @@
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="{{ seo.themeColor }}" />
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="{{ site.name }}" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<link rel="stylesheet" href="/styles/main.css" />
+
+<title>{% if title %}{{ title }}{% else %}{{ site.name }}{% endif %}</title>
+<meta name="description" content="{% if description %}{{ description }}{% else %}{{ site.description }}{% endif %}" />
+{% if robots %}<meta name="robots" content="{{ robots }}" />{% endif %}
+<link rel="canonical" href="{{ page.url | absolute_url: site.url }}" />
+
+<meta property="og:title" content="{% if ogTitle %}{{ ogTitle }}{% elsif title %}{{ title }}{% else %}{{ site.name }}{% endif %}" />
+<meta property="og:description" content="{% if ogDescription %}{{ ogDescription }}{% elsif description %}{{ description }}{% else %}{{ site.description }}{% endif %}" />
+<meta property="og:type" content="{% if ogType %}{{ ogType }}{% else %}website{% endif %}" />
+<meta property="og:url" content="{{ page.url | absolute_url: site.url }}" />
+<meta property="og:image" content="{% if ogImage %}{{ ogImage | absolute_url: site.url }}{% else %}{{ seo.defaultOgImage | absolute_url: site.url }}{% endif %}" />
+
+<meta name="twitter:card" content="{% if twitterCard %}{{ twitterCard }}{% else %}{{ seo.twitterCard }}{% endif %}" />
+<meta name="twitter:title" content="{% if ogTitle %}{{ ogTitle }}{% elsif title %}{{ title }}{% else %}{{ site.name }}{% endif %}" />
+<meta name="twitter:description" content="{% if ogDescription %}{{ ogDescription }}{% elsif description %}{{ description }}{% else %}{{ site.description }}{% endif %}" />
+<meta name="twitter:image" content="{% if ogImage %}{{ ogImage | absolute_url: site.url }}{% else %}{{ seo.defaultOgImage | absolute_url: site.url }}{% endif %}" />

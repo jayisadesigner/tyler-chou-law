@@ -3,8 +3,6 @@
  * Background image/video parallax and flower rotation animations
  */
 
-import { initVimeoPlayer } from '../utils/vimeo-loader.js'
-
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { getSpacingValue } from './utils.js'
@@ -102,73 +100,45 @@ export function initHeroParallax(reducedMotion = false) {
     })
   })
   
-  // Handle videos (iframes)
+  // Handle videos (iframes inside .background-image__video-wrapper).
+  // The wrapper handles centering in CSS; we animate scale + y on the iframe.
+  // Because we never touch xPercent/yPercent on the iframe, GSAP can't double-translate.
+  // Playback is controlled by the iframe URL params (autoplay/loop/muted/background) —
+  // no Vimeo Player SDK is loaded, so we never wait on a JS player API.
   backgroundVideos.forEach(video => {
-    if (reducedMotion) {
-      // Skip animation, show final state
-      gsap.set(video, { scale: 1, xPercent: -50, yPercent: -50 })
-      // Still initialize video loading for visibility
-      initVimeoPlayer(video).then(() => {
-        video.classList.add('is-ready')
-        const backgroundImage = video.closest('.background-image')
-        if (backgroundImage) {
-          backgroundImage.classList.add('is-ready')
-        }
-      }).catch(error => {
-        console.error('Failed to load background video:', error)
-        // Fallback: show anyway
-        video.classList.add('is-ready')
-        const backgroundImage = video.closest('.background-image')
-        if (backgroundImage) {
-          backgroundImage.classList.add('is-ready')
-        }
-      })
-      return
-    }
-    
-    // Find parent section for trigger (hero or content-section with parallax)
-    const heroSection = video.closest('.hero--inner-page') || 
-                        video.closest('.hero--blog-post') || 
-                        video.closest('.hero')
-    const contentSection = video.closest('.content-section--parallax')
-    const triggerSection = heroSection || contentSection
-    
-    if (!triggerSection) return
-    
-    // Initialize video loading - show video immediately, enhance with player API when ready
     const backgroundImage = video.closest('.background-image')
-    if (backgroundImage) {
-      // Show video container immediately (video will start loading via iframe src)
-      backgroundImage.classList.add('is-ready')
-      video.classList.add('is-ready')
-    }
-    
-    // Initialize player API in background (for potential future control, but don't block display)
-    initVimeoPlayer(video).then(() => {
-      // Player is ready - video should already be playing
-    }).catch(error => {
-      // Silently fail - video will still play via iframe
-      console.warn('Vimeo Player API not available, video will still play:', error)
-    })
-    
-    // For videos, use scale and yPercent movement for parallax effect
-    // Video is centered with translate(-50%, -50%), so use xPercent/yPercent to maintain centering
-    // Set initial centered position using GSAP (replaces CSS translate(-50%, -50%))
-    gsap.set(video, { xPercent: -50, yPercent: -50 })
-    
-    // Scale and yPercent movement for parallax effect
-    gsap.to(video, {
-      scale: 1.15, // Zoom in 15% (covers more area, prevents gaps)
-      yPercent: -40, // Move from -50% (centered) to -40% (down 10%) for parallax
-      ease: 'none', // Linear movement for smooth parallax
-      scrollTrigger: {
-        trigger: triggerSection,
-        start: 'top bottom', // Start when section top hits viewport bottom
-        end: 'bottom top', // End when section bottom hits viewport top
-        scrub: 1, // Smooth scrubbing (1 = 1 second lag for smoothness)
-        invalidateOnRefresh: true // Recalculate on resize
+
+    if (backgroundImage) backgroundImage.classList.add('is-ready')
+    video.classList.add('is-ready')
+
+    if (reducedMotion) return
+
+    // Find parent section for trigger (hero or content-section with parallax)
+    const triggerSection =
+      video.closest('.hero--inner-page') ||
+      video.closest('.hero--blog-post') ||
+      video.closest('.hero') ||
+      video.closest('.content-section--parallax')
+    if (!triggerSection) return
+
+    // Animate scale + y (in pixels) on the iframe. Centering belongs to the
+    // wrapper, so neither property composes with a translate(-50%) — both
+    // are additive transforms applied on top of the inherited CSS layout.
+    gsap.fromTo(video,
+      { scale: 1, y: 0 },
+      {
+        scale: 1.15,
+        y: () => triggerSection.offsetHeight * 0.1, // 10% of section height
+        ease: 'none',
+        scrollTrigger: {
+          trigger: triggerSection,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+          invalidateOnRefresh: true
+        }
       }
-    })
+    )
   })
 }
 

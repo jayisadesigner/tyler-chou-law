@@ -1,0 +1,41 @@
+{% assign yt = block | default: include %}
+{% assign yt_limit = yt.limit | default: 6 %}
+{% assign yt_videos = yt.manual_videos %}
+{% if yt.source != "manual" and videos %}
+  {% assign yt_videos = videos %}
+{% endif %}
+
+<section class="content-section content-section--centered content-section--has-bg content-section--full-height section section-reveal">
+  <div class="content-section__container">
+    <div class="content-section__content">
+      {% if yt.headline %}
+        <div class="content-section__headline">
+          <h2 class="content-section__headline-text line-animate">{{ yt.headline | line_animate }}</h2>
+        </div>
+      {% endif %}
+      {% if yt.body %}
+        <div class="content-section__body">
+          <p>{{ yt.body }}</p>
+        </div>
+      {% endif %}
+      {% if yt.cta and yt.cta.label and yt.cta.url %}
+        <a href="{{ yt.cta.url }}" class="btn btn--secondary btn--on-dark btn--chuparosa" target="_blank" rel="noopener noreferrer">{{ yt.cta.label }}</a>
+      {% endif %}
+
+      {% if yt_videos and yt_videos.size > 0 %}
+        <div class="youtube-videos-grid">
+          {% for v in yt_videos limit: yt_limit %}
+            <div class="youtube-video">
+              <a class="youtube-video__card" href="{{ v.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ v.alt | default: v.title }}">
+                <img class="youtube-video__image" src="{{ v.thumbnail }}" alt="{{ v.alt | default: v.title }}" loading="lazy" decoding="async" />
+                <span class="youtube-video__overlay" aria-hidden="true">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </span>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
