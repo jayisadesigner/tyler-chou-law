@@ -1,11 +1,17 @@
 /* Responsive */
 /* Tablet only (768px-1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
-  /* Decorative flower hidden on tablet — desktop-only flourish.
-   * (Sizing/positioning lives in featured-image.css using clamp().) */
+  /* About and Palo Verde sections now use section--featured-image component */
+  
+  .palo-verde-flower {
+    width: 500px;
+    height: 500px;
+    left: calc(60% + 50px);
+  }
+  
   .about-flower,
   .palo-verde-flower {
-    display: none;
+    display: none; /* Hide decorative flower on mobile */
   }
   
   .philosophy-container {
@@ -161,7 +167,7 @@
   /* about-name mobile styles now handled by base mobile-first styles */
 
   .services-grid,
-  .client-grid {
+  .roster-grid {
     grid-template-columns: 1fr;
   }
   

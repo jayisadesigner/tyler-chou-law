@@ -4,13 +4,25 @@
   <div class="section--featured-image__container">
     <div class="section--featured-image__image">
       <img src="{{ fi.image }}" alt="{{ fi.image_alt }}" loading="lazy" decoding="async" />
-      {% case fi.flower_decoration %}
-        {% when "about" %}
-          <img class="about-flower" src="/assets/images/about/palo-verde-flower.svg" alt="" aria-hidden="true" />
-        {% when "palo_verde" %}
-          <img class="palo-verde-flower" src="/assets/images/home/palo-verde-tree.png" alt="" aria-hidden="true" />
-      {% endcase %}
     </div>
+
+    {%- comment -%}
+      Decorative flower lives as a SIBLING of __image, not a child. Its
+      `position: absolute` resolves against `.section--featured-image__container`
+      (which is `position: relative`). If the flower is nested inside __image,
+      it positions against the small 354px image instead and the layout breaks
+      — see PR #55 regression / fix.
+    {%- endcomment -%}
+    {% case fi.flower_decoration %}
+      {% when "about" %}
+        <div class="about-flower">
+          <img class="about-flower__image" src="/assets/images/about/palo-verde-flower.svg" alt="" aria-hidden="true" />
+        </div>
+      {% when "palo_verde" %}
+        <div class="palo-verde-flower">
+          <img class="palo-verde-flower__image" src="/assets/images/home/palo-verde-tree.png" alt="" aria-hidden="true" />
+        </div>
+    {% endcase %}
 
     <div class="section--featured-image__content">
       {% if fi.headline %}
