@@ -312,3 +312,57 @@ h3.client-list__headline {
   color: var(--chuparosa-300, #e8a0a8);
 }
 
+/* ========================================
+   External Link Indicators
+   Same Lucide arrow-up-right SVG as the Community nav item.
+   Lives on .client-card (grid) and .client-list__item (text list)
+   when their data has `external: true`.
+   ======================================== */
+
+/* Card grid: arrow sits in the top-right of the image wrapper. */
+.client-card__external-icon {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  width: 1.25rem;
+  height: 1.25rem;
+  z-index: 4; /* above scrim (2) and handle (3) */
+  color: var(--bone);
+  opacity: 0.95;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.4));
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .client-card--external:hover .client-card__external-icon {
+    transform: translate(2px, -2px);
+    opacity: 1;
+  }
+}
+
+/* Text list: arrow sits inline next to the handle/name on its own row,
+   so the link reads "@handle name ↗" without disrupting wrapping. */
+.client-list__item--external {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-xs);
+}
+
+.client-list__external-icon {
+  width: 0.95em;
+  height: 0.95em;
+  flex-shrink: 0;
+  align-self: center;
+  color: inherit;
+  opacity: 0.7;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.client-list__item--external:hover .client-list__external-icon,
+.client-list__item--external:focus-visible .client-list__external-icon {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
+

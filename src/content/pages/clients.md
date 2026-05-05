@@ -35,7 +35,7 @@ blocks:
           - { handle: "@Sticks", name: "Lucas & Curtis Nicotra", url: "/clients/sticks/" }
           - { handle: "@jacksfilms", name: "John Patrick Douglass", url: "/clients/jacksfilms/" }
           - { handle: "@samandcolby", name: "Sam Golbach & Colby Brock", url: "/clients/samandcolby/" }
-          - { handle: "@littleremyfood", url: "/clients/littleremyfood/" }
+          - { handle: "@littleremyfood", url: "https://www.youtube.com/@littleremyfood", external: true }
           - { name: "Moose Painting" }
           - { handle: "@glowbymonica", name: "Monica Ravichandran" }
           - { handle: "@alaskaelvated" }

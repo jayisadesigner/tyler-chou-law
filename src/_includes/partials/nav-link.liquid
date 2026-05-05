@@ -10,9 +10,7 @@
 <a href="{{ item.url }}"{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
   <span class="line"><span class="line-inner">{{ item.label }}</span></span>
   {%- if item.external -%}
-    <svg class="nav-external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path d="M7 17L17 7M17 7H8M17 7V16" />
-    </svg>
+    {% include "partials/external-icon.liquid" icon_class: "nav-external-icon" %}
     <span class="visually-hidden"> (opens in new tab)</span>
   {%- endif -%}
 </a>

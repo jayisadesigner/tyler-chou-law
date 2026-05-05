@@ -29,11 +29,15 @@
         {% assign cg_show = cg_creators %}
       {% endif %}
       {% for c in cg_show %}
-        <a class="client-card" href="{{ c.url | default: c.profile_url }}"{% if c.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
+        <a class="client-card{% if c.external %} client-card--external{% endif %}" href="{{ c.url | default: c.profile_url }}"{% if c.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
           <div class="client-card__image-wrapper">
             <img class="client-card__image" src="{{ c.image }}" alt="{{ c.alt | default: c.handle }}" loading="lazy" decoding="async" />
             <div class="client-card__overlay" aria-hidden="true"></div>
             <div class="client-card__scrim" aria-hidden="true"></div>
+            {% if c.external %}
+              {% include "partials/external-icon.liquid" icon_class: "client-card__external-icon" %}
+              <span class="visually-hidden"> (opens in new tab)</span>
+            {% endif %}
           </div>
           <p class="client-card__handle">{{ c.handle }}</p>
         </a>

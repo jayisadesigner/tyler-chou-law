@@ -18,9 +18,13 @@
             <div class="client-list">
               {% for item in group.items %}
                 {% if item.url %}
-                  <a class="client-list__item" href="{{ item.url }}">
+                  <a class="client-list__item{% if item.external %} client-list__item--external{% endif %}" href="{{ item.url }}"{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
                     {% if item.handle %}<span class="client-list__handle">{{ item.handle }}</span>{% endif %}
                     {% if item.name %}<span class="client-list__name">{{ item.name }}</span>{% endif %}
+                    {% if item.external %}
+                      {% include "partials/external-icon.liquid" icon_class: "client-list__external-icon" %}
+                      <span class="visually-hidden"> (opens in new tab)</span>
+                    {% endif %}
                   </a>
                 {% else %}
                   <div class="client-list__item">

@@ -1,0 +1,23 @@
+{%- comment -%}
+  External link arrow (Lucide-style "arrow-up-right").
+
+  Used by:
+    - partials/nav-link.liquid       (Community link in main nav)
+    - components/client-grid         (.client-card for external_url clients)
+    - components/client-lists        (.client-list__item for external items)
+
+  `currentColor` lets the parent set the color via CSS so this works on
+  every page background.
+
+  Optional `icon_class` parameter scopes sizing/positioning per caller:
+    {% include "partials/external-icon.liquid" icon_class: "client-card__external-icon" %}
+
+  Note: in LiquidJS (what 11ty uses) `{% include %}` parameters are
+  accessed by their bare name in the partial's scope — NOT via the
+  `include.x` prefix that Jekyll/Shopify Liquid uses. We keep the
+  `include.icon_class` fallback as a safety net for parser variations.
+{%- endcomment -%}
+{%- assign cls = icon_class | default: include.icon_class | default: "external-icon" -%}
+<svg class="{{ cls }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M7 17L17 7M17 7H8M17 7V16" />
+</svg>
