@@ -77,7 +77,7 @@ blocks:
     limit: 12
 
   - _bookshop_name: testimonials
-    headline: "Client<br>Love Letters."
+    headline: "Client<br>Love Letters"
     source: data
     variant: full
 
