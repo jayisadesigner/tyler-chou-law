@@ -1,5 +1,31 @@
+{%- comment -%}
+  Lead intake form (used on /creatorarq/, available for /contact/).
+
+  Mirrors the field set + DOM structure on tylerchoulaw.com main:
+    - `.form-group-wrapper` groups a logical section (e.g. the name row)
+    - `.form-field-wrapper` pairs each fieldset with its `.error-message`
+      slot so the slot reserves layout space and inline validation can
+      drop a message in without causing layout shift.
+    - `<fieldset>` + `<legend>` is the most accessible label pattern;
+      AT readers announce the legend on every focus event for the field.
+
+  Required fields per Tyler: first_name, email, message. last_name is
+  optional. Spam protection: Netlify honeypot.
+
+  Validation: src/scripts/forms.js progressively enhances the native
+  HTML5 validation. Without JS, the browser blocks submission of empty
+  required fields. With JS, friendly inline error copy appears in the
+  `.error-message[data-field="<id>"]` span beside the field on blur.
+
+  IDs are NOT namespaced per-form because every page renders at most
+  one of these forms — keeps `forms.js` lookup simple.
+{%- endcomment -%}
 {% assign cf = block | default: include %}
 {% assign cf_form = cf.form %}
+{% assign form_name = cf_form.name | default: "contact" %}
+{% assign form_action = cf_form.action | default: "/thank-you/" %}
+{% assign submit_label = cf_form.submit_label | default: "Submit" %}
+
 <section class="content-section content-section--form section section-reveal">
   <div class="content-section__container">
     <div class="content-section__content">
@@ -14,30 +40,69 @@
       {% if cf.social_links and cf.social_links.size > 0 %}
         <nav class="form-social" aria-label="Social links">
           {% for s in cf.social_links %}
-            <a class="form-social__icon" href="{{ s.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ s.platform | capitalize }}">{{ s.platform | capitalize }}</a>
+            <a class="form-social__icon" href="{{ s.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ s.platform | capitalize }}">
+              {% include "partials/social-icon.liquid" platform: s.platform %}
+            </a>
           {% endfor %}
         </nav>
       {% endif %}
     </div>
-    <div class="content-section__media content-section__media--form">
-      <form class="contact-form" name="{{ cf_form.name | default: 'contact' }}" method="POST" action="{{ cf_form.action | default: '/thank-you/' }}" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
-        <input type="hidden" name="form-name" value="{{ cf_form.name | default: 'contact' }}" />
-        <p class="hidden" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" /></label></p>
 
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required />
+    <div class="content-section__media content-section__media--form">
+      <form
+        class="contact-form"
+        id="{{ form_name }}-form"
+        name="{{ form_name }}"
+        method="POST"
+        action="{{ form_action }}"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+      >
+        <input type="hidden" name="form-name" value="{{ form_name }}" />
+        <p class="hidden" aria-hidden="true">
+          <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+        </p>
+
+        <div class="form-group-wrapper form-group-wrapper--name">
+          <span class="form-label-static">Name</span>
+          <div class="form-row">
+            <div class="form-field-wrapper">
+              <fieldset class="form-group form-group--inline">
+                <legend class="form-legend form-legend--inline">First Name <span>(required)</span></legend>
+                <input type="text" id="first-name" name="first-name" placeholder="Jane" autocomplete="given-name" required aria-describedby="first-name-error" />
+              </fieldset>
+              <span class="error-message" id="first-name-error" aria-live="polite" aria-hidden="true" data-field="first-name"></span>
+            </div>
+            <div class="form-field-wrapper">
+              <fieldset class="form-group form-group--inline">
+                <legend class="form-legend form-legend--inline">Last Name</legend>
+                <input type="text" id="last-name" name="last-name" placeholder="Doe" autocomplete="family-name" />
+              </fieldset>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required />
+
+        <div class="form-group-wrapper">
+          <div class="form-field-wrapper">
+            <fieldset class="form-group">
+              <legend class="form-legend">Email <span>(required)</span></legend>
+              <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required aria-describedby="email-error" />
+            </fieldset>
+            <span class="error-message" id="email-error" aria-live="polite" aria-hidden="true" data-field="email"></span>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
+
+        <div class="form-group-wrapper">
+          <div class="form-field-wrapper">
+            <fieldset class="form-group">
+              <legend class="form-legend">Message <span>(required)</span></legend>
+              <textarea id="message" name="message" rows="6" placeholder="Tell us about your business, audience, and what you're building..." required aria-describedby="message-error"></textarea>
+            </fieldset>
+            <span class="error-message" id="message-error" aria-live="polite" aria-hidden="true" data-field="message"></span>
+          </div>
         </div>
-        <div data-netlify-recaptcha="true"></div>
-        <button type="submit" class="btn btn--primary btn--on-dark btn--chuparosa">{{ cf_form.submit_label | default: "Submit" }}</button>
+
+        <button type="submit" class="btn btn--secondary btn--on-dark btn--chuparosa">{{ submit_label }}</button>
       </form>
     </div>
   </div>

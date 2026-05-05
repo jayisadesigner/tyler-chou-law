@@ -1,5 +1,5 @@
 label: "Lead Form"
-description: "Two-column section: copy + Netlify-powered intake form. Use for contact / lead-capture pages."
+description: "Two-column section: copy + Netlify-powered intake form. Fields are fixed (first name, last name, email, message); only labels and submit button vary per page."
 icon: assignment
 spec:
   structures:
@@ -8,7 +8,11 @@ preview: |
   ## {{ headline }}
 
 props:
-  headline: { type: string, label: "Headline", required: true }
+  headline:
+    type: string
+    label: Headline
+    required: true
+    comment: "Section headline. Use <br> for line breaks."
   body:
     type: array
     label: Body paragraphs
@@ -18,10 +22,13 @@ props:
           - label: Paragraph
             value: ""
             fields:
-              text: { type: textarea, label: "Paragraph" }
+              text:
+                type: textarea
+                label: Paragraph
   social_links:
     type: array
     label: Social icons
+    comment: "Optional social link row beside the form copy."
     options:
       structures:
         values:
@@ -33,17 +40,31 @@ props:
                 label: Platform
                 options:
                   values:
-                    - { value: linkedin, label: LinkedIn }
+                    - { value: linkedin,  label: LinkedIn }
                     - { value: instagram, label: Instagram }
-                    - { value: youtube, label: YouTube }
-                    - { value: forbes, label: Forbes }
-              url: { type: url, label: "URL" }
+                    - { value: youtube,   label: YouTube }
+                    - { value: forbes,    label: Forbes }
+              url:
+                type: url
+                label: URL
   form:
     type: object
     label: Form
     options:
       empty_type: object
     fields:
-      name: { type: string, label: "Netlify form name", default: "contact" }
-      action: { type: string, label: "Form action", default: "/thank-you/" }
-      submit_label: { type: string, label: "Submit button label", default: "Submit" }
+      name:
+        type: string
+        label: Netlify form name
+        default: contact
+        comment: "Used for Netlify form submissions. Must be unique per form on the site (e.g. `contact`, `creatorarq`)."
+      action:
+        type: string
+        label: Form action
+        default: /thank-you/
+        comment: "URL to redirect to after submission. /thank-you/ has the noindex meta tag."
+      submit_label:
+        type: string
+        label: Submit button label
+        default: Submit
+        comment: "Call-to-action on the submit button, e.g. 'Submit', 'Request a Strategy Audit'."

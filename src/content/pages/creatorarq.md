@@ -93,5 +93,5 @@ blocks:
     form:
       name: "creatorarq"
       action: "/thank-you/"
-      submit_label: "Submit"
+      submit_label: "Request a Strategy Audit"
 ---
