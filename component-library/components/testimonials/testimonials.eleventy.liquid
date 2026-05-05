@@ -20,13 +20,13 @@
 
       <div class="love-notes__carousel love-notes__carousel--top" role="list">
         {% for t in tt_top %}
-          {% include "/Users/JAlli3/tyler-chou-law/component-library/components/testimonials/_testimonial-card.liquid", t: t %}
+          {% include "component-library/components/testimonials/_testimonial-card.liquid", t: t %}
         {% endfor %}
       </div>
       <div class="love-notes__carousel love-notes__carousel--bottom" role="list">
         <div class="love-notes__carousel-track">
           {% for t in tt_bottom %}
-            {% include "/Users/JAlli3/tyler-chou-law/component-library/components/testimonials/_testimonial-card.liquid", t: t %}
+            {% include "component-library/components/testimonials/_testimonial-card.liquid", t: t %}
           {% endfor %}
         </div>
       </div>
