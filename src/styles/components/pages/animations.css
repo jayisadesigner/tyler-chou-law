@@ -124,4 +124,14 @@
     transform: translate3d(0, 100%, 0);
     transition: none;
   }
+
+  /* Homepage intro: the name + subtitle paint visible by default and only
+   * get hidden when intro.js calls `gsap.set(nameElement, { opacity: 0 })`
+   * after the lazy-loaded animations chunk arrives. Pre-hide them at the CSS
+   * layer so the chuparosa splash doesn't briefly show the final-state text
+   * before the orchestrated character animation runs. */
+  html.js-enhance .intro__name,
+  html.js-enhance .intro__subtitle {
+    opacity: 0;
+  }
 }
