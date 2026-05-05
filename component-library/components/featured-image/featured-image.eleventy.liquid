@@ -13,14 +13,22 @@
       it positions against the small 354px image instead and the layout breaks
       — see PR #55 regression / fix.
     {%- endcomment -%}
+    {%- comment -%}
+      Both decorations render the same flower silhouette
+      (`/assets/images/about/palo-verde-flower.svg`) as a CSS mask on a div.
+      The fill color comes from `color: ...` rules in
+      `src/styles/components/pages/featured-image.css`, which differ per
+      decoration and per page-bg state (red on home, yellow on palo-verde
+      sections / page-creatorarq). Single SVG source, theme-aware tint.
+    {%- endcomment -%}
     {% case fi.flower_decoration %}
       {% when "about" %}
-        <div class="about-flower">
-          <img class="about-flower__image" src="/assets/images/about/palo-verde-flower.svg" alt="" aria-hidden="true" />
+        <div class="about-flower" aria-hidden="true">
+          <div class="about-flower__image" role="presentation"></div>
         </div>
       {% when "palo_verde" %}
-        <div class="palo-verde-flower">
-          <img class="palo-verde-flower__image" src="/assets/images/home/palo-verde-tree.png" alt="" aria-hidden="true" />
+        <div class="palo-verde-flower" aria-hidden="true">
+          <div class="palo-verde-flower__image" role="presentation"></div>
         </div>
     {% endcase %}
 

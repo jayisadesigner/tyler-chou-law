@@ -269,14 +269,34 @@ body.page-love-letters .section--featured-image__body {
   transform: translateY(-50%);
 }
 
+/* ────────────────────────────────────────────────────────────────────────
+ * Flower silhouette renders as a CSS mask on a <div>, not an <img>. The mask
+ * source is the single SVG at /assets/images/about/palo-verde-flower.svg
+ * (filled with currentColor, but that doesn't matter for masking — only the
+ * shape is used). Color comes from the `color` CSS property + currentColor in
+ * the background-color, so the same asset can be tinted per page state.
+ * ──────────────────────────────────────────────────────────────────────── */
 .about-flower__image,
 .palo-verde-flower__image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  background-color: currentColor;
+  -webkit-mask-image: url('/assets/images/about/palo-verde-flower.svg');
+  mask-image: url('/assets/images/about/palo-verde-flower.svg');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
-/* Palo Verde flower - matches about section flower before flip */
+/* About-flower (home page) — chuparosa red on the chuparosa-600 page bg. */
+.about-flower__image {
+  color: var(--chuparosa-700);
+}
+
+/* Palo-verde-flower (about page palo-verde section, creatorarq sections). */
 .palo-verde-flower__image {
   color: var(--chuparosa-700); /* Start as chuparosa-700 before flip */
 }
