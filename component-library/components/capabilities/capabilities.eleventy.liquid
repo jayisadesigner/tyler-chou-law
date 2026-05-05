@@ -1,0 +1,17 @@
+{% assign cap = block | default: include %}
+{% assign cap_cols = cap.columns | default: "8" %}
+{% assign cap_label = cap.aria_label | default: "Capabilities" %}
+<section class="services-capabilities section section-reveal" aria-label="{{ cap_label }}">
+  <div class="services-capabilities__container">
+    <ul class="services-capabilities__grid{% if cap_cols == '3' or cap_cols == '4' %} services-capabilities__grid--{{ cap_cols }}{% endif %}" role="list">
+      {% for item in cap.items %}
+        <li class="services-capabilities__cell" role="listitem">
+          <div class="services-capabilities__cell-inner">
+            <h3 class="services-capabilities__title">{{ item.title }}</h3>
+            {% if item.body %}<p class="services-capabilities__text">{{ item.body }}</p>{% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

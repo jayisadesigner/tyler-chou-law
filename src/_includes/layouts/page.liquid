@@ -1,0 +1,18 @@
+---
+layout: base.liquid
+---
+{% comment %}
+  Page layout — renders Bookshop blocks defined in frontmatter `blocks:` array.
+  Each block is an object with at minimum `_bookshop_name` set to a component
+  under component-library/components/<name>/. The block is passed in whole as
+  a `block` local so components can `block.<field>` their props.
+
+  If a page has no blocks, the markdown body content is rendered instead
+  (used for stub/landing pages during the migration).
+{% endcomment %}
+{% if blocks %}
+  {% for block in blocks %}
+    {% bookshop {{block._bookshop_name}} block: block %}
+  {% endfor %}
+{% endif %}
+{{ content }}

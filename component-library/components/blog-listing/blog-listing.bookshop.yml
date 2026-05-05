@@ -1,0 +1,25 @@
+label: "Blog Listing"
+description: "Index of blog posts (Love Letters). Auto-pulls the latest from `src/content/blog/`."
+icon: article
+spec:
+  structures:
+    - content_blocks
+preview: |
+  Blog listing
+
+props:
+  source:
+    type: select
+    label: Source
+    default: collection
+    options:
+      values:
+        - { value: collection, label: "All blog posts" }
+        - { value: featured, label: "Featured posts only" }
+  limit:
+    type: number
+    label: Number to show
+  empty_state:
+    type: textarea
+    label: Empty-state copy
+    default: "More love letters coming soon."

@@ -38,17 +38,25 @@ body.intro-active {
 }
 
 .intro__videos {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
   width: 100%;
   height: 100%;
-  position: relative;
 }
 
-/* Wrapper for each video + overlay */
+/* Wrapper for each video + overlay.
+ *
+ * All three wrappers stack at the center of `.intro__videos` initially, then
+ * the side wrappers slide out to their column positions during the timeline.
+ * Centering is done via top/left + GSAP `xPercent: -50, yPercent: -50` so the
+ * timeline can animate `x` in pixels without composing with a CSS translate.
+ * (CSS `transform: translate(-50%, -50%)` is a fallback for the JS-disabled
+ * state — GSAP overrides it with its own inline transform on the homepage.)
+ */
 .intro__video-wrapper {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   height: 100%;
   width: 33vw;
   overflow: hidden;
@@ -56,65 +64,43 @@ body.intro-active {
 }
 
 .intro__video-wrapper.is-ready {
-  visibility: visible; /* Show immediately when ready - no fade */
+  visibility: visible;
 }
 
-/* Ensure overlays are 100% width/height to inherit parent visibility */
+/* Center sits on top while side wrappers slide out from beneath it. */
+.intro__video-wrapper--center {
+  z-index: 2;
+}
+
+.intro__video-wrapper--left,
+.intro__video-wrapper--right {
+  z-index: 1;
+}
+
+/* Ensure overlays cover the full wrapper. */
 .intro__video-wrapper .background-image__overlay {
   width: 100%;
   height: 100%;
-  /* inset: 0 already set in background-image.css, but ensure full coverage */
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
 }
 
-
-.intro__video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border: 0;
-  pointer-events: none;
-}
-
-/* Support video elements and iframes */
+/* Inner video fills the wrapper, scaled to cover at 16:9. */
+.intro__video,
 .intro__video-wrapper video,
 .intro__video-wrapper iframe {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 177.78vh; /* 16:9 aspect ratio: height * (16/9) = 100vh * 1.7778 */
-  min-width: 100%;
+  width: max(100%, 177.78vh); /* 16:9 cover: 100vh * 16/9 */
   height: 100%;
+  display: block;
   border: 0;
   object-fit: cover;
-}
-
-/* Center video wrapper — visible */
-.intro__video--center {
-  position: relative;
-  z-index: 2;
-}
-
-/* Side video wrappers — hidden behind center initially */
-.intro__video--left,
-.intro__video--right {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 1;
-}
-
-.intro__video--left {
-  clip-path: inset(0 100% 0 0); /* Hidden — clipped from right */
-}
-
-.intro__video--right {
-  clip-path: inset(0 0 0 100%); /* Hidden — clipped from left */
+  pointer-events: none;
 }
 
 /* Name reveal wrapper - contains name and subtitle */

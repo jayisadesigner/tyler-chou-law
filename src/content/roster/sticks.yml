@@ -1,0 +1,23 @@
+handle: "@Sticks"
+slug: sticks
+photo: /assets/images/roster/@sticks.jpg
+order: 5
+external_url: ""
+youtube_url: "https://youtube.com/@Sticks"
+seo_description: "Australian-American filmmaking duo Lucas and Curtis Nicotra redefining creator content with Hollywood-level production."
+stats:
+  - value: "1.1M"
+    label: "subscribers"
+  - value: "53M+"
+    label: "total views"
+  - value: "18-34"
+    label: "core demo"
+  - value: "US/AU"
+    label: "top region"
+bio:
+  - "Australian-American filmmaking duo Lucas and Curtis Nicotra are redefining creator content with Hollywood-level production. Known for making cinematic trailers for creators like Emma Chamberlain, Ryan Trahan, and MatPat, they've graduated to full branded productions, most recently helming MrBeast's Feastables \"mini movie.\""
+  - "Their mission: make a feature film about MrBeast and release it in theaters. They're not waiting for Hollywood's permission."
+featured_videos:
+  - NvTduUDqozE
+  - Q9yK7OPkdzc
+  - 6jQw52XTvK4

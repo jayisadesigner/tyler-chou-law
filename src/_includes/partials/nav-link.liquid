@@ -1,0 +1,18 @@
+{%- comment -%}
+  Single nav link. Emits the .line/.line-inner structure that nav.js's mobile
+  line-animation expects, so the JS can detect it (`!item.querySelector('.line-inner')`)
+  and skip its innerHTML rewrite — which would otherwise wipe the external-link
+  SVG icon and inline the visually-hidden a11y text as visible content.
+
+  External items get a Lucide-style arrow-up-right SVG (currentColor) plus a
+  visually-hidden span for screen readers ("Community, opens in new tab").
+{%- endcomment -%}
+<a href="{{ item.url }}"{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
+  <span class="line"><span class="line-inner">{{ item.label }}</span></span>
+  {%- if item.external -%}
+    <svg class="nav-external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M7 17L17 7M17 7H8M17 7V16" />
+    </svg>
+    <span class="visually-hidden"> (opens in new tab)</span>
+  {%- endif -%}
+</a>

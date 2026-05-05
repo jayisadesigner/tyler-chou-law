@@ -1,0 +1,48 @@
+{% assign faq = block | default: include %}
+<section class="faq-section section section-reveal" aria-labelledby="faq-heading">
+  <div class="container">
+    {% if faq.headline %}
+      <h2 id="faq-heading" class="faq-section__headline line-animate">{{ faq.headline | line_animate }}</h2>
+    {% endif %}
+    {% if faq.intro %}
+      <p class="faq-section__intro">{{ faq.intro }}</p>
+    {% endif %}
+
+    {% if faq.items and faq.items.size > 0 %}
+      <ul class="faq-list" role="list">
+        {% for item in faq.items %}
+          <li class="faq-item" role="listitem">
+            <details class="faq-item__details">
+              <summary class="faq-item__question">
+                <h3 class="faq-item__question-text">{{ item.question }}</h3>
+              </summary>
+              <div class="faq-item__answer">
+                <p>{{ item.answer }}</p>
+              </div>
+            </details>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {% for item in faq.items %}
+              {
+                "@type": "Question",
+                "name": "{{ item.question | replace: '"', '\"' }}",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "{{ item.answer | replace: '"', '\"' | replace: '
+', ' ' | strip }}"
+                }
+              }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          ]
+        }
+      </script>
+    {% endif %}
+  </div>
+</section>

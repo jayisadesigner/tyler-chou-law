@@ -246,26 +246,21 @@ async function updateIndexHTML(videoGridHTML) {
  */
 async function buildYouTubeVideos() {
   try {
-    console.log('Building YouTube videos grid...')
-    
-    // Get videos from config or API
+    console.log('Refreshing YouTube videos config...')
+
     const videos = await getVideos()
-    
+
     if (videos.length === 0) {
-      console.warn('No videos found. Check your config file.')
+      console.warn('No videos found. Check config/youtube-videos.json.')
       return
     }
-    
-    // Generate HTML
-    const videoGridHTML = generateVideoGridHTML(videos)
-    
-    // Update index.html
-    await updateIndexHTML(videoGridHTML)
-    
-    console.log(`✓ YouTube videos grid built successfully (${videos.length} videos)`)
+
+    // Eleventy reads this list from src/_data/videos.js. We only need the
+    // config refreshed here — page HTML is rendered by the youtube-grid
+    // Bookshop component at build time.
+    console.log(`✓ YouTube videos config ready (${videos.length} videos)`)
   } catch (error) {
-    console.error('Error building YouTube videos:', error)
-    // Don't throw - allow build to continue
+    console.error('Error refreshing YouTube videos:', error)
     console.warn('Continuing with existing videos...')
   }
 }

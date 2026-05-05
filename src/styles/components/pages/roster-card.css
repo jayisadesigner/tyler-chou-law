@@ -62,7 +62,7 @@ body.page-creator .roster-card {
   z-index: 1;
   pointer-events: none;
   /* Noise overlay - reusing blog image noise effect */
-  background-image: url('/src/assets/images/blog/seamless-noise-texture.png');
+  background-image: url('/assets/images/blog/seamless-noise-texture.png');
   background-repeat: repeat;
   background-size: 200px 200px; /* Tile size for noise texture */
   opacity: 0.5;

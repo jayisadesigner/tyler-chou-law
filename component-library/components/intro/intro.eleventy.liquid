@@ -1,0 +1,16 @@
+{% assign intro = block | default: include %}
+<div class="intro" id="intro">
+  <div class="intro__videos">
+    {% for v in intro.videos %}
+      <div class="intro__video-wrapper intro__video-wrapper--{{ v.position }}">
+        <video class="intro__video intro__video--{{ v.position }}" src="{{ v.src }}" autoplay muted playsinline loop preload="auto"></video>
+        <div class="intro__overlay-top"></div>
+        <div class="intro__overlay-bottom"></div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="intro__name-wrapper" role="presentation" aria-hidden="true">
+    <p class="intro__name" js-char-animation>{{ intro.name }}</p>
+    <p class="intro__subtitle" js-char-animation>{{ intro.subtitle }}</p>
+  </div>
+</div>

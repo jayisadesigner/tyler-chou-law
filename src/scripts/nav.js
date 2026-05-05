@@ -3,7 +3,21 @@
  */
 
 import gsap from 'gsap'
-import { animateLineElements } from './animations/line-animations.js'
+
+// Inlined line-element tween (was the only consumer of the deleted
+// line-animations.js module). Reveals a NodeList of span-inners by sliding
+// each up from y:100% with a small stagger.
+function animateLineElements(elements, options = {}) {
+  return gsap.to(elements, {
+    y: '0%',
+    opacity: 1,
+    duration: 0.9,
+    stagger: 0.1,
+    ease: 'power2.out',
+    delay: 0,
+    ...options
+  })
+}
 
 export function initNavigation() {
   const menu = document.querySelector('.nav-menu')

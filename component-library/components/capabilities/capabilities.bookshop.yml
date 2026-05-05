@@ -1,0 +1,38 @@
+label: "Capabilities Grid"
+description: "Grid of capability cells (title + short description). Use to summarize service offerings or M&A capabilities."
+icon: grid_view
+spec:
+  structures:
+    - content_blocks
+preview: |
+  Capabilities ({{ items.size }} items)
+
+props:
+  aria_label:
+    type: string
+    label: Accessible label
+    description: "Used for the section's aria-label."
+    default: "Capabilities"
+  columns:
+    type: select
+    label: Column layout
+    default: "8"
+    options:
+      values:
+        - { value: "3", label: "3 across" }
+        - { value: "4", label: "4 across" }
+        - { value: "8", label: "8 default (4-up wrap)" }
+  items:
+    type: array
+    label: Items
+    options:
+      structures:
+        values:
+          - label: Capability
+            value: ""
+            preview:
+              text:
+                key: title
+            fields:
+              title: { type: string, label: "Title", required: true }
+              body: { type: textarea, label: "Body" }

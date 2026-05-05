@@ -89,7 +89,7 @@ function initLenis() {
 // Import animation modules
 import { initNavColors, setBodyTheme, setNavColor, createThemeScrollTrigger } from './utils.js'
 import { initPinnedSections, initLoveLettersScroll, initPhilosophyRedaction, initCredentialsShadow, initFormSections } from './scroll-sections.js'
-import { initLineAnimations } from './line-animations.js'
+import { initReveals, forceReveal } from './reveal.js'
 import { initHeroParallax, animateFlowerRotation } from './parallax.js'
 import { initMouseTrail } from './mouse-trail.js'
 import { setupEarlyScrollDetection } from './intro.js'
@@ -103,16 +103,9 @@ export function initAnimations() {
   
   // If user prefers reduced motion, set all elements to final state and skip animations
   if (prefersReducedMotion) {
-    // Set hero content to visible
-    const heroContent = document.querySelector('.hero-content')
-    if (heroContent) {
-      gsap.set(heroContent, { opacity: 1, y: 0 })
-    }
-    
-    // Set all section reveals to visible
-    document.querySelectorAll('.section-reveal').forEach((section) => {
-      gsap.set(section, { opacity: 1, y: 0 })
-    })
+    // Hero content and section reveals are visible by default in CSS. The
+    // .is-pre-reveal / .is-revealed state machine is JS-only, so reduced-motion
+    // users naturally see the static layout without any opacity-zero flash.
     
     // Set flowers to final rotation state (only if elements exist)
     const aboutFlower = document.querySelector('.about-flower')
@@ -135,7 +128,7 @@ export function initAnimations() {
     // Initialize static versions of complex animations
     initPhilosophyRedaction(true, viewportHeight) // Pass true for reduced motion
     initCredentialsShadow(true) // Pass true for reduced motion
-    initLineAnimations(true, viewportHeight) // Pass true for reduced motion
+    initReveals(true) // Reduced motion: leave visible (no animation)
     initHeroParallax(true) // Pass true for reduced motion
     initLoveLettersScroll(true, viewportHeight) // Pass true for reduced motion
     initMouseTrail(true) // Pass true for reduced motion
@@ -143,91 +136,82 @@ export function initAnimations() {
     return // Skip all animations
   }
 
-  // Hero content reveal animation — skip if intro handled it
-  const introRan = document.querySelector('.intro.is-complete')
-  if (!introRan) {
+  // Initialize line + section reveals (CSS-driven, IntersectionObserver-based).
+  // Runs before the GSAP-heavy work so that sections are pre-hidden as soon as
+  // possible after the lazy-loaded animations chunk arrives.
+  initReveals(false)
+
+  // Hero handoff
+  // ─────────────────────────────────────────────────────────────────────────
+  // Two paths:
+  //   1. Homepage with intro splash — intro.js owns the entire hero-content
+  //      fade-in and calls forceReveal() on the hero headline when the splash
+  //      completes. Skip this block; intro.js handles it.
+  //   2. Inner pages (no intro) — fade hero-content up, then force-reveal the
+  //      hero headline so the per-line slide-up plays AFTER hero-content is
+  //      visible. Without this chain, IntersectionObserver would fire on
+  //      initial paint and play the headline reveal inside an opacity:0
+  //      hero-content (lost to the user).
+  const hasIntro = !!document.querySelector('.intro')
+  if (!hasIntro) {
     const heroSection = document.querySelector('.hero')
-    if (heroSection) {
-      const heroContent = heroSection.querySelector('.hero-content')
-      
-      if (heroContent) {
-        gsap.from(heroContent, {
-          opacity: 0,
-          y: 50,
-          duration: 1,
-          ease: 'power3.out',
-          delay: 0.3,
+    const heroContent = heroSection?.querySelector('.hero-content')
+    if (heroContent) {
+      // Chain the hero entrance off the curtain reveal (inner pages only —
+      // the homepage intro owns its own hero handoff).
+      //
+      // Curtain timing (curtain.css): panels finish sliding at ~2.7–2.8s,
+      // curtain hides at 2.8s.
+      //
+      // Sequence (matches nav fade-in at 2.9s in nav.css):
+      //   2.9s   hero-content fades up (1s) AND headline lines slide in
+      //          via the .line-animate state machine (~1s incl stagger).
+      //   3.8s   subheadline fades in (0.5s) — strictly AFTER the headline
+      //          reveal starts, so it never appears alone.
+      const heroDelay = prefersReducedMotion ? 0 : 2.9
+      const subheadline = heroSection.querySelector(
+        '.hero-subheadline, .hero-subheadline--inner-page, .hero-subheadline--nested, .hero-subheadline--desktop'
+      )
+
+      // Pre-hide the subheadline immediately so it can't flash in before the
+      // headline. (gsap.from sets the from-state synchronously.)
+      if (subheadline) {
+        gsap.set(subheadline, { opacity: 0, y: 16 })
+      }
+
+      gsap.from(heroContent, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power3.out',
+        delay: heroDelay,
+        onStart: () => {
+          // Reveal headline lines concurrently with the hero-content fade
+          // so the headline is the first thing the eye lands on, not the
+          // subheadline.
+          heroSection
+            .querySelectorAll('.line-animate')
+            .forEach((el) => forceReveal(el))
+        }
+      })
+
+      if (subheadline) {
+        gsap.to(subheadline, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: 'power2.out',
+          delay: heroDelay + 0.9 // ~end of headline line stagger
         })
       }
     }
   }
 
-  // Scroll-triggered section reveals
-  if (!ScrollTrigger) return
+  // Section + line reveals are handled by initReveals (CSS + IntersectionObserver)
+  // further down. The section-reveal animation block that lived here was rebuilt
+  // around .is-pre-reveal / .is-revealed CSS classes — see reveal.js + animations.css.
 
-  // Section reveal animations
-  // Use ScrollTrigger.create() pattern (proven to work on mobile) instead of gsap.to with scrollTrigger
-  // This matches the working pattern used in philosophy section and love-notes
-  document.querySelectorAll('.section-reveal').forEach((section) => {
-    const sectionId = section.id || section.className.split(' ')[1] || 'section'
-    
-    // Set initial state - use inline style to override CSS opacity: 1
-    // This ensures sections start hidden regardless of CSS
-    section.style.opacity = '0'
-    gsap.set(section, { 
-      y: 60,
-      immediateRender: true,
-    })
-    
-    // Track if section has been animated (prevent re-animation on scroll back)
-    let hasAnimated = false
-    
-    // Check if section is already in viewport on load
-    const rect = section.getBoundingClientRect()
-    const isInView = rect.top < viewportHeight * 0.8 && rect.bottom > 0
-    
-    if (isInView) {
-      // Section already visible on load - animate immediately
-      hasAnimated = true
-      gsap.to(section, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power2.out',
-        onComplete: () => {
-          // Clean up inline style after animation
-          section.style.opacity = ''
-        }
-      })
-    } else {
-      // Use ScrollTrigger.create() pattern (works reliably on mobile)
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top 80%',
-        id: `section-reveal-${sectionId}`,
-        onEnter: () => {
-          // Only animate if not already animated
-          if (!hasAnimated) {
-            hasAnimated = true
-            gsap.to(section, {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              ease: 'power2.out',
-              onComplete: () => {
-                // Clean up inline style after animation
-                section.style.opacity = ''
-              }
-            })
-          }
-        },
-        // Keep section visible when scrolling back up
-        onLeaveBack: () => {
-          // Section stays visible - no action needed
-        }
-      })
-    }
-  })
+  if (!ScrollTrigger) return
 
   // Services capabilities grid: animate when section/cells enter view; reset on leave so it replays each time.
   const gridSections = document.querySelectorAll('.services-capabilities')
@@ -434,9 +418,6 @@ export function initAnimations() {
 
   // Credentials section shadow animation
   initCredentialsShadow(false)
-
-  // Line animations for headings
-  initLineAnimations(false, viewportHeight)
 
   // Hero background parallax effect
   initHeroParallax(false)

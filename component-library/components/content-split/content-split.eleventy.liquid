@@ -1,0 +1,48 @@
+{% assign cs = block | default: include %}
+{% assign cs_layout = cs.layout | default: "right" %}
+{% assign cs_media = cs.media %}
+{% assign show_overlay = cs_media.overlay %}
+{% if show_overlay == nil %}{% assign show_overlay = true %}{% endif %}
+
+{% capture mods %}
+  {%- if cs_layout == "left" %} content-section--media-left{% endif -%}
+  {%- if cs_layout == "stacked" %} content-section--stacked{% endif -%}
+  {%- if cs.bleed %} content-section--media-bleed{% endif -%}
+  {%- if cs.parallax != false %} content-section--parallax{% endif -%}
+{% endcapture %}
+
+<section class="content-section{{ mods }} section section-reveal"{% if cs.anchor %} id="{{ cs.anchor }}"{% endif %}>
+  <div class="content-section__container">
+    <div class="content-section__content">
+      <div class="content-section__headline">
+        <h2 class="content-section__headline-text line-animate">{{ cs.headline | line_animate }}</h2>
+      </div>
+      {% if cs.body %}
+        <div class="content-section__body">
+          {% for p in cs.body %}<p>{{ p.text }}</p>{% endfor %}
+        </div>
+      {% endif %}
+      {% if cs.cta and cs.cta.label and cs.cta.url %}
+        <a href="{{ cs.cta.url }}" class="btn btn--secondary btn--on-dark btn--chuparosa"{% if cs.cta.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ cs.cta.label }}</a>
+      {% endif %}
+    </div>
+
+    <div class="content-section__media">
+      <div class="background-image{% unless show_overlay %} background-image--no-overlay{% endunless %}">
+        {% if cs_media.type == "video" and cs_media.video_url %}
+          <div class="background-image__video-wrapper">
+            <iframe class="background-image__video" src="{{ cs_media.video_url }}" frameborder="0" allow="autoplay; fullscreen" title="{{ cs_media.video_title | default: cs.headline }}"></iframe>
+          </div>
+        {% elsif cs_media.image %}
+          <img class="background-image__img" src="{{ cs_media.image }}" alt="{{ cs_media.image_alt }}" loading="lazy" decoding="async" />
+        {% endif %}
+        {% if show_overlay %}
+          <div class="background-image__overlay-top"></div>
+          <div class="background-image__overlay-bottom"></div>
+          <div class="background-image__overlay-left"></div>
+          <div class="background-image__overlay-right"></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+{% assign ph = block | default: include %}
+<section class="philosophy section section-reveal">
+  <div class="philosophy-container">
+    <div class="philosophy-content">
+      {% for line in ph.lines %}
+        {% assign style = line.style | default: "content" %}
+        {% assign redaction = line.redaction | default: "none" %}
+        <div class="philosophy-item">
+          <p class="philosophy-text philosophy-text--{{ style }}">{{ line.text }}</p>
+          {% unless redaction == "none" %}
+            <span class="philosophy-redaction philosophy-redaction--{{ redaction }}" aria-hidden="true"></span>
+          {% endunless %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

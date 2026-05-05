@@ -1,0 +1,30 @@
+---
+permalink: /llms.txt
+eleventyExcludeFromCollections: true
+layout: null
+---
+# {{ site.brand.firm }}
+
+> {{ site.bio.canonical }}
+
+{% for section in nav.llms %}## {{ section.section }}
+
+{% for item in section.items %}- [{{ item.label }}]({% if item.external %}{{ item.url }}{% else %}{{ item.url | absolute_url: site.url }}{% endif %}){% if item.comment %}: {{ item.comment }}{% endif %}
+{% endfor %}
+
+{% endfor %}## Contact
+
+- [Schedule a Consultation]({{ site.contact.consultationUrl }})
+- [New-Client Intake]({{ site.contact.intakeUrl }})
+- [Contact]({{ site.url }}/contact/)
+
+## Brand
+
+- Trademark: {{ site.brand.trademark }}
+- Founder: {{ site.brand.founder }}
+- Legal entity: {{ site.brand.legalEntity }}
+
+## Social
+
+{% for s in site.social %}- [{{ s.label }}]({{ s.url }})
+{% endfor %}

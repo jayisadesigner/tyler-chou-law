@@ -697,20 +697,20 @@ body.bg-bone .content-section__body {
 }
 
 /* Center line spans vertically within large-text headlines */
-.content-section--centered.content-section--large-text .content-section__headline-text[js-line-animation] .line {
+.content-section--centered.content-section--large-text .content-section__headline-text.line-animate .line-animate__line {
   margin-left: auto;
   margin-right: auto;
 }
 
 /* Vertically center line spans in all centered sections */
-.content-section--centered .content-section__headline-text[js-line-animation] {
+.content-section--centered .content-section__headline-text.line-animate {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.content-section--centered .content-section__headline-text[js-line-animation] .line {
+.content-section--centered .content-section__headline-text.line-animate .line-animate__line {
   margin-left: auto;
   margin-right: auto;
 }

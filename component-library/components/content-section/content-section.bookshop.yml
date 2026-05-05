@@ -1,0 +1,63 @@
+label: "Content Section"
+description: "Centered headline + body paragraphs + optional CTA. Use for short-form sections like the contact intake or a single-message spotlight."
+icon: text_snippet
+preview: |
+  ## {{ headline }}
+  {{ body | first | truncate: 100 }}
+spec:
+  structures:
+    - content_blocks
+
+props:
+  headline:
+    type: string
+    label: Headline
+    description: "Use <br> to control line breaks."
+    required: true
+  as_h1:
+    type: boolean
+    label: "Render headline as page H1"
+    description: "Set to true when this content-section is the primary heading of the page (e.g. on minimal pages with no hero block). Defaults to H2."
+    default: false
+  body:
+    type: array
+    label: Paragraphs
+    options:
+      structures:
+        values:
+          - label: Paragraph
+            value: ""
+            preview:
+              text:
+                key: text
+            fields:
+              text:
+                type: textarea
+                label: Paragraph text
+  cta:
+    type: object
+    label: CTA Button
+    options:
+      empty_type: object
+    fields:
+      label:
+        type: string
+        label: Button label
+      url:
+        type: url
+        label: URL
+      external:
+        type: boolean
+        label: Opens in new tab
+        default: false
+  variant:
+    type: select
+    label: Variant
+    description: "Visual variant from the design system."
+    default: "centered--full-height--large-text"
+    options:
+      values:
+        - { value: "centered--full-height--large-text", label: "Centered, full height, large text" }
+        - { value: "centered--large-text", label: "Centered, large text" }
+        - { value: "centered", label: "Centered" }
+        - { value: "left-aligned", label: "Left aligned" }

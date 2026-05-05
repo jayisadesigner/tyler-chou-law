@@ -1,0 +1,49 @@
+label: "Lead Form"
+description: "Two-column section: copy + Netlify-powered intake form. Use for contact / lead-capture pages."
+icon: assignment
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+
+props:
+  headline: { type: string, label: "Headline", required: true }
+  body:
+    type: array
+    label: Body paragraphs
+    options:
+      structures:
+        values:
+          - label: Paragraph
+            value: ""
+            fields:
+              text: { type: textarea, label: "Paragraph" }
+  social_links:
+    type: array
+    label: Social icons
+    options:
+      structures:
+        values:
+          - label: Social link
+            value: ""
+            fields:
+              platform:
+                type: select
+                label: Platform
+                options:
+                  values:
+                    - { value: linkedin, label: LinkedIn }
+                    - { value: instagram, label: Instagram }
+                    - { value: youtube, label: YouTube }
+                    - { value: forbes, label: Forbes }
+              url: { type: url, label: "URL" }
+  form:
+    type: object
+    label: Form
+    options:
+      empty_type: object
+    fields:
+      name: { type: string, label: "Netlify form name", default: "contact" }
+      action: { type: string, label: "Form action", default: "/thank-you/" }
+      submit_label: { type: string, label: "Submit button label", default: "Submit" }

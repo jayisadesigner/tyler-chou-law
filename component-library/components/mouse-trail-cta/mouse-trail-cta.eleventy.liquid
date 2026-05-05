@@ -1,0 +1,19 @@
+{% assign mt = block | default: include %}
+<section class="content-section content-section--centered content-section--full-height content-section--large-text content-section--has-mousetrail section section-reveal">
+  {% if mt.trail_images and mt.trail_images.size > 0 %}
+    {% for img in mt.trail_images %}
+      <img class="mouse-trail__image" src="{{ img.src }}" alt="{{ img.alt }}" data-trail-index="{{ forloop.index0 }}" loading="lazy" decoding="async" />
+    {% endfor %}
+  {% endif %}
+
+  <div class="content-section__container">
+    <div class="content-section__content">
+      <div class="content-section__headline">
+        <h2 class="content-section__headline-text line-animate">{{ mt.headline | line_animate }}</h2>
+      </div>
+      {% if mt.cta and mt.cta.label and mt.cta.url %}
+        <a href="{{ mt.cta.url }}" class="btn btn--secondary btn--on-dark btn--chuparosa"{% if mt.cta.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ mt.cta.label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>

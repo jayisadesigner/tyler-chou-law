@@ -1,0 +1,30 @@
+{% comment %}
+  Auto-emit BreadcrumbList from URL segments. Skipped on the homepage.
+{% endcomment %}
+{% assign trimmed = page.url | replace: '/', ' ' | strip | split: ' ' %}
+{% if trimmed.size > 0 and page.url != '/' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ site.url }}/"
+    }
+    {%- assign crumb_path = '' -%}
+    {% for seg in trimmed %}
+      {%- assign crumb_path = crumb_path | append: '/' | append: seg -%}
+      , {
+        "@type": "ListItem",
+        "position": {{ forloop.index | plus: 1 }},
+        "name": "{{ seg | replace: '-', ' ' | capitalize }}",
+        "item": "{{ site.url }}{{ crumb_path }}/"
+      }
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}

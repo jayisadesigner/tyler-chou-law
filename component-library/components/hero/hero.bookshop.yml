@@ -1,0 +1,66 @@
+label: "Hero"
+description: "Page hero with optional background image or video, headline, and subheadline. Use for the top of any inner page or the homepage."
+icon: panorama_wide_angle
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+  {{ subheadline }}
+
+props:
+  variant:
+    type: select
+    label: Variant
+    description: "Choose `home` for the homepage hero (no subhead, full-bleed video), `inner` for any other page."
+    default: inner
+    options:
+      values:
+        - { value: inner, label: "Inner page" }
+        - { value: home, label: "Homepage" }
+  headline:
+    type: string
+    label: Headline
+    description: "Use <br> to control line breaks. The visible H1 of the page."
+    required: true
+  subheadline:
+    type: string
+    label: Subheadline
+    description: "One-line tagline below the headline. Hidden on the homepage variant."
+  background:
+    type: object
+    label: Background
+    options:
+      empty_type: object
+    fields:
+      type:
+        type: select
+        label: Media type
+        default: image
+        options:
+          values:
+            - { value: image, label: "Image" }
+            - { value: video, label: "Vimeo embed (URL)" }
+            - { value: none, label: "No background (text only)" }
+      image:
+        type: image
+        label: Image
+        description: "Used when type = image. JPG/PNG/WebP."
+      image_alt:
+        type: string
+        label: Image alt text
+        description: "Required for accessibility and SEO. Describe what the image shows."
+        required: true
+      video_url:
+        type: url
+        label: Vimeo embed URL
+        description: "Full embed URL from Vimeo's share dialog. Used when type = video."
+      video_title:
+        type: string
+        label: Video iframe title
+        description: "Accessible title attribute for the video embed."
+      overlay:
+        type: boolean
+        label: Show overlay
+        default: true
+        description: "Adds the standard four-corner overlay gradient over the media."

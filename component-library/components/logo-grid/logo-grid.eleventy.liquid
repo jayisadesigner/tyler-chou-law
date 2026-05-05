@@ -1,0 +1,32 @@
+{% assign lg = block | default: include %}
+<section class="content-section content-section--centered content-section--full-width section section-reveal">
+  <div class="content-section__container">
+    <div class="content-section__content">
+      {% if lg.headline %}
+        <div class="content-section__headline">
+          <h2 class="content-section__headline-text line-animate">{{ lg.headline | line_animate }}</h2>
+        </div>
+      {% endif %}
+      {% if lg.intro %}
+        <div class="content-section__body">
+          <p>{{ lg.intro }}</p>
+        </div>
+      {% endif %}
+      {% if lg.logos and lg.logos.size > 0 %}
+        <div class="logo-grid" role="list">
+          {% for logo in lg.logos %}
+            {% if logo.url %}
+              <a class="logo-grid__item" href="{{ logo.url }}" role="listitem"{% if lg.link_target == '_blank' %} target="_blank" rel="noopener noreferrer"{% endif %}>
+                <img src="{{ logo.src }}" alt="{{ logo.alt }}" loading="lazy" decoding="async" />
+              </a>
+            {% else %}
+              <div class="logo-grid__item" role="listitem">
+                <img src="{{ logo.src }}" alt="{{ logo.alt }}" loading="lazy" decoding="async" />
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

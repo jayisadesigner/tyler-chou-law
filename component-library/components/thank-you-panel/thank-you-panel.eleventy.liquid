@@ -1,0 +1,20 @@
+{% assign ty = block | default: include %}
+<section class="content-section section section-reveal">
+  <div class="container container-narrow">
+    <div class="thank-you-card">
+      <h1 class="thank-you-card__headline">{{ ty.headline }}</h1>
+      <p class="thank-you-card__message">{{ ty.message_primary }}</p>
+      {% if ty.message_secondary %}
+        <p class="thank-you-card__message thank-you-card__message--secondary">{{ ty.message_secondary }}</p>
+      {% endif %}
+      <div class="thank-you-actions">
+        {% if ty.primary_cta and ty.primary_cta.label and ty.primary_cta.url %}
+          <a href="{{ ty.primary_cta.url }}" class="btn btn--primary btn--on-dark btn--chuparosa">{{ ty.primary_cta.label }}</a>
+        {% endif %}
+        {% if ty.secondary_cta and ty.secondary_cta.label and ty.secondary_cta.url %}
+          <a href="{{ ty.secondary_cta.url }}" class="btn btn--secondary btn--on-dark btn--chuparosa">{{ ty.secondary_cta.label }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

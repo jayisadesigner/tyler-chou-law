@@ -1,0 +1,25 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+layout: null
+---
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {%- assign all_pages = collections.all -%}
+  {%- for page in all_pages -%}
+    {%- if page.data.eleventyExcludeFromCollections -%}{%- continue -%}{%- endif -%}
+    {%- if page.data.permalink == false -%}{%- continue -%}{%- endif -%}
+    {%- assign robots = page.data.robots | default: '' -%}
+    {%- if robots contains 'noindex' -%}{%- continue -%}{%- endif -%}
+    {%- assign url_path = page.url -%}
+    {%- unless url_path -%}{%- continue -%}{%- endunless -%}
+    {%- if url_path contains '.txt' -%}{%- continue -%}{%- endif -%}
+    {%- if url_path contains '.xml' -%}{%- continue -%}{%- endif -%}
+  <url>
+    <loc>{{ site.url }}{{ url_path }}</loc>
+    {% if page.date %}<lastmod>{{ page.date | isoDate }}</lastmod>{% endif %}
+    <changefreq>{% if url_path == '/' %}weekly{% elsif url_path contains '/love-letters/' %}monthly{% else %}monthly{% endif %}</changefreq>
+    <priority>{% if url_path == '/' %}1.0{% elsif url_path contains '/love-letters/' or url_path contains '/roster/' %}0.7{% else %}0.8{% endif %}</priority>
+  </url>
+  {%- endfor %}
+</urlset>

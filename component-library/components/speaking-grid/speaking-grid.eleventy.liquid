@@ -1,0 +1,39 @@
+{% assign sg = block | default: include %}
+{% assign engagements = collections.speaking %}
+
+<section class="speaking-grid section section-reveal">
+  <div class="container">
+    {% if sg.intro %}
+      <p class="speaking-grid__intro text-large">{{ sg.intro }}</p>
+    {% endif %}
+
+    {% if engagements.size > 0 %}
+      <ul class="speaking-grid__list" role="list">
+        {% for item in engagements %}
+          {% assign d = item.data %}
+          <li class="speaking-grid__item">
+            <article class="speaking-card">
+              {% if d.image %}
+                <div class="speaking-card__image-wrapper">
+                  <img class="speaking-card__image" src="{{ d.image }}" alt="{{ d.image_alt | default: d.event }}" loading="lazy" decoding="async" />
+                </div>
+              {% endif %}
+              <div class="speaking-card__content">
+                <p class="speaking-card__event">{{ d.event }}</p>
+                <h3 class="speaking-card__title">{{ d.title }}</h3>
+                <p class="speaking-card__meta">
+                  <time datetime="{{ item.date | isoDate }}">{{ item.date | formatDate }}</time>
+                  {% if d.location %} · {{ d.location }}{% endif %}
+                </p>
+                {% if d.summary %}<p class="speaking-card__summary">{{ d.summary }}</p>{% endif %}
+                {% if d.url %}<a href="{{ d.url }}" class="speaking-card__link" target="_blank" rel="noopener noreferrer">Watch / read more →</a>{% endif %}
+              </div>
+            </article>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="speaking-grid__empty">Upcoming engagements coming soon.</p>
+    {% endif %}
+  </div>
+</section>

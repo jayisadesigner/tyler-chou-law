@@ -1,36 +1,97 @@
-/* Section Reveal */
+/* ─── Section Reveal ──────────────────────────────────────────────────────────
+ * Sections are visible by default (CSS owns the layout). JS optionally adds
+ * .is-pre-reveal to temporarily hide them, then .is-revealed to animate in.
+ * If JS fails: sections render visible.
+ */
 .section-reveal {
-  opacity: 1; /* Always visible - GSAP will enhance with animation if available */
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-reveal.is-pre-reveal {
+  opacity: 0;
+  transform: translate3d(0, 60px, 0);
+  transition: none;
+}
+
+.section-reveal.is-revealed {
+  opacity: 1;
+  transform: none;
 }
 
 .fade-in {
-  opacity: 1; /* Always visible - GSAP will enhance with animation if available */
+  opacity: 1;
 }
 
-/* Line Animation Styles */
-[js-line-animation] {
+/* ─── Line Animation ──────────────────────────────────────────────────────────
+ * Build-time system. Headlines emit nested spans via the `line_animate` Liquid
+ * filter. CSS owns the show/hide state via the .is-pre-reveal / .is-revealed
+ * classes on the parent .line-animate element.
+ *
+ * Default state: visible. JS only ENHANCES — if main.js never runs, every
+ * headline still renders correctly without any animation.
+ *
+ * No DOM mutation, no measurement, no clone-on-body. Layout is whatever the
+ * browser's text engine produces.
+ */
+.line-animate {
+  display: block;
+  /* The headline element itself doesn't clip — overflow:hidden lives on each */
+  /* per-line wrapper. This preserves the headline's natural bounding box    */
+  /* (heights, margins, vertical rhythm) regardless of animation state.      */
+}
+
+.line-animate__line {
+  display: block;
+  /* Clip the slide-up motion to the line's bounding box. The line's box is */
+  /* sized by font-size × line-height (1.1 globally), which already         */
+  /* accommodates descenders and ascenders in Cabinet Grotesk. No padding   */
+  /* needed — adding it would inflate vertical rhythm.                      */
   overflow: hidden;
-  padding-top: 0.1em; /* Space for ascenders */
-  padding-bottom: 0.1em; /* Space for descenders */
-  opacity: 1; /* Progressive enhancement: Visible by default, JS can enhance with animations */
 }
 
-[js-line-animation] .line {
+.line-animate__inner {
   display: block;
-  overflow: visible; /* Prevents text cut-off */
-  line-height: inherit; /* Preserve original line-height */
-  width: fit-content; /* Allow line to fit its content */
+  /* Default state: fully revealed, identity transform. Block display so it  */
+  /* fills the .line-animate__line box without inheriting an inline baseline */
+  /* offset (which can clip descenders).                                     */
+  transform: none;
+  opacity: 1;
+  /* When the parent gains .is-revealed, the inner transitions from its       */
+  /* .is-pre-reveal state. transition-delay (set per nth-child below) drives  */
+  /* the per-line stagger.                                                    */
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[js-line-animation] .line-inner {
-  display: block;
-  width: fit-content; /* Allow inner to fit its content */
-  white-space: nowrap; /* Prevent text wrapping within a line */
+/* Pre-reveal: only applies when JS has marked the element. If JS never runs, */
+/* the inner spans stay in their default visible state.                       */
+.line-animate.is-pre-reveal .line-animate__inner {
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+  transition: none;
 }
 
-/* Reduce extra spacing for palo-verde headline specifically */
-.palo-verde .section--featured-image__headline[js-line-animation] .line {
-  margin: 0;
-  padding: 0;
+/* Revealed: animate the inner spans up. transition-delay staggers each line. */
+.line-animate.is-revealed .line-animate__inner {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
+.line-animate.is-revealed .line-animate__line:nth-child(1) .line-animate__inner { transition-delay: 0ms; }
+.line-animate.is-revealed .line-animate__line:nth-child(2) .line-animate__inner { transition-delay: 100ms; }
+.line-animate.is-revealed .line-animate__line:nth-child(3) .line-animate__inner { transition-delay: 200ms; }
+.line-animate.is-revealed .line-animate__line:nth-child(4) .line-animate__inner { transition-delay: 300ms; }
+.line-animate.is-revealed .line-animate__line:nth-child(5) .line-animate__inner { transition-delay: 400ms; }
+.line-animate.is-revealed .line-animate__line:nth-child(6) .line-animate__inner { transition-delay: 500ms; }
+.line-animate.is-revealed .line-animate__line:nth-child(7) .line-animate__inner { transition-delay: 600ms; }
 
+@media (prefers-reduced-motion: reduce) {
+  .line-animate.is-pre-reveal .line-animate__inner,
+  .line-animate.is-revealed .line-animate__inner {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

@@ -330,8 +330,13 @@
 
 /* Typography Scale - Mobile First */
 :root {
-  --font-headline: 'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-paragraph: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Font stacks include a metric-adjusted fallback face ('Cabinet Grotesk     */
+  /* Fallback' / 'Satoshi Fallback') defined in typography.css. The fallback   */
+  /* uses the system font but with ascent/descent/size overrides tuned to     */
+  /* match the webfont's vertical metrics — eliminating layout shift on      */
+  /* font swap (CLS = 0 even when the webfont arrives late on a slow line).  */
+  --font-headline: 'Cabinet Grotesk', 'Cabinet Grotesk Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-paragraph: 'Satoshi', 'Satoshi Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   
   /* Font Weights */
   --font-weight-headline: 800; /* Extrabold for headlines */
@@ -347,7 +352,7 @@
   --letter-spacing-button: 0; /* For buttons */
   
   /* Nav Typography - Single source of truth for nav and logo */
-  --font-nav: 'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-nav: 'Cabinet Grotesk', 'Cabinet Grotesk Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-weight-nav: 700;
   --text-transform-nav: uppercase;
   --letter-spacing-nav: 0;

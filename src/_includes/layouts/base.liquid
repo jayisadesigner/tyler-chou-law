@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="{{ site.locale }}">
+  <head>
+    {% include "partials/head" %}
+    {% include "partials/schema-person" %}
+    {% include "partials/schema-breadcrumb" %}
+    {{ extraHead }}
+  </head>
+  <body class="page-{% if pageClass %}{{ pageClass }}{% else %}{{ page.fileSlug | default: 'index' }}{% endif %}{% if introActive %} intro-active{% endif %}">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    {{ intro }}
+
+    {% include "partials/header" %}
+
+    <main id="main-content">
+      {{ content }}
+    </main>
+
+    {% include "partials/footer" %}
+    {% include "partials/disclaimer" %}
+
+    <script type="module" src="/scripts/main.js"></script>
+    {{ extraScripts }}
+  </body>
+</html>

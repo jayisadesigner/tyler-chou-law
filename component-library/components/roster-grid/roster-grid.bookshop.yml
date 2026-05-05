@@ -1,0 +1,47 @@
+label: "Roster Grid"
+description: "Grid of creator roster cards. Pulls from the `roster` collection by default; supports manual override."
+icon: groups
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+
+props:
+  headline:
+    type: string
+    label: Section headline
+  link:
+    type: object
+    label: Header link (optional)
+    options:
+      empty_type: object
+    fields:
+      label: { type: string, label: "Link label" }
+      url: { type: url, label: "URL" }
+  source:
+    type: select
+    label: Source
+    default: collection
+    options:
+      values:
+        - { value: collection, label: "All creators from src/content/roster/" }
+        - { value: featured, label: "Featured creators only (`featured: true`)" }
+        - { value: manual, label: "Manual list (below)" }
+  manual_creators:
+    type: array
+    label: Manual creators
+    description: "Used only when source = manual."
+    options:
+      structures:
+        values:
+          - label: Creator
+            value: ""
+            fields:
+              handle: { type: string, label: "@ handle", required: true }
+              image: { type: image, label: "Image", required: true }
+              alt: { type: string, label: "Image alt text", required: true }
+              url: { type: url, label: "Profile URL" }
+  limit:
+    type: number
+    label: Number to show

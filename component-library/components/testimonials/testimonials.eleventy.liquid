@@ -1,0 +1,35 @@
+{% assign tt = block | default: include %}
+{% assign tt_source = tt.source | default: "data" %}
+{% assign tt_list = tt.manual_testimonials %}
+{% if tt_source == "data" and testimonials %}
+  {% assign tt_list = testimonials %}
+{% endif %}
+
+{% assign tt_half = tt_list.size | divided_by: 2 %}
+{% assign tt_top = tt_list | slice: 0, tt_half %}
+{% assign tt_bottom = tt_list | slice: tt_half, tt_list.size %}
+
+<section class="love-notes{% if tt.variant != 'standard' %} love-notes--full-height{% endif %} section section-reveal">
+  <div class="love-notes__container">
+    <div class="love-notes__carousels">
+      {% if tt.headline %}
+        <div class="love-notes__header">
+          <h2 class="content-section__headline-text line-animate">{{ tt.headline | line_animate }}</h2>
+        </div>
+      {% endif %}
+
+      <div class="love-notes__carousel love-notes__carousel--top" role="list">
+        {% for t in tt_top %}
+          {% include "component-library/components/testimonials/_testimonial-card.liquid", t: t %}
+        {% endfor %}
+      </div>
+      <div class="love-notes__carousel love-notes__carousel--bottom" role="list">
+        <div class="love-notes__carousel-track">
+          {% for t in tt_bottom %}
+            {% include "component-library/components/testimonials/_testimonial-card.liquid", t: t %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+primary:
+  left:
+    - { label: About, url: /about/ }
+    - { label: Services, url: /services/ }
+    - { label: Roster, url: /roster/ }
+    - { label: Contact, url: /contact/ }
+  right:
+    - { label: CreatorArq, url: /creatorarq/ }
+    - { label: Community, url: "https://tyler-choulaw.mykajabi.com/community", external: true }
+    - { label: Love Letters, url: /love-letters/ }
+
+footer:
+  - { label: About, url: /about/ }
+  - { label: Services, url: /services/ }
+  - { label: CreatorArq, url: /creatorarq/ }
+  - { label: Press, url: /press/ }
+  - { label: Speaking, url: /speaking/ }
+  - { label: Love Letters, url: /love-letters/ }
+  - { label: Contact, url: /contact/ }
+
+llms:
+  - section: About
+    items:
+      - { label: About Tyler Chou, url: /about/, comment: "Full biography and credentials" }
+      - { label: Press, url: /press/, comment: "Media coverage and citations" }
+      - { label: Speaking, url: /speaking/, comment: "Keynotes and appearances" }
+  - section: Services — Tyler Chou Law For Creators
+    items:
+      - { label: Services Overview, url: /services/ }
+  - section: Services — CreatorArq M&A
+    items:
+      - { label: CreatorArq Overview, url: /creatorarq/ }
+  - section: Content
+    items:
+      - { label: Love Letters Newsletter, url: /love-letters/ }
+      - { label: YouTube — The Creator Exit Series, url: "https://www.youtube.com/@TheCreatorsAttorney", external: true }

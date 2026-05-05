@@ -1,0 +1,53 @@
+label: "Logo Grid"
+description: "Grid of brand logos under an optional headline. Use for `Speaking & Past Experience` or `As Featured In` sections."
+icon: collections
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+
+props:
+  headline:
+    type: string
+    label: Section headline
+    description: "Use <br> for line breaks."
+  intro:
+    type: textarea
+    label: Intro paragraph
+    description: "Optional one-paragraph intro above the grid."
+  logos:
+    type: array
+    label: Logos
+    options:
+      structures:
+        values:
+          - label: Logo
+            value: ""
+            preview:
+              text:
+                key: alt
+              image:
+                key: src
+            fields:
+              src:
+                type: image
+                label: Logo image
+                required: true
+              alt:
+                type: string
+                label: Alt text
+                description: "Brand name (e.g. `Forbes`)."
+                required: true
+              url:
+                type: url
+                label: Link (optional)
+                description: "Logo links here when set. Leave blank for non-clickable logos."
+  link_target:
+    type: select
+    label: Link target (when set)
+    default: _self
+    options:
+      values:
+        - { value: _self, label: "Same tab" }
+        - { value: _blank, label: "New tab" }

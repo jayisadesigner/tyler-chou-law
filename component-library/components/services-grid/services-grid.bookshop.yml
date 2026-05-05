@@ -1,0 +1,38 @@
+label: "Services Grid"
+description: "Grid of three (or more) high-level services cards. Each card links to a deep page."
+icon: business_center
+spec:
+  structures:
+    - content_blocks
+preview: |
+  ## {{ headline }}
+
+props:
+  headline:
+    type: string
+    label: Section headline
+    required: true
+  link:
+    type: object
+    label: Header link (optional)
+    options:
+      empty_type: object
+    fields:
+      label: { type: string, label: "Link label" }
+      url: { type: url, label: "URL" }
+  cards:
+    type: array
+    label: Service cards
+    options:
+      structures:
+        values:
+          - label: Service card
+            value: ""
+            preview:
+              text:
+                key: title
+            fields:
+              title: { type: string, label: "Title", required: true }
+              description: { type: textarea, label: "Description" }
+              url: { type: url, label: "Link URL", required: true }
+              button_label: { type: string, label: "Button label", default: "Learn more" }

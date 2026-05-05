@@ -1,0 +1,35 @@
+{% assign fi = block | default: include %}
+{% assign fi_layout = fi.layout | default: "left" %}
+<section class="section--featured-image section--featured-image--{{ fi_layout }} section section-reveal{% if fi.flower_decoration == 'palo_verde' %} palo-verde{% endif %}">
+  <div class="section--featured-image__container">
+    <div class="section--featured-image__image">
+      <img src="{{ fi.image }}" alt="{{ fi.image_alt }}" loading="lazy" decoding="async" />
+      {% case fi.flower_decoration %}
+        {% when "about" %}
+          <img class="about-flower" src="/assets/images/about/palo-verde-flower.svg" alt="" aria-hidden="true" />
+        {% when "palo_verde" %}
+          <img class="palo-verde-flower" src="/assets/images/home/palo-verde-tree.png" alt="" aria-hidden="true" />
+      {% endcase %}
+    </div>
+
+    <div class="section--featured-image__content">
+      {% if fi.headline %}
+        <h2 class="section--featured-image__headline line-animate">{{ fi.headline | line_animate }}</h2>
+      {% endif %}
+      {% if fi.body_columns and fi.body_columns.size > 0 %}
+        <div class="section--featured-image__body">
+          {% for col in fi.body_columns %}
+            <div class="section--featured-image__body-column">
+              {% for p in col.paragraphs %}
+                <p>{{ p.text }}</p>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if fi.cta and fi.cta.label and fi.cta.url %}
+        <a href="{{ fi.cta.url }}" class="btn btn--secondary btn--on-dark btn--chuparosa"{% if fi.cta.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ fi.cta.label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>

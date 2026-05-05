@@ -1,0 +1,65 @@
+{
+  "name": "Tyler Chou Law For Creators",
+  "shortName": "Tyler Chou Law",
+  "url": "https://tylerchoulaw.com",
+  "description": "Legal and strategic advisory for top YouTube creators. Twenty years of Hollywood entertainment law experience. Building and protecting creator empires.",
+  "locale": "en",
+  "timezone": "America/Los_Angeles",
+
+  "brand": {
+    "trademark": "The Creators' Attorney",
+    "founder": "Tyler Chou",
+    "firm": "Tyler Chou Law For Creators",
+    "ma": "CreatorArq M&A",
+    "legalEntity": "Tyler Chou Law P.C.",
+    "knowsAbout": [
+      "Creator economy law",
+      "Mergers and acquisitions",
+      "Intellectual property",
+      "Trademark law",
+      "Influencer law",
+      "Entertainment law"
+    ]
+  },
+
+  "bio": {
+    "canonical": "Tyler Chou, known as The Creators' Attorney, is the founder and CEO of Tyler Chou Law For Creators and CreatorArq M&A. A former entertainment attorney with two decades at Disney, Skydance, Loeb & Loeb, and BuzzFeed, she specializes in helping creators mature and exit their businesses.",
+    "footer": "Tyler Chou, known as The Creators' Attorney, founder of Tyler Chou Law For Creators and CreatorArq M&A.",
+    "alumniOf": [
+      "The Walt Disney Company",
+      "Skydance Media",
+      "Loeb & Loeb LLP",
+      "BuzzFeed"
+    ]
+  },
+
+  "contact": {
+    "addressLocality": "Los Angeles",
+    "addressRegion": "CA",
+    "addressCountry": "US",
+    "consultationUrl": "https://calendly.com/tyler-thecreatorsattorney",
+    "intakeUrl": "https://tylerchoulaw.cliogrow.com/intake/b7647f7880336abf4953172c6dc0aa06"
+  },
+
+  "social": [
+    { "platform": "linkedin", "label": "LinkedIn", "url": "https://www.linkedin.com/in/thecreatorsattorney" },
+    { "platform": "instagram", "label": "Instagram", "url": "https://www.instagram.com/thecreatorsattorney/" },
+    { "platform": "youtube", "label": "YouTube", "url": "https://youtube.com/@TheCreatorsAttorney" },
+    { "platform": "forbes", "label": "Forbes", "url": "https://www.forbes.com/sites/tylerchou/" }
+  ],
+
+  "credit": {
+    "label": "made by sick design co.",
+    "url": "https://jayisadesigner.com/"
+  },
+
+  "disclaimer": "NOTE: The information on this website is for general information purposes only. Nothing on this site should be taken as legal advice for any individual case or situation. This information is not intended to create, and receipt or viewing of does not constitute an attorney-client relationship.",
+
+  "ogImage": "/assets/images/about/hero-about-tyler-chou-on-stage.jpg",
+  "headshot": "/tyler-chou-headshot.jpeg",
+  "monogram": "/tyler-chou-law-for-creators-mongogram.svg",
+
+  "external": {
+    "kajabi": "https://tyler-choulaw.mykajabi.com/community"
+  }
+}

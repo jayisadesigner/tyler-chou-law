@@ -21,18 +21,33 @@
   animation-fill-mode: backwards;
 }
 
-/* Homepage nav: fades in during intro (CSS-only, faster timing) */
+/* Homepage nav: fades in during the intro splash (handed off by intro.js
+ * via the `intro-active` body class; CSS animation is the fallback). */
 body.page-index .site-header {
-  /* Nav fades in at 0.3s delay, 0.8s duration (faster, more responsive) */
-  /* animation-fill-mode: backwards keeps initial state during delay */
   animation: navFadeIn 0.8s ease-out 0.3s both;
 }
 
-/* Non-homepage pages: nav fades in on page load */
+/* Inner pages: nav fades in AFTER the curtain reveal completes.
+ *
+ * Curtain timing (curtain.css):
+ *   - left panel slides  0.7s → 2.7s
+ *   - right panel slides 0.8s → 2.8s
+ *   - curtain hides at 2.8s
+ *
+ * Nav fades in 2.9s → 3.5s so the entire fade is visible to the user
+ * (previously most of it was hidden behind the curtain). */
 body:not(.page-index) .site-header {
-  /* Nav fade-in animation on page load (faster, more responsive) */
-  /* animation-fill-mode: backwards keeps initial state during delay */
-  animation: navFadeIn 0.8s ease-out 0.3s both;
+  animation: navFadeIn 0.6s ease-out 2.9s both;
+}
+
+/* Reduced motion: surface the nav immediately, no delayed fade. */
+@media (prefers-reduced-motion: reduce) {
+  body:not(.page-index) .site-header,
+  body.page-index .site-header {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Hide nav initially during curtain animation (non-homepage) */
@@ -183,6 +198,19 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
 
 .nav-menu a .line-inner {
   display: block;
+}
+
+/* Standard visually-hidden utility (used by the external-link a11y text). */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Mobile menu styles - only when overlay is open */
@@ -502,5 +530,31 @@ body:has(.hero--inner-page:has(.background-image)) {
   .mobile-menu-button {
     display: none; /* Hide mobile menu button */
   }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * External-link icon
+ *
+ * Items flagged `external: true` in nav.yml render with an arrow-up-right SVG
+ * after the label (currentColor, inherits the nav theme). The link is laid
+ * out as inline-flex so the line-animation `.line` block + SVG sit on the
+ * same row. This rule must come AFTER the desktop `display: block` rules
+ * above so it wins.
+ *
+ * IMPORTANT: only links that actually contain `.nav-external-icon` are
+ * switched to inline-flex — internal links keep their current `display: block`
+ * so existing layout/spacing is unchanged.
+ * ─────────────────────────────────────────────────────────────────────────── */
+.nav-menu a:has(.nav-external-icon),
+.nav-menu.is-open a:has(.nav-external-icon) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.nav-external-icon {
+  width: 1.4em;
+  height: 1.4em;
+  flex-shrink: 0;
 }
 

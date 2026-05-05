@@ -1,35 +1,97 @@
 paths:
   static: src
   uploads: src/assets/images/uploads
-  output: dist
+  uploads_use_relative_path: false
+
+source: ""
 timezone: America/Los_Angeles
+
 markdown:
   engine: commonmark
   options: {}
 
+# ─── Bookshop integration ─────────────────────────────────────────────────────
+# CloudCannon auto-discovers components in component-library/ and exposes them
+# in the visual editor as draggable blocks. See https://cloudcannon.com/bookshop/.
+component_browser: true
+
+# ─── Collections ──────────────────────────────────────────────────────────────
 collections_config:
   pages:
-    path: ""
-    glob:
-      - "*.html"
-      - "!404.html"
+    path: src/content/pages
+    output: true
     icon: wysiwyg
     name: Pages
-    disable_add: true
-    disable_add_folder: true
-    disable_delete: true
+    singular_name: Page
+    schemas:
+      default:
+        path: .cloudcannon/schemas/page.md
+        name: New Page
+    _inputs:
+      blocks:
+        type: array
+        comment: "Drag and drop sections to build the page."
+        options:
+          structures: _structures.bookshop_components
+      title:
+        comment: "Browser tab title and Google search result heading."
+      description:
+        comment: "Meta description for search engines and social sharing (140-155 characters recommended)."
+        type: textarea
+      pageClass:
+        comment: "Optional CSS class added to <body> for page-specific styling."
+      ogImage:
+        type: image
+        comment: "Image used for social sharing previews (1200x630 recommended)."
+      robots:
+        comment: "Leave empty for normal indexing. Use 'noindex, follow' to hide from search engines (e.g. thank-you page)."
+
+  blog:
+    path: src/content/blog
+    output: true
+    url: "/love-letters/[slug]/"
+    icon: event_available
+    name: Love Letters (Blog)
+    singular_name: Love Letter
+    schemas:
+      default:
+        path: .cloudcannon/schemas/love-letter.md
+        name: New Love Letter
+    _inputs:
+      title:
+        comment: "Headline as it appears in the post and in search results."
+      slug:
+        comment: "URL slug. Lowercase, hyphenated, no spaces. e.g. 'how-to-protect-your-channel'."
+      date:
+        type: date
+      description:
+        type: textarea
+        comment: "1-2 sentence summary used in listings, social previews, and search results."
+      author:
+        comment: "Defaults to Tyler Chou. Override only when a guest authors a post."
+      reading_time:
+        type: number
+        comment: "Estimated minutes to read."
+      featured_image:
+        type: image
+        comment: "Hero image for the post."
+        options:
+          paths:
+            uploads: src/assets/images/blog
+      image_alt:
+        comment: "Description of the image for accessibility and SEO."
 
   roster:
-    path: content/roster
+    path: src/content/roster
+    output: true
+    url: "/roster/[slug]/"
     icon: person
     name: Roster
     singular_name: Creator
-    add_options:
-      - name: Add Creator
-        schema: default
     schemas:
       default:
         path: .cloudcannon/schemas/roster-creator.yml
+        name: New Creator
     _editables:
       content:
         italic: true
@@ -38,160 +100,113 @@ collections_config:
     _inputs:
       handle:
         label: Handle
-        comment: "YouTube/social handle, e.g. @jennyhoyos"
+        comment: "YouTube/social handle, e.g. @jennyhoyos."
       slug:
         label: Slug
-        comment: "URL slug — no spaces, lowercase, e.g. jennyhoyos"
+        comment: "URL slug — no spaces, lowercase, e.g. jennyhoyos."
       photo:
         type: image
         label: Photo
-        comment: "Square photo, minimum 800x800px"
+        comment: "Square photo, minimum 800x800px."
         options:
           paths:
             uploads: src/assets/images/roster
       order:
         type: number
         label: Display Order
-        comment: "Lower numbers appear first in the grid"
+        comment: "Lower numbers appear first in the grid."
       external_url:
         label: External URL
-        comment: "If set, clicking the roster card links here instead of generating an internal page. Leave empty to generate a page."
+        comment: "If set, the roster card links here instead of an internal page."
       youtube_url:
         label: YouTube Channel URL
       seo_description:
         type: textarea
         label: SEO Description
-        comment: "Appears in Google search results and social previews (150-160 characters recommended)"
+        comment: "Appears in Google and social previews (150-160 characters recommended)."
       stats:
         label: Stats
-        comment: "Up to 4 stats shown on the creator page"
+        comment: "Up to 4 stats shown on the creator page."
       bio:
         type: array
         label: Bio
-        comment: "Each item is one paragraph"
+        comment: "Each item is one paragraph."
       featured_videos:
         type: array
         label: Featured Video IDs
-        comment: "YouTube video IDs only (the part after watch?v=)"
+        comment: "YouTube video IDs (the part after watch?v=)."
 
-  testimonials:
-    path: content/data
-    glob:
-      - "testimonials.yml"
-    icon: star
-    name: Testimonials
-    singular_name: Testimonial
+  press:
+    path: src/content/press
+    output: false
+    icon: article
+    name: Press Citations
+    singular_name: Press Citation
+    schemas:
+      default:
+        path: .cloudcannon/schemas/press-citation.md
+        name: New Press Citation
     _inputs:
-      name:
-        label: Name
-      handle:
-        label: Handle
-        comment: "Social handle, e.g. @jennyhoyos"
-      stats:
-        label: Stats
-        comment: "Follower count or other stat, e.g. 9.85M followers"
-      quote:
-        type: textarea
-        label: Quote
-      photo:
-        type: image
-        label: Photo
-        options:
-          paths:
-            uploads: src/assets/images/roster
-
-  home_services:
-    path: content/data
-    glob:
-      - "home-services.yml"
-    icon: folder
-    name: Home Service Cards
-    singular_name: Service Card
-    _inputs:
+      publication:
+        comment: "Publication name, e.g. Forbes, AdWeek."
       title:
-        label: Title
-      description:
-        type: textarea
-        label: Description
-      button_text:
-        label: Button Text
-      link:
-        label: Link URL
-        comment: "Internal path (e.g. /services.html#empire) or external URL"
-
-  services_caps_infra:
-    path: content/data
-    glob:
-      - "services-caps-infra.yml"
-    icon: grid_view
-    name: Services — Infrastructure Capabilities
-    singular_name: Capability Card
-    _inputs:
-      title:
-        label: Title
-      text:
-        type: textarea
-        label: Text
-
-  services_caps_ip:
-    path: content/data
-    glob:
-      - "services-caps-ip.yml"
-    icon: grid_view
-    name: Services — IP Capabilities
-    singular_name: Capability Card
-    _inputs:
-      title:
-        label: Title
-      text:
-        type: textarea
-        label: Text
-
-  creatorarq_caps_agencies:
-    path: content/data
-    glob:
-      - "creatorarq-caps-agencies.yml"
-    icon: grid_view
-    name: CreatorArq — Agencies Capabilities
-    singular_name: Capability Card
-    _inputs:
-      title:
-        label: Title
-      text:
-        type: textarea
-        label: Text
-
-  creatorarq_caps_exit:
-    path: content/data
-    glob:
-      - "creatorarq-caps-exit.yml"
-    icon: grid_view
-    name: CreatorArq — Exit Capabilities
-    singular_name: Capability Card
-    _inputs:
-      title:
-        label: Title
-      text:
-        type: textarea
-        label: Text
-
-  blog:
-    path: content/blog
-    icon: event_available
-    name: Blog
-    singular_name: Post
-    _inputs:
-      title:
-        label: Title
+        comment: "Article or episode title."
+      url:
+        comment: "Direct link to the original piece."
       date:
         type: date
-        label: Date
-      description:
-        type: textarea
-        label: Description
-      cover_image:
+      logo:
         type: image
-        label: Cover Image
         options:
           paths:
-            uploads: src/assets/images/blog
+            uploads: src/assets/images/press
+      type:
+        comment: "Print, Podcast, Video, or Speaking — used to filter the press grid."
+      summary:
+        type: textarea
+        comment: "2–3 sentence summary in Tyler's words."
+      self_quote:
+        type: textarea
+        comment: "One sentence Tyler said in the piece."
+
+  speaking:
+    path: src/content/speaking
+    output: false
+    icon: campaign
+    name: Speaking Engagements
+    singular_name: Speaking Engagement
+    schemas:
+      default:
+        path: .cloudcannon/schemas/speaking-engagement.md
+        name: New Speaking Engagement
+    _inputs:
+      event:
+        comment: "Event name, e.g. SXSW 2024."
+      title:
+        comment: "Talk title or panel name."
+      date:
+        type: date
+      location:
+        comment: "City, country."
+      description:
+        type: textarea
+      photo:
+        type: image
+        options:
+          paths:
+            uploads: src/assets/images/speaking
+
+# ─── Site-wide data ───────────────────────────────────────────────────────────
+data_config:
+  site:
+    path: src/_data/site.json
+  nav:
+    path: src/_data/nav.yml
+  seo:
+    path: src/_data/seo.yml
+
+_array_structures:
+  bookshop_components:
+    style: modal
+    values: []
+    # Bookshop populates this list automatically from component-library/.

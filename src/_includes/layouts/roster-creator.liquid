@@ -1,0 +1,63 @@
+---
+layout: base.liquid
+---
+{% assign c = creator %}
+<article class="roster-creator">
+  <section class="hero hero--inner-page section section-reveal">
+    {% if c.photo %}
+      <div class="background-image">
+        <img class="background-image__img" src="{{ c.photo | replace: '/src/', '/' }}" alt="{{ c.handle }} portrait" loading="eager" fetchpriority="high" />
+        <div class="background-image__overlay-top"></div>
+        <div class="background-image__overlay-bottom"></div>
+        <div class="background-image__overlay-left"></div>
+        <div class="background-image__overlay-right"></div>
+      </div>
+    {% endif %}
+    <div class="hero-content hero-content--inner-page container-wide">
+      <div class="hero-headline-wrapper">
+        <h1 class="hero-headline hero-headline--inner-page line-animate">{{ c.handle | line_animate }}</h1>
+        {% if c.seo_description %}
+          <p class="hero-subheadline hero-subheadline--inner-page">{{ c.seo_description }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% if c.stats and c.stats.size > 0 %}
+    <section class="roster-stats section section-reveal">
+      <div class="container">
+        <ul class="roster-stats__list" role="list">
+          {% for stat in c.stats %}
+            <li class="roster-stats__item">
+              <span class="roster-stats__value">{{ stat.value }}</span>
+              <span class="roster-stats__label">{{ stat.label }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if c.bio and c.bio.size > 0 %}
+    <section class="content-section content-section--centered section section-reveal">
+      <div class="content-section__container">
+        <div class="content-section__content">
+          <div class="content-section__body">
+            {% for p in c.bio %}<p>{{ p }}</p>{% endfor %}
+          </div>
+          {% if c.youtube_url %}
+            <a href="{{ c.youtube_url }}" class="btn btn--secondary btn--on-dark btn--chuparosa" target="_blank" rel="noopener noreferrer">Visit Channel</a>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="content-section content-section--centered section section-reveal">
+    <div class="content-section__container">
+      <div class="content-section__content">
+        <a href="/roster/" class="btn btn--ghost btn--on-dark btn--chuparosa">← Back to Roster</a>
+      </div>
+    </div>
+  </section>
+</article>

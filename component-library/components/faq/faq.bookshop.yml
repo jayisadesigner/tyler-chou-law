@@ -1,0 +1,37 @@
+label: "FAQ Block"
+description: "Question-and-answer block. Each question is an H2. Auto-emits FAQPage schema for Google rich results and AI Overviews."
+icon: help
+spec:
+  structures:
+    - content_blocks
+preview: |
+  FAQ ({{ items.size }})
+
+props:
+  headline:
+    type: string
+    label: Section headline
+    default: "Frequently asked questions"
+  intro:
+    type: textarea
+    label: Intro paragraph (optional)
+  items:
+    type: array
+    label: Q&A items
+    options:
+      structures:
+        values:
+          - label: Q&A
+            value: ""
+            preview:
+              text:
+                key: question
+            fields:
+              question:
+                type: string
+                label: Question (phrased as a creator would ask in Google or ChatGPT)
+                required: true
+              answer:
+                type: textarea
+                label: Answer
+                required: true
