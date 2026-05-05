@@ -4,12 +4,18 @@
 
 {%- comment -%}
   Mark the document as JS-enhanced before first paint. CSS uses
-  `html.js-enhance` to pre-hide hero headlines so they don't flash visible
-  in the window between page paint and the lazy-loaded animations chunk
-  initializing. If JS is disabled the class is never set and content stays
-  visible (progressive enhancement preserved). See `animations.css`.
+  `html.js-enhance` to pre-hide hero entrance elements so they don't flash
+  visible in the window between page paint and the lazy-loaded animations
+  chunk initializing. If JS is disabled the class is never set and content
+  stays visible (progressive enhancement preserved).
+
+  Safety net: 5s timeout removes the class so users never get stranded on
+  a permanently-hidden hero if the animations chunk fails to load. By that
+  point the orchestrated reveal should have completed (~4s including
+  curtain + entrance), so removing the class is a no-op when JS works —
+  GSAP's inline styles dominate. See `animations.css`.
 {%- endcomment -%}
-<script>document.documentElement.classList.add('js-enhance')</script>
+<script>(function(){var d=document.documentElement;d.classList.add('js-enhance');setTimeout(function(){d.classList.remove('js-enhance')},5000)})()</script>
 
 <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

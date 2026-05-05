@@ -98,19 +98,27 @@
 
 /* ─── Hero pre-hide (anti-flash) ──────────────────────────────────────────────
  * The animations chunk is lazy-loaded (`requestIdleCallback` in main.js), so
- * there's a real window between first paint and `initReveals()` running where
- * the hero headline would render in its default-visible state and flash before
- * the orchestrated reveal at ~2.9s.
+ * if the chunk arrives AFTER the curtain hides at 2.8s, hero content paints
+ * visible for one or more frames before the orchestrated reveal kicks in.
  *
  * The inline `<head>` script in `head.liquid` synchronously sets
  * `html.js-enhance` before paint. When that class is present AND motion is
- * allowed, hide hero `.line-animate__inner` by default so the headline never
- * paints visible until intro.js / index.js explicitly force-reveals it.
+ * allowed, hide the entire hero entrance — content wrapper, subheadline, AND
+ * line-animate inner spans — by default. intro.js / index.js then animate
+ * them in via `gsap.fromTo()` (explicit end state, immune to CSS opacity:0).
  *
- * Scoped to `.hero` so non-hero line-animate sections keep their
- * progressive-enhancement default (visible if JS or animations chunk fails).
+ * Progressive enhancement preserved: if JS is disabled or blocked, the class
+ * is never set and the hero stays visible. Scoped to `.hero` so sections
+ * lower on the page keep the visible-by-default fallback if the animations
+ * chunk fails to load entirely.
  */
 @media (prefers-reduced-motion: no-preference) {
+  html.js-enhance .hero .hero-content {
+    opacity: 0;
+  }
+  html.js-enhance .hero .hero-subheadline {
+    opacity: 0;
+  }
   html.js-enhance .hero .line-animate:not(.is-revealed) .line-animate__inner {
     opacity: 0;
     transform: translate3d(0, 100%, 0);
