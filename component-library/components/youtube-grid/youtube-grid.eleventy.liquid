@@ -21,21 +21,27 @@
       {% if yt.cta and yt.cta.label and yt.cta.url %}
         <a href="{{ yt.cta.url }}" class="btn btn--secondary btn--on-dark btn--chuparosa" target="_blank" rel="noopener noreferrer">{{ yt.cta.label }}</a>
       {% endif %}
-
-      {% if yt_videos and yt_videos.size > 0 %}
-        <div class="youtube-videos-grid">
-          {% for v in yt_videos limit: yt_limit %}
-            <div class="youtube-video">
-              <a class="youtube-video__card" href="{{ v.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ v.alt | default: v.title }}">
-                <img class="youtube-video__image" src="{{ v.thumbnail }}" alt="{{ v.alt | default: v.title }}" loading="lazy" decoding="async" />
-                <span class="youtube-video__overlay" aria-hidden="true">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                </span>
-              </a>
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
     </div>
+
+    {%- comment -%}
+      The grid is a SIBLING of __content (not a child) so it spans the full
+      container width. .content-section__content has max-width: 576px which
+      would otherwise constrain the grid to a single narrow column. Matches
+      `git show main:index.html` lines 1107–1120.
+    {%- endcomment -%}
+    {% if yt_videos and yt_videos.size > 0 %}
+      <div class="youtube-videos-grid">
+        {% for v in yt_videos limit: yt_limit %}
+          <div class="youtube-video">
+            <a class="youtube-video__card" href="{{ v.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ v.alt | default: v.title }}">
+              <img class="youtube-video__image" src="{{ v.thumbnail }}" alt="{{ v.alt | default: v.title }}" loading="lazy" decoding="async" />
+              <div class="youtube-video__overlay" aria-hidden="true">
+                <img class="youtube-video__play-icon" src="/assets/icons/play.svg" alt="" aria-hidden="true" />
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 </section>

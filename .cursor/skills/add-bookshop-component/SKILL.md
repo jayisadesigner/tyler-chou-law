@@ -7,7 +7,7 @@ description: Creates a new reusable Bookshop component for the Tyler Chou Law si
 
 A Bookshop component is the reusable unit of UI on this site. Pages compose them by listing `_bookshop_name: <name>` in frontmatter. Every component ships two files: a CloudCannon schema (`.bookshop.yml`) and a Liquid template (`.eleventy.liquid`).
 
-**Reach for an existing component first.** The library covers most page sections: `hero`, `content-section`, `content-split`, `featured-image`, `intro`, `philosophy`, `capabilities`, `services-grid`, `roster-grid`, `roster-lists`, `logo-grid`, `testimonials`, `youtube-grid`, `press-grid`, `speaking-grid`, `blog-listing`, `mouse-trail-cta`, `cta`, `contact-form`, `thank-you-panel`, `faq`. Most "new section" requests are some combination of these.
+**Reach for an existing component first.** The library covers most page sections: `hero`, `content-section`, `content-split`, `featured-image`, `intro`, `philosophy`, `capabilities`, `services-grid`, `client-grid`, `client-lists`, `logo-grid`, `testimonials`, `youtube-grid`, `press-grid`, `speaking-grid`, `blog-listing`, `mouse-trail-cta`, `cta`, `contact-form`, `thank-you-panel`, `faq`. Most "new section" requests are some combination of these.
 
 ## When to make a new component (vs reuse)
 

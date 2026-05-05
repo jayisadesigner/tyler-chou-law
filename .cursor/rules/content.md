@@ -1,5 +1,5 @@
 ---
-description: How to author content (pages, blog posts, roster, press, speaking) in the Tyler Chou Law site
+description: How to author content (pages, blog posts, clients, press, speaking) in the Tyler Chou Law site
 globs: src/content/**/*
 alwaysApply: false
 ---
@@ -14,7 +14,7 @@ Content is the only thing Tyler's team should ever need to touch. The whole arch
 |---|---|---|---|
 | Marketing pages | `src/content/pages/<slug>.md` | `/<slug>/` | Markdown frontmatter + Bookshop blocks |
 | Blog posts ("Love Letters") | `src/content/blog/<slug>.md` | `/love-letters/<slug>/` | Markdown body + frontmatter |
-| Creator roster | `src/content/roster/<handle>.yml` | `/roster/<handle>/` | YAML only |
+| Clients | `src/content/clients/<handle>.yml` | `/clients/<handle>/` | YAML only |
 | Press citations | `src/content/press/<slug>.md` | data-only — surfaced by `press-grid` | Frontmatter only |
 | Speaking engagements | `src/content/speaking/<slug>.md` | data-only — surfaced by `speaking-grid` | Frontmatter only |
 
@@ -58,7 +58,7 @@ The page layout iterates `blocks:` and renders each component in order. To add a
 7. **Dates use ISO format (`YYYY-MM-DD`)**, no slashes, no localized variants.
 8. **Slugs are lowercase, hyphenated, no spaces, no underscores, no special characters.** `5-brand-deal-mistakes` not `5_Brand_Deal_Mistakes`.
 9. **Press / Speaking entries don't render as their own pages** — they exist only as collection data and appear on `/press/` and `/speaking/` via the `press-grid` and `speaking-grid` components. Don't add `permalink:` to them.
-10. **Roster entries DO render as their own pages** at `/roster/<slug>/` via `src/content/pages/roster-detail.liquid` pagination. Set `slug:` to control the URL.
+10. **Client entries DO render as their own pages** at `/clients/<slug>/` via `src/content/pages/client-detail.liquid` pagination. Set `slug:` to control the URL.
 
 ## Blog post (Love Letter) frontmatter
 
@@ -96,14 +96,14 @@ self_quote: "One sentence Tyler said in the piece."
 
 Each citation auto-emits `Article` JSON-LD via the press-grid component.
 
-## Roster entry (YAML only)
+##&entry (YAML only)
 
 ```yaml
 handle: "@jennyhoyos"
 slug: jennyhoyos
 order: 10                # lower = sooner in the grid
-photo: /assets/images/roster/jennyhoyos.jpg
-external_url: ""         # if set, card links here instead of /roster/jennyhoyos/
+photo: /assets/images/clients/jennyhoyos.jpg
+external_url: ""         # if set, card links here instead of /clients/jennyhoyos/
 youtube_url: https://youtube.com/@JennyHoyos
 seo_description: "Used in the per-creator page meta description."
 stats:

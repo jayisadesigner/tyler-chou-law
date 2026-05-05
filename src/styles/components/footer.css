@@ -59,29 +59,29 @@
 /* Footer color adjustments for different backgrounds */
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-roster):not(.page-creator) .site-footer {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-clients):not(.page-creator) .site-footer {
   background-color: var(--page-bg-color);
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-roster):not(.page-creator) .footer-item,
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-roster):not(.page-creator) .footer-social__icon {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-clients):not(.page-creator) .footer-item,
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-clients):not(.page-creator) .footer-social__icon {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-/* Services and Roster pages: bone text on obsidian background */
+/* Services and Clients pages: bone text on obsidian background */
 body.page-services .site-footer,
-body.page-roster .site-footer,
+body.page-clients .site-footer,
 body.page-creator .site-footer {
   background-color: var(--obsidian);
   color: var(--bone);
 }
 
 body.page-services .footer-item,
-body.page-roster .footer-item,
+body.page-clients .footer-item,
 body.page-creator .footer-item,
 body.page-services .footer-social__icon,
-body.page-roster .footer-social__icon,
+body.page-clients .footer-social__icon,
 body.page-creator .footer-social__icon {
   color: var(--bone);
 }

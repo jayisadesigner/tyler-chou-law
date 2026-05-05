@@ -26,7 +26,7 @@ The CMS is organized by **collection** — each collection is a different type o
 |---|---|---|
 | **Pages** | Marketing pages — homepage, About, Services, CreatorArq, Press, etc. | `/about/`, `/services/`, etc. |
 | **Love Letters (Blog)** | Tyler's newsletter / blog posts | `/love-letters/<slug>/` |
-| **Roster** | Client / creator profiles | `/roster/<slug>/` |
+| **Clients** | Client / creator profiles | `/clients/<slug>/` |
 | **Press Citations** | Articles, podcasts, interviews where Tyler appears | Surfaced on `/press/` |
 | **Speaking Engagements** | Conference talks, keynotes, panels | Surfaced on `/speaking/` |
 | **Site Data** | Brand info, canonical bio, contact, social, navigation | Affects every page |
@@ -39,7 +39,7 @@ You'll see all six in the CloudCannon left sidebar when you open the site.
 
 ### 1. Block-based pages (most pages)
 
-Pages like the homepage, About, Services, CreatorArq, Press, Speaking, Roster, Contact, etc. are built from **blocks**. A block is a section type — a hero, a content split, a logo grid, an FAQ. You can:
+Pages like the homepage, About, Services, CreatorArq, Press, Speaking, Clients, Contact, etc. are built from **blocks**. A block is a section type — a hero, a content split, a logo grid, an FAQ. You can:
 
 - **Drag blocks** in the visual editor to reorder them
 - **Click a block** to edit its text, images, and links
@@ -81,7 +81,7 @@ For each common task there's a step-by-step walkthrough in this folder. Open whi
 
 - **[Add a press citation →](walkthrough-add-press-citation.md)** when Tyler is quoted, interviewed, or featured anywhere
 - **[Publish a Love Letter →](walkthrough-publish-love-letter.md)** for newsletter / blog publication
-- **[Add a creator to the roster →](walkthrough-add-roster-creator.md)** for new clients
+- **[Add a client (creator) →](walkthrough-add-client.md)** for new clients
 - **[Add a speaking engagement →](walkthrough-add-speaking-engagement.md)** for conference / panel additions
 - **[Edit a marketing page →](walkthrough-edit-marketing-page.md)** for any visual edit on About, Services, CreatorArq, etc.
 
@@ -153,9 +153,9 @@ If a team member leaves, ask the developer to revoke their invite.
 |---|---|
 | **Block** | A section of a page (hero, content split, FAQ, etc.). |
 | **Component** | The technical name for a block type. ~20 exist in `component-library/`. |
-| **Collection** | A type of content (pages, blog, roster, press, speaking, data). |
+| **Collection** | A type of content (pages, blog, clients, press, speaking, data). |
 | **Frontmatter** | The YAML at the top of a content file — title, date, description, etc. CloudCannon shows it as form fields. |
-| **Permalink** | The URL the page lives at. Set by `slug` (for blog/roster) or `permalink` (for pages). |
+| **Permalink** | The URL the page lives at. Set by `slug` (for blog/clients) or `permalink` (for pages). |
 | **Slug** | The URL-friendly version of a name. `5-brand-deal-mistakes`, not `5 Brand Deal Mistakes!`. |
 | **Schema / JSON-LD** | The invisible data that tells Google and ChatGPT what each page is about. Auto-generated — you never touch it directly. |
 | **Canonical bio** | The one paragraph describing Tyler that appears identically on the homepage, About, Press, and footer. Edited in **Site Data → Site → bio**. |

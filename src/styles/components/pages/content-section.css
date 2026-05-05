@@ -80,7 +80,7 @@
   }
 }
 
-/* Allow overflow on creator pages for roster card handles and creator names */
+/* Allow overflow on creator pages for client card handles and creator names */
 body.page-creator .content-section__container {
   overflow: visible;
 }
@@ -388,7 +388,7 @@ body.page-creator .content-section__content {
 
 /* Page-level overrides (when section doesn't have .bg-* class) */
 body.page-services .content-section__headline-text,
-body.page-roster .content-section__headline-text,
+body.page-clients .content-section__headline-text,
 body.page-creator .content-section__headline-text {
   color: var(--text-headline-on-obsidian);
 }
@@ -418,7 +418,7 @@ body.page-creatorarq .content-section__headline-text {
 
 /* Page-level overrides for body text */
 body.page-services .content-section__body,
-body.page-roster .content-section__body,
+body.page-clients .content-section__body,
 body.page-creator .content-section__body {
   color: var(--text-body-on-obsidian);
 }

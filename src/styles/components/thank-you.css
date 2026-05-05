@@ -1,4 +1,13 @@
-/* Thank You Page Component */
+/* Thank You Page Component
+ * ----------------------------------------
+ * Selectors match the BEM markup emitted by
+ * `component-library/components/thank-you-panel/thank-you-panel.eleventy.liquid`:
+ *   .thank-you-card
+ *     .thank-you-card__headline
+ *     .thank-you-card__message
+ *     .thank-you-card__message--secondary
+ *     .thank-you-actions
+ */
 
 .thank-you-card {
   text-align: var(--text-align-center);
@@ -7,7 +16,7 @@
   margin: var(--space-4xl) auto;
 }
 
-.thank-you-headline {
+.thank-you-card__headline {
   font-family: var(--font-headline);
   font-size: var(--text-h1-size);
   line-height: var(--text-h1-line-height);
@@ -17,7 +26,7 @@
   margin-bottom: var(--space-md);
 }
 
-.thank-you-message {
+.thank-you-card__message {
   font-family: var(--font-paragraph);
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
@@ -25,11 +34,7 @@
   margin-bottom: var(--space-sm);
 }
 
-.thank-you-submessage {
-  font-family: var(--font-paragraph);
-  font-size: var(--text-p-size);
-  line-height: var(--text-p-line-height);
-  color: var(--text-body-color);
+.thank-you-card__message--secondary {
   margin-bottom: var(--space-2xl);
 }
 
@@ -47,9 +52,8 @@
     flex-direction: row;
     gap: var(--space-lg);
   }
-  
+
   .thank-you-card {
     padding: var(--space-4xl) var(--space-2xl);
   }
 }
-

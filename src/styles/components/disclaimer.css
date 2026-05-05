@@ -53,25 +53,25 @@
 /* Disclaimer color adjustments for different backgrounds */
 /* Uses automatically generated WCAG AA compliant colors */
 /* Default: light text on dark chuparosa background */
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-roster):not(.page-creator) .site-disclaimer {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-clients):not(.page-creator) .site-disclaimer {
   background-color: var(--page-bg-color);
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-roster):not(.page-creator) .disclaimer-container .disclaimer-text {
+body:not(.bg-palo-verde):not(.bg-bone):not(.page-love-letters):not(.page-blog-post):not(.page-services):not(.page-about):not(.page-clients):not(.page-creator) .disclaimer-container .disclaimer-text {
   color: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 }
 
-/* Services and Roster pages: bone text on obsidian background */
+/* Services and Clients pages: bone text on obsidian background */
 body.page-services .site-disclaimer,
-body.page-roster .site-disclaimer,
+body.page-clients .site-disclaimer,
 body.page-creator .site-disclaimer {
   background-color: var(--obsidian);
   color: var(--bone);
 }
 
 body.page-services .disclaimer-container .disclaimer-text,
-body.page-roster .disclaimer-container .disclaimer-text,
+body.page-clients .disclaimer-container .disclaimer-text,
 body.page-creator .disclaimer-container .disclaimer-text {
   color: var(--bone);
 }

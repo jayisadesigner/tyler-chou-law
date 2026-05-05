@@ -174,26 +174,36 @@ export function initAnimations() {
       )
 
       // Pre-hide the subheadline immediately so it can't flash in before the
-      // headline. (gsap.from sets the from-state synchronously.)
+      // headline. CSS already pre-hides it via `html.js-enhance` (see
+      // animations.css), but set the y-offset explicitly so the upward fade
+      // reads cleanly.
       if (subheadline) {
         gsap.set(subheadline, { opacity: 0, y: 16 })
       }
 
-      gsap.from(heroContent, {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: 'power3.out',
-        delay: heroDelay,
-        onStart: () => {
-          // Reveal headline lines concurrently with the hero-content fade
-          // so the headline is the first thing the eye lands on, not the
-          // subheadline.
-          heroSection
-            .querySelectorAll('.line-animate')
-            .forEach((el) => forceReveal(el))
+      // fromTo (not from) so the end state — opacity:1, y:0 — is explicit and
+      // wins over CSS `html.js-enhance .hero .hero-content { opacity: 0 }`.
+      // gsap.from() reads the current computed style as the "to" target; with
+      // CSS already at opacity:0 that produces a 0→0 tween (no animation).
+      gsap.fromTo(
+        heroContent,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power3.out',
+          delay: heroDelay,
+          onStart: () => {
+            // Reveal headline lines concurrently with the hero-content fade
+            // so the headline is the first thing the eye lands on, not the
+            // subheadline.
+            heroSection
+              .querySelectorAll('.line-animate')
+              .forEach((el) => forceReveal(el))
+          }
         }
-      })
+      )
 
       if (subheadline) {
         gsap.to(subheadline, {

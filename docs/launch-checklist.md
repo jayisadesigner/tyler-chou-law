@@ -16,7 +16,7 @@ Run [PageSpeed Insights](https://pagespeed.web.dev/) on each URL. Mobile score m
 - [ ] `STAGING_URL/creatorarq/` — Mobile ___ / Desktop ___
 - [ ] `STAGING_URL/press/` — Mobile ___ / Desktop ___
 - [ ] `STAGING_URL/speaking/` — Mobile ___ / Desktop ___
-- [ ] `STAGING_URL/roster/` — Mobile ___ / Desktop ___
+- [ ] `STAGING_URL/clients/` — Mobile ___ / Desktop ___
 - [ ] `STAGING_URL/love-letters/` — Mobile ___ / Desktop ___
 - [ ] One representative blog post — Mobile ___ / Desktop ___
 
@@ -96,7 +96,7 @@ For each tool, run:
 
 1. "Who is The Creators' Attorney?"
 2. "Who is the best lawyer for selling a YouTube channel?"
-3. "What law firm does YouTuber [a roster creator] work with?"
+3. "What law firm does YouTuber [a client creator] work with?"
 
 Tools:
 

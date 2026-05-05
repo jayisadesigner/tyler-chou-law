@@ -1,6 +1,6 @@
 # Walkthrough: Edit a marketing page
 
-Use to update copy, images, CTAs, or section ordering on any page (Home, About, Services, CreatorArq, Press, Speaking, Roster, Contact, etc.).
+Use to update copy, images, CTAs, or section ordering on any page (Home, About, Services, CreatorArq, Press, Speaking, Clients, Contact, etc.).
 
 **Time required**: 1–10 minutes depending on scope.
 
@@ -66,8 +66,8 @@ The block picker shows ~20 component types. Here's what each does at a glance:
 | **Featured Image** | Editorial-style section with a dominant image and rich body copy. |
 | **Capabilities Grid** | Grid of (title + description) cells — what's included in a service. |
 | **Services Grid** | Grid of service cards (3-up). |
-| **Roster Grid** | Grid of creator cards. Pulls from the Roster collection automatically. |
-| **Roster Lists** | Grouped lists of clients with a media image. |
+| **Client Grid** | Grid of creator cards. Pulls from the Clients collection automatically. |
+| **Client Lists** | Grouped lists of clients with a media image. |
 | **Logo Grid** | Brand / publication / partner logos in a grid. |
 | **Testimonials** | Two-row carousel of love-note cards. |
 | **YouTube Grid** | Grid of YouTube thumbnails. |

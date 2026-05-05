@@ -1,5 +1,5 @@
-label: "Roster Lists Section"
-description: "Headline, intro paragraphs, and one or more grouped lists of clients (with optional handle/name/url per row). Pairs with a media image on the right side. Use on the roster page."
+label: "Client Lists Section"
+description: "Headline, intro paragraphs, and one or more grouped lists of clients (with optional handle/name/url per row). Pairs with a media image on the right side. Use on the clients page."
 icon: list_alt
 spec:
   structures:

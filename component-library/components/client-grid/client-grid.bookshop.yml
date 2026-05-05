@@ -1,5 +1,5 @@
-label: "Roster Grid"
-description: "Grid of creator roster cards. Pulls from the `roster` collection by default; supports manual override."
+label: "Client Grid"
+description: "Grid of client (creator) cards. Pulls from the `clients` collection by default; supports manual override."
 icon: groups
 spec:
   structures:
@@ -25,7 +25,7 @@ props:
     default: collection
     options:
       values:
-        - { value: collection, label: "All creators from src/content/roster/" }
+        - { value: collection, label: "All creators from src/content/clients/" }
         - { value: featured, label: "Featured creators only (`featured: true`)" }
         - { value: manual, label: "Manual list (below)" }
   manual_creators:

@@ -95,3 +95,43 @@
     transition: none;
   }
 }
+
+/* ─── Hero pre-hide (anti-flash) ──────────────────────────────────────────────
+ * The animations chunk is lazy-loaded (`requestIdleCallback` in main.js), so
+ * if the chunk arrives AFTER the curtain hides at 2.8s, hero content paints
+ * visible for one or more frames before the orchestrated reveal kicks in.
+ *
+ * The inline `<head>` script in `head.liquid` synchronously sets
+ * `html.js-enhance` before paint. When that class is present AND motion is
+ * allowed, hide the entire hero entrance — content wrapper, subheadline, AND
+ * line-animate inner spans — by default. intro.js / index.js then animate
+ * them in via `gsap.fromTo()` (explicit end state, immune to CSS opacity:0).
+ *
+ * Progressive enhancement preserved: if JS is disabled or blocked, the class
+ * is never set and the hero stays visible. Scoped to `.hero` so sections
+ * lower on the page keep the visible-by-default fallback if the animations
+ * chunk fails to load entirely.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html.js-enhance .hero .hero-content {
+    opacity: 0;
+  }
+  html.js-enhance .hero .hero-subheadline {
+    opacity: 0;
+  }
+  html.js-enhance .hero .line-animate:not(.is-revealed) .line-animate__inner {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+    transition: none;
+  }
+
+  /* Homepage intro: the name + subtitle paint visible by default and only
+   * get hidden when intro.js calls `gsap.set(nameElement, { opacity: 0 })`
+   * after the lazy-loaded animations chunk arrives. Pre-hide them at the CSS
+   * layer so the chuparosa splash doesn't briefly show the final-state text
+   * before the orchestrated character animation runs. */
+  html.js-enhance .intro__name,
+  html.js-enhance .intro__subtitle {
+    opacity: 0;
+  }
+}

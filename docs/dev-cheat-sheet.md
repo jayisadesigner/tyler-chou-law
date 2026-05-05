@@ -13,7 +13,7 @@ This page lists everything in the Tyler Chou Law For Creators codebase that **ca
 | Publish a Love Letter | CloudCannon → Love Letters (Blog) | None |
 | Add a press citation | CloudCannon → Press Citations | None |
 | Add a speaking engagement | CloudCannon → Speaking Engagements | None |
-| Add / remove a creator from the roster | CloudCannon → Roster | None |
+| Add / remove a client (creator) | CloudCannon → Clients | None |
 | Edit canonical bio, social URLs, brand info | CloudCannon → Site Data → Site | None |
 | Edit primary / footer navigation | CloudCannon → Site Data → Nav | None |
 | Add an entry to the AI-crawler-facing site map | CloudCannon → Site Data → Nav → llms | None |
@@ -47,7 +47,7 @@ This page lists everything in the Tyler Chou Law For Creators codebase that **ca
 src/
 ├── _data/          ← brand, bio, contact, social, nav (these surface in CloudCannon)
 ├── _includes/      ← page layouts + partials (header, footer, schema)
-├── content/        ← editable content (pages, blog, roster, press, speaking)
+├── content/        ← editable content (pages, blog, clients, press, speaking)
 ├── styles/         ← all CSS — visual design lives here
 ├── scripts/        ← all JavaScript — animations, forms, navigation
 └── assets/         ← images, fonts, videos
@@ -64,7 +64,7 @@ netlify.toml        ← Netlify build + cache config
 
 **Try yourself in CloudCannon if:**
 - It's text or image content
-- It's a list of items (press citations, blog posts, roster, speaking)
+- It's a list of items (press citations, blog posts, clients, speaking)
 - It's reordering existing blocks on a page
 - It's editing brand info, social URLs, contact info, or the bio
 

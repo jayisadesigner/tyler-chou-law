@@ -1,449 +1,317 @@
 /* ========================================
-   Blog Post Page
+   Blog Post Page (Love Letters)
+   ----------------------------------------
+   Markup is emitted by src/_includes/layouts/blog-post.liquid as:
+     <article class="blog-post">
+       <header class="blog-post__header">
+         <p class="blog-post__meta"> ... </p>
+         <h1 class="blog-post__title hero-headline line-animate"> ... </h1>
+         <p class="blog-post__description text-large"> ... </p>
+       </header>
+       <figure class="blog-post__hero-image">  (when featured_image is set)
+       <div class="blog-post__body">  (markdown content lives here)
+       <footer class="blog-post__footer">
+         <p class="blog-post__author-bio">
+         <div class="blog-post__cta">
+
+   Body class is `.page-blog-post` (set via src/content/blog/blog.11tydata.json),
+   which gives the page a chuparosa-600 background. The reading body flips to a
+   warm desert-gold-50 for a comfortable reading mode and contrast against the
+   header/footer.
    ======================================== */
 
-/* Blog Post Article */
 .blog-post {
   position: relative;
 }
 
-/* Blog Post Meta - used in hero */
-.blog-post-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-md);
-  align-items: center;
-  font-family: var(--font-paragraph);
-  font-size: var(--text-p-size);
-  line-height: var(--text-p-line-height);
-  color: var(--text-body-on-obsidian);
-  margin-bottom: var(--space-lg);
+/* ──────── Header ──────── */
+
+.blog-post__header {
+  padding-top: var(--space-4xl);
+  padding-bottom: var(--space-2xl);
 }
 
-.blog-post-meta__author {
-  color: var(--text-body-on-obsidian);
-}
-
-.blog-post-meta__author-name {
-  color: var(--text-body-on-obsidian);
-  font-weight: var(--font-weight-paragraph);
-}
-
-.blog-post-meta__date {
-  color: var(--text-body-on-obsidian);
-}
-
-.blog-post-meta__reading-time {
-  color: var(--text-body-on-obsidian);
-}
-
-.blog-post-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin-top: var(--space-md);
-}
-
-.blog-post-tag {
-  display: inline-block;
-  padding: var(--space-xs) var(--space-sm);
-  background-color: var(--obsidian-30);
-  border: 1px solid var(--obsidian-50);
-  border-radius: 4px;
+.blog-post__meta {
   font-family: var(--font-paragraph);
   font-size: var(--text-small-size);
-  color: var(--text-body-on-obsidian);
+  line-height: var(--text-small-line-height);
+  color: var(--text-body-on-chuparosa-600);
   text-transform: var(--text-transform-ui);
+  letter-spacing: 0.04em;
+  margin: 0 0 var(--space-md) 0;
+  opacity: 0.85;
 }
 
-/* Fallback background when no image is provided */
-.hero--blog-post .background-image:not(:has(img)) {
-  background-color: var(--chuparosa-700);
+.blog-post__meta time {
+  color: inherit;
 }
 
-/* Unsplash Attribution */
-.blog-post-unsplash-attribution {
-  position: absolute;
-  bottom: var(--space-sm);
-  right: var(--space-sm);
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: 4px;
-  backdrop-filter: blur(4px);
+/* The headline picks up `.hero-headline` styling from the global hero scale.
+ * Override only color (so it sits cleanly on chuparosa-600) and tighten the
+ * spacing for an editorial header. */
+.blog-post .blog-post__title {
+  color: var(--text-headline-on-chuparosa-600);
+  margin: 0 0 var(--space-md) 0;
+  text-wrap: var(--text-wrap-headline);
 }
 
-.blog-post-unsplash-attribution__text {
-  font-family: var(--font-paragraph);
-  font-size: var(--text-small-size);
-  color: var(--chuparosa-200);
+.blog-post__description {
+  color: var(--text-body-on-chuparosa-600);
   margin: 0;
-  line-height: 1.4;
+  max-width: 60ch;
+  text-wrap: var(--text-wrap-body);
 }
 
-.blog-post-unsplash-attribution__text a {
-  color: var(--chuparosa-100);
-  text-decoration: underline;
-  text-decoration-color: var(--chuparosa-300);
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
-}
+/* ──────── Hero image (featured_image frontmatter) ──────── */
 
-.blog-post-unsplash-attribution__text a:hover {
-  color: var(--chuparosa-50);
-  text-decoration-color: var(--chuparosa-200);
-}
-
-/* When in hero, position attribution differently */
-.hero--blog-post .background-image .blog-post-unsplash-attribution {
-  position: absolute;
-  bottom: var(--space-md);
-  right: var(--space-md);
-  z-index: 2;
-}
-
-/* Blog Post Hero - Follows content-section pattern */
-/* Container - matches content-section__container */
-.hero--blog-post__container {
-  position: relative;
-  width: 100%;
-  max-width: 1512px;
-  margin: 0 auto;
-  padding: 0; /* No vertical spacing */
-  min-height: 80vh;
-}
-
-/* Mobile: Stacked layout (media first, then content) */
-.hero--blog-post__media,
-.hero--blog-post__content {
-  width: 100%;
-}
-
-.hero--blog-post__media {
-  position: relative;
-  overflow: hidden;
-  /* Mobile: Full width headshot */
-  width: 100%;
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
+.blog-post__hero-image {
+  margin: var(--space-2xl) 0 0 0;
   padding: 0;
-  margin-bottom: 0;
-}
-
-.hero--blog-post__author-image-wrapper {
-  width: 100%; /* Full width on mobile */
-  height: auto;
-  aspect-ratio: 354 / 442; /* Maintain headshot aspect ratio */
-  flex-shrink: 0;
-  background-color: var(--obsidian);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  position: relative; /* Positioning context for absolute image */
-  overflow: hidden; /* Clip parallax movement */
-  display: block; /* Remove flex, image is absolutely positioned */
-}
-
-.hero--blog-post__author-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  /* Parallax positioning - matches background-image__img pattern */
-  position: absolute;
-  top: -10%; /* Offset to allow for parallax movement */
-  left: 0;
-  height: 120%; /* Taller to ensure coverage during parallax */
-  transform-origin: center center; /* Scale from center for parallax */
-}
-
-/* Hide caption text */
-.hero--blog-post__author-caption,
-.hero--blog-post__author-caption-subtitle {
-  display: none;
-}
-
-/* Content area (text) - has background image behind it */
-/* Mobile-first: 80vh height */
-.hero--blog-post__content {
-  position: relative;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  height: 80vh; /* Mobile: 80vh height */
-  padding: 0 var(--space-xl); /* Increased horizontal padding */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center; /* Vertically center content */
-  z-index: 2; /* Above background image */
 }
 
-/* Background image fills content container */
-.hero--blog-post__content .background-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1; /* Behind text */
-}
-
-/* Blog image wrapper fills background-image container */
-.hero--blog-post__content .background-image .blog-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* Override blog-image.css parallax positioning - use higher specificity instead of !important */
-/* .hero--blog-post .hero--blog-post__content is more specific than .hero */
-.hero--blog-post .hero--blog-post__content .blog-image .background-image__img {
-  position: absolute;
-  top: 0;
-  left: 0;
+.blog-post__hero-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-/* Text content positioned above background image */
-.hero--blog-post__content .hero-headline,
-.hero--blog-post__content .blog-post-meta,
-.hero--blog-post__content .blog-post-tags {
-  position: relative;
-  z-index: 2; /* Above background image */
-}
-
-/* Desktop: 60/40 layout (content 60%, media 40%) */
 @media (min-width: 768px) {
-  .hero--blog-post__container {
-    display: flex;
-    align-items: stretch;
-    gap: 0;
-    padding: 0; /* No vertical spacing */
-    max-width: none; /* Remove max-width constraint on desktop like content-section */
-  }
-
-  .hero--blog-post__media {
-    margin-bottom: 0;
-    width: 40%; /* 60/40 layout */
-    flex-shrink: 0;
-    position: relative;
-    padding: 0;
-    aspect-ratio: auto; /* Remove mobile aspect-ratio, let flexbox determine height */
-    height: 100vh; /* Match content-section media height */
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-  }
-
-  .hero--blog-post__author-image-wrapper {
-    width: 100%;
-    max-width: none;
-    height: 100%;
-    min-height: auto; /* Remove min-height, use 100% of parent */
-    aspect-ratio: auto; /* Remove aspect ratio constraint on desktop */
-    position: relative; /* Positioning context for absolute image */
-    overflow: hidden; /* Clip parallax movement */
-  }
-  
-  /* Desktop: Parallax positioning for headshot */
-  .hero--blog-post__author-image {
-    position: absolute;
-    top: -10%;
-    height: 120%;
-  }
-
-  .hero--blog-post__content {
-    margin-bottom: 0;
-    width: 60%; /* 60/40 layout */
-    flex-shrink: 0;
-    align-self: center;
-    padding: 0 var(--space-2xl); /* Increased horizontal padding on desktop */
-    aspect-ratio: auto; /* Remove mobile aspect-ratio, let flexbox determine height */
-    height: 100vh; /* Match content-section content height */
-    justify-content: center; /* Vertically center content */
-  }
-
-  /* Default (contained) content: fill container height */
-  .hero--blog-post__content .background-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .hero--blog-post__content .background-image__img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .blog-post__hero-image {
+    aspect-ratio: 21 / 9;
   }
 }
 
-/* Blog Post Content */
-.blog-post-content {
-  padding: var(--space-2xl) 0;
+/* ──────── Body (markdown content) ────────
+ *
+ * The markdown content lives inside `.blog-post__body > .container.container-narrow`.
+ * We give the outer .blog-post__body a desert-gold-50 background that bleeds
+ * full-width, then nest typography rules under a `.container-narrow` descendant
+ * so they only apply to the rendered prose (not to the wrapper itself).
+ */
+
+.blog-post__body {
   background-color: var(--desert-gold-50);
-  color: var(--text-body-on-desert-gold-50); /* Set default text color for all content */
+  color: var(--text-body-on-desert-gold-50);
+  padding: var(--space-3xl) 0;
 }
 
-.blog-post-content h1 {
-  font-family: var(--font-display);
-  font-size: var(--text-h3-size); /* Bumped down 2 notches from h1 */
-  font-weight: 500;
-  line-height: var(--text-h3-line-height);
-  color: var(--text-headline-on-desert-gold-50);
-  margin: var(--space-4xl) 0 var(--space-lg) 0;
-  text-wrap: var(--text-wrap-headline);
+@media (min-width: 768px) {
+  .blog-post__body {
+    padding: var(--space-4xl) 0;
+  }
 }
 
-.blog-post-content h1:first-child {
-  margin-top: 0;
-}
-
-.blog-post-content h2 {
-  font-family: var(--font-headline);
-  font-size: var(--text-h4-size); /* Bumped down 2 notches from h2 */
-  font-weight: var(--font-weight-headline);
-  line-height: var(--text-h4-line-height);
-  color: var(--text-headline-on-desert-gold-50);
-  margin: var(--space-4xl) 0 var(--space-lg) 0;
-  text-wrap: var(--text-wrap-headline);
-}
-
-.blog-post-content h2:first-child {
-  margin-top: 0;
-}
-
-.blog-post-content h3 {
-  font-family: var(--font-headline);
-  font-size: var(--text-h5-size); /* Bumped down 2 notches from h3 */
-  font-weight: var(--font-weight-headline);
-  line-height: var(--text-h5-line-height);
-  color: var(--text-headline-on-desert-gold-50);
-  margin: var(--space-3xl) 0 var(--space-md) 0;
-}
-
-.blog-post-content h4 {
-  font-family: var(--font-headline);
-  font-size: var(--text-h6-size); /* Bumped down 2 notches from h4 */
-  font-weight: var(--font-weight-headline);
-  line-height: var(--text-h6-line-height);
-  color: var(--text-headline-on-desert-gold-50);
-  margin: var(--space-2xl) 0 var(--space-sm) 0;
-}
-
-.blog-post-content p {
+/* Paragraph */
+.blog-post__body .container-narrow > p {
   font-family: var(--font-paragraph);
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
   color: var(--text-body-on-desert-gold-50);
   margin: 0 0 var(--space-lg) 0;
+  text-wrap: var(--text-wrap-body);
 }
 
-.blog-post-content strong {
+.blog-post__body .container-narrow > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Headings — bumped one notch down from page-level scale so they read as
+ * subheadings inside the article, not competing with the page H1. */
+.blog-post__body .container-narrow > h2 {
+  font-family: var(--font-headline);
+  font-size: var(--text-h3-size);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--text-h3-line-height);
+  color: var(--text-headline-on-desert-gold-50);
+  margin: var(--space-3xl) 0 var(--space-md) 0;
+  text-wrap: var(--text-wrap-headline);
+}
+
+.blog-post__body .container-narrow > h2:first-child {
+  margin-top: 0;
+}
+
+.blog-post__body .container-narrow > h3 {
+  font-family: var(--font-headline);
+  font-size: var(--text-h4-size);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--text-h4-line-height);
+  color: var(--text-headline-on-desert-gold-50);
+  margin: var(--space-2xl) 0 var(--space-md) 0;
+  text-wrap: var(--text-wrap-headline);
+}
+
+.blog-post__body .container-narrow > h4 {
+  font-family: var(--font-headline);
+  font-size: var(--text-h5-size);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--text-h5-line-height);
+  color: var(--text-headline-on-desert-gold-50);
+  margin: var(--space-xl) 0 var(--space-sm) 0;
+}
+
+/* Bold text inside paragraphs gets the headline color for editorial emphasis. */
+.blog-post__body .container-narrow strong {
   color: var(--text-headline-on-desert-gold-50);
   font-weight: var(--font-weight-headline);
 }
 
-.blog-post-content a {
-  color: var(--chuparosa-800);
+.blog-post__body .container-narrow em {
+  font-style: italic;
+}
+
+/* Inline links — chuparosa underline, on-light styling */
+.blog-post__body .container-narrow a {
+  color: var(--chuparosa-700);
   text-decoration: underline;
-  text-decoration-color: var(--chuparosa-800);
-  text-underline-offset: 2px;
+  text-decoration-color: var(--chuparosa-500);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
-.blog-post-content a:hover {
-  color: var(--chuparosa-600);
-  text-decoration-color: var(--chuparosa-600);
+.blog-post__body .container-narrow a:hover {
+  color: var(--chuparosa-500);
+  text-decoration-color: var(--chuparosa-700);
 }
 
-.blog-post-content ul,
-.blog-post-content ol {
+/* Lists */
+.blog-post__body .container-narrow > ul,
+.blog-post__body .container-narrow > ol {
   margin: 0 0 var(--space-lg) 0;
   padding-left: var(--space-xl);
   color: var(--text-body-on-desert-gold-50);
 }
 
-.blog-post-content li {
-  margin-bottom: var(--space-sm);
+.blog-post__body .container-narrow li {
   font-family: var(--font-paragraph);
   font-size: var(--text-p-size);
   line-height: var(--text-p-line-height);
   color: var(--text-body-on-desert-gold-50);
+  margin: 0 0 var(--space-sm) 0;
 }
 
-.blog-post-content blockquote {
+.blog-post__body .container-narrow li:last-child {
+  margin-bottom: 0;
+}
+
+/* Blockquote — hanging chuparosa rule, italic */
+.blog-post__body .container-narrow blockquote {
   margin: var(--space-2xl) 0;
-  padding: var(--space-lg);
-  border-left: 4px solid var(--chuparosa-400);
-  background-color: var(--obsidian-10);
+  padding: var(--space-md) var(--space-lg);
+  border-left: 4px solid var(--chuparosa-500);
+  font-family: var(--font-paragraph);
   font-style: italic;
-  color: var(--chuparosa-100);
+  font-size: var(--text-p-large-size);
+  line-height: var(--text-p-large-line-height);
+  color: var(--text-headline-on-desert-gold-50);
 }
 
-.blog-post-content code {
-  font-family: 'Courier New', monospace;
-  font-size: 1em; /* Increased from 0.9em to match body text size */
+.blog-post__body .container-narrow blockquote p {
+  margin: 0 0 var(--space-md) 0;
+}
+
+.blog-post__body .container-narrow blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Inline code */
+.blog-post__body .container-narrow code {
+  font-family: 'SFMono-Regular', Menlo, 'Courier New', monospace;
+  font-size: 0.92em;
   padding: 2px 6px;
-  background-color: var(--obsidian-10); /* Match blockquote background */
+  background-color: var(--obsidian-10);
   border-radius: 3px;
   color: var(--chuparosa-700);
 }
 
-.blog-post-content pre {
+/* Code block */
+.blog-post__body .container-narrow pre {
   margin: var(--space-lg) 0;
   padding: var(--space-lg);
-  background-color: var(--obsidian-10); /* Match blockquote background */
+  background-color: var(--obsidian);
   border-radius: 4px;
   overflow-x: auto;
 }
 
-.blog-post-content pre code {
-  font-size: 1em; /* Match body text size for code blocks */
+.blog-post__body .container-narrow pre code {
+  font-size: 0.92em;
   background-color: transparent;
-  color: var(--chuparosa-700); /* Match inline code text color */
+  color: var(--bone);
   padding: 0;
 }
 
-/* Tablet (768px+) */
-@media (min-width: 768px) {
-  .blog-post-content {
-    padding: var(--space-3xl) 0;
-  }
-}
-
-/* Blog images in content area - override absolute positioning for inline images */
-.blog-post-content .blog-image {
+/* Inline blog-image divs (markdown can include `<div class="blog-image">…</div>`).
+ * blog-image.css handles the parallax/overlay treatment elsewhere; here we just
+ * ensure the inline use case fits the reading flow without scaling artifacts. */
+.blog-post__body .container-narrow .blog-image {
   position: relative;
   width: 100%;
-  max-width: 100%;
   margin: var(--space-2xl) 0;
-  height: auto;
-  min-height: 300px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
 }
 
-.blog-post-content .blog-image .background-image__img {
+.blog-post__body .container-narrow .blog-image img,
+.blog-post__body .container-narrow .blog-image .background-image__img {
   position: relative;
+  inset: auto;
   width: 100%;
-  height: auto;
-  min-height: 300px;
+  height: 100%;
   object-fit: cover;
-  transform: none; /* Remove transform for inline images */
-  filter: none; /* Remove filters for inline images */
+  transform: none;
+  filter: none;
+  display: block;
 }
 
-/* Remove color overlay and noise for inline blog post images */
-.blog-post-content .blog-image::before,
-.blog-post-content .blog-image::after {
+.blog-post__body .container-narrow .blog-image::before,
+.blog-post__body .container-narrow .blog-image::after {
   display: none;
 }
 
-/* Desktop (1024px+) */
-@media (min-width: 1024px) {
-  .blog-post-content h2 {
-    margin-top: var(--space-4xl);
-  }
+/* Horizontal rule — chuparosa stroke, generous breathing room */
+.blog-post__body .container-narrow > hr {
+  border: 0;
+  border-top: 1px solid var(--obsidian-30);
+  margin: var(--space-3xl) auto;
+  width: 4rem;
 }
 
+/* ──────── Footer ──────── */
+
+.blog-post__footer {
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-4xl);
+}
+
+.blog-post__author-bio {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-p-size);
+  line-height: var(--text-p-line-height);
+  color: var(--text-body-on-chuparosa-600);
+  margin: 0 0 var(--space-xl) 0;
+  text-wrap: var(--text-wrap-body);
+  opacity: 0.85;
+}
+
+.blog-post__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+@media (max-width: 480px) {
+  .blog-post__cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .blog-post__cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

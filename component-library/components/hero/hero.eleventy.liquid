@@ -10,10 +10,7 @@
     <div class="background-image{% unless show_overlay %} background-image--no-overlay{% endunless %}">
       <img class="background-image__img" src="{{ bg.image }}" alt="{{ bg.image_alt }}" loading="eager" decoding="async" />
       {% if show_overlay %}
-        <div class="background-image__overlay-top"></div>
-        <div class="background-image__overlay-bottom"></div>
-        <div class="background-image__overlay-left"></div>
-        <div class="background-image__overlay-right"></div>
+        {% include "partials/background-overlay.liquid" %}
       {% endif %}
     </div>
   {% elsif bg_type == "video" and bg.video_url %}
@@ -22,10 +19,7 @@
         <iframe class="background-image__video" src="{{ bg.video_url }}" frameborder="0" allow="autoplay; fullscreen" title="{{ bg.video_title | default: hero.headline }}"></iframe>
       </div>
       {% if show_overlay %}
-        <div class="background-image__overlay-top"></div>
-        <div class="background-image__overlay-bottom"></div>
-        <div class="background-image__overlay-left"></div>
-        <div class="background-image__overlay-right"></div>
+        {% include "partials/background-overlay.liquid" %}
       {% endif %}
     </div>
   {% endif %}

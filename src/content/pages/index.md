@@ -68,16 +68,16 @@ blocks:
       - { src: "/assets/logos/vidcon-logo.png", alt: "VidCon" }
       - { src: "/assets/logos/vidsummit-logo.png", alt: "VidSummit" }
 
-  - _bookshop_name: roster-grid
+  - _bookshop_name: client-grid
     headline: "Who We Protect"
     link:
-      label: "View roster"
-      url: "/roster/"
+      label: "View clients"
+      url: "/clients/"
     source: collection
     limit: 12
 
   - _bookshop_name: testimonials
-    headline: "Client<br>Love Letters."
+    headline: "Client<br>Love Letters"
     source: data
     variant: full
 
