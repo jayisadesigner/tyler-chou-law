@@ -12,17 +12,21 @@
           <p>{{ lg.intro }}</p>
         </div>
       {% endif %}
+      {%- comment -%}
+        `.logo-grid__item` carries image-specific styles (max-width, object-fit,
+        opacity) so it must live on the <img> directly — not on a wrapper div
+        or anchor. Matches main pattern at `git show main:index.html` lines
+        791–799.
+      {%- endcomment -%}
       {% if lg.logos and lg.logos.size > 0 %}
         <div class="logo-grid" role="list">
           {% for logo in lg.logos %}
             {% if logo.url %}
-              <a class="logo-grid__item" href="{{ logo.url }}" role="listitem"{% if lg.link_target == '_blank' %} target="_blank" rel="noopener noreferrer"{% endif %}>
-                <img src="{{ logo.src }}" alt="{{ logo.alt }}" loading="lazy" decoding="async" />
+              <a href="{{ logo.url }}" role="listitem"{% if lg.link_target == '_blank' %} target="_blank" rel="noopener noreferrer"{% endif %}>
+                <img class="logo-grid__item" src="{{ logo.src }}" alt="{{ logo.alt }}" loading="lazy" decoding="async" />
               </a>
             {% else %}
-              <div class="logo-grid__item" role="listitem">
-                <img src="{{ logo.src }}" alt="{{ logo.alt }}" loading="lazy" decoding="async" />
-              </div>
+              <img class="logo-grid__item" src="{{ logo.src }}" alt="{{ logo.alt }}" role="listitem" loading="lazy" decoding="async" />
             {% endif %}
           {% endfor %}
         </div>

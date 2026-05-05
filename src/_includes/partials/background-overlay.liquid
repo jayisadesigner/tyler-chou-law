@@ -1,0 +1,14 @@
+{%- comment -%}
+  Background-image overlay stack — 4 layers that color-grade hero/media into
+  the page (Figma source of truth). Mirror of `git show main:index.html` lines
+  739–745. Each div is a sibling carrying both `.background-image__overlay`
+  (positioning) and a modifier class (the actual gradient/blend rule). All four
+  rules live in `src/styles/components/background-image.css` lines 94–139.
+
+  Skip the partial entirely (or add `background-image--no-overlay` on the
+  parent `.background-image`) when an image needs to render flat.
+{%- endcomment -%}
+<div class="background-image__overlay background-image__overlay-gradient-1"></div>
+<div class="background-image__overlay background-image__overlay-gradient-2"></div>
+<div class="background-image__overlay background-image__overlay-dark"></div>
+<div class="background-image__overlay background-image__overlay-opacity"></div>

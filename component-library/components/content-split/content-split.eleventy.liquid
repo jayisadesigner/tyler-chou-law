@@ -37,10 +37,7 @@
           <img class="background-image__img" src="{{ cs_media.image }}" alt="{{ cs_media.image_alt }}" loading="lazy" decoding="async" />
         {% endif %}
         {% if show_overlay %}
-          <div class="background-image__overlay-top"></div>
-          <div class="background-image__overlay-bottom"></div>
-          <div class="background-image__overlay-left"></div>
-          <div class="background-image__overlay-right"></div>
+          {% include "partials/background-overlay.liquid" %}
         {% endif %}
       </div>
     </div>

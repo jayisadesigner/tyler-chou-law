@@ -92,7 +92,7 @@ h1, h2, h3, h4, h5, h6 {
 [class*="headline"],
 .service-card__title,
 .client-card__title,
-.thank-you-headline,
+.thank-you-card__headline,
 .credentials-title,
 .services-capabilities__title {
   text-wrap: var(--text-wrap-headline);

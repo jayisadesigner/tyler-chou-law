@@ -7,10 +7,7 @@ layout: base.liquid
     {% if c.photo %}
       <div class="background-image">
         <img class="background-image__img" src="{{ c.photo | replace: '/src/', '/' }}" alt="{{ c.handle }} portrait" loading="eager" fetchpriority="high" />
-        <div class="background-image__overlay-top"></div>
-        <div class="background-image__overlay-bottom"></div>
-        <div class="background-image__overlay-left"></div>
-        <div class="background-image__overlay-right"></div>
+        {% include "partials/background-overlay.liquid" %}
       </div>
     {% endif %}
     <div class="hero-content hero-content--inner-page container-wide">
