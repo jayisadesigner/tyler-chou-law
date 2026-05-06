@@ -15,7 +15,7 @@ Michael Cruz, one of the smartest creator minds in the world.
 
 <div class="blog-image" data-color="chuparosa-500">
   <img 
-    src="/assets/images/blog/8-michael-cruz-tyler-chou-mrbeast.jpg" 
+    src="/src/assets/images/blog/8-michael-cruz-tyler-chou-mrbeast.jpg" 
     alt="Michael Cruz and Tyler Chou discussing MrBeast's operation" 
     class="background-image__img"
     loading="lazy"
@@ -56,7 +56,7 @@ Build your legacy with that in mind.
 
 ## What I'm Learning from Running My Own Community
 
-The creators inside The Creators' Attorney Collective are brilliant. Some are posting their first videos. Others have 4M+ subscribers. But they all share one thing - they're done building on rented land.
+The creators inside The Creator's Attorney Collective are brilliant. Some are posting their first videos. Others have 4M+ subscribers. But they all share one thing - they're done building on rented land.
 
 We're having real conversations about:
 

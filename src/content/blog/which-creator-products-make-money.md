@@ -14,7 +14,7 @@ Last week I was at The Lighthouse x Slow Ventures* Creator event.
 
 <div class="blog-image" data-color="chuparosa-500">
   <img 
-    src="/assets/images/blog/4-lighthouse-slow-ventures-intro-selfie.jpg" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-intro-selfie.jpg" 
     alt="The Lighthouse x Slow Ventures Creator event" 
     class="background-image__img"
     loading="lazy"
@@ -25,7 +25,7 @@ Finally met Kevin Espiritu in person! Love Epic Gardening. That is the model eve
 
 <div class="blog-image" data-color="lupine-500">
   <img 
-    src="/assets/images/blog/4-lighthouse-slow-ventures-kevin.jpg" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-kevin.jpg" 
     alt="Tyler Chou with Kevin Espiritu at The Lighthouse x Slow Ventures event" 
     class="background-image__img"
     loading="lazy"
@@ -36,7 +36,7 @@ Caught up with my client Zach Miller who is President of Bucketsquad is the GOAT
 
 <div class="blog-image" data-color="desert-gold-500">
   <img 
-    src="/assets/images/blog/4-lighthouse-slow-ventures-zach-dan.jpg" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-zach-dan.jpg" 
     alt="Tyler Chou with Zach Miller and Dan Levitt at The Lighthouse x Slow Ventures event" 
     class="background-image__img"
     loading="lazy"
@@ -51,7 +51,7 @@ I saw a great conversation between two creators who have two drastically differe
 
 <div class="blog-image" data-color="palo-verde-500">
   <img 
-    src="/assets/images/blog/4-lighthouse-slow-ventures-conversation.jpg" 
+    src="/src/assets/images/blog/4-lighthouse-slow-ventures-conversation.jpg" 
     alt="Creator conversations at The Lighthouse x Slow Ventures event" 
     class="background-image__img"
     loading="lazy"

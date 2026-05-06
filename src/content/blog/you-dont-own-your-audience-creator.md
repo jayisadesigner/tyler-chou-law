@@ -111,7 +111,7 @@ I just got back from speaking at VidSummit and it is my favorite creator confere
 
 <div class="blog-image" data-color="desert-gold-500">
   <img 
-    src="/assets/images/blog/6-tyler-chou-speaking-at-vidsummit.jpg" 
+    src="/src/assets/images/blog/6-tyler-chou-speaking-at-vidsummit.jpg" 
     alt="Tyler Chou speaking at VidSummit" 
     class="background-image__img"
     loading="lazy"

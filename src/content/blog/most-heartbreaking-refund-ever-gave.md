@@ -52,7 +52,7 @@ But the most important one? A community built on YOUR land.
 
 As a YouTuber myself, I try to be my clients' guinea pig.
 
-So I launched The Creators' Attorney Collective last week on Kajabi. Not just because I want direct access to my people, but because I need to walk my talk.
+So I launched The Creator's Attorney Collective last week on Kajabi. Not just because I want direct access to my people, but because I need to walk my talk.
 
 ## What I'm Learning from Running My Own Community
 

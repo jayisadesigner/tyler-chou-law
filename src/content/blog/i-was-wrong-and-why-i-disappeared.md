@@ -45,7 +45,7 @@ This Friday at 11 AM PST, my client Jenny Hoyos is joining me live inside my pri
 
 <div class="blog-image" data-color="lupine-500">
   <img 
-    src="/assets/images/blog/5-tyler-chou-jenny-hoyos-vidcon.jpg" 
+    src="/src/assets/images/blog/5-tyler-chou-jenny-hoyos-vidcon.jpg" 
     alt="Tyler Chou and Jenny Hoyos at VidCon" 
     class="background-image__img"
     loading="lazy"
