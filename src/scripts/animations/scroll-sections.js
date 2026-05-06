@@ -541,51 +541,52 @@ export function initCredentialsShadow(reducedMotion = false) {
 }
 
 /**
- * Pin content sections with forms
- * Pins the content area while the form area scrolls
- * Works with Lenis smooth scrolling
- * Used on contact and creatorarq pages
+ * Pin content sections with forms (tablet+ / two-column layout).
+ * Pins the copy column while the form column scrolls.
+ *
+ * Uses the full `.content-section__container` as the trigger with
+ * `pinSpacing: true` so ScrollTrigger adds the correct scroll distance.
+ * `pinSpacing: false` matched the old creator pattern but commonly causes a
+ * visible jump when the pin releases (document height + Lenis disagree for
+ * one frame).
+ *
+ * @returns {() => void} Cleanup that kills created ScrollTriggers (for matchMedia)
  */
 export function initFormSections() {
   const formSections = document.querySelectorAll('.content-section--form')
-  
-  if (!formSections.length || !ScrollTrigger) return
-  
-  // Wait for layout to be ready before creating pins
-  const initPins = () => {
-    formSections.forEach(section => {
-      const container = section.querySelector('.content-section__container')
-      const content = section.querySelector('.content-section__content')
-      
-      if (container && content) {
-        ScrollTrigger.create({
-          trigger: container,
-          start: "top top",
-          end: "bottom bottom",
-          pin: content,
-          pinSpacing: false, // Match creator page pattern
-          invalidateOnRefresh: true, // Recalculate on refresh
-        })
-      }
-    })
-    
-    // Refresh after creating pins to ensure proper calculation
-    if (ScrollTrigger) {
-      ScrollTrigger.refresh()
-    }
+
+  if (!formSections.length || !ScrollTrigger) {
+    return () => {}
   }
-  
-  // Use requestAnimationFrame to ensure DOM is ready
-  if (document.readyState === 'complete') {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(initPins) // Double RAF for layout stability
-    })
-  } else {
-    window.addEventListener('load', () => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(initPins)
+
+  const triggers = []
+
+  formSections.forEach((section) => {
+    const container = section.querySelector('.content-section__container')
+    const content = section.querySelector('.content-section__content')
+    const media = section.querySelector('.content-section__media')
+
+    if (!container || !content || !media) return
+
+    triggers.push(
+      ScrollTrigger.create({
+        trigger: container,
+        start: 'top top',
+        end: 'bottom bottom',
+        pin: content,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
       })
-    })
+    )
+  })
+
+  if (ScrollTrigger) {
+    ScrollTrigger.refresh()
+  }
+
+  return () => {
+    triggers.forEach((t) => t.kill())
   }
 }
 

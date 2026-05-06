@@ -34,12 +34,8 @@
             <img class="client-card__image" src="{{ c.image }}" alt="{{ c.alt | default: c.handle }}" loading="lazy" decoding="async" />
             <div class="client-card__overlay" aria-hidden="true"></div>
             <div class="client-card__scrim" aria-hidden="true"></div>
-            {% if c.external %}
-              {% include "partials/external-icon.liquid" icon_class: "client-card__external-icon" %}
-              <span class="visually-hidden"> (opens in new tab)</span>
-            {% endif %}
           </div>
-          <p class="client-card__handle">{{ c.handle }}</p>
+          <p class="client-card__handle">{{ c.handle }}{% if c.external %}{% include "partials/external-icon.liquid" icon_class: "client-card__external-icon" %}<span class="visually-hidden"> (opens in new tab)</span>{% endif %}</p>
         </a>
       {% endfor %}
     </div>

@@ -446,51 +446,44 @@ export function initAnimations() {
   // Mouse trail effect
   initMouseTrail(prefersReducedMotion)
   
-  // Creator page: Pin media while content scrolls (GSAP ScrollTrigger works with Lenis)
-  // Only on tablet+ where we have side-by-side layout
+  // Creator page: Pin media while content scrolls (GSAP ScrollTrigger + Lenis).
+  // pinSpacing: true + anticipatePin keep unpin from jumping vs pinSpacing: false.
   ScrollTrigger.matchMedia({
-    [`(min-width: ${BREAKPOINTS.tablet}px)`]: function() {
-      if (document.body.classList.contains('page-creator')) {
-        const container = document.querySelector('.page-creator .content-section__container')
-        const media = document.querySelector('.page-creator .content-section--media-bleed .content-section__media')
-        
-        if (container && media) {
-          ScrollTrigger.create({
-            trigger: container,
-            start: "top top",
-            end: "bottom bottom",
-            pin: media,
-            pinSpacing: false
-          })
-        }
-      }
-    }
-  })
-  
-  // Form sections: Pin content while form scrolls (GSAP ScrollTrigger works with Lenis)
-  // Only on tablet+ where we have side-by-side layout
-  ScrollTrigger.matchMedia({
-    [`(min-width: ${BREAKPOINTS.tablet}px)`]: function() {
-      const formSections = document.querySelectorAll('.content-section--form')
-      
-      formSections.forEach(section => {
-        const container = section.querySelector('.content-section__container')
-        const content = section.querySelector('.content-section__content')
-        const media = section.querySelector('.content-section__media')
-        
-        // Use media (form) element as trigger so scroll duration matches form height
-        if (container && content && media) {
-          ScrollTrigger.create({
-            trigger: media, // Use form area as trigger for accurate height calculation
-            start: "top top",
-            end: "bottom bottom",
-            pin: content,
-            pinSpacing: false,
-            invalidateOnRefresh: true
-          })
-        }
+    [`(min-width: ${BREAKPOINTS.tablet}px)`]: function () {
+      if (!document.body.classList.contains('page-creator')) return () => {}
+
+      const container = document.querySelector('.page-creator .content-section__container')
+      const media = document.querySelector(
+        '.page-creator .content-section--media-bleed .content-section__media'
+      )
+
+      if (!container || !media) return () => {}
+
+      const st = ScrollTrigger.create({
+        trigger: container,
+        start: 'top top',
+        end: 'bottom bottom',
+        pin: media,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
       })
-    }
+
+      return () => st.kill()
+    },
+  })
+
+  // Form sections: pin copy column while form scrolls — see scroll-sections.js
+  ScrollTrigger.matchMedia({
+    [`(min-width: ${BREAKPOINTS.tablet}px)`]: function () {
+      return initFormSections()
+    },
+  })
+
+  // Pins above were registered after the earlier refresh; measure again + sync Lenis.
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh()
+    window.lenis?.resize()
   })
   
   // Consolidated resize handler (debounced with RAF for performance)
