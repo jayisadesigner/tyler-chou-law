@@ -3,16 +3,13 @@
    ----------------------------------------
    Markup is emitted by src/_includes/layouts/blog-post.liquid as:
      <article class="blog-post">
-       <header class="blog-post__header">
-         <p class="blog-post__meta"> ... </p>
-         <h1 class="blog-post__title hero-headline line-animate"> ... </h1>
-         <p class="blog-post__description text-large"> ... </p>
-       </header>
-       <figure class="blog-post__hero-image">  (when featured_image is set)
-       <div class="blog-post__body">  (markdown content lives here)
+       <section class="hero hero--inner-page hero--blog-post section section-reveal">
+       <div class="blog-post__body">
+         <div class="container container-narrow">
+           <div class="prose">{{ markdown }}</div>
        <footer class="blog-post__footer">
-         <p class="blog-post__author-bio">
-         <div class="blog-post__cta">
+
+   `.prose` scopes all reading typography (measure, rhythm, lists, quotes, code).
 
    Body class is `.page-blog-post` (set via src/content/blog/blog.11tydata.json),
    which gives the page a chuparosa-600 background. The reading body flips to a
@@ -24,14 +21,17 @@
   position: relative;
 }
 
-/* ──────── Header ──────── */
+/* ──────── Hero (same structure as component-library hero + inner-page image) ──────── */
 
-.blog-post__header {
-  padding-top: var(--space-4xl);
-  padding-bottom: var(--space-2xl);
+.blog-post .hero.hero--blog-post .hero-content--blog-post {
+  max-width: 960px;
 }
 
-.blog-post__meta {
+.blog-post .hero:not(:has(.background-image)) {
+  background-color: var(--chuparosa-600);
+}
+
+.blog-post .hero:not(:has(.background-image)) .blog-post__meta {
   font-family: var(--font-paragraph);
   font-size: var(--text-small-size);
   line-height: var(--text-small-line-height);
@@ -42,56 +42,46 @@
   opacity: 0.85;
 }
 
-.blog-post__meta time {
+.blog-post .hero:not(:has(.background-image)) .blog-post__meta time {
   color: inherit;
 }
 
-/* The headline picks up `.hero-headline` styling from the global hero scale.
- * Override only color (so it sits cleanly on chuparosa-600) and tighten the
- * spacing for an editorial header. */
-.blog-post .blog-post__title {
+.blog-post .hero:not(:has(.background-image)) .blog-post__title {
   color: var(--text-headline-on-chuparosa-600);
   margin: 0 0 var(--space-md) 0;
   text-wrap: var(--text-wrap-headline);
 }
 
-.blog-post__description {
+.blog-post .hero:not(:has(.background-image)) .blog-post__description {
   color: var(--text-body-on-chuparosa-600);
   margin: 0;
   max-width: 60ch;
   text-wrap: var(--text-wrap-body);
 }
 
-/* ──────── Hero image (featured_image frontmatter) ──────── */
-
-.blog-post__hero-image {
-  margin: var(--space-2xl) 0 0 0;
-  padding: 0;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
+/* With featured image: overlay + global hero `has(.background-image)` headline colors */
+.blog-post .hero:has(.background-image) .blog-post__meta {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line-height);
+  text-transform: var(--text-transform-ui);
+  letter-spacing: 0.04em;
+  margin: 0 0 var(--space-md) 0;
+  opacity: 0.9;
+  color: var(--text-headline-on-obsidian);
 }
 
-.blog-post__hero-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.blog-post .hero:has(.background-image) .blog-post__meta time {
+  color: inherit;
 }
 
-@media (min-width: 768px) {
-  .blog-post__hero-image {
-    aspect-ratio: 21 / 9;
-  }
+.blog-post .hero:has(.background-image) .blog-post__description {
+  margin: 0;
+  max-width: 60ch;
+  text-wrap: var(--text-wrap-body);
 }
 
-/* ──────── Body (markdown content) ────────
- *
- * The markdown content lives inside `.blog-post__body > .container.container-narrow`.
- * We give the outer .blog-post__body a desert-gold-50 background that bleeds
- * full-width, then nest typography rules under a `.container-narrow` descendant
- * so they only apply to the rendered prose (not to the wrapper itself).
- */
+/* ──────── Body + prose (markdown content) ──────── */
 
 .blog-post__body {
   background-color: var(--desert-gold-50);
@@ -105,197 +95,254 @@
   }
 }
 
-/* Paragraph */
-.blog-post__body .container-narrow > p {
+/* Reading column: editorial measure + body rhythm (long-form legibility) */
+.blog-post__body .prose {
+  --prose-measure: min(67ch, 100%);
+  /* ~17–18px at common viewports: slightly larger than UI body for sustained reading */
+  --prose-body-size: clamp(1.0625rem, 0.28vw + 0.98rem, 1.125rem);
+  --prose-body-leading: 1.65;
+  --prose-p-spacing: var(--space-xl);
+  /* Section titles: clearly above body, below display/hero scale */
+  --prose-h2-size: clamp(1.3125rem, 1.05vw + 1rem, 1.75rem);
+  --prose-h2-leading: 1.28;
+  --prose-h3-size: clamp(1.125rem, 0.62vw + 0.98rem, 1.4375rem);
+  --prose-h3-leading: 1.32;
+  --prose-h4-size: clamp(1.0625rem, 0.38vw + 0.95rem, 1.1875rem);
+  --prose-h4-leading: 1.38;
+  /* Lists: shallow indent so labeled lines read as lists, not random indents */
+  --prose-list-indent: 1.25em;
+  --prose-nested-list-indent: 1.125em;
+
+  max-width: var(--prose-measure);
+  margin-inline: auto;
+  text-rendering: optimizeLegibility;
+}
+
+.blog-post__body .prose > p {
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-size);
-  line-height: var(--text-p-line-height);
-  color: var(--text-body-on-desert-gold-50);
-  margin: 0 0 var(--space-lg) 0;
+  font-size: var(--prose-body-size);
+  line-height: var(--prose-body-leading);
+  margin: 0 0 var(--prose-p-spacing) 0;
   text-wrap: var(--text-wrap-body);
 }
 
-.blog-post__body .container-narrow > p:last-child {
+.blog-post__body .prose > p:last-child {
   margin-bottom: 0;
 }
 
-/* Headings — bumped one notch down from page-level scale so they read as
- * subheadings inside the article, not competing with the page H1. */
-.blog-post__body .container-narrow > h2 {
+.blog-post__body .prose > h2 {
   font-family: var(--font-headline);
-  font-size: var(--text-h3-size);
   font-weight: var(--font-weight-headline);
-  line-height: var(--text-h3-line-height);
+  font-size: var(--prose-h2-size);
+  line-height: var(--prose-h2-leading);
   color: var(--text-headline-on-desert-gold-50);
-  margin: var(--space-3xl) 0 var(--space-md) 0;
+  margin: var(--space-3xl) 0 var(--space-lg) 0;
   text-wrap: var(--text-wrap-headline);
 }
 
-.blog-post__body .container-narrow > h2:first-child {
+.blog-post__body .prose > h2:first-child {
   margin-top: 0;
 }
 
-.blog-post__body .container-narrow > h3 {
+.blog-post__body .prose > h3 {
   font-family: var(--font-headline);
-  font-size: var(--text-h4-size);
   font-weight: var(--font-weight-headline);
-  line-height: var(--text-h4-line-height);
+  font-size: var(--prose-h3-size);
+  line-height: var(--prose-h3-leading);
   color: var(--text-headline-on-desert-gold-50);
   margin: var(--space-2xl) 0 var(--space-md) 0;
   text-wrap: var(--text-wrap-headline);
 }
 
-.blog-post__body .container-narrow > h4 {
+.blog-post__body .prose > h4 {
   font-family: var(--font-headline);
-  font-size: var(--text-h5-size);
   font-weight: var(--font-weight-headline);
-  line-height: var(--text-h5-line-height);
+  font-size: var(--prose-h4-size);
+  line-height: var(--prose-h4-leading);
   color: var(--text-headline-on-desert-gold-50);
   margin: var(--space-xl) 0 var(--space-sm) 0;
+  text-wrap: var(--text-wrap-headline);
 }
 
-/* Bold text inside paragraphs gets the headline color for editorial emphasis. */
-.blog-post__body .container-narrow strong {
+.blog-post__body .prose strong {
+  font-weight: var(--font-weight-bold);
   color: var(--text-headline-on-desert-gold-50);
-  font-weight: var(--font-weight-headline);
 }
 
-.blog-post__body .container-narrow em {
+.blog-post__body .prose em {
   font-style: italic;
 }
 
-/* Inline links — chuparosa underline, on-light styling */
-.blog-post__body .container-narrow a {
-  color: var(--chuparosa-700);
+.blog-post__body .prose a {
+  color: var(--chuparosa-600);
   text-decoration: underline;
-  text-decoration-color: var(--chuparosa-500);
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1.5px;
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 0.2s ease;
 }
 
-.blog-post__body .container-narrow a:hover {
-  color: var(--chuparosa-500);
-  text-decoration-color: var(--chuparosa-700);
+.blog-post__body .prose a:hover {
+  color: var(--chuparosa-700);
 }
 
-/* Lists */
-.blog-post__body .container-narrow > ul,
-.blog-post__body .container-narrow > ol {
-  margin: 0 0 var(--space-lg) 0;
-  padding-left: var(--space-xl);
-  color: var(--text-body-on-desert-gold-50);
+.blog-post__body .prose a:focus-visible {
+  outline: 2px solid var(--chuparosa-600);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
-.blog-post__body .container-narrow li {
+.blog-post__body .prose > ul,
+.blog-post__body .prose > ol {
+  margin: 0 0 var(--prose-p-spacing) 0;
+  padding-left: var(--prose-list-indent);
+}
+
+.blog-post__body .prose ul ul,
+.blog-post__body .prose ul ol,
+.blog-post__body .prose ol ul,
+.blog-post__body .prose ol ol {
+  margin-top: var(--space-xs);
+  margin-bottom: 0;
+  padding-left: var(--prose-nested-list-indent);
+}
+
+.blog-post__body .prose li {
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-size);
-  line-height: var(--text-p-line-height);
-  color: var(--text-body-on-desert-gold-50);
+  font-size: var(--prose-body-size);
+  line-height: var(--prose-body-leading);
+  margin: 0 0 var(--space-sm) 0;
+  text-wrap: var(--text-wrap-body);
+}
+
+.blog-post__body .prose li:last-child {
+  margin-bottom: 0;
+}
+
+/* CommonMark can emit <li><p>…</p></li> */
+.blog-post__body .prose li > p {
   margin: 0 0 var(--space-sm) 0;
 }
 
-.blog-post__body .container-narrow li:last-child {
+.blog-post__body .prose li > p:last-child {
   margin-bottom: 0;
 }
 
-/* Blockquote — hanging chuparosa rule, italic */
-.blog-post__body .container-narrow blockquote {
-  margin: var(--space-2xl) 0;
-  padding: var(--space-md) var(--space-lg);
-  border-left: 4px solid var(--chuparosa-500);
-  font-family: var(--font-paragraph);
-  font-style: italic;
-  font-size: var(--text-p-large-size);
-  line-height: var(--text-p-large-line-height);
-  color: var(--text-headline-on-desert-gold-50);
+.blog-post__body .prose blockquote {
+  margin: var(--space-xl) 0;
+  padding: var(--space-lg) var(--space-xl);
+  border-left: 4px solid var(--chuparosa-400);
+  background-color: var(--desert-gold-100);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
 
-.blog-post__body .container-narrow blockquote p {
+.blog-post__body .prose blockquote p {
+  font-size: var(--prose-body-size);
+  line-height: var(--prose-body-leading);
   margin: 0 0 var(--space-md) 0;
 }
 
-.blog-post__body .container-narrow blockquote p:last-child {
+.blog-post__body .prose blockquote p:last-child {
   margin-bottom: 0;
 }
 
-/* Inline code */
-.blog-post__body .container-narrow code {
-  font-family: 'SFMono-Regular', Menlo, 'Courier New', monospace;
-  font-size: 0.92em;
-  padding: 2px 6px;
-  background-color: var(--obsidian-10);
-  border-radius: 3px;
-  color: var(--chuparosa-700);
+.blog-post__body .prose code {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  background-color: var(--desert-gold-100);
+  border-radius: var(--radius-sm);
+  color: var(--obsidian);
 }
 
-/* Code block */
-.blog-post__body .container-narrow pre {
-  margin: var(--space-lg) 0;
+.blog-post__body .prose pre {
+  margin: var(--space-xl) 0;
   padding: var(--space-lg);
-  background-color: var(--obsidian);
-  border-radius: 4px;
   overflow-x: auto;
+  background-color: var(--obsidian);
+  border-radius: var(--radius-md);
+  line-height: 1.55;
 }
 
-.blog-post__body .container-narrow pre code {
-  font-size: 0.92em;
-  background-color: transparent;
-  color: var(--bone);
+.blog-post__body .prose pre code {
   padding: 0;
+  background: none;
+  color: var(--bone);
+  font-size: var(--text-small-size);
+  line-height: inherit;
 }
 
-/* Inline blog-image divs (markdown can include `<div class="blog-image">…</div>`).
- * blog-image.css handles the parallax/overlay treatment elsewhere; here we just
- * ensure the inline use case fits the reading flow without scaling artifacts. */
-.blog-post__body .container-narrow .blog-image {
-  position: relative;
-  width: 100%;
+.blog-post__body .prose .blog-image {
   margin: var(--space-2xl) 0;
-  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
-.blog-post__body .container-narrow .blog-image img,
-.blog-post__body .container-narrow .blog-image .background-image__img {
-  position: relative;
-  inset: auto;
+.blog-post__body .prose .blog-image img,
+.blog-post__body .prose .blog-image .background-image__img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: none;
-  filter: none;
+  height: auto;
   display: block;
 }
 
-.blog-post__body .container-narrow .blog-image::before,
-.blog-post__body .container-narrow .blog-image::after {
-  display: none;
+.blog-post__body .prose .blog-image::before,
+.blog-post__body .prose .blog-image::after {
+  border-radius: inherit;
 }
 
-/* Horizontal rule — chuparosa stroke, generous breathing room */
-.blog-post__body .container-narrow > hr {
-  border: 0;
-  border-top: 1px solid var(--obsidian-30);
-  margin: var(--space-3xl) auto;
-  width: 4rem;
+.blog-post__body .prose > hr {
+  margin: var(--space-3xl) 0;
+  border: none;
+  height: 1px;
+  background-color: var(--obsidian-10);
 }
 
-/* ──────── Footer ──────── */
+/* Bare markdown images */
+.blog-post__body .prose > p > img:only-child,
+.blog-post__body .prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.blog-post__body .prose > p:has(> img:only-child) {
+  margin: var(--space-2xl) 0;
+}
+
+/* Optional markdown tables */
+.blog-post__body .prose table {
+  width: 100%;
+  margin: var(--space-xl) 0;
+  border-collapse: collapse;
+  font-size: var(--text-small-size);
+  line-height: 1.5;
+}
+
+.blog-post__body .prose th,
+.blog-post__body .prose td {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--obsidian-10);
+  text-align: left;
+  vertical-align: top;
+}
+
+.blog-post__body .prose thead th {
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+  color: var(--text-headline-on-desert-gold-50);
+  background-color: var(--desert-gold-100);
+}
 
 .blog-post__footer {
-  padding-top: var(--space-3xl);
-  padding-bottom: var(--space-4xl);
+  padding: var(--space-3xl) 0 var(--space-4xl);
+  background-color: var(--chuparosa-600);
 }
 
 .blog-post__author-bio {
   font-family: var(--font-paragraph);
-  font-size: var(--text-p-size);
-  line-height: var(--text-p-line-height);
+  font-size: clamp(1.0625rem, 0.28vw + 0.98rem, 1.125rem);
+  line-height: 1.65;
   color: var(--text-body-on-chuparosa-600);
   margin: 0 0 var(--space-xl) 0;
-  text-wrap: var(--text-wrap-body);
-  opacity: 0.85;
+  max-width: min(67ch, 100%);
 }
 
 .blog-post__cta {
@@ -304,7 +351,7 @@
   gap: var(--space-md);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .blog-post__cta {
     flex-direction: column;
     align-items: stretch;

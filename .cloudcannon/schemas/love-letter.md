@@ -7,6 +7,7 @@ author: Tyler Chou
 reading_time: 5
 featured_image: ""
 image_alt: ""
+image_object_position: ""
 ---
 
 Write your post here. Markdown is supported — use `**bold**`, `*italics*`, headings (`##`), lists, blockquotes, and links.

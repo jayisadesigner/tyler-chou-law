@@ -18,6 +18,8 @@
  */
 
 const REVEAL_THRESHOLD = 0.15
+/** Tall sections (e.g. blog listing) can stay below a single 0.15 ratio until the user scrolls most of the page. Pair with 0 so the first real intersection is reported. */
+const REVEAL_THRESHOLDS = [0, REVEAL_THRESHOLD]
 
 let observer = null
 
@@ -40,7 +42,7 @@ function getObserver() {
         })
       }
     },
-    { threshold: REVEAL_THRESHOLD, rootMargin: '0px 0px -10% 0px' }
+    { threshold: REVEAL_THRESHOLDS, rootMargin: '0px 0px -10% 0px' }
   )
   return observer
 }

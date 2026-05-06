@@ -1,52 +1,55 @@
 {%- comment -%}
-  Site footer.
+  Inner wrapper is `.footer-container` only (full width; horizontal padding matches `.container` gutters).
 
-  Hierarchy (Swiss/minimal): bio → nav → social → meta.
+  Large screens (4px gutters): row 1 — nav | bio | disclaimer (7–9, 3 cols).
+  Row 2–3 — social (4–6) | © (7–12) row 2, designer credit (7–12) row 3.
 
-  All copy is data-driven:
-    - Bio + address       → src/_data/site.json (site.bio.footer, site.contact)
-    - Nav links           → src/_data/nav.yml (nav.footer)
-    - Social links        → src/_data/site.json (site.social[])
-    - Copyright + credit  → src/_data/site.json (site.brand.legalEntity, site.credit)
+  Mobile: nav → bio → disclaimer → © then credit (stacked) → social.
 
-  Social icon SVGs are extracted to src/_includes/partials/social-icon.liquid
-  so adding a new platform is one switch case, not duplicated markup.
-
-  Color theming is driven by --footer-bg and --footer-text (set per body
-  class in footer.css). No `body:not(...)` cascade chains — see footer.css.
+  Data: site.json, nav.yml.
 {%- endcomment -%}
 <footer class="site-footer">
   <div class="footer-container">
-    <div class="footer-bio">
+    <div class="footer-top-slot footer-top-slot--links">
+      {% if nav.footer and nav.footer.size > 0 %}
+        <nav class="footer-nav" aria-label="Footer navigation">
+          {% for item in nav.footer %}
+            <a href="{{ item.url }}" class="footer-link"{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ item.label }}</a>
+          {% endfor %}
+        </nav>
+      {% endif %}
+    </div>
+
+    <div class="footer-top-slot footer-top-slot--bio">
       <p class="footer-bio__text">{{ site.bio.footer }}</p>
       {% if site.contact.addressLocality %}
         <p class="footer-bio__address">{{ site.contact.addressLocality }}, {{ site.contact.addressRegion }}</p>
       {% endif %}
     </div>
 
-    {% if nav.footer and nav.footer.size > 0 %}
-      <nav class="footer-nav" aria-label="Footer navigation">
-        {% for item in nav.footer %}
-          <a href="{{ item.url }}" class="footer-link"{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ item.label }}</a>
-        {% endfor %}
-      </nav>
-    {% endif %}
+    <div class="footer-top-slot footer-top-slot--disclaimer">
+      {% if site.disclaimer %}
+        <p class="footer-disclaimer">{{ site.disclaimer }}</p>
+      {% endif %}
+    </div>
 
-    {% if site.social and site.social.size > 0 %}
-      <nav class="footer-social" aria-label="Social links">
-        {% for s in site.social %}
-          <a href="{{ s.url }}" class="footer-link footer-social__icon{% if s.platform == 'forbes' %} footer-social__icon--text{% endif %}" target="_blank" rel="noopener noreferrer" aria-label="{{ s.label }}">
-            {% include "partials/social-icon.liquid" platform: s.platform %}
-          </a>
-        {% endfor %}
-      </nav>
-    {% endif %}
-
-    <p class="footer-meta">
-      <span class="footer-meta__copyright">© {% year %} {{ site.brand.legalEntity }}.</span>
+    <div class="footer-legal">
+      <span class="footer-meta__copyright">© {% year %} {{ site.brand.legalEntity }}</span>
       {% if site.credit and site.credit.url and site.credit.label %}
         <a href="{{ site.credit.url }}" class="footer-link footer-meta__credit" target="_blank" rel="noopener noreferrer">{{ site.credit.label }}</a>
       {% endif %}
-    </p>
+    </div>
+
+    <div class="footer-top-slot footer-top-slot--social">
+      {% if site.social and site.social.size > 0 %}
+        <nav class="footer-social" aria-label="Social links">
+          {% for s in site.social %}
+            <a href="{{ s.url }}" class="footer-link footer-social__icon{% if s.platform == 'forbes' %} footer-social__icon--text{% endif %}" target="_blank" rel="noopener noreferrer" aria-label="{{ s.label }}">
+              {% include "partials/social-icon.liquid" platform: s.platform %}
+            </a>
+          {% endfor %}
+        </nav>
+      {% endif %}
+    </div>
   </div>
 </footer>

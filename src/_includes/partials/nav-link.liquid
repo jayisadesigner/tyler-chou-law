@@ -10,7 +10,9 @@
 <a href="{{ item.url }}"{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
   <span class="line"><span class="line-inner">{{ item.label }}</span></span>
   {%- if item.external -%}
-    {% include "partials/external-icon.liquid" icon_class: "nav-external-icon" %}
+    <span class="nav-external-icon-wrap" aria-hidden="true">
+      {% include "partials/external-icon.liquid" icon_class: "nav-external-icon" %}
+    </span>
     <span class="visually-hidden"> (opens in new tab)</span>
   {%- endif -%}
 </a>

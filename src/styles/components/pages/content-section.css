@@ -772,7 +772,7 @@ body.bg-bone .content-section__body {
   transform: translate(-50%, -50%);
   pointer-events: none;
   will-change: transform, opacity;
-  z-index: 10;
+  z-index: 1; /* Below .content-section__container / .hero-content so CTA + copy paint above */
   width: 400px;
   height: 225px; /* 16:9 ratio (400 * 9/16 = 225) */
   object-fit: cover; /* Images fill container */
@@ -785,10 +785,18 @@ body.bg-bone .content-section__body {
   opacity: 1; /* Visible when class is added */
 }
 
-/* Ensure trail images are above content */
 .content-section--has-mousetrail .content-section__container,
 .hero--has-mousetrail .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+/* Love Letters / bone pages: display headline — avoid clipping descenders (global H1 lh is 0.9) */
+body.page-love-letters .content-section--centered.content-section--large-text .content-section__headline-text {
+  line-height: 1.12;
+}
+
+body.page-love-letters .content-section--large-text .line-animate__line {
+  padding-bottom: 0.06em;
 }
 

@@ -360,34 +360,7 @@ body.page-creatorarq .hero .background-image::after {
     filter: blur(0.3px);
   }
 }
-/* Blog Post Hero - 80vh height */
-.hero--blog-post {
-  position: relative;
-  min-height: 80vh; /* 80vh on all screen sizes */
-  padding: 0; /* Remove all padding */
-  padding-top: 0; /* Override base hero padding-top */
-  margin-top: 0; /* No top margin - prevents red strip */
-  margin-bottom: 0; /* No bottom margin */
-  background-color: var(--chuparosa-600); /* Fallback background */
-  overflow: visible; /* Allow content to overflow if needed */
-  /* Override base hero safe-area handling to prevent red strip */
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-.hero-headline--blog-post {
-  font-family: var(--font-headline);
-  font-weight: var(--font-weight-headline);
-  font-size: var(--text-h2-size); /* Bumped up from h3 to h2 */
-  line-height: var(--text-h2-line-height);
-  color: var(--text-headline-on-obsidian);
-  text-transform: none; /* Blog titles not uppercase */
-  text-align: var(--text-align-left);
-  text-align-last: var(--text-align-left);
-  width: 100%;
-  margin: 0 0 var(--space-lg) 0;
-  text-wrap: var(--text-wrap-headline);
-}
+/* Blog post hero: `.hero.hero--inner-page.hero--blog-post` + optional `.background-image` — see blog-post.css */
 
 /* Hero headlines with line animation: center line spans */
 .hero-headline.line-animate {
@@ -399,25 +372,5 @@ body.page-creatorarq .hero .background-image::after {
 .hero-headline.line-animate .line-animate__line {
   margin-left: auto;
   margin-right: auto;
-}
-
-/* Tablet+ (768px) */
-@media (min-width: 768px) {
-  .hero--blog-post {
-    min-height: 80vh; /* Maintain 80vh on tablet */
-    padding: 0; /* No padding */
-  }
-  
-  .hero-content--blog-post {
-    padding: 0 var(--space-lg);
-  }
-}
-
-/* Desktop (1024px+) */
-@media (min-width: 1024px) {
-  .hero--blog-post {
-    min-height: 80vh; /* Maintain 80vh on desktop */
-    padding: 0; /* No padding */
-  }
 }
 

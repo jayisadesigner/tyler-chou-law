@@ -41,9 +41,120 @@
   height: 100%;
 }
 
-/* Object position overrides for blog cards */
+/* ─── Featured image focal point (blog listing cards + blog post hero) ───
+ * Frontmatter: `image_object_position`
+ * Use one keyword, hyphenated pair (YAML-friendly), or quoted two-word CSS values.
+ * Examples: top | bottom | center-top | top-left | "top left"
+ */
+.background-image[data-object-position="center"] .background-image__img,
+.blog-card .blog-image[data-object-position="center"] .background-image__img {
+  object-position: center;
+}
+
+.background-image[data-object-position="top"] .background-image__img,
 .blog-card .blog-image[data-object-position="top"] .background-image__img {
   object-position: top;
+}
+
+.background-image[data-object-position="bottom"] .background-image__img,
+.blog-card .blog-image[data-object-position="bottom"] .background-image__img {
+  object-position: bottom;
+}
+
+.background-image[data-object-position="left"] .background-image__img,
+.blog-card .blog-image[data-object-position="left"] .background-image__img {
+  object-position: left;
+}
+
+.background-image[data-object-position="right"] .background-image__img,
+.blog-card .blog-image[data-object-position="right"] .background-image__img {
+  object-position: right;
+}
+
+/* Corners & edges — hyphenated (no quotes in YAML) */
+.background-image[data-object-position="top-left"] .background-image__img,
+.blog-card .blog-image[data-object-position="top-left"] .background-image__img {
+  object-position: top left;
+}
+
+.background-image[data-object-position="top-center"] .background-image__img,
+.blog-card .blog-image[data-object-position="top-center"] .background-image__img,
+.background-image[data-object-position="center-top"] .background-image__img,
+.blog-card .blog-image[data-object-position="center-top"] .background-image__img {
+  object-position: top center;
+}
+
+.background-image[data-object-position="top-right"] .background-image__img,
+.blog-card .blog-image[data-object-position="top-right"] .background-image__img {
+  object-position: top right;
+}
+
+.background-image[data-object-position="center-left"] .background-image__img,
+.blog-card .blog-image[data-object-position="center-left"] .background-image__img {
+  object-position: center left;
+}
+
+.background-image[data-object-position="center-right"] .background-image__img,
+.blog-card .blog-image[data-object-position="center-right"] .background-image__img {
+  object-position: center right;
+}
+
+.background-image[data-object-position="bottom-left"] .background-image__img,
+.blog-card .blog-image[data-object-position="bottom-left"] .background-image__img {
+  object-position: bottom left;
+}
+
+.background-image[data-object-position="bottom-center"] .background-image__img,
+.blog-card .blog-image[data-object-position="bottom-center"] .background-image__img,
+.background-image[data-object-position="center-bottom"] .background-image__img,
+.blog-card .blog-image[data-object-position="center-bottom"] .background-image__img {
+  object-position: bottom center;
+}
+
+.background-image[data-object-position="bottom-right"] .background-image__img,
+.blog-card .blog-image[data-object-position="bottom-right"] .background-image__img {
+  object-position: bottom right;
+}
+
+/* Two-word CSS values (quote in YAML: image_object_position: "top left") */
+.background-image[data-object-position="top left"] .background-image__img,
+.blog-card .blog-image[data-object-position="top left"] .background-image__img {
+  object-position: top left;
+}
+
+.background-image[data-object-position="top center"] .background-image__img,
+.blog-card .blog-image[data-object-position="top center"] .background-image__img {
+  object-position: top center;
+}
+
+.background-image[data-object-position="top right"] .background-image__img,
+.blog-card .blog-image[data-object-position="top right"] .background-image__img {
+  object-position: top right;
+}
+
+.background-image[data-object-position="center left"] .background-image__img,
+.blog-card .blog-image[data-object-position="center left"] .background-image__img {
+  object-position: center left;
+}
+
+.background-image[data-object-position="center right"] .background-image__img,
+.blog-card .blog-image[data-object-position="center right"] .background-image__img {
+  object-position: center right;
+}
+
+.background-image[data-object-position="bottom left"] .background-image__img,
+.blog-card .blog-image[data-object-position="bottom left"] .background-image__img {
+  object-position: bottom left;
+}
+
+.background-image[data-object-position="bottom center"] .background-image__img,
+.blog-card .blog-image[data-object-position="bottom center"] .background-image__img {
+  object-position: bottom center;
+}
+
+.background-image[data-object-position="bottom right"] .background-image__img,
+.blog-card .blog-image[data-object-position="bottom right"] .background-image__img {
+  object-position: bottom right;
 }
 
 /* Base treatment: Grayscale + Motion Blur Effect */

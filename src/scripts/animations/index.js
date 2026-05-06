@@ -391,7 +391,7 @@ export function initAnimations() {
 
   // Blog post content section - nav turns obsidian
   if (document.body.classList.contains('page-blog-post')) {
-    const blogPostContent = document.querySelector('.blog-post-content')
+    const blogPostContent = document.querySelector('.blog-post__body')
     if (blogPostContent) {
       ScrollTrigger.create({
         trigger: blogPostContent,

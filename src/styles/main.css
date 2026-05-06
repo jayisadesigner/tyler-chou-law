@@ -6,7 +6,6 @@
 @import './typography.css';
 @import './components/nav.css';
 @import './components/footer.css';
-@import './components/disclaimer.css';
 @import './components/buttons.css';
 @import './components/forms.css';
 @import './components/thank-you.css';
@@ -83,6 +82,10 @@ html:has(body.page-love-letters) {
   --text-headline-color: var(--text-headline-on-bone);
   --text-body-color: var(--text-body-on-bone);
   --capabilities-grid-border: var(--obsidian-10); /* one step darker on light bg */
+  /* Match bg-bone: secondary/outline buttons must use dark ink — default body tokens are bone-on-bone */
+  --button-bg-color: var(--obsidian);
+  --button-text-color: var(--bone);
+  --button-border-color: var(--obsidian);
 }
 
 body.page-services,

@@ -72,6 +72,9 @@ author: Tyler Chou
 reading_time: 6
 featured_image: /assets/images/blog/post-hero.jpg
 image_alt: "Description of the hero image."
+# Optional. Focal point for `object-fit: cover` on listing cards + post hero (keywords or hyphen pairs):
+# top | bottom | left | right | center-top | top-left | "top center" | etc.
+# image_object_position: center-top
 ---
 
 Markdown body here. Use `**bold**`, `*italic*`, `## H2`, lists, blockquotes, links normally.

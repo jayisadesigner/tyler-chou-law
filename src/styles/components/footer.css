@@ -2,111 +2,171 @@
    Site Footer
    Markup: src/_includes/partials/footer.liquid
 
-   Theming model
-   -------------
-   The footer reads two semantic tokens for color:
+   Theming: --footer-bg, --footer-text (see Theme overrides below).
 
-     --footer-bg    background color of the footer band
-     --footer-text  text + icon color (currentColor cascades to social SVGs)
+   Layout (1024px+)
+   ----------------
+   Grid gutters: 4px column + row gap.
+   Row 1: nav (1–3) | bio (4–6) | disclaimer (7–9, 3 cols).
+   Row 2: social (4–6) | © (7–12).
+   Row 3: social (4–6, continues) | designer credit (7–12).
+   `.footer-legal` uses display:contents so © and credit join the grid.
 
-   Per-page overrides live in `Theme overrides` below. To add a new
-   page-specific footer color, set both variables for `body.page-<slug>`
-   in one block — no `:not()` cascade chains.
-
-   Hierarchy
-   ---------
-   bio (text + address) → nav (link list) → social (icons) → meta (©)
+   Mobile: nav → bio → disclaimer → © stacked above credit → social.
    ======================================== */
 
 /* ---- Defaults (chuparosa-on-chuparosa) ---- */
+/* Full-bleed band; inner `.footer-container` is full width (no max-width cap). */
 .site-footer {
   --footer-bg: var(--page-bg-color, var(--chuparosa-600));
   --footer-text: var(--nav-text-on-chuparosa-600, var(--chuparosa-100));
 
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+
   background-color: var(--footer-bg);
   color: var(--footer-text);
-  padding: var(--space-2xl) 0 var(--space-lg);
+  padding: var(--space-3xl) 0 var(--space-3xl);
   position: relative;
   z-index: 2;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ---- Container ---- */
+/* Grid + same horizontal padding as `.container`, without max-width */
 .footer-container {
   width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
+  max-width: none;
+  margin-inline: 0;
   padding: 0 var(--space-md);
-
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-xl);
+  gap: var(--space-2xl);
   align-items: start;
 }
 
 @media (min-width: 768px) {
   .footer-container {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
-    grid-template-areas:
-      "bio    nav    social"
-      "meta   meta   meta";
-    column-gap: var(--space-2xl);
-    row-gap: var(--space-lg);
     padding: 0 var(--space-lg);
   }
-
-  .footer-bio    { grid-area: bio; }
-  .footer-nav    { grid-area: nav; }
-  .footer-social { grid-area: social; justify-self: end; }
-  .footer-meta   { grid-area: meta; }
 }
 
-/* ---- Bio ---- */
-.footer-bio {
+@media (min-width: 1024px) {
+  .footer-container {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 4px;
+    row-gap: 4px;
+    align-items: start;
+  }
+
+  .footer-top-slot--links {
+    grid-column: 1 / span 3;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .footer-top-slot--bio {
+    grid-column: 4 / span 3;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .footer-top-slot--disclaimer {
+    grid-column: 7 / span 3;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .footer-legal {
+    display: contents;
+  }
+
+  .footer-meta__copyright {
+    grid-column: 7 / span 6;
+    grid-row: 2;
+    align-self: start;
+  }
+
+  .footer-top-slot--social {
+    grid-column: 4 / span 3;
+    grid-row: 2 / span 2;
+    align-self: start;
+  }
+
+  .footer-meta__credit {
+    grid-column: 7 / span 6;
+    grid-row: 3;
+    align-self: start;
+  }
+}
+
+/* ---- Top slots ---- */
+.footer-top-slot {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
-  max-width: 36rem;
+  gap: var(--space-xs);
+  align-items: flex-start;
 }
 
 .footer-bio__text {
   font-family: var(--font-paragraph);
   font-size: var(--text-p-small-size, 0.875rem);
-  line-height: 1.55;
+  line-height: var(--text-p-line-height);
+  font-weight: var(--font-weight-paragraph);
+  letter-spacing: var(--letter-spacing-paragraph);
   color: inherit;
   margin: 0;
-  opacity: 0.85;
+  text-align: var(--text-align-left);
 }
 
 .footer-bio__address {
-  font-family: var(--font-nav);
-  font-size: var(--text-nav);
-  font-weight: var(--font-weight-nav);
-  letter-spacing: var(--letter-spacing-nav);
-  text-transform: var(--text-transform-nav);
+  font-family: var(--font-paragraph);
+  font-size: var(--text-small-size);
+  font-weight: var(--font-weight-paragraph);
+  letter-spacing: var(--letter-spacing-paragraph);
+  text-transform: none;
   color: inherit;
   margin: 0;
-  opacity: 0.7;
+  text-align: var(--text-align-left);
 }
 
 /* ---- Nav ---- */
 .footer-nav {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  align-items: flex-start;
+  gap: var(--space-xs);
   font-family: var(--font-nav);
   font-size: var(--text-nav);
   font-weight: var(--font-weight-nav);
   letter-spacing: var(--letter-spacing-nav);
   text-transform: var(--text-transform-nav);
+  line-height: var(--line-height-nav);
+  text-align: var(--text-align-left);
 }
 
-/* ---- Social ---- */
+/* ---- Disclaimer ---- */
+.footer-disclaimer {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-tiny-size);
+  font-weight: var(--font-weight-paragraph);
+  line-height: var(--text-tiny-line-height);
+  letter-spacing: var(--letter-spacing-paragraph);
+  color: inherit;
+  margin: 0;
+  max-width: none;
+  text-align: var(--text-align-left);
+}
+
+/* ---- Social (row 2, under bio cols 4–6) ---- */
 .footer-social {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-md);
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--space-sm);
 }
 
 .footer-social__icon {
@@ -115,8 +175,8 @@
   justify-content: center;
   min-width: 44px;
   min-height: 44px;
-  margin: calc(var(--space-sm) * -1);
-  padding: var(--space-sm);
+  margin: calc(var(--space-xs) * -1);
+  padding: var(--space-xs);
 }
 
 .footer-social__icon--text {
@@ -127,28 +187,31 @@
   text-transform: var(--text-transform-nav);
 }
 
-/* ---- Meta ---- */
-.footer-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-md);
+/* ---- Legal: mobile © above credit; desktop © then credit stacked in cols 7–12 (rows 2–3) via display:contents ---- */
+@media (max-width: 1023px) {
+  .footer-legal {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.footer-meta__copyright,
+.footer-meta__credit {
+  display: block;
+  min-width: 0;
   font-family: var(--font-nav);
   font-size: var(--text-nav);
   font-weight: var(--font-weight-nav);
   letter-spacing: var(--letter-spacing-nav);
   text-transform: var(--text-transform-nav);
+  line-height: var(--line-height-nav);
   color: inherit;
+  text-align: var(--text-align-left);
   margin: 0;
-  padding-top: var(--space-md);
-  border-top: 1px solid currentColor;
-  border-color: color-mix(in srgb, currentColor 20%, transparent);
-  opacity: 0.85;
-}
-
-@media (min-width: 768px) {
-  .footer-meta {
-    justify-content: space-between;
-  }
 }
 
 /* ---- Shared link styling ---- */
@@ -170,10 +233,8 @@
 
 /* ========================================
    Theme overrides — set --footer-bg + --footer-text per page
-   The footer rules above pick these up automatically.
    ======================================== */
 
-/* Obsidian footer (services, clients index, client detail, about) */
 body.page-services .site-footer,
 body.page-clients .site-footer,
 body.page-creator .site-footer,
@@ -183,21 +244,18 @@ body.page-about .site-footer {
   --footer-text: var(--bone);
 }
 
-/* Palo verde — CreatorArq + any palo-verde-themed section flip */
 body.page-creatorarq .site-footer,
 body.bg-palo-verde .site-footer {
   --footer-bg: var(--palo-verde-600);
   --footer-text: var(--nav-text-on-palo-verde-600, var(--palo-verde-50));
 }
 
-/* Bone — love-letters listing + bg-bone section flip */
 body.page-love-letters .site-footer,
 body.bg-bone .site-footer {
   --footer-bg: var(--bone);
   --footer-text: var(--nav-text-on-bone, var(--obsidian));
 }
 
-/* Desert gold — blog post detail */
 body.page-blog-post .site-footer {
   --footer-bg: var(--desert-gold-50);
   --footer-text: var(--desert-gold-950);

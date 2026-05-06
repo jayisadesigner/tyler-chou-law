@@ -541,20 +541,80 @@ body:has(.hero--inner-page:has(.background-image)) {
  * same row. This rule must come AFTER the desktop `display: block` rules
  * above so it wins.
  *
- * IMPORTANT: only links that actually contain `.nav-external-icon` are
- * switched to inline-flex — internal links keep their current `display: block`
- * so existing layout/spacing is unchanged.
+ * IMPORTANT: only links that actually contain `.nav-external-icon` (inside
+ * `.nav-external-icon-wrap`) are switched to inline-flex — internal links keep
+ * their current `display: block` so existing layout/spacing is unchanged.
  * ─────────────────────────────────────────────────────────────────────────── */
 .nav-menu a:has(.nav-external-icon),
 .nav-menu.is-open a:has(.nav-external-icon) {
   display: inline-flex;
   align-items: center;
-  gap: 0.3em;
+  gap: var(--space-sm);
 }
 
-.nav-external-icon {
-  width: 1.4em;
-  height: 1.4em;
+/* Fixed box: stroke stays visually consistent (non-scaling-stroke); inner SVG shifts on hover */
+.nav-external-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  width: 1.35em;
+  height: 1.35em;
+  overflow: hidden;
+}
+
+.nav-external-icon-wrap .nav-external-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.42s steps(5, jump-end);
+}
+
+/* Lucide stroke reads heavy when the mobile overlay scales type; lock hairline in screen px */
+.nav-menu .nav-external-icon path {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.75px;
+}
+
+.nav-menu a:has(.nav-external-icon):hover .nav-external-icon,
+.nav-menu a:has(.nav-external-icon):focus-visible .nav-external-icon {
+  transform: translate3d(0.12em, -0.12em, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-external-icon-wrap .nav-external-icon {
+    transition: transform 0.2s ease-out;
+  }
+
+  .nav-menu a:has(.nav-external-icon):hover .nav-external-icon,
+  .nav-menu a:has(.nav-external-icon):focus-visible .nav-external-icon {
+    transform: translate3d(0.08em, -0.08em, 0);
+  }
+}
+
+/* Mobile overlay: label + icon must not clip — .line uses overflow:hidden for line animation */
+@media (max-width: 767px) {
+  .nav-menu.is-open a:has(.nav-external-icon) {
+    width: auto;
+    max-width: calc(100vw - var(--space-xl) * 2);
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+    box-sizing: border-box;
+    justify-content: center;
+  }
+
+  /* Keep full word width; don't let flex shrink the label under the icon */
+  .nav-menu.is-open a:has(.nav-external-icon) .line {
+    flex-shrink: 0;
+    min-width: min-content;
+  }
+
+  /* H2-sized labels scale em huge — cap the arrow box so the stroke/hit-area stay balanced */
+  .nav-menu.is-open .nav-external-icon-wrap {
+    width: min(1.35em, 1.625rem);
+    height: min(1.35em, 1.625rem);
+  }
 }
 

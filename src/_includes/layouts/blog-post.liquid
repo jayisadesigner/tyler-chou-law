@@ -2,29 +2,41 @@
 layout: base.liquid
 ---
 <article class="blog-post">
-  <header class="blog-post__header section section-reveal">
-    <div class="container container-narrow">
-      <p class="blog-post__meta">
-        <time datetime="{{ page.date | isoDate }}">{{ page.date | formatDate }}</time>
-        {% if author %} · {{ author }}{% endif %}
-        {% if reading_time %} · {{ reading_time }} min read{% endif %}
-      </p>
-      <h1 class="blog-post__title hero-headline line-animate">{{ title | line_animate }}</h1>
-      {% if description %}
-        <p class="blog-post__description text-large">{{ description }}</p>
-      {% endif %}
-    </div>
-  </header>
+  <section class="hero hero--inner-page hero--blog-post section section-reveal">
+    {% if featured_image %}
+      <div class="background-image"{% if image_object_position %} data-object-position="{{ image_object_position }}"{% endif %}>
+        <img
+          class="background-image__img"
+          src="{{ featured_image }}"
+          alt="{{ image_alt | default: title }}"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+        {% include "partials/background-overlay.liquid" %}
+      </div>
+    {% endif %}
 
-  {% if featured_image %}
-    <figure class="blog-post__hero-image section section-reveal">
-      <img src="{{ featured_image }}" alt="{{ image_alt | default: title }}" loading="eager" fetchpriority="high" />
-    </figure>
-  {% endif %}
+    <div class="hero-content hero-content--inner-page hero-content--blog-post">
+      <div class="hero-headline-wrapper">
+        <p class="blog-post__meta">
+          <time datetime="{{ page.date | isoDate }}">{{ page.date | formatDate }}</time>
+          {% if author %} · {{ author }}{% endif %}
+          {% if reading_time %} · {{ reading_time }} min read{% endif %}
+        </p>
+        <h1 class="blog-post__title hero-headline hero-headline--inner-page line-animate">{{ title | line_animate }}</h1>
+        {% if description %}
+          <p class="blog-post__description hero-subheadline hero-subheadline--inner-page text-large">{{ description }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
 
   <div class="blog-post__body section section-reveal">
     <div class="container container-narrow">
-      {{ content }}
+      <div class="prose">
+        {{ content }}
+      </div>
     </div>
   </div>
 
