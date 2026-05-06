@@ -308,7 +308,72 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   let touchMoveY = 0
   let tl = null // Declare timeline variable early so it's accessible in interrupt handler
   let fallbackTimeout = null // Declare fallback timeout early so it's accessible in interrupt handler
-  
+  let stuckCheckIntervalId = null
+
+  /**
+   * Detect intro stuck after background-tab throttling (timers + rAF stall).
+   * Past ~8s wall time the hero should be visible; if not, force completion.
+   */
+  function runIntroStuckCheck() {
+    const introEl = document.querySelector('.intro')
+    if (!introEl || introEl.classList.contains('is-complete')) {
+      if (stuckCheckIntervalId !== null) {
+        clearInterval(stuckCheckIntervalId)
+        stuckCheckIntervalId = null
+      }
+      return
+    }
+    const heroEl = document.querySelector('.hero-content')
+    if (!heroEl) return
+    const op = parseFloat(window.getComputedStyle(heroEl).opacity)
+    const elapsed = Date.now() - pageLoadTime
+    if (elapsed > 8000 && op < 0.95) {
+      forceCompleteIntroFromStuckState()
+    }
+  }
+
+  function removeIntroFailsafeListeners() {
+    document.removeEventListener('visibilitychange', onIntroVisibilityOrFocus)
+    window.removeEventListener('focus', onIntroVisibilityOrFocus)
+    if (stuckCheckIntervalId !== null) {
+      clearInterval(stuckCheckIntervalId)
+      stuckCheckIntervalId = null
+    }
+  }
+
+  function onIntroVisibilityOrFocus() {
+    if (document.visibilityState === 'hidden') return
+    tl?.resume()
+    gsap.globalTimeline.resume()
+    requestAnimationFrame(() => {
+      requestAnimationFrame(runIntroStuckCheck)
+    })
+  }
+
+  function forceCompleteIntroFromStuckState() {
+    const introEl = document.querySelector('.intro')
+    if (!introEl || introEl.classList.contains('is-complete')) return
+    if (scrollInterrupted) return
+    scrollInterrupted = true
+    if (fallbackTimeout) {
+      clearTimeout(fallbackTimeout)
+      fallbackTimeout = null
+    }
+    if (tl) {
+      tl.kill()
+    }
+
+    const heroEl = document.querySelector('.hero-content')
+    introEl.classList.add('is-complete')
+    document.body.classList.remove('intro-active')
+    document.body.classList.remove('curtain-active')
+    if (heroEl) {
+      gsap.set(heroEl, { opacity: 1 })
+    }
+    forceReveal(heroEl?.querySelector('.line-animate'))
+    cleanupListeners()
+  }
+
   const handleScrollInterrupt = () => {
     if (scrollInterrupted) return
     
@@ -432,6 +497,7 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   }
   
   const cleanupListeners = () => {
+    removeIntroFailsafeListeners()
     window.removeEventListener('wheel', handleWheel, { passive: false })
     window.removeEventListener('touchstart', handleTouchStart, { passive: true })
     window.removeEventListener('touchmove', handleTouchMove, { passive: false })
@@ -507,6 +573,11 @@ export async function initIntro(prefersReducedMotion = false, viewportWidth = wi
   window.addEventListener('touchstart', handleTouchStart, { passive: true })
   window.addEventListener('touchmove', handleTouchMove, { passive: false })
   window.addEventListener('keydown', handleKeyInterrupt)
+
+  document.addEventListener('visibilitychange', onIntroVisibilityOrFocus)
+  window.addEventListener('focus', onIntroVisibilityOrFocus)
+
+  stuckCheckIntervalId = window.setInterval(runIntroStuckCheck, 2000)
 
   // Step 1: Center wrapper is already visible, no fade-in needed.
 

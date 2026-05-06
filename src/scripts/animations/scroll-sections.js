@@ -541,51 +541,67 @@ export function initCredentialsShadow(reducedMotion = false) {
 }
 
 /**
- * Pin content sections with forms
- * Pins the content area while the form area scrolls
- * Works with Lenis smooth scrolling
- * Used on contact and creatorarq pages
+ * Pin content sections with forms (tablet+).
+ * Pins the copy column while the form column scrolls. Uses pinSpacing + anticipatePin
+ * so Lenis and ScrollTrigger agree on scroll distance (avoids end-of-pin jumps).
+ *
+ * @returns {() => void} Revert for ScrollTrigger.matchMedia (kills triggers)
  */
 export function initFormSections() {
   const formSections = document.querySelectorAll('.content-section--form')
-  
-  if (!formSections.length || !ScrollTrigger) return
-  
-  // Wait for layout to be ready before creating pins
+
+  if (!formSections.length || !ScrollTrigger) {
+    return () => {}
+  }
+
+  const triggers = []
+  let reverted = false
+
   const initPins = () => {
-    formSections.forEach(section => {
+    if (reverted) return
+    formSections.forEach((section) => {
       const container = section.querySelector('.content-section__container')
       const content = section.querySelector('.content-section__content')
-      
-      if (container && content) {
+      const media = section.querySelector('.content-section__media')
+
+      if (!container || !content || !media) return
+
+      triggers.push(
         ScrollTrigger.create({
           trigger: container,
-          start: "top top",
-          end: "bottom bottom",
+          start: 'top top',
+          end: 'bottom bottom',
           pin: content,
-          pinSpacing: false, // Match creator page pattern
-          invalidateOnRefresh: true, // Recalculate on refresh
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
         })
-      }
+      )
     })
-    
-    // Refresh after creating pins to ensure proper calculation
-    if (ScrollTrigger) {
-      ScrollTrigger.refresh()
-    }
+
+    ScrollTrigger.refresh()
   }
-  
-  // Use requestAnimationFrame to ensure DOM is ready
+
+  let loadHandler = null
   if (document.readyState === 'complete') {
     requestAnimationFrame(() => {
-      requestAnimationFrame(initPins) // Double RAF for layout stability
+      requestAnimationFrame(initPins)
     })
   } else {
-    window.addEventListener('load', () => {
+    loadHandler = () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(initPins)
       })
-    })
+    }
+    window.addEventListener('load', loadHandler, { once: true })
+  }
+
+  return () => {
+    reverted = true
+    if (loadHandler) {
+      window.removeEventListener('load', loadHandler)
+    }
+    triggers.forEach((t) => t.kill())
   }
 }
 
