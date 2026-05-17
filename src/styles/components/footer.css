@@ -18,6 +18,86 @@
   padding: 0 var(--space-md);
 }
 
+.footer-container--stacked {
+  align-items: stretch;
+  gap: var(--space-lg);
+  max-width: var(--container-wide-max, 1094px);
+  margin: 0 auto;
+}
+
+.footer__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  text-align: center;
+}
+
+.footer__bio {
+  font-family: var(--font-paragraph);
+  font-size: var(--text-p-size);
+  line-height: var(--text-p-line-height);
+  color: inherit;
+  margin: 0;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.footer__meta {
+  font-family: var(--font-nav);
+  font-size: var(--text-nav);
+  margin: 0;
+  color: inherit;
+}
+
+.footer__quick {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+  font-family: var(--font-nav);
+  font-size: var(--text-nav);
+  text-transform: var(--text-transform-nav);
+}
+
+.footer__quick a {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.95;
+}
+
+.footer__quick a:hover,
+.footer__quick a:focus {
+  opacity: 0.7;
+}
+
+.footer__row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .footer__top {
+    text-align: left;
+  }
+
+  .footer__bio {
+    margin-inline: 0;
+  }
+
+  .footer__quick {
+    justify-content: flex-start;
+  }
+
+  .footer__row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
 /* Tablet+ (768px): horizontal layout */
 @media (min-width: 768px) {
   .footer-container {
@@ -87,13 +167,19 @@ body.page-creator .footer-social__icon {
 }
 
 /* About page: bone text on obsidian background */
-body.page-about .site-footer {
+body.page-about .site-footer,
+body.page-press .site-footer,
+body.page-speaking .site-footer {
   background-color: var(--obsidian);
   color: var(--bone);
 }
 
 body.page-about .footer-item,
-body.page-about .footer-social__icon {
+body.page-about .footer-social__icon,
+body.page-press .footer-item,
+body.page-press .footer-social__icon,
+body.page-speaking .footer-item,
+body.page-speaking .footer-social__icon {
   color: var(--bone);
 }
 

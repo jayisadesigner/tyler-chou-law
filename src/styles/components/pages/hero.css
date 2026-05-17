@@ -245,29 +245,9 @@ body.bg-bone .hero-subheadline--inner-page {
     grid-column: 2 / span 3;
     grid-row: 1;
     padding-top: var(--space-xl);
-    margin-bottom: var(--hero-headline-subheadline-gap); /* Responsive spacing between headline and subheadline */
+    margin-bottom: 0;
     align-items: center; /* Center on desktop */
-    gap: 0; /* Remove gap on desktop - subheadline is in separate row */
-  }
-  
-  /* Hide nested subheadline on desktop */
-  .hero-subheadline--nested {
-    display: none;
-  }
-  
-  /* Show desktop subheadline wrapper on desktop */
-  .hero-subheadline-wrapper {
-    display: block;
-    grid-column: 2 / span 3;
-    grid-row: 2;
-    margin-top: 0;
-  }
-  
-  /* Subheadline wrapper is already centered by default */
-  
-  /* Show desktop subheadline on desktop */
-  .hero-subheadline--desktop {
-    display: block;
+    gap: var(--hero-headline-subheadline-gap);
   }
   
   .hero-headline-wrapper .hero-headline--inner-page,
@@ -276,19 +256,8 @@ body.bg-bone .hero-subheadline--inner-page {
   }
 }
 
-/* Hero Subheadline Wrapper - Mobile: Hidden (subheadline is nested in headline wrapper) */
+/* Inner-page subheadline: single paragraph in .hero-headline-wrapper (no duplicate mobile/desktop nodes) */
 .hero-subheadline-wrapper {
-  display: none; /* Hide on mobile - subheadline is nested in headline wrapper */
-  text-align: var(--text-align-center);
-}
-
-/* Nested subheadline - visible on mobile */
-.hero-subheadline--nested {
-  display: block;
-}
-
-/* Desktop subheadline - hidden on mobile */
-.hero-subheadline--desktop {
   display: none;
 }
 

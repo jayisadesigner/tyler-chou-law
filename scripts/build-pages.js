@@ -14,8 +14,9 @@ const projectRoot = join(__dirname, '..')
 
 // Paths
 const componentsDir = join(projectRoot, 'src', 'components')
-const pagesToBuild = ['index', 'about', 'services', 'contact', 'creatorarq', 'love-letters', 'roster', 'thank-you']
+const pagesToBuild = ['index', 'about', 'services', 'contact', 'creatorarq', 'love-letters', 'roster', 'thank-you', 'press', 'speaking']
 const rosterDir = join(projectRoot, 'roster')
+const servicesDir = join(projectRoot, 'services')
 
 /**
  * Load component template
@@ -197,6 +198,25 @@ async function buildPages() {
           console.error(`✗ Failed: ${pageName}.html - ${result.error}`)
         }
       }
+    }
+
+    try {
+      const serviceFiles = await readdir(servicesDir)
+      const serviceHtml = serviceFiles.filter((f) => f.endsWith('.html'))
+      for (const file of serviceHtml) {
+        const slug = file.replace(/\.html$/, '')
+        const result = await buildPage(`services/${slug}`, join(servicesDir, file))
+        if (result) {
+          results.push(result)
+          if (result.success) {
+            console.log(`✓ Built: services/${file}`)
+          } else {
+            console.error(`✗ Failed: services/${file} - ${result.error}`)
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('Could not read services directory:', error.message)
     }
     
     // Build roster pages
