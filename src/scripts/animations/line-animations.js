@@ -11,6 +11,9 @@ if (typeof gsap !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
+// Match BREAKPOINTS.tablet in animations/index.js — skip line splitting below this width
+const MOBILE_MAX_WIDTH = 768
+
 /**
  * Animate Line Elements (reusable utility)
  * @param {NodeList|Array} elements - Line elements to animate
@@ -104,6 +107,63 @@ export function initLineAnimations(reducedMotion = false, viewportHeight = windo
     animatedElements.forEach((element) => {
       gsap.set(element, { opacity: 1 })
     })
+    return
+  }
+
+  // Mobile: keep native headline markup so text wraps normally (no .line-inner / nowrap).
+  // Without a line-split reveal, the hero headline fades in together with the background
+  // video after the intro (or immediately on inner pages) so the hero composes as one.
+  if (window.innerWidth < MOBILE_MAX_WIDTH) {
+    const intro = document.querySelector('.intro')
+    const introIsActive = intro && !intro.classList.contains('is-complete')
+    const heroHeadline = document.querySelector('.hero .hero-headline[js-line-animation]')
+    const heroBackgroundImage = heroHeadline
+      ?.closest('.hero')
+      ?.querySelector('.background-image')
+
+    animatedElements.forEach((element) => {
+      element.classList.add('line-animation--static')
+      const isHeroHeadline =
+        heroHeadline && (element === heroHeadline || heroHeadline.contains(element))
+      if (isHeroHeadline) {
+        // Hero headline's opacity is owned by the fade-in below; start hidden so
+        // we never flash visible text before the synchronized fade.
+        gsap.set(element, { opacity: 0, y: 0, clearProps: 'transform' })
+      } else {
+        gsap.set(element, { opacity: 1, y: 0, clearProps: 'transform' })
+      }
+    })
+
+    if (heroHeadline && heroBackgroundImage) {
+      if (introIsActive) {
+        // Homepage during intro: hold both hidden. intro.js's onComplete re-invokes
+        // initLineAnimations(), which will then take the else branch and fade
+        // the headline + background in together.
+        gsap.set(heroBackgroundImage, { opacity: 0 })
+      } else {
+        gsap.fromTo(
+          [heroHeadline, heroBackgroundImage],
+          { opacity: 0 },
+          { opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.3 }
+        )
+      }
+    } else if (heroHeadline) {
+      // Hero headline without a background image (rare) — fade it in alone
+      if (!introIsActive) {
+        gsap.fromTo(
+          heroHeadline,
+          { opacity: 0 },
+          { opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.3 }
+        )
+      }
+    } else if (heroBackgroundImage) {
+      gsap.fromTo(
+        heroBackgroundImage,
+        { opacity: 0 },
+        { opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.3 }
+      )
+    }
+
     return
   }
   
