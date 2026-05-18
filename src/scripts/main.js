@@ -89,6 +89,9 @@ function loadComponent(selector, path) {
       if (selector === 'header') {
         initNavigation()
       }
+      if (selector === 'footer') {
+        setFooterYear()
+      }
     }
   }
   
@@ -116,10 +119,18 @@ function setCredentialsDate() {
   }
 }
 
+function setFooterYear() {
+  const year = String(new Date().getFullYear())
+  document.querySelectorAll('.footer__year').forEach((el) => {
+    el.textContent = year
+  })
+}
+
 // Initialize forms
 async function initializeApp() {
   initForms()
   setCredentialsDate()
+  setFooterYear()
 }
 
 // Wait for DOM to be ready
