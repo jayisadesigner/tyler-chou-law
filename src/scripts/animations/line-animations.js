@@ -111,18 +111,35 @@ export function initLineAnimations(reducedMotion = false, viewportHeight = windo
   }
 
   // Mobile: keep native headline markup so text wraps normally (no .line-inner / nowrap)
+  // Headlines stay at their CSS-default opacity (1); hero-content's opacity (controlled
+  // by intro.js on the homepage) inherits to the headline, so we don't manage it here.
   if (window.innerWidth < MOBILE_MAX_WIDTH) {
     animatedElements.forEach((element) => {
       element.classList.add('line-animation--static')
       gsap.set(element, { opacity: 1, y: 0, clearProps: 'transform' })
     })
 
-    const heroBackgroundImage = document
-      .querySelector('.hero .hero-headline[js-line-animation]')
+    const heroHeadline = document.querySelector('.hero .hero-headline[js-line-animation]')
+    const heroBackgroundImage = heroHeadline
       ?.closest('.hero')
       ?.querySelector('.background-image')
+
     if (heroBackgroundImage) {
-      gsap.set(heroBackgroundImage, { opacity: 1 })
+      const intro = document.querySelector('.intro')
+      const introIsActive = intro && !intro.classList.contains('is-complete')
+
+      if (introIsActive) {
+        // Homepage during intro: keep bg hidden; the re-invocation of
+        // initLineAnimations() from intro.js's onComplete will fade it in.
+        gsap.set(heroBackgroundImage, { opacity: 0 })
+      } else {
+        // Inner pages, or homepage after intro: fade bg in to match desktop timing
+        gsap.fromTo(
+          heroBackgroundImage,
+          { opacity: 0 },
+          { opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.3 }
+        )
+      }
     }
 
     return
