@@ -34,3 +34,19 @@
   padding: 0;
 }
 
+/* Mobile: line animation skipped in JS — allow normal text flow */
+@media (max-width: 767px) {
+  [js-line-animation].line-animation--static,
+  [js-line-animation].line-animation--static .line,
+  [js-line-animation].line-animation--static .line-inner {
+    overflow: visible;
+    white-space: normal;
+    width: auto;
+    max-width: 100%;
+  }
+
+  [js-line-animation].line-animation--static {
+    overflow: visible;
+  }
+}
+

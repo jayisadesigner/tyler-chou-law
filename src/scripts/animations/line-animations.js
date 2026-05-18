@@ -11,6 +11,9 @@ if (typeof gsap !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
+// Match BREAKPOINTS.tablet in animations/index.js — skip line splitting below this width
+const MOBILE_MAX_WIDTH = 768
+
 /**
  * Animate Line Elements (reusable utility)
  * @param {NodeList|Array} elements - Line elements to animate
@@ -104,6 +107,24 @@ export function initLineAnimations(reducedMotion = false, viewportHeight = windo
     animatedElements.forEach((element) => {
       gsap.set(element, { opacity: 1 })
     })
+    return
+  }
+
+  // Mobile: keep native headline markup so text wraps normally (no .line-inner / nowrap)
+  if (window.innerWidth < MOBILE_MAX_WIDTH) {
+    animatedElements.forEach((element) => {
+      element.classList.add('line-animation--static')
+      gsap.set(element, { opacity: 1, y: 0, clearProps: 'transform' })
+    })
+
+    const heroBackgroundImage = document
+      .querySelector('.hero .hero-headline[js-line-animation]')
+      ?.closest('.hero')
+      ?.querySelector('.background-image')
+    if (heroBackgroundImage) {
+      gsap.set(heroBackgroundImage, { opacity: 1 })
+    }
+
     return
   }
   
