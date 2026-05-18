@@ -14,6 +14,7 @@ const projectRoot = join(__dirname, '..')
 const outputPath = join(projectRoot, 'public', 'sitemap.xml')
 const distPath = join(projectRoot, 'dist')
 const rosterPath = join(projectRoot, 'roster')
+const servicesPath = join(projectRoot, 'services')
 // Blog posts are in dist/love-letters/ after build:blog runs
 const blogPostsPath = join(projectRoot, 'dist', 'love-letters')
 
@@ -69,6 +70,8 @@ async function buildSitemap() {
       { path: 'services.html', url: '/services.html', changefreq: 'monthly', priority: '0.9' },
       { path: 'love-letters.html', url: '/love-letters.html', changefreq: 'weekly', priority: '0.8' },
       { path: 'contact.html', url: '/contact.html', changefreq: 'monthly', priority: '0.7' },
+      { path: 'speaking.html', url: '/speaking.html', changefreq: 'monthly', priority: '0.6' },
+      { path: 'thank-you.html', url: '/thank-you.html', changefreq: 'yearly', priority: '0.3' },
     ]
     
     for (const page of staticPages) {
@@ -100,6 +103,23 @@ async function buildSitemap() {
       }
     } catch (error) {
       console.warn('Could not read creator pages directory:', error.message)
+    }
+
+    try {
+      const serviceFiles = await readdir(servicesPath)
+      const htmlFiles = serviceFiles.filter((f) => f.endsWith('.html'))
+      for (const file of htmlFiles) {
+        const filePath = join(servicesPath, file)
+        const lastmod = await getFileModDate(filePath)
+        entries.push({
+          url: `${baseUrl}/services/${file}`,
+          lastmod,
+          changefreq: 'monthly',
+          priority: '0.85',
+        })
+      }
+    } catch (error) {
+      console.warn('Could not read services directory:', error.message)
     }
     
     // Blog posts

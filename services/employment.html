@@ -3,48 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <!-- Theme color matches hero background for seamless browser chrome integration -->
-    <meta name="theme-color" content="#120203" /> <!-- var(--obsidian) -->
+    <meta name="theme-color" content="#120203" />
     <style>
-      /* Progressive enhancement: Hide briefly to prevent FOUC, auto-show after 3s even without JS */
       body:not(.ready) { visibility: hidden; }
       body:not(.ready) { animation: show-after-load 0.01s 3s forwards; }
       @keyframes show-after-load { to { visibility: visible; } }
     </style>
     <script>
-      window.addEventListener('load', function() {
-        document.body.classList.add('ready');
-      });
+      window.addEventListener('load', function() { document.body.classList.add('ready'); });
     </script>
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Tyler Chou Law For Creators" />
     <link rel="manifest" href="/site.webmanifest" />
-    <!-- Main stylesheet - loads without JavaScript for progressive enhancement -->
     <link rel="stylesheet" href="/src/styles/main.css">
-    <title>Speaking Engagements | Tyler Chou Law For Creators</title>
-    <meta name="description" content="Speaking engagements and event appearances by Tyler Chou, entertainment attorney for creators." />
-    <link rel="canonical" href="https://tylerchoulaw.com/speaking.html" />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="Speaking Engagements | Tyler Chou Law For Creators" />
-    <meta property="og:description" content="Speaking engagements and event appearances by Tyler Chou, entertainment attorney for creators." />
+    <title>Employment Law for Creators | The Creators' Attorney</title>
+    <meta name="description" content="Employment and contractor strategy for creator teams with Tyler Chou, The Creators' Attorney." />
+    <link rel="canonical" href="https://tylerchoulaw.com/services/employment.html" />
+    <meta property="og:title" content="Employment Law for Creators" />
+    <meta property="og:description" content="Hiring, classification, and policies for creator-led companies." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://tylerchoulaw.com/speaking.html" />
-    <meta property="og:image" content="https://tylerchoulaw.com/src/assets/images/about/hero-about-tyler-chou-on-stage.jpg" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Speaking Engagements | Tyler Chou Law For Creators" />
-    <meta name="twitter:description" content="Speaking engagements and event appearances by Tyler Chou, entertainment attorney for creators." />
+    <meta property="og:url" content="https://tylerchoulaw.com/services/employment.html" />
+    <meta property="og:image" content="https://tylerchoulaw.com/tyler-chou-headshot.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Can I be sued by an old employer over my channel content?", "acceptedAnswer": { "@type": "Answer", "text": "Possibly, if contracts restrict side projects or IP assignment is unclear. Review non-compete, confidentiality, and invention assignment clauses before scaling." } },
+        { "@type": "Question", "name": "Should editors be employees or contractors?", "acceptedAnswer": { "@type": "Answer", "text": "Depends on control, tools, and exclusivity. Misclassification creates tax and labor risk; structure intentionally with written agreements." } },
+        { "@type": "Question", "name": "Do I need an employee handbook?", "acceptedAnswer": { "@type": "Answer", "text": "At headcount thresholds and for clarity on harassment, PTO, and remote work policies, yes. It reduces dispute surface area." } },
+        { "@type": "Question", "name": "How do I protect trade secrets on a distributed team?", "acceptedAnswer": { "@type": "Answer", "text": "Access controls, NDAs, and device policies. Document what is confidential and train the team." } },
+        { "@type": "Question", "name": "What about equity for early hires?", "acceptedAnswer": { "@type": "Answer", "text": "Use vesting, IP assignment, and good/bad leaver terms. Clean cap tables matter for M&amp;A—see CreatorArq." } },
+        { "@type": "Question", "name": "Can employment issues block a sale?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Buyers diligence classification, wage-hour exposure, and key-person risk. Fix issues pre-LOI when possible." } }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tylerchoulaw.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://tylerchoulaw.com/services.html" },
+        { "@type": "ListItem", "position": 3, "name": "Employment", "item": "https://tylerchoulaw.com/services/employment.html" }
+      ]
+    }
+    </script>
   </head>
-  <body class="page-speaking">
+  <body class="page-services">
     <a href="#main-content" class="skip-link">Skip to main content</a>
-
-
 
 
 
@@ -112,28 +123,45 @@
 
 
 
-
     <main id="main-content">
       <section class="hero hero--inner-page section">
         <div class="hero-content hero-content--inner-page container-wide">
           <div class="hero-headline-wrapper">
-            <h1 class="hero-headline hero-headline--inner-page">Speaking Engagements</h1>
-            <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--nested">Appearances, panels, and keynotes.</p>
+            <h1 class="hero-headline hero-headline--inner-page">Employment Law for Creators</h1>
+            <p class="hero-subheadline hero-subheadline--inner-page hero-subheadline--nested">Teams, classification, and policies with <a href="/about.html">The Creators' Attorney</a>.</p>
           </div>
         </div>
       </section>
-
       <section class="content-section content-section--centered section section-reveal">
         <div class="content-section__container">
           <div class="content-section__content">
             <div class="content-section__body">
-              <p>Speaking engagements and event appearances coming soon.</p>
+              <p>Tyler Chou, known as <a href="/about.html">The Creators' Attorney</a>, advises creator-led companies on hiring, contractor relationships, and policies that survive diligence. Related: <a href="/services/contracts.html">Contracts</a>, <a href="/services/ip.html">IP</a>, and <a href="/creatorarq.html">CreatorArq</a>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="content-section content-section--centered section section-reveal" id="faq" aria-label="Employment FAQ">
+        <div class="content-section__container">
+          <div class="content-section__content">
+            <div class="content-section__body">
+              <h2>Can I be sued by an old employer over my channel content?</h2>
+              <p>Possibly, if contracts restrict side projects or IP assignment is unclear. Review non-compete, confidentiality, and invention assignment clauses before scaling.</p>
+              <h2>Should editors be employees or contractors?</h2>
+              <p>Depends on control, tools, and exclusivity. Misclassification creates tax and labor risk; structure intentionally with written agreements.</p>
+              <h2>Do I need an employee handbook?</h2>
+              <p>At headcount thresholds and for clarity on harassment, PTO, and remote work policies, yes. It reduces dispute surface area.</p>
+              <h2>How do I protect trade secrets on a distributed team?</h2>
+              <p>Access controls, NDAs, and device policies. Document what is confidential and train the team.</p>
+              <h2>What about equity for early hires?</h2>
+              <p>Use vesting, IP assignment, and good/bad leaver terms. Clean cap tables matter for M&amp;A—see <a href="/creatorarq.html">CreatorArq</a>.</p>
+              <h2>Can employment issues block a sale?</h2>
+              <p>Yes. Buyers diligence classification, wage-hour exposure, and key-person risk. Fix issues pre-LOI when possible.</p>
             </div>
           </div>
         </div>
       </section>
     </main>
-
     <footer class="site-footer">
   <div class="footer-container">
     <p class="footer-item footer-item--left"><a href="/" class="footer-link">© <span class="footer__year"></span> Tyler Chou Law P.C.</a></p>
@@ -170,8 +198,6 @@
     </p>
   </div>
 </footer>
-
-
 
 
 

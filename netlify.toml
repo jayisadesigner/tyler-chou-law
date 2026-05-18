@@ -37,6 +37,37 @@
   status = 200
   force = true
 
+# SEO: extensionless shortcuts → canonical .html
+[[redirects]]
+  from = "/speaking"
+  to = "/speaking.html"
+  status = 301
+
+[[redirects]]
+  from = "/services/brand-deals"
+  to = "/services/brand-deals.html"
+  status = 301
+
+[[redirects]]
+  from = "/services/trademark"
+  to = "/services/trademark.html"
+  status = 301
+
+[[redirects]]
+  from = "/services/ip"
+  to = "/services/ip.html"
+  status = 301
+
+[[redirects]]
+  from = "/services/employment"
+  to = "/services/employment.html"
+  status = 301
+
+[[redirects]]
+  from = "/services/contracts"
+  to = "/services/contracts.html"
+  status = 301
+
 # Headers for admin config.yml - ensure correct Content-Type and CORS
 [[headers]]
   for = "/admin/config.yml"

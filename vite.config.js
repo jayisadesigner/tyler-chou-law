@@ -16,6 +16,18 @@ function getRosterInputs() {
     }, {})
 }
 
+function getServiceInputs() {
+  const servicesDir = join(__dirname, 'services')
+  if (!existsSync(servicesDir)) return {}
+  return readdirSync(servicesDir)
+    .filter(f => f.endsWith('.html'))
+    .reduce((acc, f) => {
+      const name = basename(f, extname(f))
+      acc[`services/${name}`] = resolve(servicesDir, f)
+      return acc
+    }, {})
+}
+
 export default defineConfig({
   build: {
     // Optimize for performance
@@ -30,9 +42,12 @@ export default defineConfig({
         'love-letters': resolve(__dirname, 'love-letters.html'),
         contact: resolve(__dirname, 'contact.html'),
         'thank-you': resolve(__dirname, 'thank-you.html'),
+        press: resolve(__dirname, 'press.html'),
+        speaking: resolve(__dirname, 'speaking.html'),
         'email-signature-preview': resolve(__dirname, 'email-signature-preview.html'),
         // Roster pages discovered dynamically from roster/ directory
         ...getRosterInputs(),
+        ...getServiceInputs(),
         // Blog posts are generated to love-letters/ directory by build:blog
         // Vite will process them automatically if they're in the root
         // They'll be copied to dist/love-letters/ during build

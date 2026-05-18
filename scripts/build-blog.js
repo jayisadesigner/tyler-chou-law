@@ -510,7 +510,6 @@ async function buildPost(filePath, fileName, assignedColor = null) {
     // Load global component templates
     const headerTemplate = await loadComponentTemplate('header')
     const footerTemplate = await loadComponentTemplate('footer')
-    const disclaimerTemplate = await loadComponentTemplate('disclaimer')
     
     // Extract curtain from header template (everything before <header> tag)
     const curtainMatch = headerTemplate.match(/^([\s\S]*?)(<header)/)
@@ -590,23 +589,12 @@ async function buildPost(filePath, fileName, assignedColor = null) {
     template = template.replace(/<header[^>]*>[\s\S]*?<\/header>/gs, headerOnly)
     template = template.replace(/<footer[^>]*>[\s\S]*?<\/footer>/gs, footerTemplate)
     
-    // Remove all existing disclaimer sections
+    // Remove legacy standalone disclaimer sections (disclaimer now lives in footer)
     template = template.replace(/<section[^>]*class="[^"]*site-disclaimer[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')
     template = template.replace(/<section[^>]*class="[^"]*disclaimer[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')
     template = template.replace(/<section[^>]*class='[^']*site-disclaimer[^']*'[^>]*>[\s\S]*?<\/section>/gi, '')
     template = template.replace(/<section[^>]*class='[^']*disclaimer[^']*'[^>]*>[\s\S]*?<\/section>/gi, '')
     template = template.replace(/<!--\s*Disclaimer[^>]*-->/gi, '')
-    
-    // Add disclaimer after footer
-    const footerEndIndex = template.lastIndexOf('</footer>')
-    if (footerEndIndex !== -1) {
-      template = template.substring(0, footerEndIndex + 9) + '\n    ' + disclaimerTemplate + template.substring(footerEndIndex + 9)
-    } else {
-      const bodyEndIndex = template.lastIndexOf('</body>')
-      if (bodyEndIndex !== -1) {
-        template = template.substring(0, bodyEndIndex) + '    ' + disclaimerTemplate + '\n' + template.substring(bodyEndIndex)
-      }
-    }
     
     // Replace /src/scripts/main.js with actual Vite-generated JS path
     if (viteAssets.mainJs) {
@@ -676,7 +664,6 @@ async function generateListingPage(posts) {
     // Load components
     const headerTemplate = await loadComponentTemplate('header')
     const footerTemplate = await loadComponentTemplate('footer')
-    const disclaimerTemplate = await loadComponentTemplate('disclaimer')
     
     // Extract curtain from header template (everything before <header> tag)
     const curtainMatch = headerTemplate.match(/^([\s\S]*?)(<header)/)
@@ -833,18 +820,12 @@ async function generateListingPage(posts) {
     listingHTML = listingHTML.replace(/<header[^>]*>[\s\S]*?<\/header>/gs, headerOnly)
     listingHTML = listingHTML.replace(/<footer[^>]*>[\s\S]*?<\/footer>/gs, footerTemplate)
     
-    // Remove existing disclaimer sections
+    // Remove legacy standalone disclaimer sections (disclaimer now lives in footer)
     listingHTML = listingHTML.replace(/<section[^>]*class="[^"]*site-disclaimer[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')
     listingHTML = listingHTML.replace(/<section[^>]*class="[^"]*disclaimer[^"]*"[^>]*>[\s\S]*?<\/section>/gi, '')
     listingHTML = listingHTML.replace(/<section[^>]*class='[^']*site-disclaimer[^']*'[^>]*>[\s\S]*?<\/section>/gi, '')
     listingHTML = listingHTML.replace(/<section[^>]*class='[^']*disclaimer[^']*'[^>]*>[\s\S]*?<\/section>/gi, '')
     listingHTML = listingHTML.replace(/<!--\s*Disclaimer[^>]*-->/gi, '')
-    
-    // Add disclaimer after footer
-    const footerEndIndex = listingHTML.lastIndexOf('</footer>')
-    if (footerEndIndex !== -1) {
-      listingHTML = listingHTML.substring(0, footerEndIndex + 9) + '\n    ' + disclaimerTemplate + listingHTML.substring(footerEndIndex + 9)
-    }
     
     // Replace asset paths
     // Root file (dev): use dev paths for Vite dev server
