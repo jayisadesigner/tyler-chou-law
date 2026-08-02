@@ -177,45 +177,126 @@
   opacity: 0.75;
 }
 
-.press-card__video-embed {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  margin-top: var(--space-md);
+/* Card media — photos and videos share one carousel, always sitting directly
+   below the card meta so media placement is identical from card to card.
+   The track is a native scroll-snap carousel: it swipes and scrolls without
+   JS, and media-gallery.js layers on arrows, dots and keyboard paging. */
+.press-card__media {
+  margin: 0 0 var(--space-md);
 }
 
-.press-card__video-embed iframe {
-  position: absolute;
-  inset: 0;
+.press-card__media-viewport {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--obsidian);
+}
+
+.press-card__media-track {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.press-card__media-track::-webkit-scrollbar {
+  display: none;
+}
+
+.press-card__media-slide {
+  flex: 0 0 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.press-card__media-slide > a,
+.press-card__media-slide img,
+.press-card__media-slide video,
+.press-card__media-slide iframe {
+  display: block;
   width: 100%;
   height: 100%;
   border: none;
 }
 
-.press-card__gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: var(--space-xs);
-  margin-top: var(--space-md);
+/* Contain rather than cover: these are editorial photos where cropping the
+   frame would cut off speakers or the stage screen. */
+.press-card__media-slide img,
+.press-card__media-slide video {
+  object-fit: contain;
 }
 
-.press-card__gallery a {
-  display: block;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border-radius: 2px;
+.press-card__media-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--obsidian-50);
+  color: var(--bone);
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
-.press-card__gallery img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.press-card__media-nav:hover {
+  background: var(--obsidian-80);
+}
+
+.press-card__media-nav:focus-visible {
+  outline-color: var(--bone);
+}
+
+.press-card__media-nav[disabled] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.press-card__media-nav--prev {
+  left: var(--space-xs);
+}
+
+.press-card__media-nav--next {
+  right: var(--space-xs);
+}
+
+.press-card__media-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--space-xs);
+}
+
+/* 24px hit area around a 6px dot keeps the touch target accessible
+   without making the indicator itself heavy. */
+.press-card__media-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+}
+
+.press-card__media-dot::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-body-color);
+  opacity: 0.3;
   transition: opacity 0.2s ease;
 }
 
-.press-card__gallery a:hover img,
-.press-card__gallery a:focus img {
-  opacity: 0.8;
+.press-card__media-dot[aria-current='true']::before,
+.press-card__media-dot:hover::before {
+  opacity: 1;
 }
