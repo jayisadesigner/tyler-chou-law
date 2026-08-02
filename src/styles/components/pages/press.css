@@ -176,3 +176,46 @@
 .press-card__link:focus {
   opacity: 0.75;
 }
+
+.press-card__video-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  margin-top: var(--space-md);
+}
+
+.press-card__video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.press-card__gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-xs);
+  margin-top: var(--space-md);
+}
+
+.press-card__gallery a {
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.press-card__gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+.press-card__gallery a:hover img,
+.press-card__gallery a:focus img {
+  opacity: 0.8;
+}
