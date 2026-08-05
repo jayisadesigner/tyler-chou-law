@@ -327,9 +327,14 @@
 }
 
 /* Photos fill the frame edge to edge, matching the videos beside them in the
-   same gallery rather than sitting pillarboxed and centred. */
+   same gallery rather than sitting pillarboxed and centred.
+
+   The crop is anchored to the top of the frame, not its middle. These are
+   photographs of people, and a centred crop on a portrait-orientation shot
+   lands on the torso and cuts the head off entirely. */
 .press-card__media-slide img {
   object-fit: cover;
+  object-position: center top;
 }
 
 .press-card__media-slide video {
