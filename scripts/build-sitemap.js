@@ -72,7 +72,6 @@ async function buildSitemap() {
       { path: 'love-letters.html', url: '/love-letters.html', changefreq: 'weekly', priority: '0.8' },
       { path: 'contact.html', url: '/contact.html', changefreq: 'monthly', priority: '0.7' },
       { path: 'speaking.html', url: '/speaking.html', changefreq: 'monthly', priority: '0.6' },
-      { path: 'thank-you.html', url: '/thank-you.html', changefreq: 'yearly', priority: '0.3' },
     ]
     
     for (const page of staticPages) {

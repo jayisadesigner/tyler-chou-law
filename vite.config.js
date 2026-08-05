@@ -41,7 +41,6 @@ export default defineConfig({
         services: resolve(__dirname, 'services.html'),
         'love-letters': resolve(__dirname, 'love-letters.html'),
         contact: resolve(__dirname, 'contact.html'),
-        'thank-you': resolve(__dirname, 'thank-you.html'),
         press: resolve(__dirname, 'press.html'),
         speaking: resolve(__dirname, 'speaking.html'),
         'email-signature-preview': resolve(__dirname, 'email-signature-preview.html'),
