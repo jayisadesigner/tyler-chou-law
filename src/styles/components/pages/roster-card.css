@@ -249,21 +249,23 @@ h3.roster-list__headline {
   max-width: 100%;
 }
 
-/* Desktop: 2 columns layout */
+/* Desktop: 2 columns layout.
+   Uses multi-column rather than wrapped flex so the two columns pack
+   independently. With flex-wrap, each row is as tall as its tallest item, so
+   an entry with no handle (or no name) left a gap beneath it to match its
+   two-line neighbour. */
 @media (min-width: 768px) {
   .roster-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: var(--space-md) var(--space-xl);
+    display: block;
+    column-count: 2;
+    column-gap: var(--space-xl);
     max-width: 100%;
     margin: 0;
   }
-  
+
   .roster-list__item {
-    flex: 0 0 calc(50% - var(--space-xl) / 2);
-    min-width: 0; /* Allow flex items to shrink */
+    break-inside: avoid; /* keep a handle and its name together */
+    margin-bottom: var(--space-md);
     text-align: left;
   }
 }
