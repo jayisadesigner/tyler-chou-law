@@ -14,7 +14,7 @@ const projectRoot = join(__dirname, '..')
 
 // Paths
 const componentsDir = join(projectRoot, 'src', 'components')
-const pagesToBuild = ['index', 'about', 'services', 'contact', 'creatorarq', 'love-letters', 'roster', 'thank-you', 'press', 'speaking']
+const pagesToBuild = ['index', 'about', 'services', 'contact', 'creatorarq', 'love-letters', 'roster', 'press', 'speaking']
 const rosterDir = join(projectRoot, 'roster')
 const servicesDir = join(projectRoot, 'services')
 

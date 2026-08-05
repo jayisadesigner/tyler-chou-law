@@ -58,7 +58,6 @@ window.addEventListener('unhandledrejection', function(event) {
 import '../styles/main.css'
 
 import { initNavigation } from './nav.js'
-import { initForms } from './forms.js'
 import { initMediaGalleries } from './media-gallery.js'
 import './animations/index.js'
 
@@ -127,9 +126,8 @@ function setFooterYear() {
   })
 }
 
-// Initialize forms
+// Initialize page components
 async function initializeApp() {
-  initForms()
   setCredentialsDate()
   setFooterYear()
   initMediaGalleries()
