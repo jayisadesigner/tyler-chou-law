@@ -167,6 +167,10 @@ body:has(.creator-page-overlay[aria-hidden="false"]) .site-header {
     gap: var(--space-md); /* gap between the two nav-menu__items groups */
     overflow-y: auto;
     max-height: 100vh;
+    /* Centred while the links fit, but aligned to the start once they
+       overflow — plain `center` pushes the first links past the top of the
+       scroll range on short screens, where they cannot be reached. */
+    justify-content: safe center;
   }
 
   /* Links within each group tighter than desktop */

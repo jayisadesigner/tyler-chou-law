@@ -59,6 +59,7 @@ import '../styles/main.css'
 
 import { initNavigation } from './nav.js'
 import { initForms } from './forms.js'
+import { initMediaGalleries } from './media-gallery.js'
 import './animations/index.js'
 
 // Initialize navigation when DOM is ready
@@ -131,6 +132,7 @@ async function initializeApp() {
   initForms()
   setCredentialsDate()
   setFooterYear()
+  initMediaGalleries()
 }
 
 // Wait for DOM to be ready
