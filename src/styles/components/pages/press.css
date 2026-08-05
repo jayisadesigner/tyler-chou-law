@@ -105,9 +105,20 @@
     padding-right: var(--space-xl);
   }
 
+  /* Sits on the same two-column grid as the entries above, so the heading
+     and list line up with the headlines, media and copy rather than with
+     the metadata column. */
   .press-strip {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    column-gap: var(--space-xl);
     padding-left: var(--space-xl);
     padding-right: var(--space-xl);
+  }
+
+  .press-strip__headline,
+  .press-strip__logos {
+    grid-column: 2;
   }
 }
 
