@@ -39,24 +39,25 @@
   margin-bottom: 0;
 }
 
+/* Separated from the entries above by whitespace alone — no rule. */
 .press-strip {
-  padding: var(--space-xl) var(--space-md) var(--space-2xl);
-  border-top: 1px solid var(--bone-10);
+  padding: var(--space-3xl) var(--space-md) var(--space-2xl);
+  max-width: var(--container-wide-max);
+  margin: 0 auto;
 }
 
 .press-strip__headline {
-  text-align: center;
+  text-align: left;
   margin-bottom: var(--space-lg);
 }
 
+/* Flush-left columns on a shared grid rather than a centred cluster. */
 .press-strip__logos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: var(--space-md) var(--space-xl);
-  max-width: var(--container-wide-max);
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-sm) var(--space-xl);
+  max-width: 100%;
+  margin: 0;
 }
 
 .press-strip__logos a {
@@ -115,16 +116,70 @@
   display: none;
 }
 
+/* Entries are separated by whitespace, not rules or boxes. */
 .press-citations {
   display: grid;
-  gap: var(--space-xl);
+  gap: var(--space-2xl);
 }
 
 .press-card {
-  border: 1px solid var(--bone-10);
-  padding: var(--space-lg);
-  border-radius: 4px;
   text-align: left;
+}
+
+/* Swiss two-column reading grid, shared by the press and speaking pages.
+   Metadata (outlet, date, location) sits flush left in a narrow column;
+   the headline, media and copy run in the wide column beside it. Below the
+   breakpoint everything stacks in source order. */
+@media (min-width: 768px) {
+  .press-citations {
+    gap: var(--space-3xl);
+  }
+
+  .press-card {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    column-gap: var(--space-xl);
+    row-gap: var(--space-sm);
+    align-items: start;
+  }
+
+  /* Scoped to direct children: .press-card__eyebrow is also used by the
+     previous-engagements strip, which must not inherit this column grid.
+
+     Metadata column. Left to auto-place, so it starts on the first row
+     when a card has no eyebrow and drops below one when it does. */
+  .press-card > .press-card__eyebrow,
+  .press-card > .press-card__meta {
+    grid-column: 1;
+  }
+
+  /* Content column. The headline anchors the first row. */
+  .press-card > .press-card__title {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .press-card > .press-card__media,
+  .press-card > .press-card__body,
+  .press-card > .press-card__link {
+    grid-column: 2;
+  }
+
+  /* Row gaps carry the vertical rhythm, so the stacked margins go. */
+  .press-card > .press-card__title,
+  .press-card > .press-card__meta,
+  .press-card > .press-card__media {
+    margin-bottom: 0;
+  }
+
+  .press-card > .press-card__body > :last-child {
+    margin-bottom: 0;
+  }
+
+  .press-card > .press-card__link {
+    margin-top: 0;
+    justify-self: start;
+  }
 }
 
 .press-card__eyebrow {
