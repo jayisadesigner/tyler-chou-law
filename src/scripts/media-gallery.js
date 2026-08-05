@@ -65,6 +65,11 @@ function setupGallery(gallery) {
       slide.querySelectorAll('video').forEach((video) => {
         if (!video.paused) video.pause()
       })
+      // Embedded players are cross-origin, so they are paused through the
+      // Vimeo player's postMessage API rather than the media element.
+      slide.querySelectorAll('iframe[src*="player.vimeo.com"]').forEach((frame) => {
+        frame.contentWindow?.postMessage('{"method":"pause"}', 'https://player.vimeo.com')
+      })
     })
   }
 
