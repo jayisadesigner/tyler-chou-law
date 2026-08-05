@@ -4,7 +4,6 @@
  *   1. Generates roster/[slug].html for creators without external_url
  *   2. Injects roster cards into index.html and roster.html
  *
- * CloudCannon visual editing is supported via data-editable attributes
  * on all generated pages (text, image, array types).
  */
 
@@ -57,18 +56,18 @@ function generateCreatorPage(creator) {
   const photoAbsolute = `https://tylerchoulaw.com${creator.photo}`
 
   const statsHtml = (creator.stats || []).map(stat => `
-              <div class="creator-stat" data-editable="array-item">
-                <p class="creator-stat-value" data-editable="text" data-prop="value">${escapeHtml(stat.value)}</p>
-                <p class="creator-stat-label" data-editable="text" data-prop="label">${escapeHtml(stat.label)}</p>
+              <div class="creator-stat">
+                <p class="creator-stat-value">${escapeHtml(stat.value)}</p>
+                <p class="creator-stat-label">${escapeHtml(stat.label)}</p>
               </div>`).join('')
 
-  const bioHtml = (creator.bio || []).map(p => `              <p data-editable="array-item">${escapeHtml(p)}</p>`).join('\n')
+  const bioHtml = (creator.bio || []).map(p => `              <p>${escapeHtml(p)}</p>`).join('\n')
 
   const videosHtml = (creator.featured_videos && creator.featured_videos.length) ? `
           <div class="creator-videos">
             <h2>Featured Videos</h2>
-            <div class="youtube-videos-grid" data-editable="array" data-prop="featured_videos">
-              ${creator.featured_videos.map(videoId => `<div class="youtube-video" data-editable="array-item">
+            <div class="youtube-videos-grid">
+              ${creator.featured_videos.map(videoId => `<div class="youtube-video">
                 <a href="https://youtube.com/watch?v=${videoId}" target="_blank" rel="noopener noreferrer" class="youtube-video__card">
                   <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="Featured video" class="youtube-video__image">
                   <div class="youtube-video__overlay">
@@ -143,18 +142,15 @@ function generateCreatorPage(creator) {
                 src="${creator.photo}"
                 alt="${escapeHtml(creator.handle)}"
                 class="background-image__img"
-                data-editable="image"
-                data-prop-src="photo"
-                data-prop-alt="handle"
               >
             </div>
-            <h1 class="creator-name" data-editable="text" data-prop="handle">${escapeHtml(creator.handle)}</h1>
+            <h1 class="creator-name">${escapeHtml(creator.handle)}</h1>
           </div>
           <div class="content-section__content">
-            <div class="creator-stats" data-editable="array" data-prop="stats">
+            <div class="creator-stats">
               ${statsHtml}
             </div>
-            <div class="creator-description" data-editable="array" data-prop="bio">
+            <div class="creator-description">
 ${bioHtml}
             </div>
             ${videosHtml}
