@@ -167,10 +167,10 @@ body.page-services .hero .background-image__overlay-gradient-2 {
   overflow: visible;
 }
 
-/* Mobile: stacked single column; each cell is square via aspect-ratio, can grow so text is never cut off */
+/* Mobile: stacked single column; each cell is square via aspect-ratio, which
+   the copy fits comfortably at this width. */
 .services-capabilities__cell {
   aspect-ratio: 1 / 1;
-  min-height: min-content;
   overflow: visible;
   border-bottom: 1px solid var(--capabilities-grid-border);
   display: flex;
@@ -223,7 +223,12 @@ body.page-services .hero .background-image__overlay-gradient-2 {
     grid-template-rows: repeat(4, minmax(0, auto));
   }
 
+  /* Rows size to their tallest card rather than a fixed square, so longer
+     copy keeps its padding instead of running to the cell edge. Cells in a
+     row still match each other, so the grid stays aligned. */
   .services-capabilities__cell {
+    aspect-ratio: auto;
+    min-height: 20rem;
     border-bottom: none;
     border-right: 1px solid var(--capabilities-grid-border);
     padding: var(--space-lg);
