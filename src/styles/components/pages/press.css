@@ -51,13 +51,30 @@
   margin-bottom: var(--space-lg);
 }
 
-/* Flush-left columns on a shared grid rather than a centred cluster. */
+/* Flush-left stack, becoming two columns on desktop to match the roster
+   list on the client page. */
 .press-strip__logos {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: var(--space-sm) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
   max-width: 100%;
   margin: 0;
+}
+
+@media (min-width: 768px) {
+  .press-strip__logos {
+    display: block;
+    column-count: 2;
+    column-gap: var(--space-xl);
+  }
+
+  /* The items are spans, so they need blockifying or the columns would
+     flow them as inline text. */
+  .press-strip__logos > * {
+    display: block;
+    break-inside: avoid;
+    margin-bottom: var(--space-md);
+  }
 }
 
 .press-strip__logos a {
@@ -78,6 +95,20 @@
   padding: 0 var(--space-md) var(--space-3xl);
   max-width: var(--container-wide-max);
   margin: 0 auto;
+}
+
+/* Inset the content from the page edge so it does not sit flush with the
+   nav, which is set at var(--space-md). */
+@media (min-width: 768px) {
+  .press-tabs {
+    padding-left: var(--space-xl);
+    padding-right: var(--space-xl);
+  }
+
+  .press-strip {
+    padding-left: var(--space-xl);
+    padding-right: var(--space-xl);
+  }
 }
 
 .press-tabs__tablist {
@@ -205,6 +236,11 @@
   opacity: 0.85;
 }
 
+/* Each detail on its own line rather than run together with interpuncts. */
+.press-card__meta > span {
+  display: block;
+}
+
 .press-card__body p {
   margin: 0 0 var(--space-sm);
   font-family: var(--font-paragraph);
@@ -279,9 +315,12 @@
   border: none;
 }
 
-/* Contain rather than cover: these are editorial photos where cropping the
-   frame would cut off speakers or the stage screen. */
-.press-card__media-slide img,
+/* Photos fill the frame edge to edge, matching the videos beside them in the
+   same gallery rather than sitting pillarboxed and centred. */
+.press-card__media-slide img {
+  object-fit: cover;
+}
+
 .press-card__media-slide video {
   object-fit: contain;
 }
