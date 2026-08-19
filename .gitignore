@@ -47,3 +47,8 @@ public/sitemap.xml
 # Roster pages generated from content/roster/*.yml
 roster/*.html
 public/assets/videos/intro/intro-*-original.mp4
+
+# Local editor / AI assistant config and scratch files — keep out of the repo
+.cursor
+.claude
+.temp
