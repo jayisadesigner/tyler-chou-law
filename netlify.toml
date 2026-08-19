@@ -15,28 +15,6 @@
   status = 200
   force = true
 
-# Netlify Identity API endpoints - route to Identity service
-# Identity widget may call these directly, need to route to /.netlify/identity/*
-[[redirects]]
-  from = "/user"
-  to = "/.netlify/identity/user"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/settings"
-  to = "/.netlify/identity/settings"
-  status = 200
-  force = true
-
-# Exclude admin folder from catch-all redirect
-# This allows config.yml and other admin files to be served directly
-[[redirects]]
-  from = "/admin/*"
-  to = "/admin/:splat"
-  status = 200
-  force = true
-
 # SEO: extensionless shortcuts → canonical .html
 [[redirects]]
   from = "/speaking"
@@ -68,13 +46,6 @@
   to = "/services/contracts.html"
   status = 301
 
-# Headers for admin config.yml - ensure correct Content-Type and CORS
-[[headers]]
-  for = "/admin/config.yml"
-  [headers.values]
-    Content-Type = "text/yaml; charset=utf-8"
-    Access-Control-Allow-Origin = "*"
-
 # Cache assets for better performance
 [[headers]]
   for = "/assets/*"
@@ -89,11 +60,38 @@
     Accept-Ranges = "bytes"
     Content-Type = "video/mp4"
 
-# Permissions-Policy to disable compute-pressure (fixes console violation)
+# Security headers, applied to every response.
+#
+# Content-Security-Policy notes:
+#   - 'unsafe-inline' is required for script-src because every page carries a
+#     small inline <script> in its <head> (the FOUC guard and the Netlify
+#     service-worker error filter). If those are ever moved into a bundled
+#     file, drop 'unsafe-inline' here — the allowlist below is already tight
+#     enough to stand on its own.
+#   - 'unsafe-inline' is required for style-src because of the inline <style>
+#     FOUC guard and the inline styles GSAP writes while animating.
+#   - player.vimeo.com and the vimeocdn hosts cover the Vimeo embeds;
+#     img.youtube.com covers YouTube thumbnails; images.unsplash.com covers
+#     blog featured images. Add a host here before adding a new embed.
 [[headers]]
   for = "/*"
   [headers.values]
-    Permissions-Policy = "compute-pressure=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://player.vimeo.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://img.youtube.com https://images.unsplash.com https://i.vimeocdn.com https://f.vimeocdn.com; font-src 'self'; media-src 'self' blob: https://player.vimeo.com https://*.vimeocdn.com; frame-src https://player.vimeo.com https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' https://player.vimeo.com https://vimeo.com https://*.vimeocdn.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+    # Force HTTPS for two years, including subdomains. Only safe once every
+    # host under the domain is serving HTTPS, which Netlify does.
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    # Stop the browser guessing a response's type from its bytes.
+    X-Content-Type-Options = "nosniff"
+    # Belt-and-braces clickjacking cover for browsers predating frame-ancestors.
+    X-Frame-Options = "DENY"
+    # Send the origin, not the full path, when leaving the site.
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Deny hardware and sensor APIs the site never uses (compute-pressure also
+    # silences a console violation from a third-party embed).
+    Permissions-Policy = "accelerometer=(), autoplay=(self), camera=(), compute-pressure=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), interest-cohort=()"
+    # Keep the site out of any cross-origin process that opens it.
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-site"
 
 [build.environment]
   NODE_VERSION = "20"

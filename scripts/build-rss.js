@@ -7,6 +7,7 @@ import { readdir, readFile, writeFile } from 'fs/promises'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { marked } from 'marked'
+import { escapeXml, escapeCdata } from './utils/escape.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -66,18 +67,8 @@ function slugify(text) {
     .trim()
 }
 
-/**
- * Escape XML entities
- */
-function escapeXML(str) {
-  if (!str) return ''
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
-}
+// XML escaping lives in scripts/utils/escape.js (escapeXml / escapeCdata).
+const escapeXML = escapeXml
 
 /**
  * Format date as RFC 822 (RSS standard)
@@ -134,12 +125,12 @@ async function buildRSS() {
       
       return `    <item>
       <title>${escapeXML(post.title)}</title>
-      <link>${post.url}</link>
-      <guid isPermaLink="true">${post.url}</guid>
+      <link>${escapeXML(post.url)}</link>
+      <guid isPermaLink="true">${escapeXML(post.url)}</guid>
       <pubDate>${pubDate}</pubDate>
       <author>${escapeXML(post.author)}</author>
       <description>${escapeXML(description)}</description>
-      <content:encoded><![CDATA[${post.content}]]></content:encoded>
+      <content:encoded><![CDATA[${escapeCdata(post.content)}]]></content:encoded>
     </item>`
     }).join('\n')
     

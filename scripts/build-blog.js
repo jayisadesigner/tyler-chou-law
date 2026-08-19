@@ -8,6 +8,7 @@ import { readdir, readFile, writeFile, mkdir, stat } from 'fs/promises'
 import { join, dirname, basename } from 'path'
 import { fileURLToPath } from 'url'
 import { marked } from 'marked'
+import { escapeHtml, escapeJson, safeUrl } from './utils/escape.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -294,11 +295,11 @@ function generateFeaturedImageMeta(imageData) {
   }
   
   return {
-    ogImage: `<meta property="og:image" content="${imageData.url}" />`,
-    twitterImage: `<meta name="twitter:image" content="${imageData.url}" />`,
+    ogImage: `<meta property="og:image" content="${safeUrl(imageData.url)}" />`,
+    twitterImage: `<meta name="twitter:image" content="${safeUrl(imageData.url)}" />`,
     schemaImage: `"image": {
         "@type": "ImageObject",
-        "url": "${imageData.url}"
+        "url": "${escapeJson(imageData.url)}"
       },`
   }
 }
@@ -325,14 +326,14 @@ function generateTagsHTML(tags) {
   
   return `
             <div class="blog-post-tags">
-              ${tagArray.map(tag => `<span class="blog-post-tag">${tag}</span>`).join('')}
+              ${tagArray.map(tag => `<span class="blog-post-tag">${escapeHtml(tag)}</span>`).join('')}
             </div>`
 }
 
 /**
  * Generate featured image hero section
  */
-function generateFeaturedImageHero(imageData, imageColor = 'chuparosa-500', imageIntensity = '') {
+function generateFeaturedImageHero(imageData, imageColor = 'chuparosa-500', imageIntensity = '', title = '') {
   // If no image, return empty background-image div (CSS will handle fallback)
   if (!imageData || !imageData.url) {
     return `
@@ -345,14 +346,14 @@ function generateFeaturedImageHero(imageData, imageColor = 'chuparosa-500', imag
     ? imageData.url.replace('https://tylerchoulaw.com', '')
     : imageData.url
   
-  const intensityClass = imageIntensity ? ` blog-image--${imageIntensity}` : ''
+  const intensityClass = imageIntensity ? ` blog-image--${escapeHtml(imageIntensity)}` : ''
   
   return `
         <div class="background-image" aria-hidden="true">
-            <div class="blog-image${intensityClass}" data-color="${imageColor}">
+            <div class="blog-image${intensityClass}" data-color="${escapeHtml(imageColor)}">
             <img 
-              src="${imageSrc}" 
-              alt="{{title}}" 
+              src="${safeUrl(imageSrc)}" 
+              alt="${escapeHtml(title)}" 
               class="background-image__img"
               loading="eager"
               fetchpriority="high"
@@ -407,16 +408,53 @@ function formatDateISO(dateString) {
 }
 
 /**
- * Escape JSON for schema
+ * Tokens whose values are HTML or JSON fragments we generated ourselves.
+ * Everything else is post metadata and gets escaped for the context it lands in.
  */
-function escapeJSON(str) {
-  if (!str) return ''
-  return str
-    .replace(/\\/g, '\\\\')
-    .replace(/"/g, '\\"')
-    .replace(/\n/g, '\\n')
-    .replace(/\r/g, '\\r')
-    .replace(/\t/g, '\\t')
+const RAW_TOKENS = new Set([
+  'content',
+  'tagsHTML',
+  'featuredImageHero',
+  'authorHeadshot',
+  'ogImage',
+  'twitterImage',
+  'featuredImageSchema',
+])
+
+function substituteTokens(text, values, escaper) {
+  return text.replace(/\{\{(\w+)\}\}/g, (match, key) => {
+    if (!(key in values)) return match
+    if (RAW_TOKENS.has(key)) return values[key] == null ? '' : String(values[key])
+    return escaper(values[key])
+  })
+}
+
+/**
+ * Fill in template placeholders, escaping each value for the context it lands
+ * in. The same {{title}} appears both in HTML attributes and inside inline
+ * JSON-LD, and those need different escaping — an unescaped `</script>` in a
+ * post title would otherwise close the schema block and run as markup.
+ */
+function applyTemplateTokens(template, values) {
+  const parts = template.split(/(<script type="application\/ld\+json">[\s\S]*?<\/script>)/)
+  return parts
+    .map((part, index) =>
+      substituteTokens(part, values, index % 2 === 1 ? escapeJson : escapeHtml)
+    )
+    .join('')
+}
+
+/** Post slugs become filenames and URLs, so keep them to safe characters. */
+function isSafeSlug(slug) {
+  return typeof slug === 'string' && /^[a-z0-9][a-z0-9-]*$/i.test(slug)
+}
+
+/**
+ * Serialise a value for an inline <script> block without letting a literal
+ * `</script>` inside the data terminate the block.
+ */
+function inlineJson(value) {
+  return JSON.stringify(value, null, 2).replace(/</g, '\\u003c')
 }
 
 /**
@@ -484,6 +522,10 @@ async function buildPost(filePath, fileName, assignedColor = null) {
     
     // Generate slug
     const slug = metadata.slug || slugify(metadata.title || fileName.replace('.md', ''))
+    if (!isSafeSlug(slug)) {
+      console.error(`  ⚠ Skipped (unsafe slug): ${fileName} → ${slug}`)
+      return null
+    }
     
     // Convert markdown to HTML
     let htmlContent = marked(body)
@@ -525,7 +567,7 @@ async function buildPost(filePath, fileName, assignedColor = null) {
     const defaultColor = 'chuparosa-600'
     const imageColor = assignedColor || metadata.image_color || defaultColor
     const imageIntensity = metadata.image_intensity || ''
-    const featuredImageHero = generateFeaturedImageHero(imageData, imageColor, imageIntensity)
+    const featuredImageHero = generateFeaturedImageHero(imageData, imageColor, imageIntensity, metadata.title || '')
     const authorHeadshot = generateAuthorHeadshot()
     
     // Format dates
@@ -537,32 +579,34 @@ async function buildPost(filePath, fileName, assignedColor = null) {
     // Generate tags HTML
     const tagsHTML = generateTagsHTML(metadata.tags)
     
-    // Escape content for JSON schema
-    const articleBody = escapeJSON(body.substring(0, 5000)) // Limit for schema
+    // Trimmed for the schema block; escaping happens per-context below.
+    const articleBody = body.substring(0, 5000)
     
     // Get Vite-generated asset paths first (needed for template replacements)
     const viteAssets = await getViteAssets()
     
-    // Replace template variables
-    template = template
-      .replace(/\{\{title\}\}/g, metadata.title || 'Untitled')
-      .replace(/\{\{slug\}\}/g, slug)
-      .replace(/\{\{author\}\}/g, metadata.author || 'Tyler Chou')
-      .replace(/\{\{date\}\}/g, dateDisplay)
-      .replace(/\{\{dateISO\}\}/g, dateISO)
-      .replace(/\{\{datePublished\}\}/g, datePublished)
-      .replace(/\{\{dateModified\}\}/g, dateModified)
-      .replace(/\{\{readingTime\}\}/g, readingTime.toString())
-      .replace(/\{\{content\}\}/g, htmlContent)
-      .replace(/\{\{excerpt\}\}/g, metadata.excerpt || '')
-      .replace(/\{\{tagsHTML\}\}/g, tagsHTML)
-      .replace(/\{\{featuredImageHero\}\}/g, featuredImageHero)
-      .replace(/\{\{authorHeadshot\}\}/g, authorHeadshot)
-      .replace(/\{\{ogImage\}\}/g, imageMeta.ogImage)
-      .replace(/\{\{twitterImage\}\}/g, imageMeta.twitterImage)
-      .replace(/\{\{featuredImageSchema\}\}/g, imageMeta.schemaImage)
-      .replace(/\{\{articleBody\}\}/g, articleBody)
-      .replace(/\{\{mainCss\}\}/g, viteAssets.mainCss || '')
+    // Replace template variables. Values are escaped for whichever context
+    // they land in — HTML markup or the inline JSON-LD schema blocks.
+    template = applyTemplateTokens(template, {
+      title: metadata.title || 'Untitled',
+      slug,
+      author: metadata.author || 'Tyler Chou',
+      date: dateDisplay,
+      dateISO,
+      datePublished,
+      dateModified,
+      readingTime: readingTime.toString(),
+      content: htmlContent,
+      excerpt: metadata.excerpt || '',
+      tagsHTML,
+      featuredImageHero,
+      authorHeadshot,
+      ogImage: imageMeta.ogImage,
+      twitterImage: imageMeta.twitterImage,
+      featuredImageSchema: imageMeta.schemaImage,
+      articleBody,
+      mainCss: viteAssets.mainCss || '',
+    })
     
     // Remove any existing curtain divs
     template = template.replace(/<div[^>]*class="[^"]*curtain[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
@@ -687,34 +731,34 @@ async function generateListingPage(posts) {
       // Colors are pre-assigned in assignPostColors to avoid consecutive duplicates
       const imageColor = post.imageColor
       const imageIntensity = post.imageIntensity || ''
-      const intensityClass = imageIntensity ? ` blog-image--${imageIntensity}` : ''
+      const intensityClass = imageIntensity ? ` blog-image--${escapeHtml(imageIntensity)}` : ''
       
       // Check if this image needs special object-position (e.g., top alignment)
       const objectPosition = imageSrc && imageSrc.includes('5-tyler-chou-jenny-hoyos') ? 'top' : 'center'
       const objectPositionAttr = objectPosition !== 'center' ? ` data-object-position="${objectPosition}"` : ''
       
       const featuredImageHTML = imageSrc
-        ? `<div class="blog-image${intensityClass}" data-color="${imageColor}"${objectPositionAttr}>
-            <img src="${imageSrc}" alt="${post.title}" class="background-image__img" loading="lazy" />
+        ? `<div class="blog-image${intensityClass}" data-color="${escapeHtml(imageColor)}"${objectPositionAttr}>
+            <img src="${safeUrl(imageSrc)}" alt="${escapeHtml(post.title)}" class="background-image__img" loading="lazy" />
           </div>`
         : ''
       
       return `
         <article class="blog-card">
-          <a href="/love-letters/${post.slug}.html" class="blog-card__link">
+          <a href="/love-letters/${escapeHtml(post.slug)}.html" class="blog-card__link">
             ${featuredImageHTML ? `<div class="blog-card__image-wrapper">${featuredImageHTML}</div>` : ''}
             <div class="blog-card__content">
-              <h3 class="blog-card__title">${post.title}</h3>
+              <h3 class="blog-card__title">${escapeHtml(post.title)}</h3>
               <div class="blog-card__byline">
                 <div class="blog-card__author-avatar">
                   <img src="/tyler-chou-headshot.jpeg" alt="Tyler Chou" class="blog-card__author-image" />
                 </div>
                 <p class="blog-card__author-text">Written by Tyler Chou</p>
               </div>
-              <p class="blog-card__excerpt">${post.excerpt || ''}</p>
+              <p class="blog-card__excerpt">${escapeHtml(post.excerpt || '')}</p>
               <div class="blog-card__meta">
                 <span class="blog-card__love-letter-number">Love Letter #${loveLetterNumber}</span>
-                <time datetime="${post.dateISO}">${dateDisplay}</time>
+                <time datetime="${escapeHtml(post.dateISO)}">${escapeHtml(dateDisplay)}</time>
                 <span class="blog-card__reading-time">${post.readingTime} min read</span>
               </div>
             </div>
@@ -734,7 +778,7 @@ async function generateListingPage(posts) {
       }
     }))
     
-    const blogSchema = JSON.stringify({
+    const blogSchema = inlineJson({
       "@context": "https://schema.org",
       "@type": "Blog",
       "name": "Love Letters to Creators",
@@ -745,7 +789,7 @@ async function generateListingPage(posts) {
         "name": "Tyler Chou"
       },
       "blogPost": blogPostItems
-    }, null, 2)
+    })
     
     // Find the placeholder content section and replace with blog listing
     const contentSectionRegex = /<!--\s*Body Content[^>]*-->[\s\S]*?<!--\s*Content Section: Love Letters Intro[^>]*-->/

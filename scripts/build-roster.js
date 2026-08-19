@@ -12,6 +12,7 @@ import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { existsSync } from 'fs'
 import yaml from 'js-yaml'
+import { escapeHtml, escapeJson, safeUrl } from './utils/escape.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -22,25 +23,30 @@ const rosterPagesDir = join(projectRoot, 'roster')
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function escapeHtml(str) {
-  if (!str) return ''
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
+/**
+ * A slug becomes both a URL and a filename, so keep it to characters that are
+ * safe in each — this stops a `slug: ../../etc/foo` in YAML from writing
+ * outside roster/.
+ */
+function isSafeSlug(slug) {
+  return typeof slug === 'string' && /^[a-z0-9][a-z0-9-]*$/i.test(slug)
+}
+
+/** YouTube ids are opaque; allow only the characters the API actually uses. */
+function isSafeVideoId(id) {
+  return typeof id === 'string' && /^[\w-]{5,32}$/.test(id)
 }
 
 // ─── Roster card (used in index.html and roster.html) ────────────────────────
 
 function generateRosterCard(creator) {
   const isExternal = Boolean(creator.external_url)
-  const href = isExternal ? creator.external_url : `/roster/${creator.slug}.html`
+  const href = isExternal ? safeUrl(creator.external_url) : `/roster/${escapeHtml(creator.slug)}.html`
   const externalAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : ''
 
   return `<a href="${href}" class="roster-card" aria-label="View ${escapeHtml(creator.handle)} profile"${externalAttrs}>
               <div class="roster-card__image-wrapper">
-                <img src="${creator.photo}" alt="${escapeHtml(creator.handle)}" class="roster-card__image" width="800" height="800" loading="lazy">
+                <img src="${safeUrl(creator.photo)}" alt="${escapeHtml(creator.handle)}" class="roster-card__image" width="800" height="800" loading="lazy">
                 <div class="roster-card__overlay"></div>
                 <div class="roster-card__scrim"></div>
               </div>
@@ -51,9 +57,10 @@ function generateRosterCard(creator) {
 // ─── Individual creator page ──────────────────────────────────────────────────
 
 function generateCreatorPage(creator) {
-  const seoDescription = escapeHtml(creator.seo_description || (creator.bio && creator.bio[0]) || '')
-  const canonicalUrl = `https://tylerchoulaw.com/roster/${creator.slug}.html`
-  const photoAbsolute = `https://tylerchoulaw.com${creator.photo}`
+  const rawDescription = creator.seo_description || (creator.bio && creator.bio[0]) || ''
+  const seoDescription = escapeHtml(rawDescription)
+  const canonicalUrl = `https://tylerchoulaw.com/roster/${encodeURIComponent(creator.slug)}.html`
+  const photoAbsolute = safeUrl(`https://tylerchoulaw.com${creator.photo || ''}`)
 
   const statsHtml = (creator.stats || []).map(stat => `
               <div class="creator-stat">
@@ -67,7 +74,7 @@ function generateCreatorPage(creator) {
           <div class="creator-videos">
             <h2>Featured Videos</h2>
             <div class="youtube-videos-grid">
-              ${creator.featured_videos.map(videoId => `<div class="youtube-video">
+              ${creator.featured_videos.filter(isSafeVideoId).map(videoId => `<div class="youtube-video">
                 <a href="https://youtube.com/watch?v=${videoId}" target="_blank" rel="noopener noreferrer" class="youtube-video__card">
                   <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="Featured video" class="youtube-video__image">
                   <div class="youtube-video__overlay">
@@ -78,7 +85,8 @@ function generateCreatorPage(creator) {
             </div>
           </div>` : ''
 
-  const sameAsJson = creator.youtube_url ? `,\n      "sameAs": ["${creator.youtube_url}"]` : ''
+  const youtubeUrl = safeUrl(creator.youtube_url)
+  const sameAsJson = youtubeUrl ? `,\n      "sameAs": ["${escapeJson(creator.youtube_url)}"]` : ''
 
   return `<!doctype html>
 <html lang="en">
@@ -113,9 +121,9 @@ function generateCreatorPage(creator) {
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "name": "${escapeHtml(creator.handle)}",
-      "description": "${seoDescription}",
-      "url": "${canonicalUrl}"${sameAsJson}
+      "name": "${escapeJson(creator.handle)}",
+      "description": "${escapeJson(rawDescription)}",
+      "url": "${escapeJson(canonicalUrl)}"${sameAsJson}
     }
     </script>
     <script type="application/ld+json">
@@ -125,7 +133,7 @@ function generateCreatorPage(creator) {
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tylerchoulaw.com/" },
         { "@type": "ListItem", "position": 2, "name": "Roster", "item": "https://tylerchoulaw.com/roster.html" },
-        { "@type": "ListItem", "position": 3, "name": "${escapeHtml(creator.handle)}", "item": "${canonicalUrl}" }
+        { "@type": "ListItem", "position": 3, "name": "${escapeJson(creator.handle)}", "item": "${escapeJson(canonicalUrl)}" }
       ]
     }
     </script>
@@ -139,7 +147,7 @@ function generateCreatorPage(creator) {
           <div class="content-section__media">
             <div class="background-image">
               <img
-                src="${creator.photo}"
+                src="${safeUrl(creator.photo)}"
                 alt="${escapeHtml(creator.handle)}"
                 class="background-image__img"
               >
@@ -213,6 +221,10 @@ export async function buildRoster() {
   for (const creator of creators) {
     if (creator.external_url) {
       console.log(`  ↗ Skipped (external): ${creator.handle}`)
+      continue
+    }
+    if (!isSafeSlug(creator.slug)) {
+      console.warn(`  ⚠ Skipped (unsafe slug): ${creator.handle} → ${creator.slug}`)
       continue
     }
     const html = generateCreatorPage(creator)

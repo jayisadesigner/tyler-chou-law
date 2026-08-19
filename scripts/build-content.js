@@ -16,6 +16,7 @@ import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import yaml from 'js-yaml'
+import { escapeHtml, safeUrl } from './utils/escape.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -32,14 +33,6 @@ function readHtml(filename) {
 
 function writeHtml(filename, content) {
   writeFileSync(join(ROOT, filename), content, 'utf-8')
-}
-
-function escapeHtml(str) {
-  if (str == null) return ''
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
 }
 
 function inject(html, startTag, endTag, content) {
@@ -66,7 +59,7 @@ function generateTestimonialCard(t) {
   return `                <article class="roster-card roster-card--testimonial">
                   <div class="roster-card__image-wrapper">
                     <img
-                      src="${t.photo}"
+                      src="${safeUrl(t.photo)}"
                       alt="${escapeHtml(t.name)}"
                       class="roster-card__image"
                       width="800"
@@ -88,7 +81,7 @@ function generateTestimonialCard(t) {
 }
 
 function generateServiceCard(s) {
-  return `            <a href="${s.link}" class="service-card">
+  return `            <a href="${safeUrl(s.link)}" class="service-card">
               <h3 class="service-card__title">${escapeHtml(s.title)}</h3>
               <p class="service-card__description">${escapeHtml(s.description)}</p>
               <span class="btn btn--secondary btn--on-dark btn--chuparosa btn--align-start">${escapeHtml(s.button_text)}</span>

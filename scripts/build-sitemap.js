@@ -6,6 +6,7 @@
 import { readdir, readFile, writeFile, stat } from 'fs/promises'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { escapeXml } from './utils/escape.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -45,7 +46,7 @@ async function getFileModDate(filePath) {
  */
 function generateSitemapEntry(url, lastmod, changefreq, priority) {
   return `  <url>
-    <loc>${url}</loc>
+    <loc>${escapeXml(url)}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>

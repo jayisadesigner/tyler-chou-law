@@ -8,6 +8,7 @@ import { readFile, writeFile } from 'fs/promises'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import dotenv from 'dotenv'
+import { escapeHtml } from './utils/escape.js'
 
 // Load environment variables from .env file
 dotenv.config()
@@ -168,15 +169,12 @@ async function getVideos() {
 }
 
 /**
- * Escape HTML entities for use in attributes
+ * YouTube video ids are opaque strings from the API. They go straight into a
+ * URL, so allow only the characters the API actually uses rather than trusting
+ * whatever comes back.
  */
-function escapeHtml(text) {
-  return String(text)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
+function isSafeVideoId(id) {
+  return typeof id === 'string' && /^[\w-]{5,32}$/.test(id)
 }
 
 /**
@@ -188,9 +186,15 @@ function generateVideoGridHTML(videos) {
     return ''
   }
   
-  return videos.map(video => `
+  const safeVideos = videos.filter(video => {
+    if (isSafeVideoId(video?.id)) return true
+    console.warn(`Skipping video with unexpected id: ${video?.id}`)
+    return false
+  })
+
+  return safeVideos.map(video => `
             <div class="youtube-video">
-              <a href="https://youtube.com/watch?v=${video.id}" target="_blank" class="youtube-video__card">
+              <a href="https://youtube.com/watch?v=${video.id}" target="_blank" rel="noopener noreferrer" class="youtube-video__card">
                 <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="${escapeHtml(video.title)}" class="youtube-video__image">
                 <div class="youtube-video__overlay">
                   <img src="/src/assets/icons/play.svg" alt="" class="youtube-video__play-icon" aria-hidden="true">
